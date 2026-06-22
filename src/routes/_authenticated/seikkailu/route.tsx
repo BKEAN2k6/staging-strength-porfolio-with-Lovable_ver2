@@ -1,10 +1,12 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/AppSidebar";
 import { TopBar } from "@/components/TopBar";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { getCurrentRole, getStudentClassMembership } from "@/lib/auth-helpers";
+import { NavGateProvider } from "@/lib/screen-completion";
 
 export const Route = createFileRoute("/_authenticated/seikkailu")({
   component: SeikkailuLayout,
@@ -35,17 +37,20 @@ function SeikkailuLayout() {
   }
 
   return (
-    <SidebarProvider>
-      <div className="relative flex min-h-screen w-full bg-background text-foreground">
-        <CornerBlobs />
-        <AppSidebar />
-        <div className="relative z-10 flex min-h-screen flex-1 flex-col">
-          <TopBar />
-          <main className="flex-1">
-            <Outlet />
-          </main>
+    <NavGateProvider>
+      <SidebarProvider>
+        <div className="relative flex min-h-screen w-full bg-background text-foreground">
+          <CornerBlobs />
+          <AppSidebar />
+          <div className="relative z-10 flex min-h-screen flex-1 flex-col">
+            <TopBar />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+          </div>
+          <Toaster />
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </NavGateProvider>
   );
 }
