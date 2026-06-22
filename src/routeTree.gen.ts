@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthenticatedSeikkailuRouteImport } from './routes/_authenticated.seikkailu'
+import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated.seikkailu.$screen'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -39,32 +40,46 @@ const AuthenticatedSeikkailuRoute = AuthenticatedSeikkailuRouteImport.update({
   path: '/seikkailu',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedSeikkailuScreenRoute =
+  AuthenticatedSeikkailuScreenRouteImport.update({
+    id: '/$screen',
+    path: '/$screen',
+    getParentRoute: () => AuthenticatedSeikkailuRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
-  '/seikkailu': typeof AuthenticatedSeikkailuRoute
+  '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
-  '/seikkailu': typeof AuthenticatedSeikkailuRoute
+  '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
-  '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRoute
+  '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/seikkailu' | '/auth/opettaja'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/seikkailu'
+    | '/auth/opettaja'
+    | '/seikkailu/$screen'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/seikkailu' | '/auth/opettaja'
+  to: '/' | '/auth' | '/seikkailu' | '/auth/opettaja' | '/seikkailu/$screen'
   id:
     | '__root__'
     | '/'
@@ -72,6 +87,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/seikkailu'
     | '/auth/opettaja'
+    | '/_authenticated/seikkailu/$screen'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,15 +133,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSeikkailuRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/seikkailu/$screen': {
+      id: '/_authenticated/seikkailu/$screen'
+      path: '/$screen'
+      fullPath: '/seikkailu/$screen'
+      preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
+      parentRoute: typeof AuthenticatedSeikkailuRoute
+    }
   }
 }
 
+interface AuthenticatedSeikkailuRouteChildren {
+  AuthenticatedSeikkailuScreenRoute: typeof AuthenticatedSeikkailuScreenRoute
+}
+
+const AuthenticatedSeikkailuRouteChildren: AuthenticatedSeikkailuRouteChildren =
+  {
+    AuthenticatedSeikkailuScreenRoute: AuthenticatedSeikkailuScreenRoute,
+  }
+
+const AuthenticatedSeikkailuRouteWithChildren =
+  AuthenticatedSeikkailuRoute._addFileChildren(
+    AuthenticatedSeikkailuRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
-  AuthenticatedSeikkailuRoute: typeof AuthenticatedSeikkailuRoute
+  AuthenticatedSeikkailuRoute: typeof AuthenticatedSeikkailuRouteWithChildren
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedSeikkailuRoute: AuthenticatedSeikkailuRoute,
+  AuthenticatedSeikkailuRoute: AuthenticatedSeikkailuRouteWithChildren,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
