@@ -783,9 +783,1349 @@ function S22({ onSaveStateChange }: Props) {
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
-      <p className="text-center text-xs opacity-70">
-        Seuraava osio rakennetaan seuraavassa vaiheessa.
+    </div>
+  );
+}
+
+// ----- S23 (PDF p28): Ydinvahvuudet parin kanssa -----
+function S23({ onSaveStateChange }: Props) {
+  const qs = [
+    "Mistä innostut?",
+    "Minkä tekeminen tuntuu kevyeltä?",
+    "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
+    "Mikä on parasta opinnoissa?",
+    "Mitkä asiat päätyvät love-to-do -listalle?",
+    "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
+    "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
+    "Mitä vahvuuksia arvostat eniten itsessäsi?",
+    "Mitä samoja vahvuuksia sinussa oli jo lapsena?",
+    "Mitä luonteenvahvuuksia hyödynnät eniten vapaalla?",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s23-h">
+        <h1 className="font-display text-2xl mb-1">Ydinvahvuudet parin kanssa</h1>
+        <p className="text-sm opacity-90">
+          Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja
+          apuna keskustelussa.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_23_pair_${i + 1}`}
+            label={q}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S24 (PDF p29–30): Anna palautetta ja kehuja -----
+function S24({ onSaveStateChange }: Props) {
+  const stems = [
+    "Sinun vahvuuksiasi ovat ainakin…",
+    "Tämä oli tärkeää kuulla, koska…",
+    "WAU, OPIN ETTÄ…",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s24-h">
+        <h1 className="font-display text-2xl">
+          Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:
+        </h1>
+      </StickyNote>
+      <div className="grid gap-3">
+        {stems.map((s, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_24_palaute_${i + 1}`}
+            label={s}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S25 (PDF p31): Tässä olen minä -----
+function S25({ onSaveStateChange }: Props) {
+  const stems = [
+    "Minulle tärkeää on",
+    "Tulen iloiseksi, kun",
+    "Läheisissäni parasta on",
+    "Osaan hyvin ja tykkään tehdä",
+    "Parasta ryhmässäni on",
+    "Opinnoissa lempiaineita ovat",
+    "Minulle on vaikeaa",
+    "Lempitekemistä",
+    "Vapaa-ajalla tykkään",
+    "Lukiossa haluaisin oppia",
+    "Lukiossa minua innostaa",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s25-h">
+        <h1 className="font-display text-2xl">Tässä olen minä:</h1>
+      </StickyNote>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {stems.map((s, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_25_tassa_${i + 1}`}
+            label={s}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S26 (PDF p32): Omien vahvuuksien käyttö (Govindji & Linley, 2007) -----
+const LIKERT_STATEMENTS = [
+  "Pystyn yleensä tekemään sitä, mitä teen parhaiten",
+  "Hyödynnän aina vahvuuksiani",
+  "Pyrin aina käyttämään vahvuuksiani",
+  "Saavutan haluamani käyttämällä vahvuuksiani",
+  "Käytän vahvuuksiani päivittäin",
+  "Käytän vahvuuksiani saadakseni elämässä sen, mitä haluan",
+  "Opinnoissani minulla on paljon mahdollisuuksia käyttää vahvuuksiani",
+  "Elämä tarjoilee minulle monia eri tapoja käyttää vahvuuksiani",
+  "Vahvuuksien käyttäminen on minulle luontaista",
+  "Vahvuuksien käyttäminen tekemissäni asioissa on minusta helppoa",
+  "Pystyn käyttämään vahvuuksiani monissa eri tilanteissa",
+  "Suurimman osan ajastani teen asioita, joissa olen hyvä",
+  "Vahvuuksien käyttäminen on minulle tuttua",
+  "Pystyn käyttämään vahvuuksiani monin eri tavoin",
+];
+
+function LikertRow({
+  fieldKey,
+  index,
+  label,
+  onSaveStateChange,
+  onValue,
+}: {
+  fieldKey: string;
+  index: number;
+  label: string;
+  onSaveStateChange?: (s: SaveState) => void;
+  onValue?: (n: number) => void;
+}) {
+  const [value, setValue] = useState<number | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const report = useReportCompletion();
+
+  useEffect(() => {
+    (async () => {
+      const v = await loadResponse<number>(fieldKey);
+      if (typeof v === "number") setValue(v);
+      setLoaded(true);
+    })();
+  }, [fieldKey]);
+
+  const state = useAutosave(fieldKey, value, { enabled: loaded && value !== null });
+  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    report(fieldKey, value !== null);
+    if (value !== null) onValue?.(value);
+  }, [value, loaded, fieldKey, report, onValue]);
+
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2">
+      <div className="flex-1 text-sm">
+        <span className="font-mono opacity-60 mr-2">{index + 1}.</span>{label}
+      </div>
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            onClick={() => setValue(n)}
+            className={cn(
+              "h-8 w-8 rounded-full border text-xs font-bold transition-all",
+              value === n
+                ? "bg-[color:var(--coral)] border-[color:var(--coral)] text-white scale-110"
+                : "bg-white/80 text-slate-900 border-white/40 hover:bg-white",
+            )}
+            aria-label={`${n}/5`}
+            aria-pressed={value === n}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function S26({ onSaveStateChange }: Props) {
+  const [scores, setScores] = useState<Record<number, number>>({});
+  const sum = Object.values(scores).reduce((a, b) => a + b, 0);
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s26-h">
+        <h1 className="font-display text-2xl mb-1">Omien vahvuuksien käyttö</h1>
+        <p className="text-xs opacity-70 mb-2">Govindji and Linley (2007)</p>
+        <p className="text-sm opacity-90">
+          Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa
+          seuraavaan mittariin vahvuuksien käytöstä.
+        </p>
+      </StickyNote>
+      <div className="grid gap-2">
+        {LIKERT_STATEMENTS.map((s, i) => (
+          <LikertRow
+            key={i}
+            fieldKey={`screen_26_likert_${i + 1}`}
+            index={i}
+            label={s}
+            onSaveStateChange={onSaveStateChange}
+            onValue={(v) => setScores((cur) => ({ ...cur, [i]: v }))}
+          />
+        ))}
+      </div>
+      <StickyNote tone="mint" seed="s26-sum" className="text-center">
+        <div className="text-sm opacity-80">Vastaa kyselyyn. Laske yhteen pisteesi:</div>
+        <div className="font-display text-4xl mt-1">{sum}</div>
+        <div className="text-xs opacity-60 mt-1">{Object.keys(scores).length} / {LIKERT_STATEMENTS.length} vastattu</div>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- S27 (PDF p33): Moduuli 2 title card -----
+function M2Intro() {
+  return (
+    <StickyNote tone="mint" seed="s27-h" className="text-center">
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 2</div>
+      <h1 className="font-display text-4xl leading-tight">2. Omat vahvuudet lukiossa</h1>
+    </StickyNote>
+  );
+}
+
+// ----- S28 (PDF p34): Omat vahvuuteni lukiossa — informational -----
+function S28() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s28-h">
+        <h1 className="font-display text-2xl mb-2">Omat vahvuuteni lukiossa</h1>
+      </StickyNote>
+      <StickyNote tone="white" seed="s28-b">
+        <p className="text-sm leading-relaxed mb-2">
+          Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi
+          lukiolaisena.
+        </p>
+        <p className="text-sm leading-relaxed mb-2">
+          Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen
+          tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja
+          onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla
+          tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei
+          vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää
+          ja oppia.
+        </p>
+        <p className="text-sm leading-relaxed">
+          Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä
+          muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja
+          ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on,
+          että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää
+          niitä osana opintoja.
+        </p>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- Reusable: "Vahvuuskarkkini" worksheet (S29 lukiossa, S42 kotona,
+// S48 vapaa-ajalla, S56 ystävyyssuhteissa) -----
+function VahvuuskarkkiSheet({
+  title,
+  context,
+  fieldPrefix,
+  onSaveStateChange,
+}: {
+  title: string;
+  context: string; // "lukiossa", "kotona", "vapaa-ajalla", "ystävyyssuhteissa"
+  fieldPrefix: string;
+  onSaveStateChange?: (s: SaveState) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed={`${fieldPrefix}-h`}>
+        <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">
+          {context.toUpperCase()}
+        </div>
+        <h1 className="font-display text-2xl mb-1">{title}</h1>
+        <p className="text-sm opacity-90">
+          Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet
+          tähän. Pohdi, mitä teit, koit ja opit.
+        </p>
+      </StickyNote>
+      <ReflectionInput
+        fieldKey={`${fieldPrefix}_karkit`}
+        prefix="Vahvuudet"
+        placeholder="Merkkaa tähän mitä vahvuutta käytit!"
+        onSaveStateChange={onSaveStateChange}
+      />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label="1. Mitä teit?"             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label="2. Mitä tapahtui seuraavaksi?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label="3. Mitä opit?"             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label="4. Miten hyödynnät oppimaasi?" rows={3} onSaveStateChange={onSaveStateChange} />
+      </div>
+    </div>
+  );
+}
+
+// ----- S29 (PDF p35): Vahvuuskarkkini lukiossa -----
+function S29(p: Props) {
+  return (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="lukiossa"
+      fieldPrefix="screen_29"
+      onSaveStateChange={p.onSaveStateChange}
+    />
+  );
+}
+
+// ----- S30 (PDF p36): Osaamisen osa-alueiden palapeli -----
+function S30({ onSaveStateChange }: Props) {
+  const quadrants: Array<{ k: string; title: string; q: string }> = [
+    { k: "screen_30_lahjakkuudet",   title: "LAHJAKKUUDET",            q: "Missä olet hyvä?" },
+    { k: "screen_30_taidot",         title: "TAIDOT",                  q: "Mitä taitoja sinulla jo on, joita hyödynnät opinnoissa?" },
+    { k: "screen_30_kiinnostukset",  title: "KIINNOSTUKSEN KOHTEET",   q: "Mitä harrastat? Mitkä ovat innostuksen ja intohimon kohteita vapaa-ajallasi?" },
+    { k: "screen_30_resurssit",      title: "RESURSSIT",               q: "Mitkä asiat tai henkilöt ovat voimavarojasi? Mikä auttaa sinua pysymään vahvana vaikeina aikoina? Mikä tuo elämääsi merkitystä?" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s30-h">
+        <h1 className="font-display text-2xl mb-1">Osaamisen osa-alueiden palapeli</h1>
+        <p className="text-sm opacity-90">
+          Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa
+          neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja
+          resursseihin.
+        </p>
+        <p className="text-xs opacity-60 mt-1">(Niemiec, 2018)</p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {quadrants.map((q) => (
+          <StickyNote key={q.k} tone="white" seed={q.k}>
+            <div className="font-display text-sm mb-1">{q.title}</div>
+            <ReflectionTextarea
+              fieldKey={q.k}
+              label={q.q}
+              rows={4}
+              onSaveStateChange={onSaveStateChange}
+            />
+          </StickyNote>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
+function S31({ onSaveStateChange }: Props) {
+  const qs = [
+    "Keneltä saan tukea ja opastusta?",
+    "Mitä vahvuuksiani voin hyödyntää?",
+    "Mitä minun kannattaisi vielä oppia?",
+    "Mitä jo osaan hyvin?",
+    "Unelmieni ammatti",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s31-h">
+        <h1 className="font-display text-2xl">Unelmien tiekartta opinnoissa</h1>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_31_tiekartta_${i + 1}`}
+            label={`${i + 1}. ${q}`}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S32 (PDF p38): Minä opiskelijana -----
+function S32({ onSaveStateChange }: Props) {
+  const qs = [
+    "Mikä saa sinut innostumaan opinnoissa?",
+    "Minkä tekemiseen uppoudut?",
+    "Minkä parissa jaksat olla sinnikäs ja ylittää esteitä?",
+    "Mistä olet saanut kannustavaa palautetta opettajilta tai opiskelutovereilta?",
+    "Mistä olet erityisen kiinnostunut opinnoissa?",
+    "Mitä vahvuuksia tavallisesti hyödynnät opintojen aikana?",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s32-h">
+        <h1 className="font-display text-2xl mb-1">Minä opiskelijana</h1>
+        <p className="text-sm opacity-90">
+          Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös
+          sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä
+          kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia,
+          keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?
+        </p>
+        <p className="text-sm opacity-90 mt-2">
+          Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja
+          missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää
+          vahvuuksiasi lukiossa.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_32_minaopisk_${i + 1}`}
+            label={q}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S33 (PDF p39): Listaa erityistaidot — 10 slots -----
+function S33({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s33-h">
+        <h1 className="font-display text-2xl">
+          Täydennä kaikki erityistaitosi tähän listaan.
+        </h1>
+      </StickyNote>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <ReflectionInput
+            key={i}
+            fieldKey={`screen_33_erityistaito_${i + 1}`}
+            prefix={`${i + 1}.`}
+            placeholder="Erityistaito…"
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S34 (PDF p40): Koulu-kokemuksia -----
+function S34({ onSaveStateChange }: Props) {
+  const qs: Array<{ k: string; q: string }> = [
+    { k: "screen_34_oppi",         q: "Minkälaisia asioita opit nopeasti ja helposti?" },
+    { k: "screen_34_palaute",      q: "Mistä sait rohkaisevaa palautetta peruskoulussa opettajilta entä luokkakavereilta?" },
+    { k: "screen_34_aiheet",       q: "Mistä tykkäsit koulussa ala-asteella, entä yläasteella?" },
+    { k: "screen_34_onnistuminen", q: "Mikä onnistuminen sinulle on jäänyt mieleen peruskoulusta?" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s34-h">
+        <h1 className="font-display text-2xl mb-1">Koulu-kokemuksia</h1>
+        <p className="text-sm opacity-90">
+          Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia
+          vahvuuksia sinulla on.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {qs.map((x) => (
+          <ReflectionTextarea
+            key={x.k}
+            fieldKey={x.k}
+            label={x.q}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S35 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
+function S35() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s35-h">
+        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 1/2</h1>
+      </StickyNote>
+      <StickyNote tone="white" seed="s35-b">
+        <p className="text-sm leading-relaxed mb-2">
+          Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita
+          haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee
+          vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot
+          hyödyntää tavoitteen saavuttamisessa.
+        </p>
+        <p className="text-sm font-medium">
+          Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?
+        </p>
+        <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
+          <li>Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.</li>
+          <li>Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.</li>
+          <li>Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.</li>
+          <li>Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.</li>
+        </ol>
+        <p className="text-xs italic opacity-70 mt-2">→ Jäävuori seuraavalla sivulla.</p>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
+function S36({ onSaveStateChange }: Props) {
+  const boxes: Array<{ k: string; label: string }> = [
+    { k: "screen_36_tavoite",     label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
+    { k: "screen_36_vahvuudet",   label: "2. Vaaditut vahvuudet" },
+    { k: "screen_36_hyodynnan",   label: "3. Miten hyödynnän vahvuuksia" },
+    { k: "screen_36_taidot",      label: "4. Mitä muita taitoja tarvitsen" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s36-h">
+        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 2/2</h1>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {boxes.map((b) => (
+          <StickyNote key={b.k} tone="white" seed={b.k}>
+            <ReflectionTextarea
+              fieldKey={b.k}
+              label={b.label}
+              rows={4}
+              onSaveStateChange={onSaveStateChange}
+            />
+          </StickyNote>
+        ))}
+      </div>
+      <p className="text-center text-xs opacity-60">
+        Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen
+        kuva saadaan käyttöön.
       </p>
+    </div>
+  );
+}
+
+// ----- S37 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
+function S37({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s37-h">
+        <h1 className="font-display text-2xl mb-1">Vahvuuteni opiskelijana</h1>
+        <p className="text-sm opacity-90">
+          Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi.
+          Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <ReflectionTextarea
+          fieldKey="screen_37_arvostan"
+          label="Mukavia asioita — Arvostan itsessäni"
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_37_vahvuuksiani"
+          label="Omia vahvuuksia — Vahvuuksiani ovat mielestäni"
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_37_paikkoja"
+          label="Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani"
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ----- S38 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
+function S38({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s38-h">
+        <h1 className="font-display text-2xl mb-1">Vahvuuspalaute opiskelukavereilta</h1>
+        <p className="text-sm opacity-90">
+          Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä
+          sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte.
+          Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat
+          kanssaihmisiin.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <ReflectionTextarea fieldKey="screen_38_uutta"       label="Mitä uutta opin palautteista?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_tarkeaa"     label="Mikä palautteessa on minulle tärkeää?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_muistetaan"  label="Millaisista asioista minut muistetaan / tunnistetaan parhaiten?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_yhteisoon"   label="Mitä hyvää vahvuuteni tuovat yhteisööni?" rows={3} onSaveStateChange={onSaveStateChange} />
+      </div>
+    </div>
+  );
+}
+
+// ----- S39 (PDF p45): Minä olen (M2) -----
+function S39({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s39-h">
+        <h1 className="font-display text-2xl mb-1">Minä olen</h1>
+        <p className="text-sm opacity-90">
+          Muuta muilta saamasi palaute lauseiksi minä-muotoon.
+          <em> “Olet sinnikäs.”</em> → <strong>“Minä olen sinnikäs.”</strong>
+        </p>
+      </StickyNote>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <ReflectionInput
+            key={i}
+            fieldKey={`screen_39_mina_olen_${i + 1}`}
+            prefix="Minä olen"
+            placeholder="…"
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S40 (PDF p46): Moduuli 3 title card -----
+function M3Intro() {
+  return (
+    <StickyNote tone="mint" seed="s40-h" className="text-center">
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 3</div>
+      <h1 className="font-display text-4xl leading-tight">3. Omat vahvuudet kotona</h1>
+    </StickyNote>
+  );
+}
+
+// ----- S41 (PDF p47): Vahvuuskarkkini kotona -----
+function S41(p: Props) {
+  return (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="kotona"
+      fieldPrefix="screen_41"
+      onSaveStateChange={p.onSaveStateChange}
+    />
+  );
+}
+
+// Note: S41 worksheet stores under screen_41_* but REQUIREMENTS is keyed off
+// screen_42_*. The actual mapping below uses S42 for kotona-karkkini to keep
+// REQUIREMENTS keys aligned with the screen number. The dual numbering above
+// happened because PDF "Vahvuudet perheessä" is on the next page (p48 → S42).
+// The registry below assigns S41 = M3 title, S42 = kotona-karkkini, etc.
+
+// ----- S42 (PDF p48): Vahvuudet perheessä -----
+function S42_perhe({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s42-h">
+        <h1 className="font-display text-2xl mb-1">Vahvuudet perheessä</h1>
+        <p className="text-sm opacity-90">Täydennä laput.</p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <ReflectionTextarea fieldKey="screen_43_vahvuudet"   label="Minkälaisia vahvuuksia sinulla on perheenjäsenenä? Miten ne näkyvät?" rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_parasta"     label="Mikä on parasta perheessäsi? Miten erilaiset vahvuudet näkyvät perheessänne?" rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_kiitollinen" label="Mistä olet kiitollinen perheessäsi?" rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_yhdessa"     label="Mitä tykkäätte tehdä yhdessä?" rows={4} onSaveStateChange={onSaveStateChange} />
+      </div>
+    </div>
+  );
+}
+
+// ----- S43 (PDF p49): Minä perheenjäsenenä -----
+function S43_perheenjasen({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s43-h">
+        <h1 className="font-display text-2xl">Minä perheenjäsenenä</h1>
+      </StickyNote>
+      <ReflectionTextarea
+        fieldKey="screen_44_perheenjasenena"
+        label="Kirjoita itsellesi muistiin, millainen olet perheenjäsenenä ja millaisia vahvuuksia tuot perheeseesi."
+        rows={8}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <p className="text-center text-xs opacity-60">
+        Alkuperäisen sivun kahta saraketta ei ollut mahdollista poimia PDF:stä; kenttä
+        on tilapäisesti yhtenä laajana tekstialueena.
+      </p>
+    </div>
+  );
+}
+
+// ----- S44 (PDF p50): Muistele ja kysy vanhemmilta -----
+function S44_kysy({ onSaveStateChange }: Props) {
+  const qs = [
+    "Millainen lapsi olin?",
+    "Mitkä olivat lempileikkejäni?",
+    "Mistä innostuin?",
+    "Missä olin lapsena hyvä?",
+    "Mistä sain kannustusta ja kehuja?",
+    "Mitä vahvuuksia minussa huomattiin jo lapsena?",
+    "Mitä toivoit minusta tulevan?",
+    "Mitä haluat vielä sanoa minulle vahvuuksistani?",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s44-h">
+        <h1 className="font-display text-2xl mb-1">Muistele ja kysy vanhemmilta</h1>
+        <p className="text-sm opacity-90">
+          Pyydä vanhempaasi muistelemaan ja kerro lapsuusaikaisista vahvuuksistasi.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_45_vanhemmat_${i + 1}`}
+            label={q}
+            rows={2}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+      <p className="text-center text-xs opacity-60">
+        Kysymykset ovat osittain rekonstruoitu PDF-sivun rakenteesta — alkuperäinen
+        sivu on käsinkirjoitusta varten varattu, ja muutamat kysymyssanat eivät
+        olleet poimittavissa OCR:llä.
+      </p>
+    </div>
+  );
+}
+
+// ----- S45 (PDF p51): Vahvuuskirje vanhemmalta — informational -----
+function S45_kirje() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s45-h">
+        <h1 className="font-display text-2xl mb-1">Pyydä vanhempaasi täydentämään!</h1>
+        <p className="text-sm opacity-90">
+          Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen.
+          Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.
+        </p>
+      </StickyNote>
+      <StickyNote tone="white" seed="s45-letter">
+        <h2 className="font-display text-lg mb-2">Kirjoita vahvuuskirje nuorellesi</h2>
+        <p className="text-sm leading-relaxed whitespace-pre-line">
+{`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+Sinun vahvuuksiasi ovat . . . . . . . . , . . . . . . . . ja . . . . . . . .
+
+Olen huomannut, että käytät niitä, kun . . . . . . . . . . ja . . . . . . . . .
+
+Arvostan sinussa erityisesti . . . . . . . . . . . . . . . . . ja . . . . . . . . . . .
+
+Kun käytät vahvuuksiasi kotona, se vaikuttaa . . . . . . . . . . . . . . . . . . . .
+
+Olet opettanut minulle erityisesti . . . . . . . . . . . . . . . . käytöstä.
+
+Kun käytät vahvuuksiasi, näen sinut tulevaisuudessa . . . . . . . . . . . . . . . .
+
+Anna vahvuuksiesi loistaa.
+
+Rakkain terveisin, . . . . . . . . . .`}
+        </p>
+      </StickyNote>
+      <p className="text-center text-xs opacity-60">
+        Sivun visuaalinen ilme on tilapäisesti korvattu yksinkertaisella tekstipohjalla.
+      </p>
+    </div>
+  );
+}
+
+// ----- S46 (PDF p52): Moduuli 4 title card -----
+function M4Intro() {
+  return (
+    <StickyNote tone="coral" seed="s46-h" className="text-center">
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 4</div>
+      <h1 className="font-display text-4xl leading-tight">
+        4. Omat vahvuudet vapaa-ajalla ja harrastuksissa
+      </h1>
+    </StickyNote>
+  );
+}
+
+// ----- S47 (PDF p53): Vahvuuskarkkini vapaa-ajalla -----
+function S47(p: Props) {
+  return (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="vapaa-ajalla"
+      fieldPrefix="screen_48"
+      onSaveStateChange={p.onSaveStateChange}
+    />
+  );
+}
+
+// ----- S48 (PDF p54): Minä vapaa-ajalla -----
+function S48_vapaa({ onSaveStateChange }: Props) {
+  const cols = [
+    { k: "screen_49_tykkaat",      q: "Mitä tykkäät tehdä vapaa-ajalla?" },
+    { k: "screen_49_harrastukset", q: "Mitä harrastuksia sinulla on?" },
+    { k: "screen_49_vahvuudet",    q: "Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa?" },
+    { k: "screen_49_enemman",      q: "Mitä vahvuuksiasi haluaisit hyödyntää enemmän vapaa-ajallasi?" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s48-h">
+        <h1 className="font-display text-2xl mb-1">Minä vapaa-ajalla</h1>
+        <p className="text-sm opacity-90">
+          Kirjoita itsellesi muistiin mitä teet vapaa-ajallasi ja millaisia vahvuuksia
+          hyödynnät.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {cols.map((c) => (
+          <ReflectionTextarea
+            key={c.k}
+            fieldKey={c.k}
+            label={c.q}
+            rows={4}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S49 (PDF p55): Love to-do -lista 1/3 — informational -----
+function S49_loveinfo() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s49-h">
+        <h1 className="font-display text-2xl">Love to-do -lista 1/3</h1>
+      </StickyNote>
+      <StickyNote tone="white" seed="s49-b">
+        <p className="text-sm leading-relaxed mb-2">
+          Mitkä asiat päätyvät sinun love-to-do listalle? Tee lista viidestä asiasta,
+          joita rakastat tehdä vapaa-ajalla.
+        </p>
+        <p className="text-sm leading-relaxed">
+          Mieti seuraavaksi, kuinka vahvuutesi liittyvät näihin tekemisiin.
+        </p>
+        <p className="text-xs italic opacity-70 mt-2">
+          Ps. Todennäköisesti harrastukset ja tekemiset, joista pidät eniten, ovat
+          myös tyydyttäviä, koska ne tarjoavat sinulle mahdollisuuden hyödyntää
+          vahvuuksiasi.
+        </p>
+        <p className="text-xs italic opacity-70 mt-2">→ Love to-do -lista seuraavalla sivulla.</p>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- S50 (PDF p56): Love to-do -lista 2/3 — 5 inputs -----
+function S50_love({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s50-h">
+        <h1 className="font-display text-2xl mb-1">Love to-do -lista</h1>
+        <p className="text-sm opacity-90">
+          Kirjoita viisi asiaa, joita rakastat tehdä vapaa-ajallasi. Merkkaa sydämiin
+          miten paljon teet kyseistä asiaa.
+        </p>
+      </StickyNote>
+      <div className="grid gap-2">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <ReflectionInput
+            key={i}
+            fieldKey={`screen_51_love_${i + 1}`}
+            prefix={`${i + 1}.`}
+            placeholder="Asia, jota rakastan tehdä…"
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S51 (PDF p57): Love to-do -lista 3/3 -----
+function S51_loveB({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s51-h">
+        <h1 className="font-display text-2xl">Love to-do -lista</h1>
+      </StickyNote>
+      <ReflectionTextarea
+        fieldKey="screen_52_konkreettisesti"
+        label="Kuvittele, että voisit tehdä eniten rakastamaasi asiaa enemmän — miltä se konkreettisesti tuntuisi? Mihin haluaisit käyttää enemmän aikaa?"
+        rows={5}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_52_vahvuudet"
+        label="Kirjoita mitä vahvuuksiasi hyödynnät tehdessäsi rakastamiasi asioita vapaa-ajalla!"
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
+// ----- S52 (PDF p58): Kuvakollaasi 1/2 — informational -----
+function S52_kollaasiInfo() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s52-h">
+        <h1 className="font-display text-2xl mb-1">Kuvakollaasi 1/2</h1>
+        <p className="text-sm font-medium">Mitkä asiat sinua kiinnostavat vapaa-ajalla? Miksi?</p>
+      </StickyNote>
+      <StickyNote tone="white" seed="s52-b">
+        <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed">
+          <li>
+            Kerää kollaasi asioista / tavaroista, jotka ovat sinulle tärkeitä, joista
+            olet kiinnostunut ja joissa voit hyödyntää vahvuuksiasi. Esimerkiksi
+            koripallo, kirja, tietokone ja kissa.
+          </li>
+          <li>Teenäistä kollaasi ja ota siitä kuva.</li>
+          <li>Esitelkää kuvat ryhmässä. Tutustukaa toistenne vahvuuksiin.</li>
+          <li>Mitkä tavarat tai tekemiset valitsit kuvaasi? Miksi?</li>
+          <li>Kirjoita, mitä vahvuuksiasi kiinnostuksen kohteesi ovat kehittäneet? Miten?</li>
+          <li>Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?</li>
+          <li>
+            Käykää ystävän kanssa syvempi keskustelu vahvuuksien ja kiinnostuksen
+            kohteiden välisestä yhteydestä vapaa-ajalla.
+          </li>
+        </ul>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- S53 (PDF p59): Kuvakollaasi 2/2 -----
+function S53_kollaasi({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s53-h">
+        <h1 className="font-display text-2xl mb-1">Kuvakollaasi 2/2</h1>
+        <p className="text-sm opacity-90">
+          Jutelkaa ystävien kanssa vahvuuksistanne ja kiinnostuksen kohteistanne!
+        </p>
+      </StickyNote>
+      <ReflectionTextarea fieldKey="screen_54_valitsin"     label="Mitä valitsin"                                                              rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_54_kehittaneet"  label="Mitä vahvuuksia kiinnostuksen kohteeni ovat kehittäneet?"                  rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_54_uudet"        label="Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?"          rows={4} onSaveStateChange={onSaveStateChange} />
+    </div>
+  );
+}
+
+// ----- S54 (PDF p60): Moduuli 5 title card -----
+function M5Intro() {
+  return (
+    <StickyNote tone="coral" seed="s54-h" className="text-center">
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 5</div>
+      <h1 className="font-display text-4xl leading-tight">5. Omat vahvuudet ystävyyssuhteissa</h1>
+    </StickyNote>
+  );
+}
+
+// ----- S55 (PDF p61): Vahvuuskarkkini ystävyyssuhteissa -----
+function S55(p: Props) {
+  return (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="ystävyyssuhteissa"
+      fieldPrefix="screen_56"
+      onSaveStateChange={p.onSaveStateChange}
+    />
+  );
+}
+
+// ----- S56 (PDF p62): Minä ystävänä -----
+function S56_ystava({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s56-h">
+        <h1 className="font-display text-2xl mb-1">Minä ystävänä</h1>
+        <p className="text-sm opacity-90">
+          Haastattele ystäviäsi. Pyydä heitä kertomaan tai lähettämään viesti.
+          Täydennä lauseet:
+        </p>
+      </StickyNote>
+      <ReflectionTextarea fieldKey="screen_57_ystavien" label="Ystävieni mielestä vahvuuksiani ovat"   rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_57_parasta"  label="Parasta ystävissäni on"                  rows={4} onSaveStateChange={onSaveStateChange} />
+    </div>
+  );
+}
+
+// ----- S57 (PDF p63): Vahvuuspalaute ystäviltä -----
+function S57_palaute({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s57-h">
+        <h1 className="font-display text-2xl mb-1">Vahvuuspalaute ystäviltä</h1>
+        <p className="text-sm opacity-90">
+          Kirjoita palautetta ja kehuja ystäviesi kesken. Kerätkää yhdessä 2–4
+          ystävältä palautetta vahvuuksistanne. Käytä sivua 11 pohjana. Nimetkää ne
+          vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä toisen
+          vahvuudet erityisesti näkyvät ja miten positiivisesti ne vaikuttavat
+          ystävyyssuhteissa.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <ReflectionTextarea fieldKey="screen_58_uutta"     label="Mitä uutta opin palautteista?"                              rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_tarkeaa"   label="Mikä palautteessa on minulle tärkeää?"                      rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_muistavat" label="Millaisista asioista ystäväni muistavat minut parhaiten?"   rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_parasta"   label="Mikä on parasta ystävissäni?"                                rows={3} onSaveStateChange={onSaveStateChange} />
+      </div>
+    </div>
+  );
+}
+
+// ----- S58 (PDF p64): Moduuli 6 title card -----
+function M6Intro() {
+  return (
+    <StickyNote tone="yellow" seed="s58-h" className="text-center">
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 6</div>
+      <h1 className="font-display text-4xl leading-tight">6. Vahvuusportfolion kokoaminen</h1>
+    </StickyNote>
+  );
+}
+
+// ----- S59 (PDF p65): Vahvuuksien yhteenveto -----
+function S59_yhteenveto({ onSaveStateChange }: Props) {
+  const cols = [
+    { k: "screen_60_koulusta",     label: "Koulusta" },
+    { k: "screen_60_perheelta",    label: "Perheeltä" },
+    { k: "screen_60_vapaa_ajalta", label: "Vapaa-ajalta" },
+    { k: "screen_60_ystavilta",    label: "Ystäviltä" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s59-h">
+        <h1 className="font-display text-2xl mb-1">Vahvuuksien yhteenveto</h1>
+        <p className="text-sm opacity-90">
+          Kokoa saamasi palautteet. Kirjoita ylös vahvuudet joita sinussa on huomattu
+          eri ympäristöissä.
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {cols.map((c) => (
+          <ReflectionTextarea
+            key={c.k}
+            fieldKey={c.k}
+            label={c.label}
+            rows={5}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S60 (PDF p66): Pohdi ja hyödynnä saamaasi palautetta -----
+function S60_pohdi({ onSaveStateChange }: Props) {
+  const qs = [
+    { k: "screen_61_samaa",      q: "Mitä samaa niissä on?" },
+    { k: "screen_61_eroavat",    q: "Miten ne eroavat?" },
+    { k: "screen_61_huomataan",  q: "Mitä vahvuuksia sinussa huomataan?" },
+    { k: "screen_61_yllatti",    q: "Mikä palautteissa yllätti?" },
+    { k: "screen_61_muistaa",    q: "Mitä haluat muistaa palautteista?" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s60-h">
+        <h1 className="font-display text-2xl mb-1">Pohdi ja hyödynnä saamaasi palautetta</h1>
+        <p className="text-sm opacity-90">Tutustu muilta saamiisi palautteisiin.</p>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((x) => (
+          <ReflectionTextarea
+            key={x.k}
+            fieldKey={x.k}
+            label={x.q}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S61 (PDF p67): Visioni ja tavoitteeni -----
+function S61_visio({ onSaveStateChange }: Props) {
+  const qs = [
+    "Millainen ihminen haluat olla?",
+    "Mitä vahvuuksia ja taitoja haluaisit kehittää itsessäsi ja miksi?",
+    "Onko sinulla joku esikuva, jolla on näitä ominaisuuksia? Kuka ja mitä?",
+    "Miten voit kompensoida omia heikkouksiasi vahvuuksiesi avulla?",
+    "Mitä toivoisit, että ystäväsi ja perheesi kertoisivat sinusta, kun et ole paikalla? Millaisena haluat tulla muistetuksi?",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s61-h">
+        <h1 className="font-display text-2xl mb-1">Visioni ja tavoitteeni</h1>
+        <p className="text-sm opacity-90">Pohdi lopuksi:</p>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_62_visioni_${i + 1}`}
+            label={q}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S62 (PDF p68): Kerro vahvuuksistasi videon tai esityksen avulla -----
+function S62_video({ onSaveStateChange }: Props) {
+  const qs = [
+    "Mitkä ovat ydinvahvuuksiasi? Mitä rakastat tehdä? Milloin olet aidoimmillasi? Mistä saat energiaa? Mitkä vahvuuksia voisit nostaa esiin videolla entä työhaastattelussa?",
+    "Missä ammateissa tai työtehtävissä vahvuutesi pääsisivät oikeuksiinsa?",
+    "Miten hyödynnät vahvuuksiasi eri ihmisten kanssa?",
+    "Missä ympäristöissä vahvuutesi pääsevät esiin parhaiten?",
+    "Mistä saat usein positiivista palautetta toisilta?",
+    "Miten käytät vahvuuksiasi ryhmässä? Mihin se vaikuttaa?",
+    "Mitä haluat sanoa videolla tai esityksessä? Mitä haluat jättää katsojan mieleen?",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s62-h">
+        <h1 className="font-display text-2xl">
+          Kerro vahvuuksistasi videon tai esityksen avulla
+        </h1>
+      </StickyNote>
+      <div className="grid gap-3">
+        {qs.map((q, i) => (
+          <ReflectionTextarea
+            key={i}
+            fieldKey={`screen_63_kerro_${i + 1}`}
+            label={q}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ----- S63 (PDF p69): Muistiinpanoja — stems -----
+function S63_notes({ onSaveStateChange }: Props) {
+  const stems = [
+    { k: "screen_64_havainnot", q: "Omat havainnot vahvuuksistani…" },
+    { k: "screen_64_muistaa",   q: "Tämän haluan muistaa ainakin…" },
+    { k: "screen_64_tarkeaa",   q: "Minulle on tärkeää…" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s63-h">
+        <h1 className="font-display text-2xl">Muistiinpanoja</h1>
+      </StickyNote>
+      {stems.map((s) => (
+        <ReflectionTextarea
+          key={s.k}
+          fieldKey={s.k}
+          label={s.q}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ----- S64 (PDF p70): Muistiinpanoja — free notes -----
+function S64_notesB({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s64-h">
+        <h1 className="font-display text-2xl">Muistiinpanoja</h1>
+      </StickyNote>
+      <ReflectionTextarea
+        fieldKey="screen_65_notes"
+        label="Vapaita muistiinpanoja"
+        rows={10}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
+// ----- S65 (PDF p71): Muistiinpanoja — free notes -----
+function S65_notesC({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s65-h">
+        <h1 className="font-display text-2xl">Muistiinpanoja</h1>
+      </StickyNote>
+      <ReflectionTextarea
+        fieldKey="screen_66_notes"
+        label="Vapaita muistiinpanoja"
+        rows={10}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
+// ----- S66 (PDF p72): Anna itsellesi ja toisille palautetta — informational -----
+function S66_palauteInfo() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s66-h">
+        <h1 className="font-display text-2xl mb-1">Anna itsellesi ja toisille palautetta!</h1>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <StickyNote tone="white" seed="s66-a">
+          <div className="font-display text-sm mb-1">MITÄ VAHVUUKSIA SINUSSA NÄHTIIN</div>
+          <p className="text-xs opacity-80">
+            Tämä sivu kannustaa kokoamaan toisilta saadut vahvuushavainnot näkyväksi —
+            esimerkiksi luokassa, perheessä tai ystäväpiirissä.
+          </p>
+        </StickyNote>
+        <StickyNote tone="white" seed="s66-b">
+          <div className="font-display text-sm mb-1">SINUN VAHVUUKSIASI</div>
+          <p className="text-xs opacity-80">
+            Anna itse itsellesi vahvuuspalautetta. Mitä vahvuuksia olet bongannut
+            itsestäsi erityisesti?
+          </p>
+        </StickyNote>
+      </div>
+      <p className="text-center text-xs opacity-60">
+        Alkuperäisen sivun käsinkirjoitettua ulkoasua ei voitu poimia PDF:stä; sivu on
+        tilapäisesti esitetty kahtena ohjeistuslappuna.
+      </p>
+    </div>
+  );
+}
+
+// ----- S67 (PDF p73): 5 vinkkiä sinulle — informational -----
+function S67_vinkit() {
+  const tips = [
+    "Huomaa hyvä itsessäsi ja ole siitä ylpeä siitä, mitä jo osaat.",
+    "Tunnista ja hyödynnä omia vahvuuksiasi.",
+    "Kannusta ja kehu toisia.",
+    "Ole ystävällinen myös itseäsi kohtaan.",
+    "Uskalla näyttää innostuksesi. Se tarttuu!",
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s67-h">
+        <h1 className="font-display text-2xl">5 vinkkiä sinulle</h1>
+      </StickyNote>
+      <ol className="grid gap-2">
+        {tips.map((t, i) => (
+          <StickyNote key={i} tone="white" seed={`s67-${i}`}>
+            <div className="flex items-start gap-3">
+              <span className="font-display text-2xl text-[color:var(--coral)]">{i + 1}.</span>
+              <span className="text-sm leading-relaxed pt-1">{t}</span>
+            </div>
+          </StickyNote>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+// ----- S68 (PDF p74): Reflektoi tuloksia -----
+function S68_reflekto({ onSaveStateChange }: Props) {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s68-h">
+        <h1 className="font-display text-2xl">Reflektoi tuloksia</h1>
+      </StickyNote>
+      <ReflectionTextarea
+        fieldKey="screen_69_kertovat"
+        label="Mitä vahvuutesi kertovat sinusta?"
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_69_kehittamisesta"
+        label="Minkä vahvuuksien kehittämisestä olisi sinulle eniten iloa?"
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_69_tilanteissa"
+        label="Missä tilanteissa ja ympäristöissä pääset käyttämään vahvuuksiasi päivittäin?"
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_69_toimia"
+        label="Miten sinun kannattaisi toimia, jos haluaisit hyödyntää vahvuuksiasi enemmän — opinnoissa, vapaa-ajalla ja ystävyyssuhteissa?"
+        rows={5}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
+// ----- S69 (PDF p75): Täydennä vahvuusmittari — finale -----
+function S69_finale() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s69-h" className="text-center">
+        <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">
+          Vahvuusseikkailu päättyy
+        </div>
+        <h1 className="font-display text-3xl leading-tight mb-2">
+          Täydennä vahvuusmittari ja vertaa tuloksia itse valitsemiisi
+          vahvuuskarkkeihin.
+        </h1>
+        <p className="text-sm">Mitä huomaat?</p>
+      </StickyNote>
+      <StickyNote tone="white" seed="s69-b">
+        <p className="text-sm leading-relaxed">
+          Suurin osa meistä ihmisistä pystyy tunnistamaan helposti ainakin osan omista
+          ydinvahvuuksistaan. Tämä on osa itsetuntemusta, joka on yhteydessä
+          hyvinvointiin.
+        </p>
+      </StickyNote>
+      <StickyNote tone="coral" seed="s69-end" className="text-center">
+        <div className="font-display text-2xl mb-1">Onneksi olkoon! 🎉</div>
+        <p className="text-sm">
+          Olet käynyt läpi koko Vahvuusportfolion. Voit aina palata aiempiin sivuihin
+          ja täydentää vastauksiasi — tallennukset säilyvät.
+        </p>
+      </StickyNote>
+    </div>
+  );
+}
+
+// ----- S70: Loppuyhteenveto -----
+function S70_end() {
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s70-h" className="text-center">
+        <h1 className="font-display text-3xl mb-2">Kiitos seikkailusta! 🌟</h1>
+        <p className="text-sm leading-relaxed">
+          Vahvuusportfoliosi on nyt koossa. Käytä sitä esimerkiksi kesätyönhaussa,
+          jatko-opintoihin hakeutuessa tai aina kun haluat muistuttaa itseäsi siitä,
+          millainen olet parhaimmillasi.
+        </p>
+      </StickyNote>
     </div>
   );
 }
@@ -813,7 +2153,68 @@ const REGISTRY: Record<number, (p: Props) => ReactNode> = {
   20: (p) => <S20 {...p} />,
   21: (p) => <S21 {...p} />,
   22: (p) => <S22 {...p} />,
+  23: (p) => <S23 {...p} />,
+  24: (p) => <S24 {...p} />,
+  25: (p) => <S25 {...p} />,
+  26: (p) => <S26 {...p} />,
+  27: () => <M2Intro />,
+  28: () => <S28 />,
+  29: (p) => <S29 {...p} />,
+  30: (p) => <S30 {...p} />,
+  31: (p) => <S31 {...p} />,
+  32: (p) => <S32 {...p} />,
+  33: (p) => <S33 {...p} />,
+  34: (p) => <S34 {...p} />,
+  35: () => <S35 />,
+  36: (p) => <S36 {...p} />,
+  37: (p) => <S37 {...p} />,
+  38: (p) => <S38 {...p} />,
+  39: (p) => <S39 {...p} />,
+  40: () => <M3Intro />,
+  41: () => <M3Intro />, // module 3 title shown again? Actually S41=p47 karkki.
+  42: (p) => <S42_perhe {...p} />,
+  43: (p) => <S43_perheenjasen {...p} />,
+  44: (p) => <S44_kysy {...p} />,
+  45: () => <S45_kirje />,
+  46: () => <M4Intro />,
+  47: (p) => <S47 {...p} />,
+  48: (p) => <S48_vapaa {...p} />,
+  49: () => <S49_loveinfo />,
+  50: (p) => <S50_love {...p} />,
+  51: (p) => <S51_loveB {...p} />,
+  52: () => <S52_kollaasiInfo />,
+  53: (p) => <S53_kollaasi {...p} />,
+  54: () => <M5Intro />,
+  55: (p) => <S55 {...p} />,
+  56: (p) => <S56_ystava {...p} />,
+  57: (p) => <S57_palaute {...p} />,
+  58: () => <M6Intro />,
+  59: (p) => <S59_yhteenveto {...p} />,
+  60: (p) => <S60_pohdi {...p} />,
+  61: (p) => <S61_visio {...p} />,
+  62: (p) => <S62_video {...p} />,
+  63: (p) => <S63_notes {...p} />,
+  64: (p) => <S64_notesB {...p} />,
+  65: (p) => <S65_notesC {...p} />,
+  66: () => <S66_palauteInfo />,
+  67: () => <S67_vinkit />,
+  68: (p) => <S68_reflekto {...p} />,
+  69: () => <S69_finale />,
+  70: () => <S70_end />,
 };
+
+// Correct M3 mapping: per the workbook table M3 = PDF p46 (title) and content
+// p47–p51. After M2 ends at S39 (PDF p45 "Minä olen"), S40 is M3 title (PDF
+// p46). S41 = PDF p47 (Vahvuuskarkkini kotona).
+REGISTRY[40] = () => <M3Intro />;
+REGISTRY[41] = (p) => (
+  <VahvuuskarkkiSheet
+    title="Vahvuuskarkkini"
+    context="kotona"
+    fieldPrefix="screen_42"
+    onSaveStateChange={p.onSaveStateChange}
+  />
+);
 
 export function hasContent(n: number): boolean {
   return n in REGISTRY;
