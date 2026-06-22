@@ -45,19 +45,6 @@ function Screen3() {
 }
 
 function moduleBlurb(id: string): string {
-  return BLURBS[id] ?? "";
-}
-
-function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
-  if (tone === "yellow" || tone === "mint" || tone === "coral") return tone;
-  return "white";
-}
-
-const BLURBS: Record<string, string> = (() => {
-  return {} as Record<string, string>;
-})();
-
-function _unused(id: string) {
   switch (id) {
     case "m1": return "Tutustu 24 luonteenvahvuuteen ja löydä omat ydinvahvuutesi.";
     case "m2": return "Poimi vahvuuskarkit, jotka kuvaavat sinua juuri nyt.";
@@ -67,6 +54,11 @@ function _unused(id: string) {
     case "m6": return "Kokoa oppimasi — mitä viet seikkailusta mukanasi?";
     default: return "";
   }
+}
+
+function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
+  if (tone === "yellow" || tone === "mint" || tone === "coral") return tone;
+  return "white";
 }
 
 function Screen4() {
