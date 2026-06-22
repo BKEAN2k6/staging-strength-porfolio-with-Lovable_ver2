@@ -1409,7 +1409,7 @@ function S39({ onSaveStateChange }: Props) {
 // ----- S40 (PDF p46): Moduuli 3 title card -----
 function M3Intro() {
   return (
-    <StickyNote tone="teal" seed="s40-h" className="text-center">
+    <StickyNote tone="mint" seed="s40-h" className="text-center">
       <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 3</div>
       <h1 className="font-display text-4xl leading-tight">3. Omat vahvuudet kotona</h1>
     </StickyNote>
