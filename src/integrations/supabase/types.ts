@@ -14,16 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      class_members: {
+        Row: {
+          class_id: string
+          joined_at: string
+          student_id: string
+        }
+        Insert: {
+          class_id: string
+          joined_at?: string
+          student_id: string
+        }
+        Update: {
+          class_id?: string
+          joined_at?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_members_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      classes: {
+        Row: {
+          created_at: string
+          id: string
+          join_code: string
+          name: string
+          teacher_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          join_code: string
+          name: string
+          teacher_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          join_code?: string
+          name?: string
+          teacher_id?: string
+        }
+        Relationships: []
+      }
+      external_responses: {
+        Row: {
+          field_key: string
+          id: string
+          student_id: string
+          submitted_at: string
+          token: string
+          value: string | null
+        }
+        Insert: {
+          field_key: string
+          id?: string
+          student_id: string
+          submitted_at?: string
+          token: string
+          value?: string | null
+        }
+        Update: {
+          field_key?: string
+          id?: string
+          student_id?: string
+          submitted_at?: string
+          token?: string
+          value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "external_responses_token_fkey"
+            columns: ["token"]
+            isOneToOne: false
+            referencedRelation: "share_links"
+            referencedColumns: ["token"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          current_screen: number
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_screen?: number
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_screen?: number
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      responses: {
+        Row: {
+          field_key: string
+          id: string
+          updated_at: string
+          user_id: string
+          value: string | null
+        }
+        Insert: {
+          field_key: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          value?: string | null
+        }
+        Update: {
+          field_key?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
+      share_links: {
+        Row: {
+          created_at: string
+          expires_at: string
+          student_id: string
+          target: string
+          token: string
+          used: boolean
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          student_id: string
+          target: string
+          token: string
+          used?: boolean
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          student_id?: string
+          target?: string
+          token?: string
+          used?: boolean
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
+      get_share_link_info: { Args: { p_token: string }; Returns: Json }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
+      join_class: { Args: { p_join_code: string }; Returns: Json }
+      submit_external_response: {
+        Args: { p_payload: Json; p_token: string }
+        Returns: Json
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "teacher"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +341,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "teacher"],
+    },
   },
 } as const
