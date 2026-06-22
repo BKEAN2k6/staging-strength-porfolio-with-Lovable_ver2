@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
+import { Route as AuthenticatedSeikkailuRouteImport } from './routes/_authenticated.seikkailu'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,33 +34,49 @@ const AuthOpettajaRoute = AuthOpettajaRouteImport.update({
   path: '/opettaja',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthenticatedSeikkailuRoute = AuthenticatedSeikkailuRouteImport.update({
+  id: '/seikkailu',
+  path: '/seikkailu',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
+  '/seikkailu': typeof AuthenticatedSeikkailuRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
+  '/seikkailu': typeof AuthenticatedSeikkailuRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
+  '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/auth/opettaja'
+  fullPaths: '/' | '/auth' | '/seikkailu' | '/auth/opettaja'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/auth/opettaja'
-  id: '__root__' | '/' | '/auth' | '/auth/opettaja'
+  to: '/' | '/auth' | '/seikkailu' | '/auth/opettaja'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/seikkailu'
+    | '/auth/opettaja'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
 }
 
@@ -65,6 +87,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -81,8 +110,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOpettajaRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_authenticated/seikkailu': {
+      id: '/_authenticated/seikkailu'
+      path: '/seikkailu'
+      fullPath: '/seikkailu'
+      preLoaderRoute: typeof AuthenticatedSeikkailuRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedSeikkailuRoute: typeof AuthenticatedSeikkailuRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedSeikkailuRoute: AuthenticatedSeikkailuRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
 
 interface AuthRouteChildren {
   AuthOpettajaRoute: typeof AuthOpettajaRoute
@@ -96,6 +144,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
