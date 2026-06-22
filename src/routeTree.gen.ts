@@ -16,6 +16,7 @@ import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthenticatedSeikkailuRouteImport } from './routes/_authenticated.seikkailu'
 import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated.opettaja'
 import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated.liity-yhteisoon'
+import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated.seikkailu.index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated.seikkailu.$screen'
 
 const AuthRoute = AuthRouteImport.update({
@@ -53,6 +54,12 @@ const AuthenticatedLiityYhteisoonRoute =
     path: '/liity-yhteisoon',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedSeikkailuIndexRoute =
+  AuthenticatedSeikkailuIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSeikkailuRoute,
+  } as any)
 const AuthenticatedSeikkailuScreenRoute =
   AuthenticatedSeikkailuScreenRouteImport.update({
     id: '/$screen',
@@ -68,15 +75,16 @@ export interface FileRoutesByFullPath {
   '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/opettaja': typeof AuthenticatedOpettajaRoute
-  '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,15 +108,16 @@ export interface FileRouteTypes {
     | '/seikkailu'
     | '/auth/opettaja'
     | '/seikkailu/$screen'
+    | '/seikkailu/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/liity-yhteisoon'
     | '/opettaja'
-    | '/seikkailu'
     | '/auth/opettaja'
     | '/seikkailu/$screen'
+    | '/seikkailu'
   id:
     | '__root__'
     | '/'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/_authenticated/seikkailu'
     | '/auth/opettaja'
     | '/_authenticated/seikkailu/$screen'
+    | '/_authenticated/seikkailu/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLiityYhteisoonRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/seikkailu/': {
+      id: '/_authenticated/seikkailu/'
+      path: '/'
+      fullPath: '/seikkailu/'
+      preLoaderRoute: typeof AuthenticatedSeikkailuIndexRouteImport
+      parentRoute: typeof AuthenticatedSeikkailuRoute
+    }
     '/_authenticated/seikkailu/$screen': {
       id: '/_authenticated/seikkailu/$screen'
       path: '/$screen'
@@ -189,11 +207,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedSeikkailuRouteChildren {
   AuthenticatedSeikkailuScreenRoute: typeof AuthenticatedSeikkailuScreenRoute
+  AuthenticatedSeikkailuIndexRoute: typeof AuthenticatedSeikkailuIndexRoute
 }
 
 const AuthenticatedSeikkailuRouteChildren: AuthenticatedSeikkailuRouteChildren =
   {
     AuthenticatedSeikkailuScreenRoute: AuthenticatedSeikkailuScreenRoute,
+    AuthenticatedSeikkailuIndexRoute: AuthenticatedSeikkailuIndexRoute,
   }
 
 const AuthenticatedSeikkailuRouteWithChildren =
