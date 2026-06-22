@@ -9,38 +9,139 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
+import { Route as AuthenticatedSeikkailuRouteImport } from './routes/_authenticated.seikkailu'
+import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated.opettaja'
+import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated.liity-yhteisoon'
+import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated.seikkailu.$screen'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthOpettajaRoute = AuthOpettajaRouteImport.update({
+  id: '/opettaja',
+  path: '/opettaja',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthenticatedSeikkailuRoute = AuthenticatedSeikkailuRouteImport.update({
+  id: '/seikkailu',
+  path: '/seikkailu',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedOpettajaRoute = AuthenticatedOpettajaRouteImport.update({
+  id: '/opettaja',
+  path: '/opettaja',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedLiityYhteisoonRoute =
+  AuthenticatedLiityYhteisoonRouteImport.update({
+    id: '/liity-yhteisoon',
+    path: '/liity-yhteisoon',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedSeikkailuScreenRoute =
+  AuthenticatedSeikkailuScreenRouteImport.update({
+    id: '/$screen',
+    path: '/$screen',
+    getParentRoute: () => AuthenticatedSeikkailuRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
+  '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
+  '/auth/opettaja': typeof AuthOpettajaRoute
+  '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
+  '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
+  '/auth/opettaja': typeof AuthOpettajaRoute
+  '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/_authenticated/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
+  '/_authenticated/opettaja': typeof AuthenticatedOpettajaRoute
+  '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteWithChildren
+  '/auth/opettaja': typeof AuthOpettajaRoute
+  '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/liity-yhteisoon'
+    | '/opettaja'
+    | '/seikkailu'
+    | '/auth/opettaja'
+    | '/seikkailu/$screen'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/liity-yhteisoon'
+    | '/opettaja'
+    | '/seikkailu'
+    | '/auth/opettaja'
+    | '/seikkailu/$screen'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/liity-yhteisoon'
+    | '/_authenticated/opettaja'
+    | '/_authenticated/seikkailu'
+    | '/auth/opettaja'
+    | '/_authenticated/seikkailu/$screen'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +149,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/opettaja': {
+      id: '/auth/opettaja'
+      path: '/opettaja'
+      fullPath: '/auth/opettaja'
+      preLoaderRoute: typeof AuthOpettajaRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_authenticated/seikkailu': {
+      id: '/_authenticated/seikkailu'
+      path: '/seikkailu'
+      fullPath: '/seikkailu'
+      preLoaderRoute: typeof AuthenticatedSeikkailuRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/opettaja': {
+      id: '/_authenticated/opettaja'
+      path: '/opettaja'
+      fullPath: '/opettaja'
+      preLoaderRoute: typeof AuthenticatedOpettajaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/liity-yhteisoon': {
+      id: '/_authenticated/liity-yhteisoon'
+      path: '/liity-yhteisoon'
+      fullPath: '/liity-yhteisoon'
+      preLoaderRoute: typeof AuthenticatedLiityYhteisoonRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/seikkailu/$screen': {
+      id: '/_authenticated/seikkailu/$screen'
+      path: '/$screen'
+      fullPath: '/seikkailu/$screen'
+      preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
+      parentRoute: typeof AuthenticatedSeikkailuRoute
+    }
   }
 }
 
+interface AuthenticatedSeikkailuRouteChildren {
+  AuthenticatedSeikkailuScreenRoute: typeof AuthenticatedSeikkailuScreenRoute
+}
+
+const AuthenticatedSeikkailuRouteChildren: AuthenticatedSeikkailuRouteChildren =
+  {
+    AuthenticatedSeikkailuScreenRoute: AuthenticatedSeikkailuScreenRoute,
+  }
+
+const AuthenticatedSeikkailuRouteWithChildren =
+  AuthenticatedSeikkailuRoute._addFileChildren(
+    AuthenticatedSeikkailuRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedLiityYhteisoonRoute: typeof AuthenticatedLiityYhteisoonRoute
+  AuthenticatedOpettajaRoute: typeof AuthenticatedOpettajaRoute
+  AuthenticatedSeikkailuRoute: typeof AuthenticatedSeikkailuRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedLiityYhteisoonRoute: AuthenticatedLiityYhteisoonRoute,
+  AuthenticatedOpettajaRoute: AuthenticatedOpettajaRoute,
+  AuthenticatedSeikkailuRoute: AuthenticatedSeikkailuRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthOpettajaRoute: typeof AuthOpettajaRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthOpettajaRoute: AuthOpettajaRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
