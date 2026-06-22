@@ -28,7 +28,7 @@ function Screen3() {
 
       <div className="grid gap-3 sm:grid-cols-2">
         {modules.map((w) => (
-          <StickyNote key={w.id} seed={`mod-${w.id}`} tone={w.tone === "purple" ? "white" : w.tone}>
+          <StickyNote key={w.id} seed={`mod-${w.id}`} tone={mapTone(w.tone)}>
             <div className="flex items-start gap-3">
               <div className="text-3xl leading-none">{w.emoji}</div>
               <div>
@@ -45,6 +45,19 @@ function Screen3() {
 }
 
 function moduleBlurb(id: string): string {
+  return BLURBS[id] ?? "";
+}
+
+function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
+  if (tone === "yellow" || tone === "mint" || tone === "coral") return tone;
+  return "white";
+}
+
+const BLURBS: Record<string, string> = (() => {
+  return {} as Record<string, string>;
+})();
+
+function _unused(id: string) {
   switch (id) {
     case "m1": return "Tutustu 24 luonteenvahvuuteen ja löydä omat ydinvahvuutesi.";
     case "m2": return "Poimi vahvuuskarkit, jotka kuvaavat sinua juuri nyt.";
