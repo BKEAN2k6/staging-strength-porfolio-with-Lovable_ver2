@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
+import { useReportCompletion } from "@/lib/screen-completion";
 
 export function ReflectionTextarea({
   fieldKey,
@@ -16,6 +17,7 @@ export function ReflectionTextarea({
 }) {
   const [value, setValue] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const report = useReportCompletion();
 
   useEffect(() => {
     (async () => {
@@ -27,6 +29,11 @@ export function ReflectionTextarea({
 
   const state = useAutosave(fieldKey, value, { enabled: loaded });
   useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    report(fieldKey, value.trim().length > 0);
+  }, [value, loaded, fieldKey, report]);
 
   return (
     <label className="block">
@@ -55,6 +62,8 @@ export function ReflectionInput({
 }) {
   const [value, setValue] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const report = useReportCompletion();
+
   useEffect(() => {
     (async () => {
       const v = await loadResponse<string>(fieldKey);
@@ -64,9 +73,14 @@ export function ReflectionInput({
   }, [fieldKey]);
   const state = useAutosave(fieldKey, value, { enabled: loaded });
   useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    if (!loaded) return;
+    report(fieldKey, value.trim().length > 0);
+  }, [value, loaded, fieldKey, report]);
+
   return (
     <div className="flex items-center gap-2 rounded-full bg-white/90 text-slate-900 px-4 py-2 shadow-inner">
-      {prefix && <span className="font-display text-sm uppercase tracking-wide opacity-70">{prefix}</span>}
+      {prefix && <span className="font-display text-sm uppercase tracking-wide opacity-70 whitespace-nowrap">{prefix}</span>}
       <input
         className="flex-1 bg-transparent text-sm focus:outline-none"
         value={value}
