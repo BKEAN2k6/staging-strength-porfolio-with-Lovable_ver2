@@ -32,8 +32,9 @@ export function BottomNav({
         variant="secondary"
         disabled={n <= 1}
         onClick={() => navigate({ to: "/seikkailu/$screen", params: { screen: String(n - 1) } })}
-        className="rounded-full"
+        className="game-btn rounded-full font-display font-semibold"
       >← Edellinen</Button>
+
       <div className="flex flex-col items-center text-xs opacity-90 min-h-[1.5rem] justify-center text-center">
         {showProgress && <span>Näyttö {n} / {TOTAL_SCREENS}</span>}
         {showProgress ? <SaveIndicator state={saveState} /> : nextDisabled && nextHint ? (
