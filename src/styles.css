@@ -401,3 +401,24 @@
 .game-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 0 0 var(--purple-dark); }
 .game-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--purple-dark); }
 
+
+/* Bug 3 safety: ensure textarea content can never be hidden behind the
+   sticky BottomNav. The textarea grows inside its card; if the textarea
+   itself scrolls, add scroll padding so the caret/last line stays visible
+   above the nav's reserved space. */
+.workbook-paper textarea {
+  scroll-padding-bottom: 6rem;
+}
+/* Reserve breathing room at the bottom of the screen body so the last card
+   never sits flush against the sticky nav. */
+.journey-bg > div:not(.no-print) {
+  padding-bottom: 1rem;
+}
+
+/* Bug 1 safety: labels and prompts that sit directly on the dark purple
+   page background (not inside a white card) must use the white foreground
+   token. shadcn <Label> defaults to currentColor — this guarantees contrast. */
+.journey-bg label,
+main > label {
+  color: var(--foreground);
+}
