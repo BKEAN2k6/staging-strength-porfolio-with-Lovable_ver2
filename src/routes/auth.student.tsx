@@ -28,6 +28,14 @@ function StudentSignup() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const code = joinCode.trim().toUpperCase();
+    if (!email.trim()) {
+      toast.error("Anna sähköpostiosoite.");
+      return;
+    }
+    if (password.length < 8) {
+      toast.error("Salasanan on oltava vähintään 8 merkkiä pitkä.");
+      return;
+    }
     if (!code) {
       toast.error("Anna luokan koodi.");
       return;
