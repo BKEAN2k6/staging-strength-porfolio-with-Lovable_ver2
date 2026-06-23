@@ -174,18 +174,21 @@
   }
 }
 
-/* Sticky-note card primitive */
+/* Sticky-note card primitive — consistent padding + left alignment */
 .sticky-note {
   background: var(--card);
   color: var(--card-foreground);
   border-radius: 1.5rem;
   padding: 1.5rem;
+  text-align: left;
   box-shadow: 6px 8px 0 0 var(--purple-dark);
 }
+.sticky-note > * + * { margin-top: 0.75rem; }
 
 @media print {
   .no-print { display: none !important; }
   body { background: white !important; color: black !important; }
+  .sticky-note { box-shadow: none !important; border: 1px solid #ddd; }
 }
 
 /* Pencil scribble badge */
@@ -211,11 +214,11 @@
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 .candy-chip:hover:not(:disabled) {
-  transform: translateY(-2px) rotate(-1deg);
+  transform: translateY(-2px);
   box-shadow: 0 6px 0 0 var(--purple-dark);
 }
 .candy-chip.is-active {
-  transform: translateY(-2px) scale(1.05) rotate(1deg);
+  transform: translateY(-2px) scale(1.04);
   box-shadow: 0 6px 0 0 var(--purple-dark);
 }
 .candy-chip.is-active::after {
@@ -235,7 +238,7 @@
   box-shadow: 1px 1px 0 0 var(--ink);
 }
 
-/* Workbook-paper feel for reflection inputs */
+/* Workbook-paper textarea container — flush, single border, consistent padding */
 .workbook-paper {
   background-color: #FFFDF6;
   background-image: repeating-linear-gradient(
@@ -245,23 +248,33 @@
     color-mix(in oklab, var(--purple) 18%, transparent) 1.65rem,
     color-mix(in oklab, var(--purple) 18%, transparent) calc(1.65rem + 1px)
   );
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 4px 4px 0 0 var(--purple-dark);
+  padding: 0.75rem 1rem;
 }
 .workbook-paper:focus-within {
   box-shadow: 4px 4px 0 0 var(--coral);
   border-color: var(--coral);
 }
-.workbook-pill {
-  background: #FFFDF6;
+/* Single-line ruled input — same family as .workbook-paper */
+.workbook-line {
+  background-color: #FFFDF6;
+  border-radius: 0.75rem;
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 3px 3px 0 0 var(--purple-dark);
-  border-radius: 9999px;
+  padding: 0.55rem 0.9rem;
 }
-.workbook-pill:focus-within {
+.workbook-line:focus-within {
   border-color: var(--coral);
   box-shadow: 3px 3px 0 0 var(--coral);
+}
+.workbook-pill { /* legacy alias */
+  background-color: #FFFDF6;
+  border-radius: 9999px;
+  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  box-shadow: 3px 3px 0 0 var(--purple-dark);
+  padding: 0.45rem 0.9rem;
 }
 
 /* Decorative journey background (soft floating blobs) */

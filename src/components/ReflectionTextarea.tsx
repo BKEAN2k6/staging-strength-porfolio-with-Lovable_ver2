@@ -36,18 +36,23 @@ export function ReflectionTextarea({
   }, [value, loaded, fieldKey, report]);
 
   return (
-    <label className="block">
-      {label && <div className="mb-1 text-sm font-display font-semibold text-[color:var(--cream,white)]">✏️ {label}</div>}
+    <div className="block text-left">
+      {label && (
+        <label htmlFor={fieldKey} className="mb-1.5 block text-left text-sm font-display font-semibold text-[color:var(--ink)]">
+          {label}
+        </label>
+      )}
       <div className="workbook-paper">
         <textarea
-          className="w-full bg-transparent text-slate-900 px-4 py-3 text-[0.95rem] leading-[1.65rem] focus:outline-none rounded-[1.25rem] resize-y"
+          id={fieldKey}
+          className="block w-full bg-transparent text-slate-900 text-left text-[0.95rem] leading-[1.65rem] focus:outline-none resize-y placeholder:text-slate-400"
           rows={rows}
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
       </div>
-    </label>
+    </div>
   );
 }
 
@@ -82,10 +87,14 @@ export function ReflectionInput({
   }, [value, loaded, fieldKey, report]);
 
   return (
-    <div className="workbook-pill flex items-center gap-2 text-slate-900 px-4 py-2">
-      {prefix && <span className="font-display text-sm uppercase tracking-wide opacity-70 whitespace-nowrap">{prefix}</span>}
+    <div className="workbook-line flex items-baseline gap-2 text-slate-900 text-left">
+      {prefix && (
+        <span className="font-display text-sm font-semibold whitespace-nowrap text-[color:var(--ink)]/80">
+          {prefix}
+        </span>
+      )}
       <input
-        className="flex-1 bg-transparent text-sm focus:outline-none"
+        className="flex-1 bg-transparent text-[0.95rem] leading-[1.65rem] focus:outline-none placeholder:text-slate-400"
         value={value}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
@@ -93,4 +102,3 @@ export function ReflectionInput({
     </div>
   );
 }
-
