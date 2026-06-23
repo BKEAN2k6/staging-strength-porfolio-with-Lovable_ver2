@@ -9,43 +9,49 @@ import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth/opettaja")({
-  component: TeacherAuthPage,
+  component: TeacherSignup,
 });
 
-function TeacherAuthPage() {
+function TeacherSignup() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  const [school, setSchool] = useState("");
   const [teacherCode, setTeacherCode] = useState("");
   const [busy, setBusy] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (teacherCode.trim() !== "OPETTAJA-2026") {
+      toast.error("Opettajan koodi ei kelpaa. Pyydä koodi koulustasi.");
+      return;
+    }
     setBusy(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: { emailRedirectTo: window.location.origin, data: { display_name: displayName || email.split("@")[0] } },
-        });
-        if (error) throw error;
-        // Sign-in (in case email confirm is off)
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { school: school.trim() },
+        },
+      });
+      if (error) throw error;
+      const { data: sess } = await supabase.auth.getSession();
+      if (!sess.session) {
         await supabase.auth.signInWithPassword({ email, password });
-        const { data, error: rpcErr } = await supabase.rpc("claim_teacher_role" as never, { p_code: teacherCode } as never);
-        if (rpcErr) throw rpcErr;
-        if (data !== true) {
-          toast.error("Opettajan koodi oli virheellinen.");
-          return;
-        }
-        toast.success("Opettajatunnus luotu.");
-        navigate({ to: "/opettaja", replace: true });
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate({ to: "/opettaja", replace: true });
       }
+      const { data, error: rpcErr } = await supabase.rpc(
+        "claim_teacher_role" as never,
+        { p_code: teacherCode.trim() } as never,
+      );
+      if (rpcErr) throw rpcErr;
+      if (data !== true) {
+        toast.error("Opettajan koodi ei kelpaa. Pyydä koodi koulustasi.");
+        await supabase.auth.signOut();
+        return;
+      }
+      navigate({ to: "/opettaja", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Tuntematon virhe");
     } finally {
@@ -59,49 +65,68 @@ function TeacherAuthPage() {
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold">Opettajille</h1>
-          <p className="mt-2 opacity-90">Hallinnoi luokkiasi ja seuraa edistymistä.</p>
         </div>
-        <StickyNote seed="teacher-card">
-          <div className="flex gap-2 mb-5">
-            <button type="button" onClick={() => setMode("signup")}
-              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold ${mode === "signup" ? "bg-[color:var(--purple)] text-white" : "bg-muted text-ink"}`}>
-              Rekisteröidy
-            </button>
-            <button type="button" onClick={() => setMode("login")}
-              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold ${mode === "login" ? "bg-[color:var(--purple)] text-white" : "bg-muted text-ink"}`}>
-              Kirjaudu sisään
-            </button>
-          </div>
 
+        <StickyNote seed="teacher-card">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === "signup" && (
-              <div className="space-y-1.5">
-                <Label htmlFor="name">Nimi</Label>
-                <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-              </div>
-            )}
             <div className="space-y-1.5">
               <Label htmlFor="email">Sähköposti</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+              <Input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="opettaja@koulu.fi"
+                autoComplete="email"
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="password">Salasana</Label>
-              <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input
+                id="password"
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+              />
             </div>
-            {mode === "signup" && (
-              <div className="space-y-1.5">
-                <Label htmlFor="code">Opettajan koodi</Label>
-                <Input id="code" required value={teacherCode} onChange={(e) => setTeacherCode(e.target.value)} placeholder="Saat koodin koulultasi" />
-              </div>
-            )}
-            <Button type="submit" disabled={busy} className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base">
-              {busy ? "Hetki…" : mode === "signup" ? "Rekisteröidy opettajana" : "Kirjaudu sisään"}
+            <div className="space-y-1.5">
+              <Label htmlFor="school">Koulun nimi</Label>
+              <Input
+                id="school"
+                required
+                value={school}
+                onChange={(e) => setSchool(e.target.value)}
+                placeholder="esim. Espoo High School"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="code">Opettajan koodi</Label>
+              <Input
+                id="code"
+                required
+                value={teacherCode}
+                onChange={(e) => setTeacherCode(e.target.value)}
+                placeholder="esim. OPETTAJA-2026"
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base"
+            >
+              {busy ? "Hetki…" : "Rekisteröidy opettajana"}
             </Button>
           </form>
 
           <p className="mt-5 text-center text-xs text-muted-foreground">
             Onko sinulla jo opettajatunnus?{" "}
-            <Link to="/auth/login" className="font-semibold text-[color:var(--purple)] underline">Kirjaudu sisään</Link>
+            <Link to="/auth/login" className="font-semibold text-[color:var(--purple)] underline">
+              Kirjaudu sisään
+            </Link>
           </p>
         </StickyNote>
       </div>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -29,9 +29,10 @@ function LoginPage() {
     setBusy(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-
-      // Role-based redirect: check user_roles for teacher
+      if (error) {
+        toast.error("Sähköposti tai salasana ei ole oikea");
+        return;
+      }
       const { data: u } = await supabase.auth.getUser();
       let isTeacher = false;
       if (u.user) {
@@ -44,11 +45,6 @@ function LoginPage() {
         isTeacher = !!roleRow;
       }
       navigate({ to: isTeacher ? "/opettaja" : "/seikkailu", replace: true });
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Tuntematon virhe";
-      toast.error(
-        msg.includes("Invalid login") ? "Väärä sähköposti tai salasana." : msg
-      );
     } finally {
       setBusy(false);
     }
@@ -66,23 +62,35 @@ function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email">Sähköposti</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+              <Input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="etunimi.sukunimi@koulu.fi"
+                autoComplete="email"
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="password">Salasana</Label>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
             </div>
-            <Button type="submit" disabled={busy} className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base">
+            <Button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base"
+            >
               {busy ? "Hetki…" : "Kirjaudu"}
             </Button>
           </form>
-
-          <p className="mt-5 text-center text-xs text-muted-foreground">
-            Etkö ole vielä luonut tunnusta?{" "}
-            <Link to="/auth/student" className="font-semibold text-[color:var(--purple)] underline">
-              Luo tunnus
-            </Link>
-          </p>
         </StickyNote>
       </div>
     </div>
