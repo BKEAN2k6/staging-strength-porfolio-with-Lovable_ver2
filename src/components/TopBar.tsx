@@ -13,9 +13,14 @@ export function TopBar({ subtitle }: { subtitle?: string }) {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    async function fetchProfile() {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return;
+      if (!u.user) {
+        setUserId(null);
+        setName("Opiskelija");
+        setMissing(true);
+        return;
+      }
       setUserId(u.user.id);
       const { data: prof } = await supabase
         .from("profiles" as never)
@@ -31,7 +36,24 @@ export function TopBar({ subtitle }: { subtitle?: string }) {
         setName("Opiskelija");
         setMissing(true);
       }
-    })();
+    }
+
+    fetchProfile();
+
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN" || event === "USER_UPDATED" || event === "INITIAL_SESSION") {
+        fetchProfile();
+      }
+      if (event === "SIGNED_OUT") {
+        setUserId(null);
+        setName("Opiskelija");
+        setMissing(true);
+      }
+    });
+
+    return () => {
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   async function editName() {
