@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -86,11 +86,17 @@ function LoginPage() {
             <Button
               type="submit"
               disabled={busy}
-              className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base"
+              className="w-full rounded-full bg-[color:var(--purple)] hover:bg-[color:var(--purple)]/90 text-white font-bold py-6 text-base h-auto"
             >
               {busy ? "Hetki…" : "Kirjaudu"}
             </Button>
           </form>
+
+          <div className="mt-5 text-center text-xs text-muted-foreground">
+            <Link to="/auth" className="font-semibold text-[color:var(--purple)] underline">
+              Luo uusi tunnus
+            </Link>
+          </div>
         </StickyNote>
       </div>
     </div>

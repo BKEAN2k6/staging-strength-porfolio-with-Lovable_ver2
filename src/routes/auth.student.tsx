@@ -75,6 +75,7 @@ function StudentSignup() {
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold">Luo opiskelija-tunnus</h1>
+          <p className="mt-2 opacity-90">Liity seikkailuun luokan koodilla</p>
         </div>
 
         <StickyNote seed="student-signup-card">
@@ -97,7 +98,7 @@ function StudentSignup() {
                 id="password"
                 type="password"
                 required
-                minLength={6}
+                minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
