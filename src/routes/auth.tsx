@@ -118,12 +118,7 @@ function AuthPage() {
             </Button>
           </form>
 
-          <p className="mt-5 text-center text-xs text-muted-foreground">
-            Opettaja?{" "}
-            <Link to="/auth/opettaja" className="font-semibold text-[color:var(--purple)] underline">
-              Rekisteröidy opettajana
-            </Link>
-          </p>
+          {/* Teacher registration is a separate hidden URL (/auth/opettaja) shared by school admins. */}
         </StickyNote>
       </div>
     </div>
