@@ -111,22 +111,16 @@ export function useClassRoster(classId: string | null): {
     try {
       const { data: members, error: membersError } = await supabase
         .from("class_members" as never)
-        .select(
-          `
-          student_id,
-          joined_at,
-          profiles(id, display_name, current_screen)
-        `,
-        )
+        .select("student_id, joined_at")
         .eq("class_id", classId as never);
 
-      if (membersError) throw membersError;
+      if (membersError) {
+        console.error("Roster: class_members query failed", membersError);
+        setStudents([]);
+        return;
+      }
 
-      const rows = (members ?? []) as Array<{
-        student_id: string;
-        joined_at: string;
-        profiles: { id: string; display_name: string | null; current_screen: number | null } | null;
-      }>;
+      const rows = (members ?? []) as Array<{ student_id: string; joined_at: string }>;
 
       if (rows.length === 0) {
         setStudents([]);
@@ -135,10 +129,25 @@ export function useClassRoster(classId: string | null): {
 
       const ids = rows.map((m) => m.student_id);
 
-      const { data: resps } = await supabase
-        .from("responses" as never)
-        .select("user_id,field_key,value,updated_at")
-        .in("user_id", ids as never);
+      const [{ data: profs, error: profsError }, { data: resps, error: respsError }] = await Promise.all([
+        supabase
+          .from("profiles" as never)
+          .select("id, display_name, current_screen")
+          .in("id", ids as never),
+        supabase
+          .from("responses" as never)
+          .select("user_id,field_key,value,updated_at")
+          .in("user_id", ids as never),
+      ]);
+
+      if (profsError) console.error("Roster: profiles query failed", profsError);
+      if (respsError) console.error("Roster: responses query failed", respsError);
+
+      const profMap = new Map<string, { display_name: string | null; current_screen: number | null }>();
+      for (const p of (profs ?? []) as Array<{ id: string; display_name: string | null; current_screen: number | null }>) {
+        profMap.set(p.id, { display_name: p.display_name, current_screen: p.current_screen });
+      }
+
       const filledPerStudent = new Map<string, Set<string>>();
       const lastActivePerStudent = new Map<string, Date>();
       for (const r of (resps ?? []) as Array<{
@@ -166,7 +175,7 @@ export function useClassRoster(classId: string | null): {
         const id = m.student_id;
         const filled = filledPerStudent.get(id) ?? new Set<string>();
         const stats = computeStudentStats(filled);
-        const prof = m.profiles;
+        const prof = profMap.get(id);
         return {
           studentId: id,
           displayName: prof?.display_name ?? null,
