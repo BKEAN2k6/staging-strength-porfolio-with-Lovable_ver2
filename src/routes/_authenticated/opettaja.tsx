@@ -320,8 +320,7 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                 </Link>
               </td>
             </tr>
-            );
-          })}
+          ))}
         </tbody>
       </table>
     </div>
