@@ -32,6 +32,10 @@ function AuthPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" && !displayName.trim()) {
+      toast.error("Kirjoita nimesi — opettaja näkee sen luokkalistassa.");
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "signup") {
@@ -40,7 +44,7 @@ function AuthPage() {
           password,
           options: {
             emailRedirectTo: window.location.origin,
-            data: { display_name: displayName || email.split("@")[0] },
+            data: { display_name: displayName.trim() },
           },
         });
         if (error) throw error;
