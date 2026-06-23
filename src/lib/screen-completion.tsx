@@ -55,19 +55,22 @@ export function NavGateProvider({ children }: { children: ReactNode }) {
     setCompleted((prev) => (prev[key] === c ? prev : { ...prev, [key]: c }));
   }, []);
 
-  const isComplete = useMemo(
+  const rawIsComplete = useMemo(
     () => required.length === 0 || required.every((k) => completed[k]),
     [required, completed],
   );
+  const isComplete = ENABLE_COMPLETION_GATING ? rawIsComplete : true;
 
   const canNavigateTo = useCallback(
     (target: number) => {
+      if (!ENABLE_COMPLETION_GATING) return true;
       if (currentScreen == null) return true;
       if (target <= currentScreen) return true; // back/revisit always allowed
-      return isComplete;
+      return rawIsComplete;
     },
-    [currentScreen, isComplete],
+    [currentScreen, rawIsComplete],
   );
+
 
   const value = useMemo<NavGate>(
     () => ({
