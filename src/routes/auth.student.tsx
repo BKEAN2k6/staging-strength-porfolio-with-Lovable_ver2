@@ -105,6 +105,17 @@ function StudentSignup() {
         <StickyNote seed="student-signup-card">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
+              <Label htmlFor="displayName">Nimesi (näkyy opettajalle)</Label>
+              <Input
+                id="displayName"
+                required
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="esim. Anni Paatsila"
+                autoComplete="name"
+              />
+            </div>
+            <div className="space-y-1.5">
               <Label htmlFor="email">Sähköposti</Label>
               <Input
                 id="email"
