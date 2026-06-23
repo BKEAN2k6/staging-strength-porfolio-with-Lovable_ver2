@@ -43,8 +43,9 @@ export function BottomNav({
       <Button
         disabled={n >= TOTAL_SCREENS || nextDisabled}
         onClick={goNext}
-        className="rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white"
-      >Seuraava →</Button>
+        className="game-btn rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-display font-semibold px-5"
+      ><span className="sparkle mr-1" aria-hidden>✨</span>Seuraava →</Button>
+
     </nav>
   );
 }
