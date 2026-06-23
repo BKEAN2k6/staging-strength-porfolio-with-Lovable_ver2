@@ -308,7 +308,7 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                   name
                 ) : (
                   <span className="inline-flex flex-col">
-                    <span className="italic opacity-70">Nimi puuttuu</span>
+                    <span className="italic opacity-70">Opiskelija</span>
                     <span className="text-[0.65rem] opacity-50">Pyydä oppilasta kirjoittamaan nimensä profiiliin</span>
                   </span>
                 )}

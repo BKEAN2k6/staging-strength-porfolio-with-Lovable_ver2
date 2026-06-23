@@ -28,7 +28,7 @@ export function TopBar({ subtitle }: { subtitle?: string }) {
         setName(trimmed);
         setMissing(false);
       } else {
-        setName("Lisää nimesi");
+        setName("Opiskelija");
         setMissing(true);
       }
     })();
