@@ -37,7 +37,6 @@ function AuthLanding() {
         )}
 
         <StickyNote seed="landing-card" className="space-y-3 text-center">
-          <p className="text-base text-ink">Tervetuloa! Aloita seikkailusi.</p>
           <Link
             to="/auth/login"
             className="block w-full rounded-full bg-[color:var(--purple)] hover:bg-[color:var(--purple-dark)] text-white font-bold py-4 text-base"
@@ -48,7 +47,7 @@ function AuthLanding() {
             to="/auth/student"
             className="block w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-4 text-base"
           >
-            Luo tunnus
+            Luo opiskelija-tunnus
           </Link>
         </StickyNote>
       </div>
