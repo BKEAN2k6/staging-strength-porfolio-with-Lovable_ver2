@@ -299,10 +299,19 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
           </tr>
         </thead>
         <tbody>
-          {students.map((s) => (
+          {students.map((s) => {
+            const name = s.displayName?.trim();
+            return (
             <tr key={s.studentId} className="border-t border-black/5">
               <td className="px-3 py-2 font-medium text-[color:var(--ink)]">
-                {displayLabel(s)}
+                {name ? (
+                  name
+                ) : (
+                  <span className="inline-flex flex-col">
+                    <span className="italic opacity-70">Nimi puuttuu</span>
+                    <span className="text-[0.65rem] opacity-50">Pyydä oppilasta kirjoittamaan nimensä profiiliin</span>
+                  </span>
+                )}
               </td>
               <td className="px-3 py-2 tabular-nums">
                 Maailma {worldIndexForScreen(s.currentScreen)}, näytöt{" "}
@@ -320,18 +329,16 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                 </Link>
               </td>
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
 }
 
-function displayLabel(s: RosterStudent): string {
-  const name = s.displayName?.trim();
-  if (name) return name;
-  if (s.email) return s.email;
-  return `Oppilas #${s.studentId.slice(0, 6).toUpperCase()}`;
+function displayLabel(_s: RosterStudent): string {
+  return "";
 }
 
 

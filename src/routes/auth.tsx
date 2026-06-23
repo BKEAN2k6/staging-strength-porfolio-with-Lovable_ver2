@@ -32,6 +32,10 @@ function AuthPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" && !displayName.trim()) {
+      toast.error("Kirjoita nimesi — opettaja näkee sen luokkalistassa.");
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "signup") {
@@ -40,7 +44,7 @@ function AuthPage() {
           password,
           options: {
             emailRedirectTo: window.location.origin,
-            data: { display_name: displayName || email.split("@")[0] },
+            data: { display_name: displayName.trim() },
           },
         });
         if (error) throw error;
@@ -94,8 +98,8 @@ function AuthPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div className="space-y-1.5">
-                <Label htmlFor="name">Nimi (näkyy opettajalle)</Label>
-                <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Etunimi Sukunimi" />
+                <Label htmlFor="name">Nimi (näkyy opettajalle) <span className="text-[color:var(--coral)]">*</span></Label>
+                <Input id="name" required value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Etunimi Sukunimi" />
               </div>
             )}
             <div className="space-y-1.5">
