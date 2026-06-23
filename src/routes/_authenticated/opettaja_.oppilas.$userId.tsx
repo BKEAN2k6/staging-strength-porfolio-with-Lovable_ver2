@@ -10,7 +10,7 @@ import { REQUIREMENTS } from "@/lib/screen-completion";
 import { METER_STRENGTHS } from "@/lib/meter-data";
 import { Printer, ArrowLeft } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/opettaja/oppilas/$userId")({
+export const Route = createFileRoute("/_authenticated/opettaja_/oppilas/$userId")({
   component: StudentPortfolio,
 });
 
