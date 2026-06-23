@@ -9,6 +9,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { getCurrentRole } from "@/lib/auth-helpers";
 import { toast } from "sonner";
 import { Copy, Download, ExternalLink, RefreshCw } from "lucide-react";
+import { WORLDS, worldForScreen } from "@/lib/screens";
 import {
   useClassRoster,
   summariseClass,
@@ -324,8 +325,6 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
   );
 }
 
-// Lazy import to avoid circular: WORLDS index lookup
-import { WORLDS, worldForScreen } from "@/lib/screens";
 function worldIndexForScreen(n: number): number {
   const w = worldForScreen(n);
   const idx = WORLDS.findIndex((x) => x.id === w.id);
