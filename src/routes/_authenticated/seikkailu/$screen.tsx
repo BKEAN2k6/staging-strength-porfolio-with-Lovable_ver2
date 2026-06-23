@@ -47,12 +47,13 @@ function ScreenView() {
   const built = hasContent(n);
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
+    <div className="journey-bg flex min-h-[calc(100vh-3.5rem)] flex-col">
       <ScreenChrome n={n} saveState={saveState} />
       <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         <div className="mb-4 flex items-center gap-2">
           <PencilBadge>{world.title}</PencilBadge>
           <span className="text-sm opacity-80">{world.subtitle}</span>
+          <span className="ml-auto text-base" aria-hidden>{world.emoji ?? "🗺️"}</span>
         </div>
         {built ? (
           <ScreenContent n={n} onSaveStateChange={setSaveState} />
@@ -65,6 +66,7 @@ function ScreenView() {
           </StickyNote>
         )}
       </div>
+
       <BottomNav
         n={n}
         saveState={saveState}

@@ -56,12 +56,13 @@ export function SelectableChips({
             onClick={() => toggle(opt)}
             disabled={atMax}
             className={cn(
-              "rounded-full border-2 px-3 py-1.5 text-sm font-medium transition-all",
+              "candy-chip rounded-full border-2 px-4 py-1.5 text-sm font-semibold",
               active
-                ? "bg-[color:var(--coral)] border-[color:var(--coral)] text-white shadow-md scale-105"
-                : "bg-white/90 text-slate-900 border-white/40 hover:bg-white",
-              atMax && "opacity-40 cursor-not-allowed hover:bg-white/90",
+                ? "is-active bg-[color:var(--coral)] border-[color:var(--coral)] text-white"
+                : "bg-white text-slate-900 border-white/40 hover:bg-[color:var(--yellow)]/70",
+              atMax && "opacity-40 cursor-not-allowed hover:bg-white",
             )}
+
           >
             {opt}
           </button>
