@@ -202,3 +202,106 @@
   color: var(--ink);
   box-shadow: 2px 2px 0 0 var(--ink);
 }
+
+/* ---------- Playful Vahvuusseikkailu visuals ---------- */
+
+/* Candy-like chip option (used by SelectableChips) */
+.candy-chip {
+  position: relative;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+.candy-chip:hover:not(:disabled) {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 0 6px 0 0 var(--purple-dark);
+}
+.candy-chip.is-active {
+  transform: translateY(-2px) scale(1.05) rotate(1deg);
+  box-shadow: 0 6px 0 0 var(--purple-dark);
+}
+.candy-chip.is-active::after {
+  content: "✓";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: 1px 1px 0 0 var(--ink);
+}
+
+/* Workbook-paper feel for reflection inputs */
+.workbook-paper {
+  background-color: #FFFDF6;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 1.65rem,
+    color-mix(in oklab, var(--purple) 18%, transparent) 1.65rem,
+    color-mix(in oklab, var(--purple) 18%, transparent) calc(1.65rem + 1px)
+  );
+  border-radius: 1.25rem;
+  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  box-shadow: 4px 4px 0 0 var(--purple-dark);
+}
+.workbook-paper:focus-within {
+  box-shadow: 4px 4px 0 0 var(--coral);
+  border-color: var(--coral);
+}
+.workbook-pill {
+  background: #FFFDF6;
+  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  box-shadow: 3px 3px 0 0 var(--purple-dark);
+  border-radius: 9999px;
+}
+.workbook-pill:focus-within {
+  border-color: var(--coral);
+  box-shadow: 3px 3px 0 0 var(--coral);
+}
+
+/* Decorative journey background (soft floating blobs) */
+.journey-bg {
+  position: relative;
+  isolation: isolate;
+}
+.journey-bg::before,
+.journey-bg::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.journey-bg::before {
+  width: 22rem; height: 22rem;
+  background: var(--coral);
+  top: -6rem; right: -6rem;
+}
+.journey-bg::after {
+  width: 26rem; height: 26rem;
+  background: var(--mint);
+  bottom: -8rem; left: -8rem;
+}
+
+/* Gentle sparkle */
+@keyframes sparkle-pop {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50%      { transform: scale(1.15) rotate(8deg); opacity: 1; }
+}
+.sparkle { animation: sparkle-pop 2.4s ease-in-out infinite; display: inline-block; }
+
+/* Game-style primary button (Seuraava) */
+.game-btn {
+  box-shadow: 0 5px 0 0 var(--purple-dark);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.game-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 0 0 var(--purple-dark); }
+.game-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--purple-dark); }
+
