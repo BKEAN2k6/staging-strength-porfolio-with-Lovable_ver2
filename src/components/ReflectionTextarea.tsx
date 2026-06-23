@@ -51,8 +51,8 @@ export function ReflectionTextarea({
       <div className="workbook-paper flex-1">
         <textarea
           id={fieldKey}
-          className="block w-full flex-1 bg-transparent text-left text-[0.95rem] leading-[1.65rem] focus:outline-none resize-y"
-          style={{ minHeight }}
+          className="block w-full flex-1 bg-transparent text-left text-[0.95rem] leading-[1.65rem] focus:outline-none resize-y px-0 py-0"
+          style={{ minHeight, color: "var(--ink)" }}
           rows={rows}
           placeholder={placeholder}
           value={value}
@@ -62,6 +62,7 @@ export function ReflectionTextarea({
     </div>
   );
 }
+
 
 
 export function ReflectionInput({

@@ -21,12 +21,13 @@ export function BottomNav({
   onBeforeNext?: () => void | Promise<void>;
 }) {
   const navigate = useNavigate();
-  async function goNext() {
+  async function goNext(e: React.MouseEvent<HTMLButtonElement>) {
+    const btn = e.currentTarget;
     if (onBeforeNext) {
       try { await onBeforeNext(); } catch { /* swallow — nav still proceeds */ }
     }
-    // CSS-only celebration (~300ms) before navigating. No library, no lag.
-    await celebrateSave();
+    // Fireworks burst from the button, then navigate (~450ms total).
+    await celebrateSave(btn);
     navigate({ to: "/seikkailu/$screen", params: { screen: String(n + 1) } });
   }
   return (

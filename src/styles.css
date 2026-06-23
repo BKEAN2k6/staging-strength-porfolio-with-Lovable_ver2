@@ -242,13 +242,18 @@
    grows to fill the card. */
 .workbook-paper {
   background-color: #FFFDF6;
+  /* Ruled-paper guide. Lines sit at the BASELINE of each row so text rests
+     on the line. Background origin = content-box so the lines align with the
+     textarea's text (no offset from container padding). */
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
-    transparent 1.65rem,
-    color-mix(in oklab, var(--purple) 18%, transparent) 1.65rem,
-    color-mix(in oklab, var(--purple) 18%, transparent) calc(1.65rem + 1px)
+    transparent calc(1.65rem - 1px),
+    color-mix(in oklab, var(--purple) 22%, transparent) calc(1.65rem - 1px),
+    color-mix(in oklab, var(--purple) 22%, transparent) 1.65rem
   );
+  background-origin: content-box;
+  background-clip: content-box;
   border-radius: 1rem;
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 4px 4px 0 0 var(--purple-dark);
@@ -262,16 +267,24 @@
 }
 .workbook-paper textarea,
 .workbook-paper input {
-  color: var(--ink);
+  color: var(--ink) !important;
   caret-color: var(--coral);
   flex: 1 1 auto;
+  /* Keep textarea metrics flush with container padding so text rows line up
+     with the ruled background lines. */
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
 }
 .workbook-paper textarea::placeholder,
 .workbook-paper input::placeholder,
 .workbook-line textarea::placeholder,
 .workbook-line input::placeholder {
-  color: color-mix(in oklab, var(--ink) 45%, transparent);
+  color: color-mix(in oklab, var(--ink) 50%, transparent);
+  opacity: 1;
 }
+
 /* Single-line ruled input — same family as .workbook-paper */
 .workbook-line {
   background-color: #FFFDF6;
