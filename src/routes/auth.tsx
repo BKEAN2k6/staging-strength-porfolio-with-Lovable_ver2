@@ -98,8 +98,8 @@ function AuthPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div className="space-y-1.5">
-                <Label htmlFor="name">Nimi (näkyy opettajalle)</Label>
-                <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Etunimi Sukunimi" />
+                <Label htmlFor="name">Nimi (näkyy opettajalle) <span className="text-[color:var(--coral)]">*</span></Label>
+                <Input id="name" required value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Etunimi Sukunimi" />
               </div>
             )}
             <div className="space-y-1.5">
