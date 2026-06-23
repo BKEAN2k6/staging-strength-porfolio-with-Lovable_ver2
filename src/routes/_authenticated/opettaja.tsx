@@ -301,7 +301,9 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
         <tbody>
           {students.map((s) => (
             <tr key={s.studentId} className="border-t border-black/5">
-              <td className="px-3 py-2">{s.displayName ?? s.studentId.slice(0, 8)}</td>
+              <td className="px-3 py-2 font-medium text-[color:var(--ink)]">
+                {displayLabel(s)}
+              </td>
               <td className="px-3 py-2 tabular-nums">
                 Maailma {worldIndexForScreen(s.currentScreen)}, näytöt{" "}
                 <strong>{s.screensFilled}</strong>/{s.totalRequiredScreens}
@@ -312,7 +314,7 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                 <Link
                   to="/opettaja/oppilas/$userId"
                   params={{ userId: s.studentId }}
-                  className="inline-flex items-center gap-1 text-xs font-semibold underline opacity-80 hover:opacity-100"
+                  className="inline-flex items-center gap-1 rounded-full bg-[color:var(--ink)] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[color:var(--coral)] transition-colors"
                 >
                   Näytä portfolio <ExternalLink className="h-3 w-3" />
                 </Link>
@@ -324,6 +326,15 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
     </div>
   );
 }
+
+function displayLabel(s: RosterStudent): string {
+  const name = s.displayName?.trim();
+  if (name) return name;
+  if (s.email) return s.email;
+  return `Oppilas #${s.studentId.slice(0, 6).toUpperCase()}`;
+}
+
+
 
 function worldIndexForScreen(n: number): number {
   const w = worldForScreen(n);
