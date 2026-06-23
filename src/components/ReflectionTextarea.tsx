@@ -82,7 +82,7 @@ export function ReflectionInput({
   }, [value, loaded, fieldKey, report]);
 
   return (
-    <div className="flex items-center gap-2 rounded-full bg-white/90 text-slate-900 px-4 py-2 shadow-inner">
+    <div className="workbook-pill flex items-center gap-2 text-slate-900 px-4 py-2">
       {prefix && <span className="font-display text-sm uppercase tracking-wide opacity-70 whitespace-nowrap">{prefix}</span>}
       <input
         className="flex-1 bg-transparent text-sm focus:outline-none"
@@ -93,3 +93,4 @@ export function ReflectionInput({
     </div>
   );
 }
+
