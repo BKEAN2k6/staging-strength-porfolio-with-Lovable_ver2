@@ -101,7 +101,9 @@ function StudentSignup() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password">Salasana</Label>
+              <Label htmlFor="password">
+                Luo salasana (vähintään 8 merkkiä)
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -109,8 +111,12 @@ function StudentSignup() {
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Luo vahva salasana"
                 autoComplete="new-password"
               />
+              <p className="text-sm text-muted-foreground">
+                Vähintään 8 merkkiä. Käytä kirjaimia, numeroita ja erikoismerkkejä.
+              </p>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="code">Luokan koodi</Label>
