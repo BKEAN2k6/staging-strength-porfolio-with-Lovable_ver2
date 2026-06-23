@@ -100,8 +100,8 @@ function TeacherAuthPage() {
           </form>
 
           <p className="mt-5 text-center text-xs text-muted-foreground">
-            Oletko oppilas?{" "}
-            <Link to="/auth" className="font-semibold text-[color:var(--purple)] underline">Oppilaan kirjautuminen</Link>
+            Onko sinulla jo opettajatunnus?{" "}
+            <Link to="/auth/login" className="font-semibold text-[color:var(--purple)] underline">Kirjaudu sisään</Link>
           </p>
         </StickyNote>
       </div>
