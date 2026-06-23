@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { SaveIndicator } from "@/components/SaveIndicator";
 import type { SaveState } from "@/hooks/use-autosave";
 import { TOTAL_SCREENS } from "@/lib/screens";
+import { celebrateSave } from "@/lib/celebrate";
 
 export function BottomNav({
   n,
@@ -24,6 +25,8 @@ export function BottomNav({
     if (onBeforeNext) {
       try { await onBeforeNext(); } catch { /* swallow — nav still proceeds */ }
     }
+    // CSS-only celebration (~300ms) before navigating. No library, no lag.
+    await celebrateSave();
     navigate({ to: "/seikkailu/$screen", params: { screen: String(n + 1) } });
   }
   return (

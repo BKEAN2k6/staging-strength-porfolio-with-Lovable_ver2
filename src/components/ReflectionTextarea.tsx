@@ -6,7 +6,7 @@ export function ReflectionTextarea({
   fieldKey,
   label,
   placeholder,
-  rows = 3,
+  rows = 4,
   onSaveStateChange,
 }: {
   fieldKey: string;
@@ -35,17 +35,24 @@ export function ReflectionTextarea({
     report(fieldKey, value.trim().length > 0);
   }, [value, loaded, fieldKey, report]);
 
+  // min-height grows with rows: ~1.65rem per ruled line + container padding.
+  const minHeight = `calc(${rows} * 1.65rem + 1rem)`;
+
   return (
-    <div className="block text-left">
+    <div className="flex flex-1 flex-col text-left">
       {label && (
-        <label htmlFor={fieldKey} className="mb-1.5 block text-left text-sm font-display font-semibold text-[color:var(--ink)]">
+        <label
+          htmlFor={fieldKey}
+          className="mb-1.5 block text-left text-sm font-display font-semibold text-[color:var(--ink)]"
+        >
           {label}
         </label>
       )}
-      <div className="workbook-paper">
+      <div className="workbook-paper flex-1">
         <textarea
           id={fieldKey}
-          className="block w-full bg-transparent text-slate-900 text-left text-[0.95rem] leading-[1.65rem] focus:outline-none resize-y placeholder:text-slate-400"
+          className="block w-full flex-1 bg-transparent text-left text-[0.95rem] leading-[1.65rem] focus:outline-none resize-y"
+          style={{ minHeight }}
           rows={rows}
           placeholder={placeholder}
           value={value}
@@ -87,14 +94,14 @@ export function ReflectionInput({
   }, [value, loaded, fieldKey, report]);
 
   return (
-    <div className="workbook-line flex items-baseline gap-2 text-slate-900 text-left">
+    <div className="workbook-line flex items-baseline gap-2 text-left">
       {prefix && (
         <span className="font-display text-sm font-semibold whitespace-nowrap text-[color:var(--ink)]/80">
           {prefix}
         </span>
       )}
       <input
-        className="flex-1 bg-transparent text-[0.95rem] leading-[1.65rem] focus:outline-none placeholder:text-slate-400"
+        className="flex-1 bg-transparent text-[0.95rem] leading-[1.65rem] focus:outline-none"
         value={value}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}

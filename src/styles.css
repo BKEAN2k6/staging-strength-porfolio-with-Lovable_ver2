@@ -238,7 +238,8 @@
   box-shadow: 1px 1px 0 0 var(--ink);
 }
 
-/* Workbook-paper textarea container — flush, single border, consistent padding */
+/* Workbook-paper textarea container — flex column so its child textarea
+   grows to fill the card. */
 .workbook-paper {
   background-color: #FFFDF6;
   background-image: repeating-linear-gradient(
@@ -252,10 +253,24 @@
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 4px 4px 0 0 var(--purple-dark);
   padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .workbook-paper:focus-within {
   box-shadow: 4px 4px 0 0 var(--coral);
   border-color: var(--coral);
+}
+.workbook-paper textarea,
+.workbook-paper input {
+  color: var(--ink);
+  caret-color: var(--coral);
+  flex: 1 1 auto;
+}
+.workbook-paper textarea::placeholder,
+.workbook-paper input::placeholder,
+.workbook-line textarea::placeholder,
+.workbook-line input::placeholder {
+  color: color-mix(in oklab, var(--ink) 45%, transparent);
 }
 /* Single-line ruled input — same family as .workbook-paper */
 .workbook-line {
@@ -264,17 +279,72 @@
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 3px 3px 0 0 var(--purple-dark);
   padding: 0.55rem 0.9rem;
+  color: var(--ink);
 }
 .workbook-line:focus-within {
   border-color: var(--coral);
   box-shadow: 3px 3px 0 0 var(--coral);
 }
+.workbook-line input { color: var(--ink); caret-color: var(--coral); }
 .workbook-pill { /* legacy alias */
   background-color: #FFFDF6;
   border-radius: 9999px;
   border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
   box-shadow: 3px 3px 0 0 var(--purple-dark);
   padding: 0.45rem 0.9rem;
+}
+
+/* Layout primitives (A3) ---------------------------------------------------
+   Decision tree in screen-content.tsx:
+     - 1 prompt + deep reflection            → SingleTallCard
+     - 2–3 related prompts                   → TwoColumnCards
+     - inherently scattered thoughts         → ScatterBoard (existing)
+     - narrative sequence (path/roadmap)     → Roadmap (existing)
+     - else                                  → default sticky-note layout
+*/
+.layout-single-tall {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+}
+.layout-single-tall > .sticky-note {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.layout-single-tall .workbook-paper { flex: 1 1 auto; min-height: 14rem; }
+.layout-two-col {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .layout-two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Save celebration — CSS-only checkmark (~300ms, no library) */
+@keyframes celebrate-pop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+.celebrate-check {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  width: 5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 2.5rem;
+  font-weight: 800;
+  box-shadow: 0 8px 0 0 var(--purple-dark);
+  pointer-events: none;
+  animation: celebrate-pop 300ms ease-out forwards;
 }
 
 /* Decorative journey background (soft floating blobs) */
