@@ -19,7 +19,7 @@ import {
   type RosterStudent,
 } from "@/lib/teacher-data";
 
-export const Route = createFileRoute("/_authenticated/opettaja")({
+export const Route = createFileRoute("/_authenticated/opettaja/")({
   component: TeacherDashboard,
 });
 
