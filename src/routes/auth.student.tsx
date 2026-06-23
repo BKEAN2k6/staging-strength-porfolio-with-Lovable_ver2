@@ -67,6 +67,13 @@ function StudentSignup() {
       if (!sess.session) {
         await supabase.auth.signInWithPassword({ email, password });
       }
+      const { data: u } = await supabase.auth.getUser();
+      if (u.user) {
+        await supabase
+          .from("profiles" as never)
+          .update({ display_name: name } as never)
+          .eq("id", u.user.id as never);
+      }
       const { data: rpcData, error: rpcErr } = await supabase.rpc(
         "join_class" as never,
         { p_join_code: code } as never,
