@@ -109,21 +109,31 @@ export function useClassRoster(classId: string | null): {
     if (!classId) return;
     setLoading(true);
     try {
-      const { data: members } = await supabase
+      const { data: members, error: membersError } = await supabase
         .from("class_members" as never)
-        .select("student_id")
+        .select(
+          `
+          student_id,
+          joined_at,
+          profiles(id, display_name, current_screen)
+        `,
+        )
         .eq("class_id", classId as never);
-      const ids = ((members ?? []) as Array<{ student_id: string }>).map((m) => m.student_id);
-      if (ids.length === 0) { setStudents([]); return; }
 
-      const { data: profs } = await supabase
-        .from("profiles" as never)
-        .select("id,display_name,current_screen")
-        .in("id", ids as never);
-      const profMap = new Map<string, { display_name: string | null; current_screen: number | null }>();
-      for (const p of (profs ?? []) as Array<{ id: string; display_name: string | null; current_screen: number | null }>) {
-        profMap.set(p.id, { display_name: p.display_name, current_screen: p.current_screen });
+      if (membersError) throw membersError;
+
+      const rows = (members ?? []) as Array<{
+        student_id: string;
+        joined_at: string;
+        profiles: { id: string; display_name: string | null; current_screen: number | null } | null;
+      }>;
+
+      if (rows.length === 0) {
+        setStudents([]);
+        return;
       }
+
+      const ids = rows.map((m) => m.student_id);
 
       const { data: resps } = await supabase
         .from("responses" as never)
@@ -131,10 +141,18 @@ export function useClassRoster(classId: string | null): {
         .in("user_id", ids as never);
       const filledPerStudent = new Map<string, Set<string>>();
       const lastActivePerStudent = new Map<string, Date>();
-      for (const r of (resps ?? []) as Array<{ user_id: string; field_key: string; value: unknown; updated_at: string }>) {
+      for (const r of (resps ?? []) as Array<{
+        user_id: string;
+        field_key: string;
+        value: unknown;
+        updated_at: string;
+      }>) {
         if (isFilled(r.value)) {
           let s = filledPerStudent.get(r.user_id);
-          if (!s) { s = new Set(); filledPerStudent.set(r.user_id, s); }
+          if (!s) {
+            s = new Set();
+            filledPerStudent.set(r.user_id, s);
+          }
           s.add(r.field_key);
         }
         if (r.updated_at) {
@@ -144,14 +162,15 @@ export function useClassRoster(classId: string | null): {
         }
       }
 
-      const out: RosterStudent[] = ids.map((id) => {
+      const out: RosterStudent[] = rows.map((m) => {
+        const id = m.student_id;
         const filled = filledPerStudent.get(id) ?? new Set<string>();
         const stats = computeStudentStats(filled);
-        const prof = profMap.get(id);
+        const prof = m.profiles;
         return {
           studentId: id,
           displayName: prof?.display_name ?? null,
-          email: null, // emails live in auth.users — not exposed via Data API in v1
+          email: null,
           currentScreen: prof?.current_screen ?? 1,
           screensFilled: stats.screensFilled,
           totalRequiredScreens: TOTAL_REQUIRED,

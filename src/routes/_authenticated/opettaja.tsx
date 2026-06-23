@@ -299,19 +299,10 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
           </tr>
         </thead>
         <tbody>
-          {students.map((s) => {
-            const name = s.displayName?.trim();
-            return (
+          {students.map((s) => (
             <tr key={s.studentId} className="border-t border-black/5">
               <td className="px-3 py-2 font-medium text-[color:var(--ink)]">
-                {name ? (
-                  name
-                ) : (
-                  <span className="inline-flex flex-col">
-                    <span className="italic opacity-70">Opiskelija</span>
-                    <span className="text-[0.65rem] opacity-50">Pyydä oppilasta kirjoittamaan nimensä profiiliin</span>
-                  </span>
-                )}
+                {s.displayName?.trim() || "Nimi puuttuu"}
               </td>
               <td className="px-3 py-2 tabular-nums">
                 Maailma {worldIndexForScreen(s.currentScreen)}, näytöt{" "}
@@ -329,8 +320,7 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                 </Link>
               </td>
             </tr>
-            );
-          })}
+          ))}
         </tbody>
       </table>
     </div>
