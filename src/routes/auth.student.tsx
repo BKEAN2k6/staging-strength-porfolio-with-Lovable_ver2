@@ -29,6 +29,11 @@ function StudentSignup() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const code = joinCode.trim().toUpperCase();
+    const name = displayName.trim();
+    if (!name) {
+      toast.error("Anna nimesi.");
+      return;
+    }
     if (!email.trim()) {
       toast.error("Anna sähköpostiosoite.");
       return;
@@ -46,7 +51,10 @@ function StudentSignup() {
       const { error: signUpErr } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin },
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { display_name: name },
+        },
       });
       if (signUpErr) {
         const msg = signUpErr.message;
