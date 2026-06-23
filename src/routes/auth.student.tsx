@@ -17,6 +17,7 @@ function StudentSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [joinCode, setJoinCode] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,11 @@ function StudentSignup() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const code = joinCode.trim().toUpperCase();
+    const name = displayName.trim();
+    if (!name) {
+      toast.error("Anna nimesi.");
+      return;
+    }
     if (!email.trim()) {
       toast.error("Anna sähköpostiosoite.");
       return;
@@ -45,7 +51,10 @@ function StudentSignup() {
       const { error: signUpErr } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin },
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { display_name: name },
+        },
       });
       if (signUpErr) {
         const msg = signUpErr.message;
@@ -57,6 +66,13 @@ function StudentSignup() {
       const { data: sess } = await supabase.auth.getSession();
       if (!sess.session) {
         await supabase.auth.signInWithPassword({ email, password });
+      }
+      const { data: u } = await supabase.auth.getUser();
+      if (u.user) {
+        await supabase
+          .from("profiles" as never)
+          .update({ display_name: name } as never)
+          .eq("id", u.user.id as never);
       }
       const { data: rpcData, error: rpcErr } = await supabase.rpc(
         "join_class" as never,
@@ -88,6 +104,17 @@ function StudentSignup() {
 
         <StickyNote seed="student-signup-card">
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="displayName">Nimesi (näkyy opettajalle)</Label>
+              <Input
+                id="displayName"
+                required
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="esim. Anni Paatsila"
+                autoComplete="name"
+              />
+            </div>
             <div className="space-y-1.5">
               <Label htmlFor="email">Sähköposti</Label>
               <Input
