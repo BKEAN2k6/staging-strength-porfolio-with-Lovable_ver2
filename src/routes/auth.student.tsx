@@ -65,14 +65,25 @@ function StudentSignup() {
       }
       const { data: sess } = await supabase.auth.getSession();
       if (!sess.session) {
-        await supabase.auth.signInWithPassword({ email, password });
+        const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInErr) {
+          toast.error("Kirjautuminen epäonnistui. Vahvista sähköposti, jos vaaditaan.");
+          return;
+        }
       }
       const { data: u } = await supabase.auth.getUser();
       if (u.user) {
-        await supabase
+        const { error: profileErr } = await supabase
           .from("profiles" as never)
-          .update({ display_name: name } as never)
-          .eq("id", u.user.id as never);
+          .upsert({ id: u.user.id, display_name: name } as never);
+        if (profileErr) {
+          console.error("Failed to save display name:", profileErr);
+          toast.error("Nimen tallennus epäonnistui. Yritä kirjautua uudelleen.");
+          return;
+        }
+      } else {
+        toast.error("Käyttäjän tietoja ei saatu. Yritä uudelleen.");
+        return;
       }
       const { data: rpcData, error: rpcErr } = await supabase.rpc(
         "join_class" as never,
