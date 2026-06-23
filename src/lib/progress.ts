@@ -63,7 +63,7 @@ export function useStudentProgress(userId: string | null): ScreenProgress | null
     loadAll();
 
     const ch = supabase
-      .channel(`responses:${userId}`)
+      .channel(`responses:${userId}:${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "responses", filter: `user_id=eq.${userId}` },
@@ -72,6 +72,7 @@ export function useStudentProgress(userId: string | null): ScreenProgress | null
       .subscribe();
 
     return () => { cancelled = true; supabase.removeChannel(ch); };
+
   }, [userId]);
 
   return progress;
