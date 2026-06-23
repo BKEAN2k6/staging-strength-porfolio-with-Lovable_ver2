@@ -18,6 +18,7 @@ import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authe
 import { Route as AuthenticatedSeikkailuRouteRouteImport } from './routes/_authenticated/seikkailu/route'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
+import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes/_authenticated/opettaja.oppilas.$userId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -67,25 +68,33 @@ const AuthenticatedSeikkailuScreenRoute =
     path: '/$screen',
     getParentRoute: () => AuthenticatedSeikkailuRouteRoute,
   } as any)
+const AuthenticatedOpettajaOppilasUserIdRoute =
+  AuthenticatedOpettajaOppilasUserIdRouteImport.update({
+    id: '/oppilas/$userId',
+    path: '/oppilas/$userId',
+    getParentRoute: () => AuthenticatedOpettajaRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
-  '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
+  '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
-  '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/': typeof AuthenticatedIndexRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
+  '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,11 +102,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/_authenticated/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
-  '/_authenticated/opettaja': typeof AuthenticatedOpettajaRoute
+  '/_authenticated/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
+  '/_authenticated/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/seikkailu/$screen'
     | '/seikkailu/'
+    | '/opettaja/oppilas/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/'
     | '/seikkailu/$screen'
     | '/seikkailu'
+    | '/opettaja/oppilas/$userId'
   id:
     | '__root__'
     | '/_authenticated'
@@ -130,6 +142,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/seikkailu/$screen'
     | '/_authenticated/seikkailu/'
+    | '/_authenticated/opettaja/oppilas/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
       parentRoute: typeof AuthenticatedSeikkailuRouteRoute
     }
+    '/_authenticated/opettaja/oppilas/$userId': {
+      id: '/_authenticated/opettaja/oppilas/$userId'
+      path: '/oppilas/$userId'
+      fullPath: '/opettaja/oppilas/$userId'
+      preLoaderRoute: typeof AuthenticatedOpettajaOppilasUserIdRouteImport
+      parentRoute: typeof AuthenticatedOpettajaRoute
+    }
   }
 }
 
@@ -221,10 +241,24 @@ const AuthenticatedSeikkailuRouteRouteWithChildren =
     AuthenticatedSeikkailuRouteRouteChildren,
   )
 
+interface AuthenticatedOpettajaRouteChildren {
+  AuthenticatedOpettajaOppilasUserIdRoute: typeof AuthenticatedOpettajaOppilasUserIdRoute
+}
+
+const AuthenticatedOpettajaRouteChildren: AuthenticatedOpettajaRouteChildren = {
+  AuthenticatedOpettajaOppilasUserIdRoute:
+    AuthenticatedOpettajaOppilasUserIdRoute,
+}
+
+const AuthenticatedOpettajaRouteWithChildren =
+  AuthenticatedOpettajaRoute._addFileChildren(
+    AuthenticatedOpettajaRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSeikkailuRouteRoute: typeof AuthenticatedSeikkailuRouteRouteWithChildren
   AuthenticatedLiityYhteisoonRoute: typeof AuthenticatedLiityYhteisoonRoute
-  AuthenticatedOpettajaRoute: typeof AuthenticatedOpettajaRoute
+  AuthenticatedOpettajaRoute: typeof AuthenticatedOpettajaRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
@@ -232,7 +266,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSeikkailuRouteRoute:
     AuthenticatedSeikkailuRouteRouteWithChildren,
   AuthenticatedLiityYhteisoonRoute: AuthenticatedLiityYhteisoonRoute,
-  AuthenticatedOpettajaRoute: AuthenticatedOpettajaRoute,
+  AuthenticatedOpettajaRoute: AuthenticatedOpettajaRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 

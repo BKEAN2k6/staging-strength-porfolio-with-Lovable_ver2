@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { getCurrentRole } from "@/lib/auth-helpers";
 import { toast } from "sonner";
-import { Copy } from "lucide-react";
+import { Copy, Users, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/opettaja")({
   component: TeacherDashboard,
@@ -141,31 +141,88 @@ function TeacherDashboard() {
             <p className="opacity-80 text-sm">Ei vielä luokkia. Luo ensimmäinen yllä.</p>
           )}
           {classes.map((c, i) => (
-            <StickyNote key={c.id} seed={`cls-${c.id}`} tone={i % 2 === 0 ? "white" : "yellow"}>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs uppercase tracking-wider opacity-70">Luokka</div>
-                  <div className="font-display text-xl leading-tight">{c.name}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs uppercase tracking-wider opacity-70">Liittymiskoodi</div>
-                  <div className="font-mono text-2xl font-bold tracking-wider">{c.join_code}</div>
-                </div>
-              </div>
-              <div className="mt-3 flex justify-end">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => copyCode(c.join_code)}
-                  className="rounded-full"
-                >
-                  <Copy className="h-4 w-4 mr-2" /> Kopioi koodi
-                </Button>
-              </div>
-            </StickyNote>
+            <ClassCard key={c.id} c={c} tone={i % 2 === 0 ? "white" : "yellow"} onCopy={copyCode} />
           ))}
         </div>
       </main>
     </div>
+  );
+}
+
+type Student = { student_id: string; display_name: string | null };
+
+function ClassCard({ c, tone, onCopy }: { c: ClassRow; tone: "white" | "yellow"; onCopy: (code: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [students, setStudents] = useState<Student[] | null>(null);
+
+  async function loadStudents() {
+    const { data: members } = await supabase
+      .from("class_members" as never)
+      .select("student_id")
+      .eq("class_id", c.id as never);
+    const ids = ((members ?? []) as Array<{ student_id: string }>).map((m) => m.student_id);
+    if (ids.length === 0) { setStudents([]); return; }
+    const { data: profs } = await supabase
+      .from("profiles" as never)
+      .select("id,display_name")
+      .in("id", ids as never);
+    const map = new Map<string, string | null>();
+    for (const p of (profs ?? []) as Array<{ id: string; display_name: string | null }>) {
+      map.set(p.id, p.display_name);
+    }
+    setStudents(ids.map((id) => ({ student_id: id, display_name: map.get(id) ?? null })));
+  }
+
+  function toggle() {
+    const next = !open;
+    setOpen(next);
+    if (next && students === null) loadStudents();
+  }
+
+  return (
+    <StickyNote tone={tone}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="text-xs uppercase tracking-wider opacity-70">Luokka</div>
+          <div className="font-display text-xl leading-tight">{c.name}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs uppercase tracking-wider opacity-70">Liittymiskoodi</div>
+          <div className="font-mono text-2xl font-bold tracking-wider">{c.join_code}</div>
+        </div>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2 justify-end">
+        <Button type="button" variant="secondary" onClick={toggle} className="rounded-full">
+          <Users className="h-4 w-4 mr-2" /> {open ? "Piilota oppilaat" : "Oppilaat"}
+        </Button>
+        <Button type="button" variant="secondary" onClick={() => onCopy(c.join_code)} className="rounded-full">
+          <Copy className="h-4 w-4 mr-2" /> Kopioi koodi
+        </Button>
+      </div>
+      {open && (
+        <div className="mt-3 border-t border-black/10 pt-3">
+          {students === null && <p className="text-sm opacity-70">Ladataan…</p>}
+          {students && students.length === 0 && (
+            <p className="text-sm opacity-70">Ei vielä liittyneitä oppilaita.</p>
+          )}
+          {students && students.length > 0 && (
+            <ul className="space-y-1.5">
+              {students.map((s) => (
+                <li key={s.student_id} className="flex items-center justify-between gap-3">
+                  <span className="text-sm">{s.display_name ?? s.student_id.slice(0, 8)}</span>
+                  <Link
+                    to="/opettaja/oppilas/$userId"
+                    params={{ userId: s.student_id }}
+                    className="inline-flex items-center gap-1 text-xs font-semibold underline opacity-80 hover:opacity-100"
+                  >
+                    Avaa portfolio <ExternalLink className="h-3 w-3" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </StickyNote>
   );
 }

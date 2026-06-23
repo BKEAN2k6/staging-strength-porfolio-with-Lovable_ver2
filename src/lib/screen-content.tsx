@@ -2216,12 +2216,21 @@ REGISTRY[41] = (p) => (
   />
 );
 
+import { meterContentFor } from "./meter-content";
+import { METER_FIRST_SCREEN, METER_TOP } from "./meter-data";
+
 export function hasContent(n: number): boolean {
-  return n in REGISTRY;
+  if (n in REGISTRY) return true;
+  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) return true;
+  return false;
 }
 
 export function ScreenContent({ n, onSaveStateChange }: { n: number } & Props): ReactNode {
+  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) {
+    return meterContentFor(n, { onSaveStateChange });
+  }
   const Comp = REGISTRY[n];
   if (!Comp) return null;
   return Comp({ onSaveStateChange });
 }
+
