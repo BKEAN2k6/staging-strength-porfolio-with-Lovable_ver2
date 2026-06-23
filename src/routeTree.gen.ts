@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthStudentRouteImport } from './routes/auth.student'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated/opettaja'
 import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated/liity-yhteisoon'
 import { Route as AuthenticatedSeikkailuRouteRouteImport } from './routes/_authenticated/seikkailu/route'
@@ -34,9 +36,19 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthStudentRoute = AuthStudentRouteImport.update({
+  id: '/student',
+  path: '/student',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthOpettajaRoute = AuthOpettajaRouteImport.update({
   id: '/opettaja',
   path: '/opettaja',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthenticatedOpettajaRoute = AuthenticatedOpettajaRouteImport.update({
@@ -81,7 +93,9 @@ export interface FileRoutesByFullPath {
   '/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/auth/student': typeof AuthStudentRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
   '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
@@ -90,7 +104,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/auth/student': typeof AuthStudentRoute
   '/': typeof AuthenticatedIndexRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
@@ -103,7 +119,9 @@ export interface FileRoutesById {
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/_authenticated/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/_authenticated/opettaja': typeof AuthenticatedOpettajaRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
+  '/auth/student': typeof AuthStudentRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
@@ -117,7 +135,9 @@ export interface FileRouteTypes {
     | '/seikkailu'
     | '/liity-yhteisoon'
     | '/opettaja'
+    | '/auth/login'
     | '/auth/opettaja'
+    | '/auth/student'
     | '/seikkailu/$screen'
     | '/seikkailu/'
     | '/opettaja/oppilas/$userId'
@@ -126,7 +146,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/liity-yhteisoon'
     | '/opettaja'
+    | '/auth/login'
     | '/auth/opettaja'
+    | '/auth/student'
     | '/'
     | '/seikkailu/$screen'
     | '/seikkailu'
@@ -138,7 +160,9 @@ export interface FileRouteTypes {
     | '/_authenticated/seikkailu'
     | '/_authenticated/liity-yhteisoon'
     | '/_authenticated/opettaja'
+    | '/auth/login'
     | '/auth/opettaja'
+    | '/auth/student'
     | '/_authenticated/'
     | '/_authenticated/seikkailu/$screen'
     | '/_authenticated/seikkailu/'
@@ -173,11 +197,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/auth/student': {
+      id: '/auth/student'
+      path: '/student'
+      fullPath: '/auth/student'
+      preLoaderRoute: typeof AuthStudentRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/auth/opettaja': {
       id: '/auth/opettaja'
       path: '/opettaja'
       fullPath: '/auth/opettaja'
       preLoaderRoute: typeof AuthOpettajaRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_authenticated/opettaja': {
@@ -274,11 +312,15 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface AuthRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
   AuthOpettajaRoute: typeof AuthOpettajaRoute
+  AuthStudentRoute: typeof AuthStudentRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
   AuthOpettajaRoute: AuthOpettajaRoute,
+  AuthStudentRoute: AuthStudentRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
