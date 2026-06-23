@@ -141,28 +141,7 @@ function TeacherDashboard() {
             <p className="opacity-80 text-sm">Ei vielä luokkia. Luo ensimmäinen yllä.</p>
           )}
           {classes.map((c, i) => (
-            <StickyNote key={c.id} seed={`cls-${c.id}`} tone={i % 2 === 0 ? "white" : "yellow"}>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs uppercase tracking-wider opacity-70">Luokka</div>
-                  <div className="font-display text-xl leading-tight">{c.name}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs uppercase tracking-wider opacity-70">Liittymiskoodi</div>
-                  <div className="font-mono text-2xl font-bold tracking-wider">{c.join_code}</div>
-                </div>
-              </div>
-              <div className="mt-3 flex justify-end">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => copyCode(c.join_code)}
-                  className="rounded-full"
-                >
-                  <Copy className="h-4 w-4 mr-2" /> Kopioi koodi
-                </Button>
-              </div>
-            </StickyNote>
+            <ClassCard key={c.id} c={c} tone={i % 2 === 0 ? "white" : "yellow"} onCopy={copyCode} />
           ))}
         </div>
       </main>
