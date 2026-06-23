@@ -37,17 +37,20 @@ export function ReflectionTextarea({
 
   return (
     <label className="block">
-      {label && <div className="mb-1 text-sm font-medium">{label}</div>}
-      <textarea
-        className="w-full rounded-2xl border border-white/20 bg-white/90 text-slate-900 px-3 py-2 text-sm shadow-inner focus:outline-none focus:ring-2 focus:ring-[color:var(--coral)]"
-        rows={rows}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
+      {label && <div className="mb-1 text-sm font-display font-semibold text-[color:var(--cream,white)]">✏️ {label}</div>}
+      <div className="workbook-paper">
+        <textarea
+          className="w-full bg-transparent text-slate-900 px-4 py-3 text-[0.95rem] leading-[1.65rem] focus:outline-none rounded-[1.25rem] resize-y"
+          rows={rows}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
     </label>
   );
 }
+
 
 export function ReflectionInput({
   fieldKey,
