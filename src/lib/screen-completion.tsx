@@ -9,6 +9,14 @@ import {
 
 export type CompletionReporter = (fieldKey: string, complete: boolean) => void;
 
+/**
+ * Temporary review-phase flag. Set to `false` to let students/testers move
+ * freely through every screen without being blocked by empty fields.
+ * Autosave, inputs, and selections continue to work either way.
+ * Flip back to `true` to re-enable per-screen completion locking.
+ */
+export const ENABLE_COMPLETION_GATING = false;
+
 type NavGate = {
   currentScreen: number | null;
   required: string[];
@@ -28,6 +36,7 @@ const fallback: NavGate = {
   report: () => {},
   canNavigateTo: () => true,
 };
+
 
 const NavGateContext = createContext<NavGate | null>(null);
 
