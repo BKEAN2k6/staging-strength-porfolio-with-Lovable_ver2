@@ -37,19 +37,19 @@ function AuthLanding() {
           </StickyNote>
         )}
 
-        <StickyNote seed="landing-card" className="space-y-3 text-center">
-          <Link
-            to="/auth/login"
-            className="block w-full rounded-full bg-[color:var(--purple)] hover:bg-[color:var(--purple-dark)] text-white font-bold py-4 text-base"
+        <StickyNote seed="landing-card" className="space-y-4 text-center">
+          <Button
+            onClick={() => navigate({ to: "/auth/login" })}
+            className="w-full rounded-full bg-[color:var(--purple)] hover:bg-[color:var(--purple)]/90 text-white font-bold py-6 text-base h-auto"
           >
             Kirjaudu sisään
-          </Link>
-          <Link
-            to="/auth/student"
-            className="block w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-4 text-base"
+          </Button>
+          <Button
+            onClick={() => navigate({ to: "/auth/student" })}
+            className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base h-auto"
           >
             Luo opiskelija-tunnus
-          </Link>
+          </Button>
         </StickyNote>
       </div>
     </div>
