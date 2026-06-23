@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Map as MapIcon, Lock } from "lucide-react";
 import { toast } from "sonner";
@@ -7,11 +8,47 @@ import {
 } from "@/components/ui/sidebar";
 import { WORLDS } from "@/lib/screens";
 import { useNavGate, COMPLETION_HINT } from "@/lib/screen-completion";
+import { REQUIREMENTS } from "@/lib/screen-completion";
+import { useStudentProgress } from "@/lib/progress";
+import { supabase } from "@/integrations/supabase/client";
+
+/**
+ * Sidebar module link target = "resume = continue from current, or jump to
+ * next incomplete, or start from the beginning."
+ *
+ *   1. If current_screen is within the module range → go to current_screen.
+ *   2. Else, first screen in the module range that has REQUIREMENTS but is
+ *      not yet completed → go there.
+ *   3. Else → first screen in the module range.
+ */
+function pickResumeTarget(
+  start: number,
+  end: number,
+  currentScreen: number | null,
+  completedScreens: Set<number> | undefined,
+): number {
+  if (currentScreen != null && currentScreen >= start && currentScreen <= end) {
+    return currentScreen;
+  }
+  for (let n = start; n <= end; n++) {
+    const req = REQUIREMENTS[n];
+    if (!req || req.length === 0) continue;
+    if (!completedScreens?.has(n)) return n;
+  }
+  return start;
+}
 
 export function AppSidebar() {
   const path = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
   const { canNavigateTo, currentScreen } = useNavGate();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
+  }, []);
+
+  const progress = useStudentProgress(userId);
 
   const isMap = path === "/seikkailu";
   const activeScreen = (() => {
@@ -55,7 +92,12 @@ export function AppSidebar() {
             <SidebarMenu>
               {WORLDS.map((w) => {
                 const inWorld = activeScreen != null && activeScreen >= w.start && activeScreen <= w.end;
-                const target = activeScreen != null && inWorld ? activeScreen : w.start;
+                const target = pickResumeTarget(
+                  w.start,
+                  w.end,
+                  inWorld ? activeScreen : currentScreen,
+                  progress?.completedScreens,
+                );
                 const locked = currentScreen != null && target > currentScreen && !canNavigateTo(target);
                 return (
                   <SidebarMenuItem key={w.id}>
