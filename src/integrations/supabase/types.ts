@@ -206,6 +206,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_class_member: { Args: { _class_id: string }; Returns: boolean }
+      is_class_teacher: { Args: { _class_id: string }; Returns: boolean }
       is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
       join_class: { Args: { p_join_code: string }; Returns: Json }
       submit_external_response: {
