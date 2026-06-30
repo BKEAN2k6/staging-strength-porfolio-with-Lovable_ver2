@@ -55,7 +55,12 @@ function JoinCommunityPage() {
     navigate({ to: "/auth", replace: true });
   }
 
+  if (checking) {
+    return <div className="flex min-h-screen items-center justify-center text-foreground">Ladataan…</div>;
+  }
+
   return (
+
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden flex items-center justify-center px-4 py-10">
       <CornerBlobs />
       <button onClick={signOut} className="absolute top-4 right-4 z-20 text-sm opacity-80 hover:opacity-100 underline">
