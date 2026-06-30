@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
+import { getStudentClassMembership } from "@/lib/auth-helpers";
 
 export const Route = createFileRoute("/_authenticated/liity-yhteisoon")({
   component: JoinCommunityPage,
@@ -16,6 +17,18 @@ function JoinCommunityPage() {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    getStudentClassMembership().then((m) => {
+      if (m) {
+        navigate({ to: "/seikkailu", replace: true });
+      } else {
+        setChecking(false);
+      }
+    });
+  }, [navigate]);
+
 
   async function handleJoin(e: React.FormEvent) {
     e.preventDefault();
@@ -42,7 +55,12 @@ function JoinCommunityPage() {
     navigate({ to: "/auth", replace: true });
   }
 
+  if (checking) {
+    return <div className="flex min-h-screen items-center justify-center text-foreground">Ladataan…</div>;
+  }
+
   return (
+
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden flex items-center justify-center px-4 py-10">
       <CornerBlobs />
       <button onClick={signOut} className="absolute top-4 right-4 z-20 text-sm opacity-80 hover:opacity-100 underline">
