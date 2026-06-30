@@ -30,16 +30,16 @@ function StudentSignup() {
     e.preventDefault();
     const code = joinCode.trim().toUpperCase();
     const name = displayName.trim();
-    if (!name) {
-      toast.error("Anna nimesi.");
-      return;
-    }
-    if (!email.trim()) {
-      toast.error("Anna sähköpostiosoite.");
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Sähköposti ei ole voimassa.");
       return;
     }
     if (password.length < 8) {
-      toast.error("Salasanan on oltava vähintään 8 merkkiä pitkä.");
+      toast.error("Salasana pitää olla vähintään 8 merkkiä.");
+      return;
+    }
+    if (!name) {
+      toast.error("Anna nimesi.");
       return;
     }
     if (!code) {
@@ -128,24 +128,7 @@ function StudentSignup() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="displayName">Nimi (Etunimi Sukunimi)</Label>
-              <Input
-                id="displayName"
-                type="text"
-                required
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="esim. Anni Paatsila"
-                autoComplete="name"
-              />
-              <p className="text-sm text-gray-600 mt-1">
-                Kirjoita sinun etunimi ja sukunimi
-              </p>
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="password">
-                Luo salasana (vähintään 8 merkkiä)
-              </Label>
+              <Label htmlFor="password">Salasana</Label>
               <Input
                 id="password"
                 type="password"
@@ -156,7 +139,22 @@ function StudentSignup() {
                 autoComplete="new-password"
               />
               <p className="text-sm text-muted-foreground">
-                Vähintään 8 merkkiä. Käytä kirjaimia, numeroita ja erikoismerkkejä.
+                Vähintään 8 merkkiä. Sisällytä kirjaimia, numeroita ja erikoismerkkejä.
+              </p>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="displayName">Nimi (Etunimi Sukunimi)</Label>
+              <Input
+                id="displayName"
+                type="text"
+                required
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="esim. Anni Paatsila"
+                autoComplete="name"
+              />
+              <p className="text-sm text-muted-foreground">
+                Kirjoita sinun etunimi ja sukunimi
               </p>
             </div>
             <div className="space-y-1.5">
