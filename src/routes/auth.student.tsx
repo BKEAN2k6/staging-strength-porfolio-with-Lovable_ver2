@@ -30,16 +30,16 @@ function StudentSignup() {
     e.preventDefault();
     const code = joinCode.trim().toUpperCase();
     const name = displayName.trim();
-    if (!name) {
-      toast.error("Anna nimesi.");
-      return;
-    }
-    if (!email.trim()) {
-      toast.error("Anna sähköpostiosoite.");
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Sähköposti ei ole voimassa.");
       return;
     }
     if (password.length < 8) {
-      toast.error("Salasanan on oltava vähintään 8 merkkiä pitkä.");
+      toast.error("Salasana pitää olla vähintään 8 merkkiä.");
+      return;
+    }
+    if (!name) {
+      toast.error("Anna nimesi.");
       return;
     }
     if (!code) {
