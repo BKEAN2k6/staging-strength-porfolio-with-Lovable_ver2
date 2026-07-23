@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth/student")({
   component: StudentSignup,
@@ -19,6 +20,7 @@ function StudentSignup() {
   const [joinCode, setJoinCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [busy, setBusy] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -31,19 +33,19 @@ function StudentSignup() {
     const code = joinCode.trim().toUpperCase();
     const name = displayName.trim();
     if (!email.trim() || !email.includes("@")) {
-      toast.error("Sähköposti ei ole voimassa.");
+      toast.error(t("auth.student.err.emailInvalid"));
       return;
     }
     if (password.length < 8) {
-      toast.error("Salasana pitää olla vähintään 8 merkkiä.");
+      toast.error(t("auth.student.err.passwordShort"));
       return;
     }
     if (!name) {
-      toast.error("Anna nimesi.");
+      toast.error(t("auth.student.err.nameMissing"));
       return;
     }
     if (!code) {
-      toast.error("Anna luokan koodi.");
+      toast.error(t("auth.student.err.codeMissing"));
       return;
     }
     setBusy(true);
@@ -59,7 +61,7 @@ function StudentSignup() {
       if (signUpErr) {
         const msg = signUpErr.message;
         toast.error(
-          msg.includes("already registered") ? "Tällä sähköpostilla on jo tunnus." : msg,
+          msg.includes("already registered") ? t("auth.student.err.emailTaken") : msg,
         );
         return;
       }
@@ -67,7 +69,7 @@ function StudentSignup() {
       if (!sess.session) {
         const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
         if (signInErr) {
-          toast.error("Kirjautuminen epäonnistui. Vahvista sähköposti, jos vaaditaan.");
+          toast.error(signInErr.message);
           return;
         }
       }
@@ -78,12 +80,7 @@ function StudentSignup() {
           .upsert({ id: u.user.id, display_name: name } as never);
         if (profileErr) {
           console.error("Failed to save display name:", profileErr);
-          toast.error("Nimen tallennus epäonnistui. Yritä kirjautua uudelleen.");
-          return;
         }
-      } else {
-        toast.error("Käyttäjän tietoja ei saatu. Yritä uudelleen.");
-        return;
       }
       const { data: rpcData, error: rpcErr } = await supabase.rpc(
         "join_class" as never,
@@ -92,13 +89,13 @@ function StudentSignup() {
       if (rpcErr) throw rpcErr;
       const res = rpcData as { ok?: boolean; error?: string } | null;
       if (!res?.ok) {
-        toast.error("Koodi ei ole voimassa. Tarkista opettajaltasi.");
+        toast.error(t("auth.student.err.codeInvalid"));
         await supabase.auth.signOut();
         return;
       }
       navigate({ to: "/liity-yhteisoon", replace: true });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Tuntematon virhe");
+      toast.error(err instanceof Error ? err.message : "Error");
     } finally {
       setBusy(false);
     }
@@ -109,62 +106,62 @@ function StudentSignup() {
       <CornerBlobs />
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-4xl font-bold">Luo opiskelija-tunnus</h1>
-          <p className="mt-2 opacity-90">Liity seikkailuun luokan koodilla</p>
+          <h1 className="text-4xl font-bold">{t("auth.student.title")}</h1>
+          <p className="mt-2 opacity-90">{t("auth.student.subtitle")}</p>
         </div>
 
         <StickyNote seed="student-signup-card">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email">Sähköposti</Label>
+              <Label htmlFor="email">{t("common.email")}</Label>
               <Input
                 id="email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="etunimi.sukunimi@koulu.fi"
+                placeholder={t("auth.student.emailPh")}
                 autoComplete="email"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password">Salasana</Label>
+              <Label htmlFor="password">{t("common.password")}</Label>
               <Input
                 id="password"
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Luo vahva salasana"
+                placeholder={t("auth.student.passwordPh")}
                 autoComplete="new-password"
               />
               <p className="text-sm text-muted-foreground">
-                Vähintään 8 merkkiä. Sisällytä kirjaimia, numeroita ja erikoismerkkejä.
+                {t("auth.student.passwordHint")}
               </p>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="displayName">Nimi (Etunimi Sukunimi)</Label>
+              <Label htmlFor="displayName">{t("auth.student.nameLabel")}</Label>
               <Input
                 id="displayName"
                 type="text"
                 required
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="esim. Anni Paatsila"
+                placeholder={t("auth.student.namePh")}
                 autoComplete="name"
               />
               <p className="text-sm text-muted-foreground">
-                Kirjoita sinun etunimi ja sukunimi
+                {t("auth.student.nameHint")}
               </p>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="code">Luokan koodi</Label>
+              <Label htmlFor="code">{t("auth.student.codeLabel")}</Label>
               <Input
                 id="code"
                 required
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-                placeholder="esim. ABC123"
+                placeholder={t("auth.student.codePh")}
               />
             </div>
             <Button
@@ -172,16 +169,16 @@ function StudentSignup() {
               disabled={busy}
               className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base"
             >
-              {busy ? "Hetki…" : "Rekisteröidy opiskelijana"}
+              {busy ? t("auth.login.busy") : t("auth.student.submit")}
             </Button>
           </form>
 
           <div className="mt-5 flex justify-between text-xs text-muted-foreground">
             <Link to="/auth" className="font-semibold text-[color:var(--purple)] underline">
-              Takaisin
+              {t("common.back")}
             </Link>
             <Link to="/auth/login" className="font-semibold text-[color:var(--purple)] underline">
-              Kirjaudu sisään
+              {t("common.login")}
             </Link>
           </div>
         </StickyNote>

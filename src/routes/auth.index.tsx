@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth/")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/auth/")({
 function AuthLanding() {
   const navigate = useNavigate();
   const search = Route.useSearch();
+  const t = useT();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -27,13 +29,13 @@ function AuthLanding() {
       <CornerBlobs />
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-5xl font-bold">Vahvuusseikkailu</h1>
-          <p className="mt-2 opacity-90">Huomaa hyvä! — vahvuusportfolio lukiolaiselle</p>
+          <h1 className="text-5xl font-bold">{t("app.title")}</h1>
+          <p className="mt-2 opacity-90">{t("app.tagline")}</p>
         </div>
 
         {search.idle && (
           <StickyNote tone="yellow" seed="idle" className="text-sm">
-            Istunto vanheni — kirjaudu sisään uudelleen.
+            {t("auth.idle.expired")}
           </StickyNote>
         )}
 
@@ -42,13 +44,13 @@ function AuthLanding() {
             onClick={() => navigate({ to: "/auth/login" })}
             className="w-full rounded-full bg-[color:var(--purple)] hover:bg-[color:var(--purple)]/90 text-white font-bold py-6 text-base h-auto"
           >
-            Kirjaudu sisään
+            {t("auth.landing.loginBtn")}
           </Button>
           <Button
             onClick={() => navigate({ to: "/auth/student" })}
             className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base h-auto"
           >
-            Luo opiskelija-tunnus
+            {t("auth.landing.signupBtn")}
           </Button>
         </StickyNote>
       </div>

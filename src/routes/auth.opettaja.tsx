@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth/opettaja")({
   component: TeacherSignup,
@@ -19,11 +20,12 @@ function TeacherSignup() {
   const [school, setSchool] = useState("");
   const [teacherCode, setTeacherCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const t = useT();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (teacherCode.trim() !== "OPETTAJA-2026") {
-      toast.error("Opettajan koodi ei kelpaa. Pyydä koodi koulustasi.");
+      toast.error(t("auth.teacher.err.badCode"));
       return;
     }
     setBusy(true);
@@ -47,13 +49,13 @@ function TeacherSignup() {
       );
       if (rpcErr) throw rpcErr;
       if (data !== true) {
-        toast.error("Opettajan koodi ei kelpaa. Pyydä koodi koulustasi.");
+        toast.error(t("auth.teacher.err.badCode"));
         await supabase.auth.signOut();
         return;
       }
       navigate({ to: "/opettaja", replace: true });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Tuntematon virhe");
+      toast.error(err instanceof Error ? err.message : "Error");
     } finally {
       setBusy(false);
     }
@@ -64,68 +66,54 @@ function TeacherSignup() {
       <CornerBlobs />
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-4xl font-bold">Opettajille</h1>
+          <h1 className="text-4xl font-bold">{t("auth.teacher.title")}</h1>
         </div>
 
         <StickyNote seed="teacher-card">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email">Sähköposti</Label>
+              <Label htmlFor="email">{t("common.email")}</Label>
               <Input
-                id="email"
-                type="email"
-                required
-                value={email}
+                id="email" type="email" required value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="opettaja@koulu.fi"
-                autoComplete="email"
+                placeholder="teacher@school.example" autoComplete="email"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password">Salasana</Label>
+              <Label htmlFor="password">{t("common.password")}</Label>
               <Input
-                id="password"
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
+                id="password" type="password" required minLength={6} value={password}
+                onChange={(e) => setPassword(e.target.value)} autoComplete="new-password"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="school">Koulun nimi</Label>
+              <Label htmlFor="school">{t("auth.teacher.school")}</Label>
               <Input
-                id="school"
-                required
-                value={school}
+                id="school" required value={school}
                 onChange={(e) => setSchool(e.target.value)}
-                placeholder="esim. Espoo High School"
+                placeholder={t("auth.teacher.schoolPh")}
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="code">Opettajan koodi</Label>
+              <Label htmlFor="code">{t("auth.teacher.teacherCode")}</Label>
               <Input
-                id="code"
-                required
-                value={teacherCode}
+                id="code" required value={teacherCode}
                 onChange={(e) => setTeacherCode(e.target.value)}
-                placeholder="esim. OPETTAJA-2026"
+                placeholder={t("auth.teacher.teacherCodePh")}
               />
             </div>
             <Button
-              type="submit"
-              disabled={busy}
+              type="submit" disabled={busy}
               className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base"
             >
-              {busy ? "Hetki…" : "Rekisteröidy opettajana"}
+              {busy ? t("auth.login.busy") : t("auth.teacher.submit")}
             </Button>
           </form>
 
           <p className="mt-5 text-center text-xs text-muted-foreground">
-            Onko sinulla jo opettajatunnus?{" "}
+            {t("auth.teacher.hasAccount")}{" "}
             <Link to="/auth/login" className="font-semibold text-[color:var(--purple)] underline">
-              Kirjaudu sisään
+              {t("common.login")}
             </Link>
           </p>
         </StickyNote>
