@@ -6,9 +6,10 @@ import { PencilBadge } from "@/components/PencilBadge";
 import { ScreenChrome } from "@/components/ScreenChrome";
 import { TOTAL_SCREENS, worldForScreen } from "@/lib/screens";
 import { ScreenContent, hasContent } from "@/lib/screen-content";
-import { REQUIREMENTS, COMPLETION_HINT, useNavGate } from "@/lib/screen-completion";
+import { REQUIREMENTS, useNavGate } from "@/lib/screen-completion";
 import { supabase } from "@/integrations/supabase/client";
 import type { SaveState } from "@/hooks/use-autosave";
+import { TranslateFi, useT, useTFi } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/$screen")({
   component: ScreenView,
@@ -20,6 +21,9 @@ function ScreenView() {
   const world = worldForScreen(n);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const { setScreen, isComplete } = useNavGate();
+  const t = useT();
+  const tFi = useTFi();
+  const hint = t("nav.finishFirst");
 
   useEffect(() => {
     (async () => {
@@ -38,7 +42,6 @@ function ScreenView() {
     })();
   }, [n]);
 
-  // Register the current screen + its required fields with the navigation gate.
   useEffect(() => {
     setScreen(n, REQUIREMENTS[n] ?? []);
     return () => setScreen(null, []);
@@ -51,18 +54,17 @@ function ScreenView() {
       <ScreenChrome n={n} saveState={saveState} />
       <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         <div className="mb-4 flex items-center gap-2">
-          <PencilBadge>{world.title}</PencilBadge>
-          <span className="text-sm opacity-80">{world.subtitle}</span>
+          <PencilBadge>{tFi(world.title)}</PencilBadge>
+          <span className="text-sm opacity-80">{tFi(world.subtitle)}</span>
           <span className="ml-auto text-base" aria-hidden>{world.emoji ?? "🗺️"}</span>
         </div>
         {built ? (
-          <ScreenContent n={n} onSaveStateChange={setSaveState} />
+          <TranslateFi>
+            <ScreenContent n={n} onSaveStateChange={setSaveState} />
+          </TranslateFi>
         ) : (
           <StickyNote seed={`s${n}`}>
-            <h1 className="text-3xl mb-3">Näyttö {n}</h1>
-            <p className="text-muted-foreground">
-              Tämä näyttö rakennetaan seuraavassa vaiheessa.
-            </p>
+            <h1 className="text-3xl mb-3">{t("app.screenOfTotal", { n, total: TOTAL_SCREENS })}</h1>
           </StickyNote>
         )}
       </div>
@@ -72,7 +74,7 @@ function ScreenView() {
         saveState={saveState}
         showProgress={false}
         nextDisabled={!isComplete}
-        nextHint={!isComplete ? COMPLETION_HINT : undefined}
+        nextHint={!isComplete ? hint : undefined}
       />
     </div>
   );

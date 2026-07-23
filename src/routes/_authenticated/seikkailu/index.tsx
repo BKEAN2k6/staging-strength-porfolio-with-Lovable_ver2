@@ -6,6 +6,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useStudentProgress } from "@/lib/progress";
+import { useT, useTFi } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/")({
   component: WorldMap,
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/_authenticated/seikkailu/")({
 function WorldMap() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
+  const t = useT();
+  const tFi = useTFi();
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
   }, []);
@@ -26,16 +29,18 @@ function WorldMap() {
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-4xl">Maailmankartta</h1>
-          <p className="opacity-85 mt-1">Valitse maailma tai jatka siitä, mihin jäit.</p>
+          <h1 className="text-4xl">{t("worldmap.title")}</h1>
+          <p className="opacity-85 mt-1">{t("worldmap.subtitle")}</p>
         </div>
         <StickyNote tone="yellow" className="!p-3 !px-4 max-w-xs">
-          <div className="text-xs font-semibold uppercase tracking-wide">Jatka seikkailua</div>
-          <div className="font-display text-lg leading-tight">{currentWorld.title} — näyttö {current}</div>
+          <div className="text-xs font-semibold uppercase tracking-wide">{t("worldmap.resumeHeader")}</div>
+          <div className="font-display text-lg leading-tight">
+            {t("worldmap.resumeAt", { world: tFi(currentWorld.title), n: current })}
+          </div>
           <Button
             className="mt-2 rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white"
             onClick={() => navigate({ to: "/seikkailu/$screen", params: { screen: String(current) } })}
-          >Jatka →</Button>
+          >{t("common.continue")} →</Button>
         </StickyNote>
       </div>
 
@@ -59,7 +64,7 @@ function WorldMap() {
         })}
       </div>
 
-      <p className="mt-8 text-center text-xs opacity-70">{TOTAL_SCREENS} näyttöä • Vahvuusseikkailu</p>
+      <p className="mt-8 text-center text-xs opacity-70">{TOTAL_SCREENS} {t("app.screensSuffix")} • {t("app.title")}</p>
     </div>
   );
 }
