@@ -9,20 +9,33 @@ import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth/login")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    next:
+      typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//")
+        ? s.next
+        : "",
+  }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/seikkailu", replace: true });
+      if (data.session) {
+        if (next) {
+          window.location.href = next;
+        } else {
+          navigate({ to: "/seikkailu", replace: true });
+        }
+      }
     });
-  }, [navigate]);
+  }, [navigate, next]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +44,10 @@ function LoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
         toast.error("Sähköposti tai salasana ei ole oikea");
+        return;
+      }
+      if (next) {
+        window.location.href = next;
         return;
       }
       const { data: u } = await supabase.auth.getUser();
