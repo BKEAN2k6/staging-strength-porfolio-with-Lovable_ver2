@@ -45,6 +45,7 @@ export type Database = {
           created_at: string
           id: string
           join_code: string
+          language: string
           name: string
           teacher_id: string
         }
@@ -52,6 +53,7 @@ export type Database = {
           created_at?: string
           id?: string
           join_code: string
+          language?: string
           name: string
           teacher_id: string
         }
@@ -59,6 +61,7 @@ export type Database = {
           created_at?: string
           id?: string
           join_code?: string
+          language?: string
           name?: string
           teacher_id?: string
         }
@@ -198,6 +201,7 @@ export type Database = {
     }
     Functions: {
       claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
+      get_my_class_language: { Args: never; Returns: string }
       get_share_link_info: { Args: { p_token: string }; Returns: Json }
       has_role: {
         Args: {

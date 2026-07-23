@@ -1,10 +1,13 @@
 import { Lock } from "lucide-react";
 import type { WorldMeta } from "@/lib/screens";
 import { cn } from "@/lib/utils";
+import { useT, useTFi } from "@/lib/i18n";
 
 export function WorldBadge({
   world, locked, progress, onClick,
 }: { world: WorldMeta; locked: boolean; progress: number; onClick?: () => void }) {
+  const t = useT();
+  const tFi = useTFi();
   const toneBg =
     world.tone === "coral" ? "bg-[color:var(--coral)]" :
     world.tone === "mint" ? "bg-[color:var(--mint)]" :
@@ -25,8 +28,8 @@ export function WorldBadge({
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-xs font-semibold uppercase tracking-wider opacity-80">{world.title}</div>
-          <div className="font-display text-2xl leading-tight">{world.subtitle}</div>
+          <div className="text-xs font-semibold uppercase tracking-wider opacity-80">{tFi(world.title)}</div>
+          <div className="font-display text-2xl leading-tight">{tFi(world.subtitle)}</div>
         </div>
         <div className="text-4xl" aria-hidden>{world.emoji}</div>
       </div>
@@ -34,8 +37,8 @@ export function WorldBadge({
         <div className="h-full bg-white/80" style={{ width: `${Math.round(progress * 100)}%` }} />
       </div>
       <div className="mt-2 flex items-center justify-between text-[11px] opacity-90">
-        <span>Näytöt {world.start}–{world.end}</span>
-        {locked ? <span className="inline-flex items-center gap-1"><Lock className="h-3 w-3" /> Lukittu</span>
+        <span>{t("app.screensSuffix")} {world.start}–{world.end}</span>
+        {locked ? <span className="inline-flex items-center gap-1"><Lock className="h-3 w-3" /> {t("common.locked")}</span>
                : <span>{Math.round(progress * 100)}%</span>}
       </div>
     </button>

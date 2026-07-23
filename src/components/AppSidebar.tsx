@@ -7,20 +7,12 @@ import {
   SidebarMenu, SidebarMenuButton, SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { WORLDS } from "@/lib/screens";
-import { useNavGate, COMPLETION_HINT } from "@/lib/screen-completion";
+import { useNavGate } from "@/lib/screen-completion";
 import { REQUIREMENTS } from "@/lib/screen-completion";
 import { useStudentProgress } from "@/lib/progress";
 import { supabase } from "@/integrations/supabase/client";
+import { useT, useTFi } from "@/lib/i18n";
 
-/**
- * Sidebar module link target = "resume = continue from current, or jump to
- * next incomplete, or start from the beginning."
- *
- *   1. If current_screen is within the module range → go to current_screen.
- *   2. Else, first screen in the module range that has REQUIREMENTS but is
- *      not yet completed → go there.
- *   3. Else → first screen in the module range.
- */
 function pickResumeTarget(
   start: number,
   end: number,
@@ -43,6 +35,9 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const { canNavigateTo, currentScreen } = useNavGate();
   const [userId, setUserId] = useState<string | null>(null);
+  const t = useT();
+  const tFi = useTFi();
+  const hint = t("nav.finishFirst");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
@@ -60,7 +55,7 @@ export function AppSidebar() {
     return (e: React.MouseEvent) => {
       if (!canNavigateTo(target)) {
         e.preventDefault();
-        toast(COMPLETION_HINT);
+        toast(hint);
         return;
       }
       e.preventDefault();
@@ -72,13 +67,13 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Yleiset</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("sidebar.general")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={isMap}>
                   <Link to="/seikkailu" className="flex items-center gap-2">
-                    <MapIcon className="h-4 w-4" /> <span>Maailmankartta</span>
+                    <MapIcon className="h-4 w-4" /> <span>{t("sidebar.worldmap")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -87,7 +82,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Moduulit</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("sidebar.modules")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {WORLDS.map((w) => {
@@ -99,6 +94,8 @@ export function AppSidebar() {
                   progress?.completedScreens,
                 );
                 const locked = currentScreen != null && target > currentScreen && !canNavigateTo(target);
+                const title = tFi(w.title);
+                const subtitle = tFi(w.subtitle);
                 return (
                   <SidebarMenuItem key={w.id}>
                     <SidebarMenuButton asChild isActive={inWorld}>
@@ -107,10 +104,10 @@ export function AppSidebar() {
                         onClick={go(target)}
                         className="flex items-center gap-2"
                         aria-disabled={locked || undefined}
-                        title={locked ? COMPLETION_HINT : `${w.title} — ${w.subtitle}`}
+                        title={locked ? hint : `${title} — ${subtitle}`}
                       >
                         <span className="text-base leading-none" aria-hidden>{w.emoji}</span>
-                        <span className="truncate flex-1">{w.title} — {w.subtitle}</span>
+                        <span className="truncate flex-1">{title} — {subtitle}</span>
                         {locked && <Lock className="h-3 w-3 opacity-60" aria-hidden />}
                       </a>
                     </SidebarMenuButton>

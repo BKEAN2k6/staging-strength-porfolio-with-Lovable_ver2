@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { useReportCompletion } from "@/lib/screen-completion";
 import { cn } from "@/lib/utils";
+import { useTFi } from "@/lib/i18n";
 
 export function SelectableChips({
   fieldKey,
@@ -19,6 +20,7 @@ export function SelectableChips({
   const [selected, setSelected] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
   const report = useReportCompletion();
+  const tFi = useTFi();
 
   useEffect(() => {
     (async () => {
@@ -64,7 +66,7 @@ export function SelectableChips({
             )}
 
           >
-            {opt}
+            {tFi(opt)}
           </button>
         );
       })}
