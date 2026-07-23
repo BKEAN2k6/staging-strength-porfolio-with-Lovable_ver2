@@ -9,6 +9,12 @@ import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth/login")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    next:
+      typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//")
+        ? s.next
+        : "",
+  }),
   component: LoginPage,
 });
 
