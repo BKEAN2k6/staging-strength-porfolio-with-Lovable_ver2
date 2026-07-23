@@ -4,6 +4,7 @@ import { SaveIndicator } from "@/components/SaveIndicator";
 import type { SaveState } from "@/hooks/use-autosave";
 import { TOTAL_SCREENS } from "@/lib/screens";
 import { celebrateSave } from "@/lib/celebrate";
+import { useT } from "@/lib/i18n";
 
 export function BottomNav({
   n,
@@ -21,12 +22,12 @@ export function BottomNav({
   onBeforeNext?: () => void | Promise<void>;
 }) {
   const navigate = useNavigate();
+  const t = useT();
   async function goNext(e: React.MouseEvent<HTMLButtonElement>) {
     const btn = e.currentTarget;
     if (onBeforeNext) {
       try { await onBeforeNext(); } catch { /* swallow — nav still proceeds */ }
     }
-    // Fireworks burst from the button, then navigate (~450ms total).
     await celebrateSave(btn);
     navigate({ to: "/seikkailu/$screen", params: { screen: String(n + 1) } });
   }
@@ -37,10 +38,10 @@ export function BottomNav({
         disabled={n <= 1}
         onClick={() => navigate({ to: "/seikkailu/$screen", params: { screen: String(n - 1) } })}
         className="game-btn rounded-full font-display font-semibold"
-      >← Edellinen</Button>
+      >← {t("common.previous")}</Button>
 
       <div className="flex flex-col items-center text-xs opacity-90 min-h-[1.5rem] justify-center text-center">
-        {showProgress && <span>Näyttö {n} / {TOTAL_SCREENS}</span>}
+        {showProgress && <span>{t("app.screenOfTotal", { n, total: TOTAL_SCREENS })}</span>}
         {showProgress ? <SaveIndicator state={saveState} /> : nextDisabled && nextHint ? (
           <span className="text-[color:var(--yellow)]">{nextHint}</span>
         ) : null}
@@ -49,7 +50,7 @@ export function BottomNav({
         disabled={n >= TOTAL_SCREENS || nextDisabled}
         onClick={goNext}
         className="game-btn rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-display font-semibold px-5"
-      ><span className="sparkle mr-1" aria-hidden>✨</span>Seuraava →</Button>
+      ><span className="sparkle mr-1" aria-hidden>✨</span>{t("common.next")} →</Button>
 
     </nav>
   );
