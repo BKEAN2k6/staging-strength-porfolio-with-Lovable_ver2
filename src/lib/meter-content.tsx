@@ -13,6 +13,14 @@ import {
 } from "@/lib/meter";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
+import { getStrengthName } from "@/lib/strengths-i18n";
+import { useLanguage } from "@/context/LanguageContext";
+
+/** Resolve the canonical strength number (1–26) for a meter-strength id. */
+function strengthNrForId(id: string): number {
+  const idx = METER_STRENGTHS.findIndex((s) => s.id === id);
+  return idx + 1;
+}
 
 type Props = { onSaveStateChange?: (s: SaveState) => void };
 
@@ -57,6 +65,9 @@ function MeterIntro() {
 /* ---------- S78–S103: one strength per screen ---------- */
 function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
   const s = strengthForScreen(n)!;
+  const { language } = useLanguage();
+  const strengthNr = useMemo(() => strengthNrForId(s.id), [s.id]);
+  const displayName = useMemo(() => getStrengthName(strengthNr, language), [strengthNr, language]);
   const [s1, setS1] = useState<number | null>(null);
   const [s2, setS2] = useState<number | null>(null);
   // Load initial scores for the live tally (taking reverse into account)
@@ -76,9 +87,9 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
     <div className="space-y-4">
       <StickyNote tone="coral" className="text-center">
         <div className="text-xs font-bold uppercase tracking-widest opacity-80">{s.virtue}</div>
-        <h1 className="font-display text-3xl leading-tight">{s.name}</h1>
+        <h1 className="font-display text-3xl leading-tight">{displayName}</h1>
         <div className="mt-2 inline-block rounded-full bg-white/25 px-4 py-1 text-sm font-display font-semibold">
-          {both ? `${s.name}-pisteet: ${total} / 10` : `Pisteet: ${total} / 10 — vastaa molempiin`}
+          {both ? `${displayName}-pisteet: ${total} / 10` : `Pisteet: ${total} / 10 — vastaa molempiin`}
         </div>
       </StickyNote>
 
@@ -102,7 +113,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       </StickyNote>
 
       <p className="text-center text-sm opacity-80">
-        Laske yhteen {s.name.toLowerCase()}-pisteesi.
+        Laske yhteen {displayName.toLowerCase()}-pisteesi.
       </p>
     </div>
   );
@@ -111,6 +122,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
 /* ---------- S104: Yhteenveto (virtue subtotals) ---------- */
 function MeterSummary() {
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
+  const { language } = useLanguage();
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const subtotals = useMemo(() => scores ? computeVirtueSubtotals(scores) : [], [scores]);
 
@@ -135,7 +147,7 @@ function MeterSummary() {
               <ol className="mt-2 space-y-1 text-sm">
                 {v.strengths.map((s, i) => (
                   <li key={s.id} className="flex justify-between gap-3">
-                    <span>{i + 1}. {s.name}</span>
+                    <span>{i + 1}. {getStrengthName(strengthNrForId(s.id), language)}</span>
                     <span className={cn("font-mono", s.complete ? "" : "opacity-40")}>
                       {s.complete ? s.total : "—"}
                     </span>
@@ -153,6 +165,7 @@ function MeterSummary() {
 /* ---------- S105: Ydinvahvuuksien pohtiminen (auto top + bottom) ---------- */
 function MeterReflect() {
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
+  const { language } = useLanguage();
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const top = useMemo(() => scores ? computeTop5(scores) : [], [scores]);
   const bot = useMemo(() => scores ? computeBottom3(scores) : [], [scores]);
@@ -177,7 +190,7 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {top.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{getStrengthName(strengthNrForId(s.id), language)}</strong> <span className="opacity-70">— {s.virtue}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -188,7 +201,7 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {bot.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{getStrengthName(strengthNrForId(s.id), language)}</strong> <span className="opacity-70">— {s.virtue}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -207,6 +220,7 @@ function MeterTop({ onSaveStateChange }: Props) {
   const [growth3, setGrowth3] = useState<string[]>([]);
   const [candyPicks, setCandyPicks] = useState<number[] | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
     (async () => {
@@ -268,7 +282,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {getStrengthName(strengthNrForId(s.id), language)}
               </button>
             );
           })}
@@ -296,7 +310,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {getStrengthName(strengthNrForId(s.id), language)}
               </button>
             );
           })}
