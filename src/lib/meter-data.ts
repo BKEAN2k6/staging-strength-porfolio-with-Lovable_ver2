@@ -90,7 +90,7 @@ export const METER_STRENGTHS: MeterStrength[] = [
     ],
   },
   {
-    id: "sisukkuus", name: "Sisukkuus", virtue: "Rohkeus",
+    id: "sisu", meterFieldId: "sisukkuus", name: "Sisukkuus", virtue: "Rohkeus",
     statements: [
       { text: "”Teen mitä tehdä pitää, vaikka vastoinkäymisiä ilmenisi.”" },
       { text: "”Pystyn tarvittaessa parantamaan suoritustani ja ponnistelemaan vielä tehokkaammin.”" },
