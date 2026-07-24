@@ -13,6 +13,14 @@ import {
 } from "@/lib/meter";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
+import { getStrengthName } from "@/lib/strengths-i18n";
+import { useLanguage } from "@/context/LanguageContext";
+
+/** Resolve the canonical strength number (1–26) for a meter-strength id. */
+function strengthNrForId(id: string): number {
+  const idx = METER_STRENGTHS.findIndex((s) => s.id === id);
+  return idx + 1;
+}
 
 type Props = { onSaveStateChange?: (s: SaveState) => void };
 
