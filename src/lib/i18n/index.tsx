@@ -26,11 +26,6 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  LanguageProvider as LanguageProviderBase,
-  useLanguage as useLanguageBase,
-  type LanguageContextType,
-} from "@/context/LanguageContext";
 import generated from "./translations-generated.json";
 
 // ---------------- Types ----------------
@@ -526,10 +521,48 @@ export const UI: UIDict = {
 
 // ---------------- React context ----------------
 
-export type LangCtx = LanguageContextType;
+type LangCtx = {
+  language: Language;
+  /** True while we are still resolving the student's class language. */
+  loading: boolean;
+  /** Set the language manually. Used by teachers/no-class users only. */
+  setLanguage: (lang: Language) => void;
+};
 
-export const LanguageProvider = LanguageProviderBase;
-export const useLanguage = useLanguageBase;
+const LangContext = createContext<LangCtx>({
+  language: DEFAULT_LANGUAGE,
+  loading: false,
+  setLanguage: () => {},
+});
+
+const STORAGE_KEY = "vahvuus.lang";
+
+function readStored(): Language {
+  if (typeof window === "undefined") return DEFAULT_LANGUAGE;
+  const v = window.localStorage.getItem(STORAGE_KEY);
+  return isLanguage(v) ? v : DEFAULT_LANGUAGE;
+}
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  // STEP 1: Finnish-only mode. All language resolution, storage, and
+  // switching is disabled. Every consumer sees `fi`. Multilingual support
+  // will be re-introduced cleanly in Step 2.
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = "fi";
+    }
+  }, []);
+
+  const value = useMemo<LangCtx>(
+    () => ({ language: "fi", loading: false, setLanguage: () => {} }),
+    [],
+  );
+  return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
+}
+
+export function useLanguage(): LangCtx {
+  return useContext(LangContext);
+}
 
 // ---------------- Hooks: UI + content translators ----------------
 
@@ -542,52 +575,24 @@ function formatTemplate(s: string, vars?: Record<string, string | number>): stri
 }
 
 export function useT(): (key: string, vars?: Record<string, string | number>) => string {
-  const { language } = useLanguage();
-  return useCallback(
-    (key, vars) => {
-      const dict = UI[language] ?? UI.fi;
-      const raw = dict[key] ?? UI.fi[key];
-      if (!raw) {
-        // eslint-disable-next-line no-console
-        console.warn(`[i18n] Missing UI translation (${language}): ${key}`);
-        return formatTemplate(key, vars);
-      }
-      return formatTemplate(raw, vars);
-    },
-    [language],
-  );
+  return useCallback((key, vars) => {
+    const raw = UI.fi[key];
+    if (!raw) {
+      // eslint-disable-next-line no-console
+      console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
+      return formatTemplate(key, vars);
+    }
+    return formatTemplate(raw, vars);
+  }, []);
 }
 
-/** Translate a Finnish source string via the Excel content dictionary. */
+/** Finnish-only mode: returns the Finnish source unchanged. */
 export function useTFi(): (fi: string | undefined | null) => string {
-  const { language } = useLanguage();
-  return useCallback(
-    (fi) => {
-      if (!fi) return "";
-      if (language === "fi") return fi;
-      return lookupContent(fi, language);
-    },
-    [language],
-  );
+  return useCallback((fi) => fi ?? "", []);
 }
 
 // ---------------- Recursive text translator ----------------
-// Walks a subtree and translates Finnish text nodes via the Excel dictionary.
+// STEP 1 Finnish-only: passthrough. Kept for API compatibility.
 export function TranslateFi({ children }: { children: ReactNode }) {
-  const tFi = useTFi();
-  const { language } = useLanguage();
-  if (language === "fi") return <>{children}</>;
-  function walk(node: ReactNode): ReactNode {
-    if (typeof node === "string") return tFi(node);
-    if (typeof node === "number" || node === null || node === undefined) return node;
-    if (Array.isArray(node)) return <>{node.map((c, i) => <span key={i}>{walk(c)}</span>)}</>;
-    if (isValidElement(node)) {
-      const el = node as ReactElement<{ children?: ReactNode }>;
-      const kids = el.props?.children;
-      if (kids === undefined) return el;
-      return cloneElement(el, undefined, Children.map(kids, walk));
-    }
-    return node;
-  }
-  return <>{walk(children)}</>;
+  return <>{children}</>;
 }
