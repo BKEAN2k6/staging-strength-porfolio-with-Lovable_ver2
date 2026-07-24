@@ -537,25 +537,44 @@ const LangContext = createContext<LangCtx>({
 
 const STORAGE_KEY = "vahvuus.lang";
 
+const STUDENT_STORAGE_KEY = "student_language";
+
 function readStored(): Language {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;
-  const v = window.localStorage.getItem(STORAGE_KEY);
-  return isLanguage(v) ? v : DEFAULT_LANGUAGE;
+  const a = window.localStorage.getItem(STUDENT_STORAGE_KEY);
+  if (isLanguage(a)) return a;
+  const b = window.localStorage.getItem(STORAGE_KEY);
+  return isLanguage(b) ? b : DEFAULT_LANGUAGE;
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // STEP 1: Finnish-only mode. All language resolution, storage, and
-  // switching is disabled. Every consumer sees `fi`. Multilingual support
-  // will be re-introduced cleanly in Step 2.
+export function LanguageProvider({
+  children,
+  initialLanguage,
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(
+    () => initialLanguage ?? readStored(),
+  );
+
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = "fi";
+      document.documentElement.lang = language;
     }
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, language);
+      window.localStorage.setItem(STUDENT_STORAGE_KEY, language);
+    }
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    if (isLanguage(lang)) setLanguageState(lang);
   }, []);
 
   const value = useMemo<LangCtx>(
-    () => ({ language: "fi", loading: false, setLanguage: () => {} }),
-    [],
+    () => ({ language, loading: false, setLanguage }),
+    [language, setLanguage],
   );
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
@@ -575,24 +594,52 @@ function formatTemplate(s: string, vars?: Record<string, string | number>): stri
 }
 
 export function useT(): (key: string, vars?: Record<string, string | number>) => string {
-  return useCallback((key, vars) => {
-    const raw = UI.fi[key];
-    if (!raw) {
-      // eslint-disable-next-line no-console
-      console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
-      return formatTemplate(key, vars);
-    }
-    return formatTemplate(raw, vars);
-  }, []);
+  const { language } = useLanguage();
+  return useCallback(
+    (key, vars) => {
+      const dict = UI[language] ?? UI.fi;
+      const raw = dict[key] ?? UI.fi[key];
+      if (!raw) {
+        // eslint-disable-next-line no-console
+        console.warn(`[i18n] Missing UI translation (${language}): ${key}`);
+        return formatTemplate(key, vars);
+      }
+      return formatTemplate(raw, vars);
+    },
+    [language],
+  );
 }
 
-/** Finnish-only mode: returns the Finnish source unchanged. */
+/** Translate a Finnish source string via the Excel content dictionary. */
 export function useTFi(): (fi: string | undefined | null) => string {
-  return useCallback((fi) => fi ?? "", []);
+  const { language } = useLanguage();
+  return useCallback(
+    (fi) => {
+      if (!fi) return "";
+      if (language === "fi") return fi;
+      return lookupContent(fi, language);
+    },
+    [language],
+  );
 }
 
 // ---------------- Recursive text translator ----------------
-// STEP 1 Finnish-only: passthrough. Kept for API compatibility.
+// Walks a subtree and translates Finnish text nodes via the Excel dictionary.
 export function TranslateFi({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const tFi = useTFi();
+  const { language } = useLanguage();
+  if (language === "fi") return <>{children}</>;
+  function walk(node: ReactNode): ReactNode {
+    if (typeof node === "string") return tFi(node);
+    if (typeof node === "number" || node === null || node === undefined) return node;
+    if (Array.isArray(node)) return <>{node.map((c, i) => <span key={i}>{walk(c)}</span>)}</>;
+    if (isValidElement(node)) {
+      const el = node as ReactElement<{ children?: ReactNode }>;
+      const kids = el.props?.children;
+      if (kids === undefined) return el;
+      return cloneElement(el, undefined, Children.map(kids, walk));
+    }
+    return node;
+  }
+  return <>{walk(children)}</>;
 }
