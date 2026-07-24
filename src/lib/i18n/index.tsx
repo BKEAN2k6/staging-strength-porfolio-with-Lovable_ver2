@@ -526,67 +526,10 @@ export const UI: UIDict = {
 
 // ---------------- React context ----------------
 
-type LangCtx = {
-  language: Language;
-  /** True while we are still resolving the student's class language. */
-  loading: boolean;
-  /** Set the language manually. Used by teachers/no-class users only. */
-  setLanguage: (lang: Language) => void;
-};
+export type LangCtx = LanguageContextType;
 
-const LangContext = createContext<LangCtx>({
-  language: DEFAULT_LANGUAGE,
-  loading: false,
-  setLanguage: () => {},
-});
-
-const STORAGE_KEY = "vahvuus.lang";
-
-const STUDENT_STORAGE_KEY = "student_language";
-
-function readStored(): Language {
-  if (typeof window === "undefined") return DEFAULT_LANGUAGE;
-  const a = window.localStorage.getItem(STUDENT_STORAGE_KEY);
-  if (isLanguage(a)) return a;
-  const b = window.localStorage.getItem(STORAGE_KEY);
-  return isLanguage(b) ? b : DEFAULT_LANGUAGE;
-}
-
-export function LanguageProvider({
-  children,
-  initialLanguage,
-}: {
-  children: ReactNode;
-  initialLanguage?: Language;
-}) {
-  const [language, setLanguageState] = useState<Language>(
-    () => initialLanguage ?? readStored(),
-  );
-
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = language;
-    }
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, language);
-      window.localStorage.setItem(STUDENT_STORAGE_KEY, language);
-    }
-  }, [language]);
-
-  const setLanguage = useCallback((lang: Language) => {
-    if (isLanguage(lang)) setLanguageState(lang);
-  }, []);
-
-  const value = useMemo<LangCtx>(
-    () => ({ language, loading: false, setLanguage }),
-    [language, setLanguage],
-  );
-  return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
-}
-
-export function useLanguage(): LangCtx {
-  return useContext(LangContext);
-}
+export const LanguageProvider = LanguageProviderBase;
+export const useLanguage = useLanguageBase;
 
 // ---------------- Hooks: UI + content translators ----------------
 
