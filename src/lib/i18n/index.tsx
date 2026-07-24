@@ -32,7 +32,7 @@ import generated from "./translations-generated.json";
 
 export type Language = "en" | "fi" | "sv";
 export const LANGUAGES: Language[] = ["en", "fi", "sv"];
-export const DEFAULT_LANGUAGE: Language = "en";
+export const DEFAULT_LANGUAGE: Language = "fi";
 
 export const LANGUAGE_LABEL: Record<Language, string> = {
   en: "English",
@@ -544,89 +544,18 @@ function readStored(): Language {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
-  const [loading, setLoading] = useState(true);
-  const [hydrated, setHydrated] = useState(false);
-
-  // Hydrate from localStorage after mount (avoids SSR mismatch).
-  useEffect(() => {
-    setLanguageState(readStored());
-    setHydrated(true);
-  }, []);
-
-  // Once hydrated, try to resolve the class language. Overrides local pref
-  // whenever the student has joined a class.
-  useEffect(() => {
-    if (!hydrated) return;
-    let cancelled = false;
-
-    async function resolve() {
-      try {
-        const { data: userData } = await supabase.auth.getUser();
-        if (!userData.user) {
-          if (!cancelled) setLoading(false);
-          return;
-        }
-        const { data, error } = await supabase.rpc(
-          "get_my_class_language" as never,
-        );
-        if (cancelled) return;
-        if (!error && typeof data === "string" && isLanguage(data)) {
-          setLanguageState(data);
-          try {
-            window.localStorage.setItem(STORAGE_KEY, data);
-          } catch {
-            /* ignore */
-          }
-        }
-      } catch (err) {
-        // Non-fatal — keep whatever we already have and default to English.
-        // eslint-disable-next-line no-console
-        console.warn("[i18n] Failed to resolve class language:", err);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    resolve();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN" || event === "USER_UPDATED") {
-        resolve();
-      }
-      if (event === "SIGNED_OUT") {
-        setLanguageState(DEFAULT_LANGUAGE);
-        try {
-          window.localStorage.removeItem(STORAGE_KEY);
-        } catch {
-          /* ignore */
-        }
-      }
-    });
-    return () => {
-      cancelled = true;
-      sub.subscription.unsubscribe();
-    };
-  }, [hydrated]);
-
-  // Reflect current language on <html lang> for accessibility.
+  // STEP 1: Finnish-only mode. All language resolution, storage, and
+  // switching is disabled. Every consumer sees `fi`. Multilingual support
+  // will be re-introduced cleanly in Step 2.
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = language;
-    }
-  }, [language]);
-
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      /* ignore */
+      document.documentElement.lang = "fi";
     }
   }, []);
 
   const value = useMemo<LangCtx>(
-    () => ({ language, loading, setLanguage }),
-    [language, loading, setLanguage],
+    () => ({ language: "fi", loading: false, setLanguage: () => {} }),
+    [],
   );
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
@@ -646,73 +575,24 @@ function formatTemplate(s: string, vars?: Record<string, string | number>): stri
 }
 
 export function useT(): (key: string, vars?: Record<string, string | number>) => string {
-  const { language } = useLanguage();
-  return useCallback(
-    (key, vars) => {
-      const dict = UI[language] ?? UI[DEFAULT_LANGUAGE];
-      const raw = dict[key] ?? UI[DEFAULT_LANGUAGE][key] ?? key;
-      return formatTemplate(raw, vars);
-    },
-    [language],
-  );
+  return useCallback((key, vars) => {
+    const raw = UI.fi[key];
+    if (!raw) {
+      // eslint-disable-next-line no-console
+      console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
+      return formatTemplate(key, vars);
+    }
+    return formatTemplate(raw, vars);
+  }, []);
 }
 
-/** Translate a Finnish source string using the Excel content dictionary. */
+/** Finnish-only mode: returns the Finnish source unchanged. */
 export function useTFi(): (fi: string | undefined | null) => string {
-  const { language } = useLanguage();
-  return useCallback(
-    (fi) => {
-      if (!fi) return "";
-      if (language === "fi") return fi;
-      return lookupContent(fi, language);
-    },
-    [language],
-  );
+  return useCallback((fi) => fi ?? "", []);
 }
 
 // ---------------- Recursive text translator ----------------
-
-// `<TranslateFi>` walks its children and translates every raw string node
-// to the current language via the content dictionary. This lets us keep
-// the existing Finnish JSX in screen-content.tsx untouched and still ship
-// English and Swedish text for translated segments.
-//
-// Non-string children (components, elements, numbers, null, etc.) are
-// left alone. `data-notrans` on any element skips translation for its
-// subtree (useful for user-typed content, code, etc.).
-
-interface WalkableProps {
-  children?: ReactNode;
-  "data-notrans"?: boolean;
-}
-
-function walk(node: ReactNode, lang: Language): ReactNode {
-  if (typeof node === "string") {
-    if (lang === "fi") return node;
-    // Preserve surrounding whitespace but translate the trimmed core.
-    const leading = node.match(/^\s*/)?.[0] ?? "";
-    const trailing = node.match(/\s*$/)?.[0] ?? "";
-    const core = node.slice(leading.length, node.length - trailing.length);
-    if (!core) return node;
-    const translated = lookupContent(core, lang);
-    if (translated === core) return node;
-    return leading + translated + trailing;
-  }
-  if (Array.isArray(node)) {
-    return Children.map(node, (c) => walk(c, lang));
-  }
-  if (isValidElement(node)) {
-    const el = node as ReactElement<WalkableProps>;
-    if (el.props?.["data-notrans"]) return el;
-    const children = el.props?.children;
-    if (children == null) return el;
-    return cloneElement(el, {}, walk(children, lang));
-  }
-  return node;
-}
-
+// STEP 1 Finnish-only: passthrough. Kept for API compatibility.
 export function TranslateFi({ children }: { children: ReactNode }) {
-  const { language } = useLanguage();
-  if (language === "fi") return <>{children}</>;
-  return <>{walk(children, language)}</>;
+  return <>{children}</>;
 }
