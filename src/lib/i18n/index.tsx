@@ -26,6 +26,11 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  LanguageProvider as LanguageProviderBase,
+  useLanguage as useLanguageBase,
+  type LanguageContextType,
+} from "@/context/LanguageContext";
 import generated from "./translations-generated.json";
 
 // ---------------- Types ----------------
