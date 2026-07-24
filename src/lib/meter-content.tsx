@@ -122,6 +122,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
 /* ---------- S104: Yhteenveto (virtue subtotals) ---------- */
 function MeterSummary() {
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
+  const { language } = useLanguage();
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const subtotals = useMemo(() => scores ? computeVirtueSubtotals(scores) : [], [scores]);
 
@@ -146,7 +147,7 @@ function MeterSummary() {
               <ol className="mt-2 space-y-1 text-sm">
                 {v.strengths.map((s, i) => (
                   <li key={s.id} className="flex justify-between gap-3">
-                    <span>{i + 1}. {s.name}</span>
+                    <span>{i + 1}. {getStrengthName(strengthNrForId(s.id), language)}</span>
                     <span className={cn("font-mono", s.complete ? "" : "opacity-40")}>
                       {s.complete ? s.total : "—"}
                     </span>
