@@ -18,7 +18,8 @@ export interface MeterStatement {
 }
 
 export interface MeterStrength {
-  id: string;            // stable, used in field keys
+  id: string;            // stable registry id
+  meterFieldId?: string; // alias used for DB field keys when it differs from id
   name: string;          // display name
   virtue: Virtue;
   statements: [MeterStatement, MeterStatement];
