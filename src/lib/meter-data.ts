@@ -174,7 +174,7 @@ export const METER_STRENGTHS: MeterStrength[] = [
     ],
   },
   {
-    id: "kauneuden_arvostus", name: "Kauneuden ja erinomaisuuden arvostus", virtue: "Henkisyys",
+    id: "kauneuden_arvostaminen", meterFieldId: "kauneuden_arvostus", name: "Kauneuden ja erinomaisuuden arvostus", virtue: "Henkisyys",
     statements: [
       { text: "”Huomaan kauniita yksityiskohtia ja pysähdyn usein niiden äärellä.”" },
       { text: "”Pysähdyn harvoin taiteen tai ympäristön kauneuden äärelle, enkä kiinnitä usein huomiotani yksityiskohtiin.”", reversed: true },
