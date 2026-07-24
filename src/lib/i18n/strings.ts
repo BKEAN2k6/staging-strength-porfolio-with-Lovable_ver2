@@ -1331,8 +1331,165 @@ export const STRINGS: Record<string, Record<Language, string>> = {
   },
 
   // ============================================================================
+  // METER — INTRO / SCORES / SUMMARY / REFLECT / TOP / DONE
+  // ============================================================================
+
+  "meter.intro.label": {
+    fi: "Vahvuusmittari",
+    sv: "Styrkemätaren",
+    en: "Strength Meter",
+  },
+  "meter.intro.title": {
+    fi: "Lukiolainen, aloita vahvuusmittarin täyttäminen",
+    sv: "Gymnasiestudent, börja fylla i styrkemätaren",
+    en: "High school student, begin filling in the strength meter",
+  },
+  "meter.intro.instructionsLabel": {
+    fi: "Ohjeita:",
+    sv: "Instruktioner:",
+    en: "Instructions:",
+  },
+  "meter.intro.instructionsIntro": {
+    fi: "Voit selvittää omia ydinvahvuuksiasi käyttämällä alla olevaa vahvuusmittaria.",
+    sv: "Du kan ta reda på dina egna kärnstyrkor genom att använda styrkemätaren nedan.",
+    en: "You can discover your core strengths by using the strength meter below.",
+  },
+  "meter.intro.bullet1": {
+    fi: "Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit), jotka mielestäsi kuvaavat sinua parhaimmillasi.",
+    sv: "Innan du fyller i mätaren bör du välja fem styrkor (styrkegodis) som du tycker beskriver dig som bäst.",
+    en: "Before filling in the meter, choose five strengths (strength candies) that you feel describe you at your best.",
+  },
+  "meter.intro.bullet2": {
+    fi: "Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.",
+    sv: "Be även andra människor fundera på vilka de tycker är dina styrkor. Intervjua dina vänner, familjemedlemmar eller till exempel din tränare.",
+    en: "Also ask other people what they think your strengths are. Interview your friends, family members, or for example your coach.",
+  },
+  "meter.intro.bullet3": {
+    fi: "Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?",
+    sv: "Jämför andras bedömningar med dina egna och slutligen med resultatet från mätaren. Blev du överraskad?",
+    en: "Compare others' assessments with your own and finally with the meter's result. Were you surprised?",
+  },
+  "meter.intro.bullet4": {
+    fi: "Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?",
+    sv: "Stämmer resultaten överens mellan mätaren och dina egna val?",
+    en: "Do the results match between the meter and your own choices?",
+  },
+  "meter.intro.bullet5": {
+    fi: "Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?",
+    sv: "Gav mätaren andra svar än de du själv valde? Och lärarna, vännerna och de närstående?",
+    en: "Did the meter give different answers than what you chose yourself? What about teachers, friends, and loved ones?",
+  },
+  "meter.intro.bullet6": {
+    fi: "Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?",
+    sv: "Blev du överraskad av mätarens resultat eller andras val? Hur?",
+    en: "Were you surprised by the meter's results or others' choices? How?",
+  },
+  "meter.intro.welcome": {
+    fi: "Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona olevaan väittämään sinulle sopivin vaihtoehto.",
+    sv: "Välkommen att göra en självbedömning av dina egna styrkor! Välj det alternativ som passar dig bäst för varje påstående som står som rubrik.",
+    en: "Welcome to your own strengths self-assessment! For each statement shown as a heading, choose the option that best suits you.",
+  },
+
+  "meter.score.pending": {
+    fi: "Pisteet: {score} / 10 — vastaa molempiin",
+    sv: "Poäng: {score} / 10 — svara på båda",
+    en: "Points: {score} / 10 — answer both",
+  },
+  "meter.score.complete": {
+    fi: "{strength}-pisteet: {score} / 10",
+    sv: "{strength}-poäng: {score} / 10",
+    en: "{strength} points: {score} / 10",
+  },
+  "meter.score.sumHint": {
+    fi: "Laske yhteen {strength}-pisteesi.",
+    sv: "Räkna ihop dina {strength}-poäng.",
+    en: "Add up your {strength} points.",
+  },
+
+  "meter.summary.title": {
+    fi: "Yhteenveto",
+    sv: "Sammanfattning",
+    en: "Summary",
+  },
+  "meter.summary.helper": {
+    fi: "Kirjoita saamasi pisteet tähän listaan — mittari laskee summat puolestasi.",
+    sv: "Skriv in dina poäng i den här listan — mätaren räknar summorna åt dig.",
+    en: "Enter your points in this list — the meter calculates the totals for you.",
+  },
+  "meter.summary.loading": {
+    fi: "Lasketaan…",
+    sv: "Räknar…",
+    en: "Calculating…",
+  },
+  "meter.summary.subtotal": {
+    fi: "Yht.",
+    sv: "Tot.",
+    en: "Total",
+  },
+
+  "meter.reflect.title": {
+    fi: "Ydinvahvuuksien pohtiminen",
+    sv: "Reflektion över kärnstyrkor",
+    en: "Reflecting on core strengths",
+  },
+  "meter.reflect.body": {
+    fi: "Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.",
+    sv: "Du fick kanske 3–7 punkter med poängen 9 eller 10. Enligt denna mätare är dessa dina kärnstyrkor. Vissa av oss har många fler kärnstyrkor! Skriv upp dina kärnstyrkor och betrakta dem. Titta också på var du fick de lägsta poängen. Dessa är sannolikt dina växtstyrkor, som du kan betrakta ur ett utvecklingsperspektiv.",
+    en: "You may have gotten 3–7 items scored 9 or 10. According to this meter, these are your core strengths. Some of us have many more! Write down your core strengths and examine them. Also look at where you got the lowest scores. These are likely your growth strengths, which you can view from a development perspective.",
+  },
+  "meter.reflect.coreTitle": {
+    fi: "Ydinvahvuutesi (mittarin mukaan)",
+    sv: "Dina kärnstyrkor (enligt mätaren)",
+    en: "Your core strengths (according to the meter)",
+  },
+  "meter.reflect.growthTitle": {
+    fi: "Kasvuvahvuutesi",
+    sv: "Dina växtstyrkor",
+    en: "Your growth strengths",
+  },
+
+  "meter.top.title": {
+    fi: "Vahvuustulokseni",
+    sv: "Mitt styrkeresultat",
+    en: "My strength results",
+  },
+  "meter.top.subtitle": {
+    fi: "Top 5 ydinvahvuuttani ja Top 3 kasvuvahvuuttani, joiden kehittämisestä on hyötyä.",
+    sv: "Mina 5 främsta kärnstyrkor och 3 främsta växtstyrkor som är värdefulla att utveckla.",
+    en: "My top 5 core strengths and top 3 growth strengths that are worth developing.",
+  },
+  "meter.top.core": {
+    fi: "Top 5 ydinvahvuuttani",
+    sv: "Mina 5 främsta kärnstyrkor",
+    en: "My top 5 core strengths",
+  },
+  "meter.top.growth": {
+    fi: "Top 3 kasvuvahvuuttani",
+    sv: "Mina 3 främsta växtstyrkor",
+    en: "My top 3 growth strengths",
+  },
+  "meter.top.selectedOf": {
+    fi: "Valittu {n} / {max}",
+    sv: "Valda {n} / {max}",
+    en: "Selected {n} / {max}",
+  },
+
+  "meter.done.title": {
+    fi: "🎉 Vahvuusmittari suoritettu!",
+    sv: "🎉 Styrkemätaren klar!",
+    en: "🎉 Strength meter complete!",
+  },
+  "meter.done.body": {
+    fi: "Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.",
+    sv: "Motsvarade mätarens resultat ditt eget val i godisbutiken? Jämför Top 5-listan med valen på skärm 12 och reflektera över likheter och skillnader.",
+    en: "Did the meter's results match your candy shop choice? Compare the Top 5 list with your choices on screen 12 and reflect on the similarities and differences.",
+  },
+
+  // ============================================================================
   // METER — VIRTUE CATEGORY LABELS
   // ============================================================================
+
+
 
   "meter.virtue.wisdom": {
     fi: "Viisaus ja tieto",
