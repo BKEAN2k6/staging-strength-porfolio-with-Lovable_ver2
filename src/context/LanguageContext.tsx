@@ -47,7 +47,7 @@ function readStoredLanguage(): Language {
   return isLanguage(b) ? b : DEFAULT_LANGUAGE;
 }
 
-interface LanguageContextType {
+export interface LanguageContextType {
   language: Language;
   /** True while we are still resolving the student's class language. */
   loading: boolean;
