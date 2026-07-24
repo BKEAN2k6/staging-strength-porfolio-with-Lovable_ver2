@@ -165,6 +165,7 @@ function MeterSummary() {
 /* ---------- S105: Ydinvahvuuksien pohtiminen (auto top + bottom) ---------- */
 function MeterReflect() {
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
+  const { language } = useLanguage();
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const top = useMemo(() => scores ? computeTop5(scores) : [], [scores]);
   const bot = useMemo(() => scores ? computeBottom3(scores) : [], [scores]);
@@ -189,7 +190,7 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {top.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{getStrengthName(strengthNrForId(s.id), language)}</strong> <span className="opacity-70">— {s.virtue}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -200,7 +201,7 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {bot.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{getStrengthName(strengthNrForId(s.id), language)}</strong> <span className="opacity-70">— {s.virtue}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
