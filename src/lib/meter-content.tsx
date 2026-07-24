@@ -220,6 +220,7 @@ function MeterTop({ onSaveStateChange }: Props) {
   const [growth3, setGrowth3] = useState<string[]>([]);
   const [candyPicks, setCandyPicks] = useState<number[] | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
     (async () => {
@@ -281,7 +282,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {getStrengthName(strengthNrForId(s.id), language)}
               </button>
             );
           })}
@@ -309,7 +310,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {getStrengthName(strengthNrForId(s.id), language)}
               </button>
             );
           })}
