@@ -237,5 +237,7 @@ export function strengthForScreen(n: number): MeterStrength | null {
 }
 
 export function fieldKeyFor(strengthId: string, idx: 0 | 1): string {
-  return `meter2_${strengthId}_s${idx + 1}`;
+  const s = METER_STRENGTHS.find((x) => x.id === strengthId);
+  const dbId = s?.meterFieldId ?? strengthId;
+  return `meter2_${dbId}_s${idx + 1}`;
 }
