@@ -535,7 +535,7 @@ const LangContext = createContext<LangCtx>({
   setLanguage: () => {},
 });
 
-const STORAGE_KEY = "vahvuus.lang";
+const STORAGE_KEY = "student_language";
 
 function readStored(): Language {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;
@@ -544,18 +544,32 @@ function readStored(): Language {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // STEP 1: Finnish-only mode. All language resolution, storage, and
-  // switching is disabled. Every consumer sees `fi`. Multilingual support
-  // will be re-introduced cleanly in Step 2.
+  const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
+
+  useEffect(() => {
+    setLanguageState(readStored());
+  }, []);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = "fi";
+      document.documentElement.lang = language;
+    }
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, lang);
+      } catch {
+        /* ignore */
+      }
     }
   }, []);
 
   const value = useMemo<LangCtx>(
-    () => ({ language: "fi", loading: false, setLanguage: () => {} }),
-    [],
+    () => ({ language, loading: false, setLanguage }),
+    [language, setLanguage],
   );
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
@@ -575,24 +589,53 @@ function formatTemplate(s: string, vars?: Record<string, string | number>): stri
 }
 
 export function useT(): (key: string, vars?: Record<string, string | number>) => string {
-  return useCallback((key, vars) => {
-    const raw = UI.fi[key];
-    if (!raw) {
-      // eslint-disable-next-line no-console
-      console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
-      return formatTemplate(key, vars);
-    }
-    return formatTemplate(raw, vars);
-  }, []);
+  const { language } = useLanguage();
+  return useCallback(
+    (key, vars) => {
+      const raw = UI[language]?.[key] ?? UI.fi[key];
+      if (!raw) {
+        // eslint-disable-next-line no-console
+        console.warn(`[i18n] Missing UI translation for key: ${key}`);
+        return formatTemplate(key, vars);
+      }
+      return formatTemplate(raw, vars);
+    },
+    [language],
+  );
 }
 
-/** Finnish-only mode: returns the Finnish source unchanged. */
+/** Translate a Finnish source string via the Excel dictionary. */
 export function useTFi(): (fi: string | undefined | null) => string {
-  return useCallback((fi) => fi ?? "", []);
+  const { language } = useLanguage();
+  return useCallback(
+    (fi) => {
+      if (!fi) return "";
+      if (language === "fi") return fi;
+      return lookupContent(fi, language);
+    },
+    [language],
+  );
 }
 
 // ---------------- Recursive text translator ----------------
-// STEP 1 Finnish-only: passthrough. Kept for API compatibility.
+// Translates Finnish text nodes within a subtree via the Excel dictionary.
 export function TranslateFi({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const { language } = useLanguage();
+  if (language === "fi") return <>{children}</>;
+  return <>{translateNode(children, language)}</>;
 }
+
+function translateNode(node: ReactNode, lang: Language): ReactNode {
+  if (node === null || node === undefined || typeof node === "boolean") return node;
+  if (typeof node === "string") return lookupContent(node, lang);
+  if (typeof node === "number") return node;
+  if (Array.isArray(node)) return node.map((c, i) => <span key={i}>{translateNode(c, lang)}</span>);
+  if (isValidElement(node)) {
+    const el = node as ReactElement<{ children?: ReactNode }>;
+    const kids = el.props?.children;
+    if (kids === undefined) return el;
+    return cloneElement(el, undefined, ...Children.toArray(kids).map((c) => translateNode(c, lang)));
+  }
+  return node;
+}
+
