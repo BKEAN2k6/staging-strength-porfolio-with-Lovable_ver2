@@ -18,7 +18,8 @@ export interface MeterStatement {
 }
 
 export interface MeterStrength {
-  id: string;            // stable, used in field keys
+  id: string;            // stable registry id
+  meterFieldId?: string; // alias used for DB field keys when it differs from id
   name: string;          // display name
   virtue: Virtue;
   statements: [MeterStatement, MeterStatement];
@@ -89,7 +90,7 @@ export const METER_STRENGTHS: MeterStrength[] = [
     ],
   },
   {
-    id: "sisukkuus", name: "Sisukkuus", virtue: "Rohkeus",
+    id: "sisu", meterFieldId: "sisukkuus", name: "Sisukkuus", virtue: "Rohkeus",
     statements: [
       { text: "”Teen mitä tehdä pitää, vaikka vastoinkäymisiä ilmenisi.”" },
       { text: "”Pystyn tarvittaessa parantamaan suoritustani ja ponnistelemaan vielä tehokkaammin.”" },
@@ -173,7 +174,7 @@ export const METER_STRENGTHS: MeterStrength[] = [
     ],
   },
   {
-    id: "kauneuden_arvostus", name: "Kauneuden ja erinomaisuuden arvostus", virtue: "Henkisyys",
+    id: "kauneuden_arvostaminen", meterFieldId: "kauneuden_arvostus", name: "Kauneuden ja erinomaisuuden arvostus", virtue: "Henkisyys",
     statements: [
       { text: "”Huomaan kauniita yksityiskohtia ja pysähdyn usein niiden äärellä.”" },
       { text: "”Pysähdyn harvoin taiteen tai ympäristön kauneuden äärelle, enkä kiinnitä usein huomiotani yksityiskohtiin.”", reversed: true },
@@ -236,5 +237,7 @@ export function strengthForScreen(n: number): MeterStrength | null {
 }
 
 export function fieldKeyFor(strengthId: string, idx: 0 | 1): string {
-  return `meter2_${strengthId}_s${idx + 1}`;
+  const s = METER_STRENGTHS.find((x) => x.id === strengthId);
+  const dbId = s?.meterFieldId ?? strengthId;
+  return `meter2_${dbId}_s${idx + 1}`;
 }
