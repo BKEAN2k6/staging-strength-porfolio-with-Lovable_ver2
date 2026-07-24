@@ -65,6 +65,9 @@ function MeterIntro() {
 /* ---------- S78–S103: one strength per screen ---------- */
 function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
   const s = strengthForScreen(n)!;
+  const { language } = useLanguage();
+  const strengthNr = useMemo(() => strengthNrForId(s.id), [s.id]);
+  const displayName = useMemo(() => getStrengthName(strengthNr, language), [strengthNr, language]);
   const [s1, setS1] = useState<number | null>(null);
   const [s2, setS2] = useState<number | null>(null);
   // Load initial scores for the live tally (taking reverse into account)
@@ -84,9 +87,9 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
     <div className="space-y-4">
       <StickyNote tone="coral" className="text-center">
         <div className="text-xs font-bold uppercase tracking-widest opacity-80">{s.virtue}</div>
-        <h1 className="font-display text-3xl leading-tight">{s.name}</h1>
+        <h1 className="font-display text-3xl leading-tight">{displayName}</h1>
         <div className="mt-2 inline-block rounded-full bg-white/25 px-4 py-1 text-sm font-display font-semibold">
-          {both ? `${s.name}-pisteet: ${total} / 10` : `Pisteet: ${total} / 10 — vastaa molempiin`}
+          {both ? `${displayName}-pisteet: ${total} / 10` : `Pisteet: ${total} / 10 — vastaa molempiin`}
         </div>
       </StickyNote>
 
@@ -110,7 +113,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       </StickyNote>
 
       <p className="text-center text-sm opacity-80">
-        Laske yhteen {s.name.toLowerCase()}-pisteesi.
+        Laske yhteen {displayName.toLowerCase()}-pisteesi.
       </p>
     </div>
   );
