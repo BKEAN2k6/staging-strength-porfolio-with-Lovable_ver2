@@ -26,6 +26,11 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  LanguageProvider as LanguageProviderBase,
+  useLanguage as useLanguageBase,
+  type LanguageContextType,
+} from "@/context/LanguageContext";
 import generated from "./translations-generated.json";
 
 // ---------------- Types ----------------
@@ -521,62 +526,10 @@ export const UI: UIDict = {
 
 // ---------------- React context ----------------
 
-type LangCtx = {
-  language: Language;
-  /** True while we are still resolving the student's class language. */
-  loading: boolean;
-  /** Set the language manually. Used by teachers/no-class users only. */
-  setLanguage: (lang: Language) => void;
-};
+export type LangCtx = LanguageContextType;
 
-const LangContext = createContext<LangCtx>({
-  language: DEFAULT_LANGUAGE,
-  loading: false,
-  setLanguage: () => {},
-});
-
-const STORAGE_KEY = "student_language";
-
-function readStored(): Language {
-  if (typeof window === "undefined") return DEFAULT_LANGUAGE;
-  const v = window.localStorage.getItem(STORAGE_KEY);
-  return isLanguage(v) ? v : DEFAULT_LANGUAGE;
-}
-
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
-
-  useEffect(() => {
-    setLanguageState(readStored());
-  }, []);
-
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = language;
-    }
-  }, [language]);
-
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== "undefined") {
-      try {
-        window.localStorage.setItem(STORAGE_KEY, lang);
-      } catch {
-        /* ignore */
-      }
-    }
-  }, []);
-
-  const value = useMemo<LangCtx>(
-    () => ({ language, loading: false, setLanguage }),
-    [language, setLanguage],
-  );
-  return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
-}
-
-export function useLanguage(): LangCtx {
-  return useContext(LangContext);
-}
+export const LanguageProvider = LanguageProviderBase;
+export const useLanguage = useLanguageBase;
 
 // ---------------- Hooks: UI + content translators ----------------
 
@@ -592,10 +545,11 @@ export function useT(): (key: string, vars?: Record<string, string | number>) =>
   const { language } = useLanguage();
   return useCallback(
     (key, vars) => {
-      const raw = UI[language]?.[key] ?? UI.fi[key];
+      const dict = UI[language] ?? UI.fi;
+      const raw = dict[key] ?? UI.fi[key];
       if (!raw) {
         // eslint-disable-next-line no-console
-        console.warn(`[i18n] Missing UI translation for key: ${key}`);
+        console.warn(`[i18n] Missing UI translation (${language}): ${key}`);
         return formatTemplate(key, vars);
       }
       return formatTemplate(raw, vars);
@@ -604,7 +558,7 @@ export function useT(): (key: string, vars?: Record<string, string | number>) =>
   );
 }
 
-/** Translate a Finnish source string via the Excel dictionary. */
+/** Translate a Finnish source string via the Excel content dictionary. */
 export function useTFi(): (fi: string | undefined | null) => string {
   const { language } = useLanguage();
   return useCallback(
@@ -618,24 +572,22 @@ export function useTFi(): (fi: string | undefined | null) => string {
 }
 
 // ---------------- Recursive text translator ----------------
-// Translates Finnish text nodes within a subtree via the Excel dictionary.
+// Walks a subtree and translates Finnish text nodes via the Excel dictionary.
 export function TranslateFi({ children }: { children: ReactNode }) {
+  const tFi = useTFi();
   const { language } = useLanguage();
   if (language === "fi") return <>{children}</>;
-  return <>{translateNode(children, language)}</>;
-}
-
-function translateNode(node: ReactNode, lang: Language): ReactNode {
-  if (node === null || node === undefined || typeof node === "boolean") return node;
-  if (typeof node === "string") return lookupContent(node, lang);
-  if (typeof node === "number") return node;
-  if (Array.isArray(node)) return node.map((c, i) => <span key={i}>{translateNode(c, lang)}</span>);
-  if (isValidElement(node)) {
-    const el = node as ReactElement<{ children?: ReactNode }>;
-    const kids = el.props?.children;
-    if (kids === undefined) return el;
-    return cloneElement(el, undefined, ...Children.toArray(kids).map((c) => translateNode(c, lang)));
+  function walk(node: ReactNode): ReactNode {
+    if (typeof node === "string") return tFi(node);
+    if (typeof node === "number" || node === null || node === undefined) return node;
+    if (Array.isArray(node)) return <>{node.map((c, i) => <span key={i}>{walk(c)}</span>)}</>;
+    if (isValidElement(node)) {
+      const el = node as ReactElement<{ children?: ReactNode }>;
+      const kids = el.props?.children;
+      if (kids === undefined) return el;
+      return cloneElement(el, undefined, Children.map(kids, walk));
+    }
+    return node;
   }
-  return node;
+  return <>{walk(children)}</>;
 }
-
