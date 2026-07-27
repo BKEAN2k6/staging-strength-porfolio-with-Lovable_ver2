@@ -1,8 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { z } from "zod";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    idle: s.idle === "1" ? "1" : undefined,
-  }),
+  validateSearch: z.object({ idle: z.enum(["1"]).optional() }).parse,
   component: () => <Outlet />,
 });
