@@ -1138,6 +1138,7 @@ function S30({ onSaveStateChange }: Props) {
 
 // ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
 function S31({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Keneltä saan tukea ja opastusta?",
     "Mitä vahvuuksiani voin hyödyntää?",
@@ -1148,14 +1149,14 @@ function S31({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s31-h">
-        <h1 className="font-display text-2xl">Unelmien tiekartta opinnoissa</h1>
+        <h1 className="font-display text-2xl">{tr("Unelmien tiekartta opinnoissa")}</h1>
       </StickyNote>
       <div className="grid gap-3">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_31_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${q}`}
+            label={`${i + 1}. ${tr(q)}`}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
