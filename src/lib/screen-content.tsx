@@ -1102,6 +1102,7 @@ function S29(p: Props) {
 
 // ----- S30 (PDF p36): Osaamisen osa-alueiden palapeli -----
 function S30({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const quadrants: Array<{ k: string; title: string; q: string }> = [
     { k: "screen_30_lahjakkuudet",   title: "LAHJAKKUUDET",            q: "Missä olet hyvä?" },
     { k: "screen_30_taidot",         title: "TAIDOT",                  q: "Mitä taitoja sinulla jo on, joita hyödynnät opinnoissa?" },
@@ -1111,21 +1112,19 @@ function S30({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s30-h">
-        <h1 className="font-display text-2xl mb-1">Osaamisen osa-alueiden palapeli</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Osaamisen osa-alueiden palapeli")}</h1>
         <p className="text-sm opacity-90">
-          Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa
-          neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja
-          resursseihin.
+          {tr("Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.")}
         </p>
         <p className="text-xs opacity-60 mt-1">(Niemiec, 2018)</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         {quadrants.map((q) => (
           <StickyNote key={q.k} tone="white" seed={q.k}>
-            <div className="font-display text-sm mb-1">{q.title}</div>
+            <div className="font-display text-sm mb-1">{tr(q.title)}</div>
             <ReflectionTextarea
               fieldKey={q.k}
-              label={q.q}
+              label={tr(q.q)}
               rows={4}
               onSaveStateChange={onSaveStateChange}
             />
@@ -1135,6 +1134,7 @@ function S30({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
 
 // ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
 function S31({ onSaveStateChange }: Props) {
