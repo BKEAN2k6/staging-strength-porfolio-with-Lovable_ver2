@@ -1052,6 +1052,7 @@ Med kärlek, . . . . . . . . . .`,
   "Kuvakollaasi 1/2": { en: "Photo Collage 1/2", sv: "Bildkollage 1/2" },
   "Kuvakollaasi 2/2": { en: "Photo Collage 2/2", sv: "Bildkollage 2/2" },
   "vapaa-ajalla": { en: "in free time", sv: "på fritiden" },
+  "6. Vahvuusportfolion kokoaminen": { en: "6. Compiling the Strengths Portfolio", sv: "6. Sammanställning av styrkeportfolion" },
 };
 
 
