@@ -1230,6 +1230,7 @@ function S33({ onSaveStateChange }: Props) {
 
 // ----- S34 (PDF p40): Koulu-kokemuksia -----
 function S34({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs: Array<{ k: string; q: string }> = [
     { k: "screen_34_oppi",         q: "Minkälaisia asioita opit nopeasti ja helposti?" },
     { k: "screen_34_palaute",      q: "Mistä sait rohkaisevaa palautetta peruskoulussa opettajilta entä luokkakavereilta?" },
@@ -1239,10 +1240,9 @@ function S34({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s34-h">
-        <h1 className="font-display text-2xl mb-1">Koulu-kokemuksia</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Koulu-kokemuksia")}</h1>
         <p className="text-sm opacity-90">
-          Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia
-          vahvuuksia sinulla on.
+          {tr("Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1250,7 +1250,7 @@ function S34({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={x.k}
             fieldKey={x.k}
-            label={x.q}
+            label={tr(x.q)}
             rows={3}
             onSaveStateChange={onSaveStateChange}
           />
