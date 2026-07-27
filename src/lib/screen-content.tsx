@@ -1514,19 +1514,19 @@ function S44_kysy({ onSaveStateChange }: Props) {
 
 // ----- S45 (PDF p51): Vahvuuskirje vanhemmalta — informational -----
 function S45_kirje() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s45-h">
-        <h1 className="font-display text-2xl mb-1">Pyydä vanhempaasi täydentämään!</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Pyydä vanhempaasi täydentämään!")}</h1>
         <p className="text-sm opacity-90">
-          Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen.
-          Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.
+          {tr("Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen. Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.")}
         </p>
       </StickyNote>
       <StickyNote tone="white" seed="s45-letter">
-        <h2 className="font-display text-lg mb-2">Kirjoita vahvuuskirje nuorellesi</h2>
+        <h2 className="font-display text-lg mb-2">{tr("Kirjoita vahvuuskirje nuorellesi")}</h2>
         <p className="text-sm leading-relaxed whitespace-pre-line">
-{`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+{tr(`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 Sinun vahvuuksiasi ovat . . . . . . . . , . . . . . . . . ja . . . . . . . .
 
@@ -1542,11 +1542,11 @@ Kun käytät vahvuuksiasi, näen sinut tulevaisuudessa . . . . . . . . . . . . .
 
 Anna vahvuuksiesi loistaa.
 
-Rakkain terveisin, . . . . . . . . . .`}
+Rakkain terveisin, . . . . . . . . . .`)}
         </p>
       </StickyNote>
       <p className="text-center text-xs opacity-60">
-        Sivun visuaalinen ilme on tilapäisesti korvattu yksinkertaisella tekstipohjalla.
+        {tr("Sivun visuaalinen ilme on tilapäisesti korvattu yksinkertaisella tekstipohjalla.")}
       </p>
     </div>
   );
@@ -1554,11 +1554,12 @@ Rakkain terveisin, . . . . . . . . . .`}
 
 // ----- S46 (PDF p52): Moduuli 4 title card -----
 function M4Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s46-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 4</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 4")}</div>
       <h1 className="font-display text-4xl leading-tight">
-        4. Omat vahvuudet vapaa-ajalla ja harrastuksissa
+        {tr("4. Omat vahvuudet vapaa-ajalla ja harrastuksissa")}
       </h1>
     </StickyNote>
   );
