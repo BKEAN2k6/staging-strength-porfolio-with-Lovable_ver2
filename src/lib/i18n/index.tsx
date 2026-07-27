@@ -565,12 +565,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     (async () => {
       try {
         const { data: u } = await supabase.auth.getUser();
+        // eslint-disable-next-line no-console
+        console.log("[i18n-debug] user:", u.user?.id);
         if (!u.user) return;
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from("profiles" as never)
           .select("language")
           .eq("id", u.user.id)
           .maybeSingle();
+        // eslint-disable-next-line no-console
+        console.log("[i18n-debug] profile data:", data, "error:", error);
         const lang = (data as { language?: string } | null)?.language;
         if (!cancelled && isLanguage(lang)) {
           setLanguageState(lang);
@@ -578,8 +582,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
             window.localStorage.setItem(STORAGE_KEY, lang);
           }
         }
-      } catch {
-        /* keep persisted value */
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("[i18n-debug] catch:", e);
       }
     })();
     return () => {
