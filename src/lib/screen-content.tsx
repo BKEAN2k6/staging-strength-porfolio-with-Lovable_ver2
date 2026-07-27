@@ -272,10 +272,11 @@ function MinaOlen({ onSaveStateChange }: Props) {
 
 // S11 (PDF p15): pure title card.
 function M1Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s11-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 1</div>
-      <h1 className="font-display text-4xl leading-tight">1. Omat ydinvahvuudet</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 1")}</div>
+      <h1 className="font-display text-4xl leading-tight">1. {tr("Omat ydinvahvuudet")}</h1>
     </StickyNote>
   );
 }
