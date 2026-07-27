@@ -1262,32 +1262,147 @@ function S34({ onSaveStateChange }: Props) {
 
 // ----- S35 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
 function S35() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s35-h">
-        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 1/2</h1>
+        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 1/2")}</h1>
       </StickyNote>
       <StickyNote tone="white" seed="s35-b">
         <p className="text-sm leading-relaxed mb-2">
-          Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita
-          haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee
-          vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot
-          hyödyntää tavoitteen saavuttamisessa.
+          {tr("Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.")}
         </p>
         <p className="text-sm font-medium">
-          Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?
+          {tr("Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?")}
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
-          <li>Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.</li>
-          <li>Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.</li>
-          <li>Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.</li>
-          <li>Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.</li>
+          <li>{tr("Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.")}</li>
+          <li>{tr("Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.")}</li>
+          <li>{tr("Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.")}</li>
+          <li>{tr("Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.")}</li>
         </ol>
-        <p className="text-xs italic opacity-70 mt-2">→ Jäävuori seuraavalla sivulla.</p>
+        <p className="text-xs italic opacity-70 mt-2">→ {tr("Jäävuori seuraavalla sivulla.")}</p>
       </StickyNote>
     </div>
   );
 }
+
+// ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
+function S36({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  const boxes: Array<{ k: string; label: string }> = [
+    { k: "screen_36_tavoite",     label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
+    { k: "screen_36_vahvuudet",   label: "2. Vaaditut vahvuudet" },
+    { k: "screen_36_hyodynnan",   label: "3. Miten hyödynnän vahvuuksia" },
+    { k: "screen_36_taidot",      label: "4. Mitä muita taitoja tarvitsen" },
+  ];
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s36-h">
+        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 2/2")}</h1>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {boxes.map((b) => (
+          <StickyNote key={b.k} tone="white" seed={b.k}>
+            <ReflectionTextarea
+              fieldKey={b.k}
+              label={tr(b.label)}
+              rows={4}
+              onSaveStateChange={onSaveStateChange}
+            />
+          </StickyNote>
+        ))}
+      </div>
+      <p className="text-center text-xs opacity-60">
+        {tr("Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan käyttöön.")}
+      </p>
+    </div>
+  );
+}
+
+// ----- S37 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
+function S37({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="coral" seed="s37-h">
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuteni opiskelijana")}</h1>
+        <p className="text-sm opacity-90">
+          {tr("Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!")}
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <ReflectionTextarea
+          fieldKey="screen_37_arvostan"
+          label={tr("Mukavia asioita — Arvostan itsessäni")}
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_37_vahvuuksiani"
+          label={tr("Omia vahvuuksia — Vahvuuksiani ovat mielestäni")}
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_37_paikkoja"
+          label={tr("Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani")}
+          rows={5}
+          onSaveStateChange={onSaveStateChange}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ----- S38 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
+function S38({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="yellow" seed="s38-h">
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuspalaute opiskelukavereilta")}</h1>
+        <p className="text-sm opacity-90">
+          {tr("Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat kanssaihmisiin.")}
+        </p>
+      </StickyNote>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <ReflectionTextarea fieldKey="screen_38_uutta"       label={tr("Mitä uutta opin palautteista?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_tarkeaa"     label={tr("Mikä palautteessa on minulle tärkeää?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_muistetaan"  label={tr("Millaisista asioista minut muistetaan / tunnistetaan parhaiten?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_yhteisoon"   label={tr("Mitä hyvää vahvuuteni tuovat yhteisööni?")} rows={3} onSaveStateChange={onSaveStateChange} />
+      </div>
+    </div>
+  );
+}
+
+// ----- S39 (PDF p45): Minä olen (M2) -----
+function S39({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  return (
+    <div className="space-y-4">
+      <StickyNote tone="mint" seed="s39-h">
+        <h1 className="font-display text-2xl mb-1">{tr("Minä olen")}</h1>
+        <p className="text-sm opacity-90">
+          {tr("Muuta muilta saamasi palaute lauseiksi minä-muotoon.")}
+          <em> {tr("“Olet sinnikäs.”")}</em> → <strong>{tr("“Minä olen sinnikäs.”")}</strong>
+        </p>
+      </StickyNote>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <ReflectionInput
+            key={i}
+            fieldKey={`screen_39_mina_olen_${i + 1}`}
+            prefix={tr("Minä olen")}
+            placeholder="…"
+            onSaveStateChange={onSaveStateChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 
 // ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
 function S36({ onSaveStateChange }: Props) {
