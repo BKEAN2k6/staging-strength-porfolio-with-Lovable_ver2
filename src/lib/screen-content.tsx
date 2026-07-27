@@ -1013,45 +1013,38 @@ function S26({ onSaveStateChange }: Props) {
 
 // ----- S27 (PDF p33): Moduuli 2 title card -----
 function M2Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s27-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 2</div>
-      <h1 className="font-display text-4xl leading-tight">2. Omat vahvuudet lukiossa</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 2")}</div>
+      <h1 className="font-display text-4xl leading-tight">{tr("2. Omat vahvuudet lukiossa")}</h1>
     </StickyNote>
   );
 }
 
 // ----- S28 (PDF p34): Omat vahvuuteni lukiossa — informational -----
 function S28() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s28-h">
-        <h1 className="font-display text-2xl mb-2">Omat vahvuuteni lukiossa</h1>
+        <h1 className="font-display text-2xl mb-2">{tr("Omat vahvuuteni lukiossa")}</h1>
       </StickyNote>
       <StickyNote tone="white" seed="s28-b">
         <p className="text-sm leading-relaxed mb-2">
-          Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi
-          lukiolaisena.
+          {tr("Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.")}
         </p>
         <p className="text-sm leading-relaxed mb-2">
-          Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen
-          tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja
-          onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla
-          tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei
-          vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää
-          ja oppia.
+          {tr("Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää ja oppia.")}
         </p>
         <p className="text-sm leading-relaxed">
-          Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä
-          muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja
-          ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on,
-          että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää
-          niitä osana opintoja.
+          {tr("Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää niitä osana opintoja.")}
         </p>
       </StickyNote>
     </div>
   );
 }
+
 
 // ----- Reusable: "Vahvuuskarkkini" worksheet (S29 lukiossa, S42 kotona,
 // S48 vapaa-ajalla, S56 ystävyyssuhteissa) -----
