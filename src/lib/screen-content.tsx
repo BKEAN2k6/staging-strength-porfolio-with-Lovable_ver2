@@ -1059,30 +1059,31 @@ function VahvuuskarkkiSheet({
   fieldPrefix: string;
   onSaveStateChange?: (s: SaveState) => void;
 }) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed={`${fieldPrefix}-h`}>
         <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">
-          {context.toUpperCase()}
+          {tr(context).toUpperCase()}
         </div>
-        <h1 className="font-display text-2xl mb-1">{title}</h1>
+        <h1 className="font-display text-2xl mb-1">{tr(title)}</h1>
         <p className="text-sm opacity-90">
-          Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet
-          tähän. Pohdi, mitä teit, koit ja opit.
+          {tr("Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet tähän. Pohdi, mitä teit, koit ja opit.", { context: tr(context) })}
         </p>
       </StickyNote>
       <ReflectionInput
         fieldKey={`${fieldPrefix}_karkit`}
-        prefix="Vahvuudet"
-        placeholder="Merkkaa tähän mitä vahvuutta käytit!"
+        prefix={tr("Vahvuudet")}
+        placeholder={tr("Merkkaa tähän mitä vahvuutta käytit!")}
         onSaveStateChange={onSaveStateChange}
       />
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label="1. Mitä teit?"             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label="2. Mitä tapahtui seuraavaksi?" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label="3. Mitä opit?"             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label="4. Miten hyödynnät oppimaasi?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label={tr("1. Mitä teit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label={tr("2. Mitä tapahtui seuraavaksi?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label={tr("3. Mitä opit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label={tr("4. Miten hyödynnät oppimaasi?")} rows={3} onSaveStateChange={onSaveStateChange} />
       </div>
+
     </div>
   );
 }
