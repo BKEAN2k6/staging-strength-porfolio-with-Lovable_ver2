@@ -329,6 +329,7 @@ const KARKKIKAUPPA_STRENGTHS: string[] = [
 const KARKKIKAUPPA_KEY = "screen_12_karkkikauppa_picks";
 
 function Karkkikauppa({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const [picks, setPicks] = useState<number[]>([]);
   const [loaded, setLoaded] = useState(false);
   const report = useReportCompletion();
