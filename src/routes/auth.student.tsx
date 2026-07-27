@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
-import { useT } from "@/lib/i18n";
+import { useT, useLanguage, isLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth/student")({
   component: StudentSignup,
@@ -21,6 +21,7 @@ function StudentSignup() {
   const [displayName, setDisplayName] = useState("");
   const [busy, setBusy] = useState(false);
   const t = useT();
+  const { setLanguage } = useLanguage();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -87,12 +88,14 @@ function StudentSignup() {
         { p_join_code: code } as never,
       );
       if (rpcErr) throw rpcErr;
-      const res = rpcData as { ok?: boolean; error?: string } | null;
+      const res = rpcData as { ok?: boolean; error?: string; language?: string } | null;
       if (!res?.ok) {
         toast.error(t("auth.student.err.codeInvalid"));
         await supabase.auth.signOut();
         return;
       }
+      // Inherit and lock the class language for this student.
+      if (isLanguage(res.language)) setLanguage(res.language);
       navigate({ to: "/liity-yhteisoon", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error");
