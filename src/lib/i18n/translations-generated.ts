@@ -986,6 +986,66 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
   "Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.": { en: "Look back on your experiences in school and notice what kinds of strengths you have.", sv: "Granska dina tidigare erfarenheter i studierna och lägg märke till vilka styrkor du har." },
   "2. Vaaditut vahvuudet": { en: "2. Required Strengths", sv: "2. Styrkor som krävs" },
   "Unelmieni ammatti": { en: "My dream profession", sv: "Min drömyrke" },
+
+  // ----- Module 3 (Omat vahvuudet kotona) -----
+  "3. Omat vahvuudet kotona": { en: "3. My Strengths at Home", sv: "3. Mina styrkor hemma" },
+  "Muistele ja kysy vanhemmilta": { en: "Remember and Ask Your Parents", sv: "Minns och fråga föräldrar" },
+  "Millainen lapsi olin?": { en: "What was I like as a child?", sv: "Hurdan var jag som barn?" },
+  "Kirjoita vahvuuskirje nuorellesi": { en: "Write a Strengths Letter to Your Young Person", sv: "Skriv ett styrkebrev till din unga" },
+  "kotona": { en: "at home", sv: "hemma" },
+  "4. Omat vahvuudet vapaa-ajalla ja harrastuksissa": { en: "4. My Strengths in Hobbies & Free Time", sv: "4. Mina styrkor på fritiden och i hobbyer" },
+  [`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+Sinun vahvuuksiasi ovat . . . . . . . . , . . . . . . . . ja . . . . . . . .
+
+Olen huomannut, että käytät niitä, kun . . . . . . . . . . ja . . . . . . . . .
+
+Arvostan sinussa erityisesti . . . . . . . . . . . . . . . . . ja . . . . . . . . . . .
+
+Kun käytät vahvuuksiasi kotona, se vaikuttaa . . . . . . . . . . . . . . . . . . . .
+
+Olet opettanut minulle erityisesti . . . . . . . . . . . . . . . . käytöstä.
+
+Kun käytät vahvuuksiasi, näen sinut tulevaisuudessa . . . . . . . . . . . . . . . .
+
+Anna vahvuuksiesi loistaa.
+
+Rakkain terveisin, . . . . . . . . . .`]: {
+    en: `Because he/she . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+Your strengths are . . . . . . . . , . . . . . . . . and . . . . . . . .
+
+I've noticed you use them when . . . . . . . . . . and . . . . . . . . .
+
+I especially appreciate about you . . . . . . . . . . . . . . . . . and . . . . . . . . . . .
+
+When you use your strengths at home, it affects . . . . . . . . . . . . . . . . . . . .
+
+You have especially taught me about using . . . . . . . . . . . . . . . .
+
+When you use your strengths, I see your future as . . . . . . . . . . . . . . . .
+
+Let your strengths shine.
+
+With love, . . . . . . . . . .`,
+    sv: `Hen för att . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+Dina styrkor är . . . . . . . . , . . . . . . . . och . . . . . . . .
+
+Jag har lagt märke till att du använder dem när . . . . . . . . . . och . . . . . . . . .
+
+Jag uppskattar särskilt hos dig . . . . . . . . . . . . . . . . . och . . . . . . . . . . .
+
+När du använder dina styrkor hemma påverkar det . . . . . . . . . . . . . . . . . . . .
+
+Du har särskilt lärt mig om . . . . . . . . . . . . . . . .
+
+När du använder dina styrkor ser jag din framtid som . . . . . . . . . . . . . . . .
+
+Låt dina styrkor skina.
+
+Med kärlek, . . . . . . . . . .`,
+  },
 };
 
 
