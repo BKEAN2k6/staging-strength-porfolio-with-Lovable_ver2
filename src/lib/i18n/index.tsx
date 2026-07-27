@@ -27,6 +27,8 @@ import {
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import generated from "./translations-generated.json";
+import { TRANSLATIONS, translateFinnish, type AppLanguage } from "./translations-generated";
+
 
 // ---------------- Types ----------------
 
