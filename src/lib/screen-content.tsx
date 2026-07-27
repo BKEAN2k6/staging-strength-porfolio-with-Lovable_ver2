@@ -1406,10 +1406,11 @@ function S39({ onSaveStateChange }: Props) {
 
 // ----- S40 (PDF p46): Moduuli 3 title card -----
 function M3Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 3</div>
-      <h1 className="font-display text-4xl leading-tight">3. Omat vahvuudet kotona</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 3")}</div>
+      <h1 className="font-display text-4xl leading-tight">{tr("3. Omat vahvuudet kotona")}</h1>
     </StickyNote>
   );
 }
@@ -1434,17 +1435,18 @@ function S41(p: Props) {
 
 // ----- S42 (PDF p48): Vahvuudet perheessä -----
 function S42_perhe({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s42-h">
-        <h1 className="font-display text-2xl mb-1">Vahvuudet perheessä</h1>
-        <p className="text-sm opacity-90">Täydennä laput.</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuudet perheessä")}</h1>
+        <p className="text-sm opacity-90">{tr("Täydennä laput.")}</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_43_vahvuudet"   label="Minkälaisia vahvuuksia sinulla on perheenjäsenenä? Miten ne näkyvät?" rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_parasta"     label="Mikä on parasta perheessäsi? Miten erilaiset vahvuudet näkyvät perheessänne?" rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_kiitollinen" label="Mistä olet kiitollinen perheessäsi?" rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_yhdessa"     label="Mitä tykkäätte tehdä yhdessä?" rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_vahvuudet"   label={tr("Minkälaisia vahvuuksia sinulla on perheenjäsenenä? Miten ne näkyvät?")} rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_parasta"     label={tr("Mikä on parasta perheessäsi? Miten erilaiset vahvuudet näkyvät perheessänne?")} rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_kiitollinen" label={tr("Mistä olet kiitollinen perheessäsi?")} rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_43_yhdessa"     label={tr("Mitä tykkäätte tehdä yhdessä?")} rows={4} onSaveStateChange={onSaveStateChange} />
       </div>
     </div>
   );
@@ -1452,20 +1454,20 @@ function S42_perhe({ onSaveStateChange }: Props) {
 
 // ----- S43 (PDF p49): Minä perheenjäsenenä -----
 function S43_perheenjasen({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s43-h">
-        <h1 className="font-display text-2xl">Minä perheenjäsenenä</h1>
+        <h1 className="font-display text-2xl">{tr("Minä perheenjäsenenä")}</h1>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_44_perheenjasenena"
-        label="Kirjoita itsellesi muistiin, millainen olet perheenjäsenenä ja millaisia vahvuuksia tuot perheeseesi."
+        label={tr("Kirjoita itsellesi muistiin, millainen olet perheenjäsenenä ja millaisia vahvuuksia tuot perheeseesi.")}
         rows={8}
         onSaveStateChange={onSaveStateChange}
       />
       <p className="text-center text-xs opacity-60">
-        Alkuperäisen sivun kahta saraketta ei ollut mahdollista poimia PDF:stä; kenttä
-        on tilapäisesti yhtenä laajana tekstialueena.
+        {tr("Alkuperäisen sivun kahta saraketta ei ollut mahdollista poimia PDF:stä; kenttä on tilapäisesti yhtenä laajana tekstialueena.")}
       </p>
     </div>
   );
@@ -1473,6 +1475,7 @@ function S43_perheenjasen({ onSaveStateChange }: Props) {
 
 // ----- S44 (PDF p50): Muistele ja kysy vanhemmilta -----
 function S44_kysy({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Millainen lapsi olin?",
     "Mitkä olivat lempileikkejäni?",
@@ -1486,9 +1489,9 @@ function S44_kysy({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s44-h">
-        <h1 className="font-display text-2xl mb-1">Muistele ja kysy vanhemmilta</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Muistele ja kysy vanhemmilta")}</h1>
         <p className="text-sm opacity-90">
-          Pyydä vanhempaasi muistelemaan ja kerro lapsuusaikaisista vahvuuksistasi.
+          {tr("Pyydä vanhempaasi muistelemaan ja kerro lapsuusaikaisista vahvuuksistasi.")}
         </p>
       </StickyNote>
       <div className="grid gap-3">
@@ -1496,16 +1499,14 @@ function S44_kysy({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_45_vanhemmat_${i + 1}`}
-            label={q}
+            label={tr(q)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
         ))}
       </div>
       <p className="text-center text-xs opacity-60">
-        Kysymykset ovat osittain rekonstruoitu PDF-sivun rakenteesta — alkuperäinen
-        sivu on käsinkirjoitusta varten varattu, ja muutamat kysymyssanat eivät
-        olleet poimittavissa OCR:llä.
+        {tr("Kysymykset ovat osittain rekonstruoitu PDF-sivun rakenteesta — alkuperäinen sivu on käsinkirjoitusta varten varattu, ja muutamat kysymyssanat eivät olleet poimittavissa OCR:llä.")}
       </p>
     </div>
   );
@@ -1513,19 +1514,19 @@ function S44_kysy({ onSaveStateChange }: Props) {
 
 // ----- S45 (PDF p51): Vahvuuskirje vanhemmalta — informational -----
 function S45_kirje() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s45-h">
-        <h1 className="font-display text-2xl mb-1">Pyydä vanhempaasi täydentämään!</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Pyydä vanhempaasi täydentämään!")}</h1>
         <p className="text-sm opacity-90">
-          Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen.
-          Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.
+          {tr("Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen. Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.")}
         </p>
       </StickyNote>
       <StickyNote tone="white" seed="s45-letter">
-        <h2 className="font-display text-lg mb-2">Kirjoita vahvuuskirje nuorellesi</h2>
+        <h2 className="font-display text-lg mb-2">{tr("Kirjoita vahvuuskirje nuorellesi")}</h2>
         <p className="text-sm leading-relaxed whitespace-pre-line">
-{`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+{tr(`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 Sinun vahvuuksiasi ovat . . . . . . . . , . . . . . . . . ja . . . . . . . .
 
@@ -1541,11 +1542,11 @@ Kun käytät vahvuuksiasi, näen sinut tulevaisuudessa . . . . . . . . . . . . .
 
 Anna vahvuuksiesi loistaa.
 
-Rakkain terveisin, . . . . . . . . . .`}
+Rakkain terveisin, . . . . . . . . . .`)}
         </p>
       </StickyNote>
       <p className="text-center text-xs opacity-60">
-        Sivun visuaalinen ilme on tilapäisesti korvattu yksinkertaisella tekstipohjalla.
+        {tr("Sivun visuaalinen ilme on tilapäisesti korvattu yksinkertaisella tekstipohjalla.")}
       </p>
     </div>
   );
@@ -1553,11 +1554,12 @@ Rakkain terveisin, . . . . . . . . . .`}
 
 // ----- S46 (PDF p52): Moduuli 4 title card -----
 function M4Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s46-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 4</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 4")}</div>
       <h1 className="font-display text-4xl leading-tight">
-        4. Omat vahvuudet vapaa-ajalla ja harrastuksissa
+        {tr("4. Omat vahvuudet vapaa-ajalla ja harrastuksissa")}
       </h1>
     </StickyNote>
   );
