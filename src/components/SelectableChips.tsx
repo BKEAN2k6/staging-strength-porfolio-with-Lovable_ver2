@@ -69,7 +69,7 @@ export function SelectableChips({
             )}
 
           >
-            {tFi(opt)}
+            {labelFor ? labelFor(opt) : tFi(opt)}
           </button>
         );
       })}

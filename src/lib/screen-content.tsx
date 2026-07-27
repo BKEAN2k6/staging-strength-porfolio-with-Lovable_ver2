@@ -166,6 +166,7 @@ function StrengthsList({ onSaveStateChange }: Props) {
         <SelectableChips
           fieldKey="screen_6_known_strengths"
           options={STRENGTHS_24}
+          labelFor={(o) => tr(o)}
           onSaveStateChange={onSaveStateChange}
           min={1}
         />
