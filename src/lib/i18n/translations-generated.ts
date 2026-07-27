@@ -1046,6 +1046,12 @@ Låt dina styrkor skina.
 
 Med kärlek, . . . . . . . . . .`,
   },
+  "Love to-do -lista 1/3": { en: "Love To-Do List 1/3", sv: "Love to-do-lista 1/3" },
+  "→ Love to-do -lista seuraavalla sivulla.": { en: "→ Love To-Do List on the next page.", sv: "→ Love to-do-lista på nästa sida." },
+  "Love to-do -lista": { en: "Love To-Do List", sv: "Love to-do-lista" },
+  "Kuvakollaasi 1/2": { en: "Photo Collage 1/2", sv: "Bildkollage 1/2" },
+  "Kuvakollaasi 2/2": { en: "Photo Collage 2/2", sv: "Bildkollage 2/2" },
+  "vapaa-ajalla": { en: "in free time", sv: "på fritiden" },
 };
 
 
