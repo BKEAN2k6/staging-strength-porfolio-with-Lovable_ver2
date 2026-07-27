@@ -985,6 +985,7 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
   "Koulu-kokemuksia": { en: "School Experiences", sv: "Skolupplevelser" },
   "Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.": { en: "Look back on your experiences in school and notice what kinds of strengths you have.", sv: "Granska dina tidigare erfarenheter i studierna och lägg märke till vilka styrkor du har." },
   "2. Vaaditut vahvuudet": { en: "2. Required Strengths", sv: "2. Styrkor som krävs" },
+  "Unelmieni ammatti": { en: "My dream profession", sv: "Min drömyrke" },
 };
 
 
