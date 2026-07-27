@@ -1168,6 +1168,7 @@ function S31({ onSaveStateChange }: Props) {
 
 // ----- S32 (PDF p38): Minä opiskelijana -----
 function S32({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Mikä saa sinut innostumaan opinnoissa?",
     "Minkä tekemiseen uppoudut?",
@@ -1179,17 +1180,12 @@ function S32({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s32-h">
-        <h1 className="font-display text-2xl mb-1">Minä opiskelijana</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä opiskelijana")}</h1>
         <p className="text-sm opacity-90">
-          Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös
-          sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä
-          kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia,
-          keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?
+          {tr("Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?")}
         </p>
         <p className="text-sm opacity-90 mt-2">
-          Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja
-          missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää
-          vahvuuksiasi lukiossa.
+          {tr("Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.")}
         </p>
       </StickyNote>
       <div className="grid gap-3">
@@ -1197,7 +1193,7 @@ function S32({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_32_minaopisk_${i + 1}`}
-            label={q}
+            label={tr(q)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
