@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
+import { useTr } from "@/lib/i18n";
 
 const LABELS: Array<{ label: string; value: number }> = [
   { label: "minuun hyvin sopiva", value: 5 },
@@ -28,6 +29,7 @@ export function MeterPicker({
   onSaveStateChange?: (s: SaveState) => void;
   onScoreChange?: (score: number | null) => void;
 }) {
+  const tr = useTr();
   const [picked, setPicked] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -76,7 +78,7 @@ export function MeterPicker({
               >
                 {value}
               </span>
-              <span>{label}</span>
+              <span>{tr(label)}</span>
             </button>
           );
         })}
