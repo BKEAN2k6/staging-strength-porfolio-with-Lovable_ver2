@@ -535,7 +535,8 @@ const LangContext = createContext<LangCtx>({
   setLanguage: () => {},
 });
 
-const STORAGE_KEY = "vahvuus.lang";
+/** Canonical persisted key for the student's (class-inherited) language. */
+const STORAGE_KEY = "student_language";
 
 function readStored(): Language {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;
@@ -544,21 +545,66 @@ function readStored(): Language {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // STEP 1: Finnish-only mode. All language resolution, storage, and
-  // switching is disabled. Every consumer sees `fi`. Multilingual support
-  // will be re-introduced cleanly in Step 2.
+  // The language is a *derived* value: it comes from the class the student
+  // joined and is persisted on their profile. There is no student-facing
+  // switcher. `setLanguage` is only called by the join / resolve flows.
+  const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
+  const [loading, setLoading] = useState(true);
+
+  // Hydrate from localStorage after mount (avoids SSR mismatch).
+  useEffect(() => {
+    setLanguageState(readStored());
+    setLoading(false);
+  }, []);
+
+  // Authoritative source: the student's own profile row.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data: u } = await supabase.auth.getUser();
+        if (!u.user) return;
+        const { data } = await supabase
+          .from("profiles" as never)
+          .select("language")
+          .eq("id", u.user.id)
+          .maybeSingle();
+        const lang = (data as { language?: string } | null)?.language;
+        if (!cancelled && isLanguage(lang)) {
+          setLanguageState(lang);
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem(STORAGE_KEY, lang);
+          }
+        }
+      } catch {
+        /* keep persisted value */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = "fi";
+      document.documentElement.lang = language;
+    }
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, lang);
     }
   }, []);
 
   const value = useMemo<LangCtx>(
-    () => ({ language: "fi", loading: false, setLanguage: () => {} }),
-    [],
+    () => ({ language, loading, setLanguage }),
+    [language, loading, setLanguage],
   );
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
+
 
 export function useLanguage(): LangCtx {
   return useContext(LangContext);
