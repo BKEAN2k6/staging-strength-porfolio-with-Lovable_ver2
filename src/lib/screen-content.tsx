@@ -827,6 +827,7 @@ function S23({ onSaveStateChange }: Props) {
 
 // ----- S24 (PDF p29–30): Anna palautetta ja kehuja -----
 function S24({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const stems = [
     "Sinun vahvuuksiasi ovat ainakin…",
     "Tämä oli tärkeää kuulla, koska…",
@@ -836,7 +837,7 @@ function S24({ onSaveStateChange }: Props) {
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s24-h">
         <h1 className="font-display text-2xl">
-          Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:
+          {tr("Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:")}
         </h1>
       </StickyNote>
       <div className="grid gap-3">
@@ -844,7 +845,7 @@ function S24({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_24_palaute_${i + 1}`}
-            label={s}
+            label={tr(s)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -856,6 +857,7 @@ function S24({ onSaveStateChange }: Props) {
 
 // ----- S25 (PDF p31): Tässä olen minä -----
 function S25({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const stems = [
     "Minulle tärkeää on",
     "Tulen iloiseksi, kun",
@@ -872,14 +874,14 @@ function S25({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s25-h">
-        <h1 className="font-display text-2xl">Tässä olen minä:</h1>
+        <h1 className="font-display text-2xl">{tr("Tässä olen minä:")}</h1>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
         {stems.map((s, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_25_tassa_${i + 1}`}
-            label={s}
+            label={tr(s)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -888,6 +890,7 @@ function S25({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
 
 // ----- S26 (PDF p32): Omien vahvuuksien käyttö (Govindji & Linley, 2007) -----
 const LIKERT_STATEMENTS = [
