@@ -1755,40 +1755,37 @@ function S55(p: Props) {
 
 // ----- S56 (PDF p62): Minä ystävänä -----
 function S56_ystava({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s56-h">
-        <h1 className="font-display text-2xl mb-1">Minä ystävänä</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä ystävänä")}</h1>
         <p className="text-sm opacity-90">
-          Haastattele ystäviäsi. Pyydä heitä kertomaan tai lähettämään viesti.
-          Täydennä lauseet:
+          {tr("Haastattele ystäviäsi. Pyydä heitä kertomaan tai lähettämään viesti. Täydennä lauseet:")}
         </p>
       </StickyNote>
-      <ReflectionTextarea fieldKey="screen_57_ystavien" label="Ystävieni mielestä vahvuuksiani ovat"   rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_57_parasta"  label="Parasta ystävissäni on"                  rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_57_ystavien" label={tr("Ystävieni mielestä vahvuuksiani ovat")}   rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_57_parasta"  label={tr("Parasta ystävissäni on")}                  rows={4} onSaveStateChange={onSaveStateChange} />
     </div>
   );
 }
 
 // ----- S57 (PDF p63): Vahvuuspalaute ystäviltä -----
 function S57_palaute({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s57-h">
-        <h1 className="font-display text-2xl mb-1">Vahvuuspalaute ystäviltä</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuspalaute ystäviltä")}</h1>
         <p className="text-sm opacity-90">
-          Kirjoita palautetta ja kehuja ystäviesi kesken. Kerätkää yhdessä 2–4
-          ystävältä palautetta vahvuuksistanne. Käytä sivua 11 pohjana. Nimetkää ne
-          vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä toisen
-          vahvuudet erityisesti näkyvät ja miten positiivisesti ne vaikuttavat
-          ystävyyssuhteissa.
+          {tr("Kirjoita palautetta ja kehuja ystäviesi kesken. Kerätkää yhdessä 2–4 ystävältä palautetta vahvuuksistanne. Käytä sivua 11 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä toisen vahvuudet erityisesti näkyvät ja miten positiivisesti ne vaikuttavat ystävyyssuhteissa.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_58_uutta"     label="Mitä uutta opin palautteista?"                              rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_tarkeaa"   label="Mikä palautteessa on minulle tärkeää?"                      rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_muistavat" label="Millaisista asioista ystäväni muistavat minut parhaiten?"   rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_parasta"   label="Mikä on parasta ystävissäni?"                                rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_uutta"     label={tr("Mitä uutta opin palautteista?")}                              rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_tarkeaa"   label={tr("Mikä palautteessa on minulle tärkeää?")}                      rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_muistavat" label={tr("Millaisista asioista ystäväni muistavat minut parhaiten?")}   rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_58_parasta"   label={tr("Mikä on parasta ystävissäni?")}                                rows={3} onSaveStateChange={onSaveStateChange} />
       </div>
     </div>
   );
@@ -1796,10 +1793,11 @@ function S57_palaute({ onSaveStateChange }: Props) {
 
 // ----- S58 (PDF p64): Moduuli 6 title card -----
 function M6Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="yellow" seed="s58-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 6</div>
-      <h1 className="font-display text-4xl leading-tight">6. Vahvuusportfolion kokoaminen</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 6")}</div>
+      <h1 className="font-display text-4xl leading-tight">{tr("6. Vahvuusportfolion kokoaminen")}</h1>
     </StickyNote>
   );
 }
