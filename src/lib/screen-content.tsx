@@ -23,22 +23,20 @@ export const STRENGTHS_24 = [
 type Props = { onSaveStateChange?: (s: SaveState) => void };
 
 function Cover() {
+  const tr = useTr();
   return (
     <div className="space-y-5">
       <StickyNote tone="yellow" seed="s1-cover" className="text-center">
         <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">Huomaa hyvä!®</div>
-        <h1 className="font-display text-4xl leading-tight mb-3">Vahvuusportfolio lukiolaiselle</h1>
+        <h1 className="font-display text-4xl leading-tight mb-3">{tr("Vahvuusportfolio lukiolaiselle")}</h1>
         <div className="text-4xl mb-3">🐈‍⬛ 🏀 📚 💻</div>
         <p className="text-base leading-relaxed">
-          Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja
-          hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.
+          {tr("Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.")}
         </p>
       </StickyNote>
       <StickyNote seed="s1-howto" tone="white">
         <p className="text-sm leading-relaxed">
-          Etene näytöstä toiseen alalaidan nuolilla. Vastauksesi tallentuvat
-          automaattisesti — voit aina jatkaa siitä, mihin jäit. Aloita painamalla
-          <strong> Seuraava →</strong>.
+          {tr("Etene näytöstä toiseen alalaidan nuolilla. Vastauksesi tallentuvat automaattisesti — voit aina jatkaa siitä, mihin jäit. Aloita painamalla Seuraava →.")}
         </p>
       </StickyNote>
     </div>
@@ -46,6 +44,7 @@ function Cover() {
 }
 
 function Modules() {
+  const tr = useTr();
   const modules = WORLDS.filter((w) => w.id.startsWith("m"));
   const blurbs: Record<string, string> = {
     m1: "Tutustut ja opit omista luonteenvahvuuksista.",
@@ -66,15 +65,15 @@ function Modules() {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s2-intro">
-        <h1 className="font-display text-3xl mb-1">Moduulit</h1>
-        <p className="text-sm opacity-90">Seikkailu kulkee kuuden moduulin läpi. Tässä on yleiskuva siitä, mitä edessä on.</p>
+        <h1 className="font-display text-3xl mb-1">{tr("Moduulit")}</h1>
+        <p className="text-sm opacity-90">{tr("Seikkailu kulkee kuuden moduulin läpi. Tässä on yleiskuva siitä, mitä edessä on.")}</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {modules.map((w, i) => (
           <StickyNote key={w.id} seed={`mod-${w.id}`} tone={mapTone(w.tone)}>
-            <div className="text-xs font-bold opacity-70">Moduuli {i + 1}</div>
-            <div className="font-display text-lg leading-tight mb-1">{titles[w.id]}</div>
-            <p className="text-xs leading-snug opacity-90">{blurbs[w.id]}</p>
+            <div className="text-xs font-bold opacity-70">{tr(`Moduuli ${i + 1}`)}</div>
+            <div className="font-display text-lg leading-tight mb-1">{tr(titles[w.id])}</div>
+            <p className="text-xs leading-snug opacity-90">{tr(blurbs[w.id])}</p>
           </StickyNote>
         ))}
       </div>
@@ -88,15 +87,16 @@ function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
 }
 
 function Quote() {
+  const tr = useTr();
   return (
     <div className="space-y-5">
       <StickyNote tone="coral" seed="s3-q" className="text-center">
-        <div className="text-sm italic mb-2 opacity-90">Panosta vahvuuksiisi.</div>
+        <div className="text-sm italic mb-2 opacity-90">{tr("Panosta vahvuuksiisi.")}</div>
         <h1 className="font-display text-3xl leading-tight">
-          Kasvat eniten niillä alueilla, joilla olet jo vahva.
+          {tr("Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
         </h1>
         <div className="mt-4 inline-block rounded-full bg-white/20 px-4 py-1 text-sm">
-          MYÖTÄTUNTO 1000 kg 💛
+          {tr("MYÖTÄTUNTO 1000 kg")} 💛
         </div>
       </StickyNote>
       <p className="text-center text-xs opacity-70">Huomaa hyvä!®</p>
@@ -105,50 +105,42 @@ function Quote() {
 }
 
 function Definition() {
+  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s4-def">
-      <h1 className="font-display text-2xl mb-3">Mitä vahvuudet ovat?</h1>
+      <h1 className="font-display text-2xl mb-3">{tr("Mitä vahvuudet ovat?")}</h1>
       <p className="text-base leading-relaxed mb-3">
-        Vahvuudet eivät ole asioita tai ominaisuuksia, joissa olet hyvä — eivätkä
-        heikkoudet niitä, joissa tunnet itsesi huonoksi.
+        {tr("Vahvuudet eivät ole asioita tai ominaisuuksia, joissa olet hyvä — eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi.")}
       </p>
       <p className="text-base leading-relaxed">
-        Sen sijaan <strong>vahvuudet tekevät kantajastaan vahvan</strong>, ja
-        heikkoudet toimivat päinvastoin.
+        {tr("Sen sijaan vahvuudet tekevät kantajastaan vahvan, ja heikkoudet toimivat päinvastoin.")}
       </p>
     </StickyNote>
   );
 }
 
 function Tieto({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s5-info">
-        <h1 className="font-display text-2xl mb-2">Tietoa vahvuuksista</h1>
+        <h1 className="font-display text-2xl mb-2">{tr("Tietoa vahvuuksista")}</h1>
         <p className="text-sm leading-relaxed mb-2">
-          Luonteenvahvuudet ovat persoonan <strong>myönteisiä</strong> piirteitä, joita
-          hyödyntämällä sinä, opiskelukaverisi ja yhteisösi voivat <strong>kukoistaa</strong>.
-          Niitä ovat esimerkiksi <strong>sinnikkyys, uteliaisuus, rohkeus ja
-          myötätuntoisuus</strong>. Jokaisella opiskelijalla on vahvuuksia ja
-          kehittymässä olevaa vahvuuspotentiaalia.
+          {tr("Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja yhteisösi voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia.")}
         </p>
         <p className="text-sm leading-relaxed mb-2">
-          Vahvuudet auttavat <strong>haasteiden kohtaamisessa</strong>. Taidot ovat
-          opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja
-          toimintatapoja.
+          {tr("Vahvuudet auttavat haasteiden kohtaamisessa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.")}
         </p>
         <p className="text-sm leading-relaxed">
-          Jokaisella on omat <strong>ydinvahvuutensa</strong>, joihin kannattaa
-          keskittyä ja joita on järkevää vahvistaa. Omien vahvuuksien tunteminen lisää
-          tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.
+          {tr("Jokaisella on omat ydinvahvuutensa, joihin kannattaa keskittyä ja joita on järkevää vahvistaa. Omien vahvuuksien tunteminen lisää tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.")}
         </p>
-        <p className="mt-3 font-display text-lg">Tervetuloa mukaan, lukiolainen!</p>
+        <p className="mt-3 font-display text-lg">{tr("Tervetuloa mukaan, lukiolainen!")}</p>
       </StickyNote>
       <StickyNote seed="s5-reflect" tone="white">
         <ReflectionTextarea
           fieldKey="screen_5_first_impression"
-          label="Mikä tästä jäi mieleen? (vapaaehtoinen)"
-          placeholder="Kirjoita muutama ajatus…"
+          label={tr("Mikä tästä jäi mieleen? (vapaaehtoinen)")}
+          placeholder={tr("Kirjoita muutama ajatus…")}
           onSaveStateChange={onSaveStateChange}
         />
       </StickyNote>
@@ -157,15 +149,15 @@ function Tieto({ onSaveStateChange }: Props) {
 }
 
 function StrengthsList({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s6-h">
         <h1 className="font-display text-2xl mb-1">
-          Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa
+          {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa")}
         </h1>
         <p className="text-sm opacity-90">
-          Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit
-          palata muokkaamaan valintaasi myöhemmin.
+          {tr("Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.")}
         </p>
       </StickyNote>
       <div className="rounded-3xl bg-white/10 p-4">
@@ -182,6 +174,7 @@ function StrengthsList({ onSaveStateChange }: Props) {
 
 // S7 (PDF p7): only three short phrases on the page. No invented blurbs.
 function ThreeSteps() {
+  const tr = useTr();
   const steps = [
     { t: "Tunnista omia vahvuuksia", tone: "yellow" as const },
     { t: "Kehitä omia vahvuuksia",   tone: "mint" as const },
@@ -191,7 +184,7 @@ function ThreeSteps() {
     <div className="grid gap-3 sm:grid-cols-3">
       {steps.map((s) => (
         <StickyNote key={s.t} tone={s.tone} seed={`s7-${s.t}`} className="text-center">
-          <div className="font-display text-xl">{s.t}</div>
+          <div className="font-display text-xl">{tr(s.t)}</div>
         </StickyNote>
       ))}
     </div>
@@ -199,6 +192,7 @@ function ThreeSteps() {
 }
 
 function JokoTunnet({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     { k: "s8_love", q: "Tiedätkö, mitä rakastat tehdä?" },
     { k: "s8_motivate", q: "Minkä alkamista odotat? Mistä koulutehtävistä motivoidut eniten?" },
@@ -209,15 +203,15 @@ function JokoTunnet({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s8-h">
-        <h1 className="font-display text-2xl mb-1">Lukiolainen — joko tunnet omat vahvuutesi?</h1>
-        <p className="text-sm opacity-90">Pohdi alla olevia kysymyksiä. Vastaa omin sanoin.</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Lukiolainen — joko tunnet omat vahvuutesi?")}</h1>
+        <p className="text-sm opacity-90">{tr("Pohdi alla olevia kysymyksiä. Vastaa omin sanoin.")}</p>
       </StickyNote>
       <div className="grid gap-3">
         {qs.map((q) => (
           <ReflectionTextarea
             key={q.k}
             fieldKey={`screen_8_${q.k}`}
-            label={q.q}
+            label={tr(q.q)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -228,34 +222,33 @@ function JokoTunnet({ onSaveStateChange }: Props) {
 }
 
 function KysyPalautetta({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s9-h">
-        <h1 className="font-display text-2xl mb-1">Kysy palautetta</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Kysy palautetta")}</h1>
         <p className="text-sm opacity-90">
-          Valitse 2–4 sinulle tärkeää henkilöä — läheinen, opettaja tai ystävä —
-          jonka palautetta arvostat. Pyydä viestillä palautetta seuraavista
-          lauseista ja täydennä saamasi vastaukset tähän.
+          {tr("Valitse 2–4 sinulle tärkeää henkilöä — läheinen, opettaja tai ystävä — jonka palautetta arvostat. Pyydä viestillä palautetta seuraavista lauseista ja täydennä saamasi vastaukset tähän.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_9_best_sides" label="Parhaita puoliani ovat:" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_strengths" label="Vahvuuksiani ovat mielestäni:" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_learned" label="Olen oppinut sinulta seuraavia asioita:" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_spotted" label="Olen bongannut niitä erityisesti kun:" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_9_best_sides" label={tr("Parhaita puoliani ovat:")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_9_strengths" label={tr("Vahvuuksiani ovat mielestäni:")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_9_learned" label={tr("Olen oppinut sinulta seuraavia asioita:")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_9_spotted" label={tr("Olen bongannut niitä erityisesti kun:")} rows={3} onSaveStateChange={onSaveStateChange} />
       </div>
     </div>
   );
 }
 
 function MinaOlen({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s10-h">
-        <h1 className="font-display text-2xl mb-1">Minä olen</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä olen")}</h1>
         <p className="text-sm opacity-90">
-          Muuta muilta saamasi palaute lauseiksi minä-muotoon. <em>“Olet sinnikäs.”</em>
-          → <strong>“Minä olen sinnikäs.”</strong>
+          {tr("Muuta muilta saamasi palaute lauseiksi minä-muotoon. “Olet sinnikäs.” → “Minä olen sinnikäs.”")}
         </p>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -263,7 +256,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
           <ReflectionInput
             key={i}
             fieldKey={`screen_10_mina_olen_${i + 1}`}
-            prefix="Minä olen"
+            prefix={tr("Minä olen")}
             placeholder="…"
             onSaveStateChange={onSaveStateChange}
           />
@@ -272,6 +265,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
 
 // S11 (PDF p15): pure title card.
 function M1Intro() {
