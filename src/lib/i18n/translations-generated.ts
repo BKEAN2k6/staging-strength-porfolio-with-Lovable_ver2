@@ -960,7 +960,14 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
   "lojaali": { en: "loyal", sv: "lojal" },
   "asiat ei oo aina niin vakavia": { en: "things aren't always that serious", sv: "saker är inte alltid så allvarliga" },
   "oikeuksien puolustaja": { en: "defender of rights", sv: "rättigheternas försvarare" },
+  "Sinun vahvuuksiasi ovat ainakin…": { en: "Your strengths are at least…", sv: "Dina styrkor är åtminstone…" },
+  "Tulen iloiseksi, kun": { en: "I become happy when", sv: "Jag blir glad när" },
+  "Opinnoissa lempiaineita ovat": { en: "My favorite subjects are", sv: "Mina favoritämnen är" },
+  "Lukiossa minua innostaa": { en: "In high school I'm excited about", sv: "I gymnasiet inspireras jag av" },
+  "Vastaa kyselyyn. Laske yhteen pisteesi:": { en: "Answer the survey. Add up your score:", sv: "Svara på enkäten. Räkna ihop dina poäng:" },
+  "{n} / {total} vastattu": { en: "{n} / {total} answered", sv: "{n} / {total} besvarade" },
 };
+
 
 export type AppLanguage = "fi" | "sv" | "en";
 

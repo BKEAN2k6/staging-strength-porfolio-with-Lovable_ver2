@@ -827,6 +827,7 @@ function S23({ onSaveStateChange }: Props) {
 
 // ----- S24 (PDF p29–30): Anna palautetta ja kehuja -----
 function S24({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const stems = [
     "Sinun vahvuuksiasi ovat ainakin…",
     "Tämä oli tärkeää kuulla, koska…",
@@ -836,7 +837,7 @@ function S24({ onSaveStateChange }: Props) {
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s24-h">
         <h1 className="font-display text-2xl">
-          Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:
+          {tr("Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:")}
         </h1>
       </StickyNote>
       <div className="grid gap-3">
@@ -844,7 +845,7 @@ function S24({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_24_palaute_${i + 1}`}
-            label={s}
+            label={tr(s)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -856,6 +857,7 @@ function S24({ onSaveStateChange }: Props) {
 
 // ----- S25 (PDF p31): Tässä olen minä -----
 function S25({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const stems = [
     "Minulle tärkeää on",
     "Tulen iloiseksi, kun",
@@ -872,14 +874,14 @@ function S25({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s25-h">
-        <h1 className="font-display text-2xl">Tässä olen minä:</h1>
+        <h1 className="font-display text-2xl">{tr("Tässä olen minä:")}</h1>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
         {stems.map((s, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_25_tassa_${i + 1}`}
-            label={s}
+            label={tr(s)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -888,6 +890,7 @@ function S25({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
 
 // ----- S26 (PDF p32): Omien vahvuuksien käyttö (Govindji & Linley, 2007) -----
 const LIKERT_STATEMENTS = [
@@ -970,16 +973,18 @@ function LikertRow({
 }
 
 function S26({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const [scores, setScores] = useState<Record<number, number>>({});
   const sum = Object.values(scores).reduce((a, b) => a + b, 0);
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s26-h">
-        <h1 className="font-display text-2xl mb-1">Omien vahvuuksien käyttö</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Omien vahvuuksien käyttö")}</h1>
         <p className="text-xs opacity-70 mb-2">Govindji and Linley (2007)</p>
         <p className="text-sm opacity-90">
-          Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa
-          seuraavaan mittariin vahvuuksien käytöstä.
+          {tr(
+            "Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan mittariin vahvuuksien käytöstä.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-2">
@@ -988,17 +993,20 @@ function S26({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_26_likert_${i + 1}`}
             index={i}
-            label={s}
+            label={tr(s)}
             onSaveStateChange={onSaveStateChange}
             onValue={(v) => setScores((cur) => ({ ...cur, [i]: v }))}
           />
         ))}
       </div>
       <StickyNote tone="mint" seed="s26-sum" className="text-center">
-        <div className="text-sm opacity-80">Vastaa kyselyyn. Laske yhteen pisteesi:</div>
+        <div className="text-sm opacity-80">{tr("Vastaa kyselyyn. Laske yhteen pisteesi:")}</div>
         <div className="font-display text-4xl mt-1">{sum}</div>
-        <div className="text-xs opacity-60 mt-1">{Object.keys(scores).length} / {LIKERT_STATEMENTS.length} vastattu</div>
+        <div className="text-xs opacity-60 mt-1">
+          {tr("{n} / {total} vastattu", { n: Object.keys(scores).length, total: LIKERT_STATEMENTS.length })}
+        </div>
       </StickyNote>
+
     </div>
   );
 }
