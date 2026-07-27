@@ -1205,11 +1205,12 @@ function S32({ onSaveStateChange }: Props) {
 
 // ----- S33 (PDF p39): Listaa erityistaidot — 10 slots -----
 function S33({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s33-h">
         <h1 className="font-display text-2xl">
-          Täydennä kaikki erityistaitosi tähän listaan.
+          {tr("Täydennä kaikki erityistaitosi tähän listaan.")}
         </h1>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -1218,7 +1219,7 @@ function S33({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_33_erityistaito_${i + 1}`}
             prefix={`${i + 1}.`}
-            placeholder="Erityistaito…"
+            placeholder={tr("Erityistaito…")}
             onSaveStateChange={onSaveStateChange}
           />
         ))}
