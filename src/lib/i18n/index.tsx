@@ -620,22 +620,59 @@ function formatTemplate(s: string, vars?: Record<string, string | number>): stri
   });
 }
 
-export function useT(): (key: string, vars?: Record<string, string | number>) => string {
-  return useCallback((key, vars) => {
-    const raw = UI.fi[key];
-    if (!raw) {
+// ---- Finnish-source lookup (Prompt 1 dictionary) ----
+const trWarned = new Set<string>();
+function trFinnish(finnish: string, language: Language): string {
+  if (language === "fi") return finnish;
+  const out = translateFinnish(finnish, language as AppLanguage);
+  if (out === finnish && !TRANSLATIONS[finnish]) {
+    const key = `${language}:${finnish}`;
+    if (!trWarned.has(key)) {
+      trWarned.add(key);
       // eslint-disable-next-line no-console
-      console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
-      return formatTemplate(key, vars);
+      console.warn(
+        `[i18n] Missing ${language.toUpperCase()} chrome translation (rendering Finnish):`,
+        finnish,
+      );
     }
-    return formatTemplate(raw, vars);
-  }, []);
+  }
+  return out;
 }
 
-/** Finnish-only mode: returns the Finnish source unchanged. */
+/**
+ * Translate a Finnish source string into the active language.
+ * Finnish returns unchanged; a missing translation returns the Finnish original.
+ */
+export function useTr(): (finnish: string, vars?: Record<string, string | number>) => string {
+  const { language } = useLanguage();
+  return useCallback(
+    (finnish, vars) => formatTemplate(trFinnish(finnish, language), vars),
+    [language],
+  );
+}
+
+export function useT(): (key: string, vars?: Record<string, string | number>) => string {
+  const { language } = useLanguage();
+  return useCallback(
+    (key, vars) => {
+      const raw = UI.fi[key];
+      if (!raw) {
+        // eslint-disable-next-line no-console
+        console.warn(`[i18n] Missing Finnish UI translation: ${key}`);
+        return formatTemplate(key, vars);
+      }
+      // Translate the *template* first, then substitute values.
+      return formatTemplate(trFinnish(raw, language), vars);
+    },
+    [language],
+  );
+}
+
+/** Screen BODY text stays Finnish in this step (Prompt 4 handles it). */
 export function useTFi(): (fi: string | undefined | null) => string {
   return useCallback((fi) => fi ?? "", []);
 }
+
 
 // ---------------- Recursive text translator ----------------
 // STEP 1 Finnish-only: passthrough. Kept for API compatibility.
