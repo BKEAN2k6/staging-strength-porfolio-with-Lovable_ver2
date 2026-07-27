@@ -399,7 +399,7 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
                 <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full border border-current align-middle text-[10px]">
                   {active ? "✓" : ""}
                 </span>
-                {stmt}
+                {tr(stmt)}
               </button>
             </li>
           );
