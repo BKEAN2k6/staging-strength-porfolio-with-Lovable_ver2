@@ -18,14 +18,13 @@ export const Route = createFileRoute("/auth/login")({
         .refine((v) => v.startsWith("/") && !v.startsWith("//"))
         .optional(),
     })
-    .transform((s) => ({ next: s.next ?? "" }))
-    .parse,
+    .default({}),
   component: LoginPage,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { next } = Route.useSearch();
+  const next = Route.useSearch().next ?? "";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
