@@ -8,14 +8,18 @@ import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { toast } from "sonner";
 import { useT } from "@/lib/i18n";
+import { z } from "zod";
 
 export const Route = createFileRoute("/auth/login")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    next:
-      typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//")
-        ? s.next
-        : "",
-  }),
+  validateSearch: z
+    .object({
+      next: z
+        .string()
+        .refine((v) => v.startsWith("/") && !v.startsWith("//"))
+        .optional(),
+    })
+    .transform((s) => ({ next: s.next ?? "" }))
+    .parse,
   component: LoginPage,
 });
 
