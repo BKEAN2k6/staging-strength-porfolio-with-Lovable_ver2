@@ -408,9 +408,9 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
 
       {done && (
         <StickyNote tone="mint" seed="s12-reveal">
-          <h2 className="font-display text-xl mb-2">Väittämiä vastaavat luonteenvahvuudet</h2>
+          <h2 className="font-display text-xl mb-2">{tr("Väittämiä vastaavat luonteenvahvuudet")}</h2>
           <p className="text-xs opacity-80 mb-3">
-            Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?
+            {tr("Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?")}
           </p>
           <ol className="grid gap-1 text-sm sm:grid-cols-2">
             {KARKKIKAUPPA_STRENGTHS.map((s, i) => {
