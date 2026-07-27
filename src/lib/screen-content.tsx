@@ -1013,45 +1013,38 @@ function S26({ onSaveStateChange }: Props) {
 
 // ----- S27 (PDF p33): Moduuli 2 title card -----
 function M2Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s27-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 2</div>
-      <h1 className="font-display text-4xl leading-tight">2. Omat vahvuudet lukiossa</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 2")}</div>
+      <h1 className="font-display text-4xl leading-tight">{tr("2. Omat vahvuudet lukiossa")}</h1>
     </StickyNote>
   );
 }
 
 // ----- S28 (PDF p34): Omat vahvuuteni lukiossa — informational -----
 function S28() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s28-h">
-        <h1 className="font-display text-2xl mb-2">Omat vahvuuteni lukiossa</h1>
+        <h1 className="font-display text-2xl mb-2">{tr("Omat vahvuuteni lukiossa")}</h1>
       </StickyNote>
       <StickyNote tone="white" seed="s28-b">
         <p className="text-sm leading-relaxed mb-2">
-          Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi
-          lukiolaisena.
+          {tr("Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.")}
         </p>
         <p className="text-sm leading-relaxed mb-2">
-          Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen
-          tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja
-          onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla
-          tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei
-          vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää
-          ja oppia.
+          {tr("Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää ja oppia.")}
         </p>
         <p className="text-sm leading-relaxed">
-          Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä
-          muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja
-          ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on,
-          että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää
-          niitä osana opintoja.
+          {tr("Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää niitä osana opintoja.")}
         </p>
       </StickyNote>
     </div>
   );
 }
+
 
 // ----- Reusable: "Vahvuuskarkkini" worksheet (S29 lukiossa, S42 kotona,
 // S48 vapaa-ajalla, S56 ystävyyssuhteissa) -----
@@ -1066,30 +1059,31 @@ function VahvuuskarkkiSheet({
   fieldPrefix: string;
   onSaveStateChange?: (s: SaveState) => void;
 }) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed={`${fieldPrefix}-h`}>
         <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">
-          {context.toUpperCase()}
+          {tr(context).toUpperCase()}
         </div>
-        <h1 className="font-display text-2xl mb-1">{title}</h1>
+        <h1 className="font-display text-2xl mb-1">{tr(title)}</h1>
         <p className="text-sm opacity-90">
-          Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet
-          tähän. Pohdi, mitä teit, koit ja opit.
+          {tr("Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet tähän. Pohdi, mitä teit, koit ja opit.", { context: tr(context) })}
         </p>
       </StickyNote>
       <ReflectionInput
         fieldKey={`${fieldPrefix}_karkit`}
-        prefix="Vahvuudet"
-        placeholder="Merkkaa tähän mitä vahvuutta käytit!"
+        prefix={tr("Vahvuudet")}
+        placeholder={tr("Merkkaa tähän mitä vahvuutta käytit!")}
         onSaveStateChange={onSaveStateChange}
       />
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label="1. Mitä teit?"             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label="2. Mitä tapahtui seuraavaksi?" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label="3. Mitä opit?"             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label="4. Miten hyödynnät oppimaasi?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label={tr("1. Mitä teit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label={tr("2. Mitä tapahtui seuraavaksi?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label={tr("3. Mitä opit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label={tr("4. Miten hyödynnät oppimaasi?")} rows={3} onSaveStateChange={onSaveStateChange} />
       </div>
+
     </div>
   );
 }
@@ -1108,6 +1102,7 @@ function S29(p: Props) {
 
 // ----- S30 (PDF p36): Osaamisen osa-alueiden palapeli -----
 function S30({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const quadrants: Array<{ k: string; title: string; q: string }> = [
     { k: "screen_30_lahjakkuudet",   title: "LAHJAKKUUDET",            q: "Missä olet hyvä?" },
     { k: "screen_30_taidot",         title: "TAIDOT",                  q: "Mitä taitoja sinulla jo on, joita hyödynnät opinnoissa?" },
@@ -1117,21 +1112,19 @@ function S30({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s30-h">
-        <h1 className="font-display text-2xl mb-1">Osaamisen osa-alueiden palapeli</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Osaamisen osa-alueiden palapeli")}</h1>
         <p className="text-sm opacity-90">
-          Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa
-          neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja
-          resursseihin.
+          {tr("Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.")}
         </p>
         <p className="text-xs opacity-60 mt-1">(Niemiec, 2018)</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         {quadrants.map((q) => (
           <StickyNote key={q.k} tone="white" seed={q.k}>
-            <div className="font-display text-sm mb-1">{q.title}</div>
+            <div className="font-display text-sm mb-1">{tr(q.title)}</div>
             <ReflectionTextarea
               fieldKey={q.k}
-              label={q.q}
+              label={tr(q.q)}
               rows={4}
               onSaveStateChange={onSaveStateChange}
             />
@@ -1142,8 +1135,10 @@ function S30({ onSaveStateChange }: Props) {
   );
 }
 
+
 // ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
 function S31({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Keneltä saan tukea ja opastusta?",
     "Mitä vahvuuksiani voin hyödyntää?",
@@ -1154,14 +1149,14 @@ function S31({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s31-h">
-        <h1 className="font-display text-2xl">Unelmien tiekartta opinnoissa</h1>
+        <h1 className="font-display text-2xl">{tr("Unelmien tiekartta opinnoissa")}</h1>
       </StickyNote>
       <div className="grid gap-3">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_31_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${q}`}
+            label={`${i + 1}. ${tr(q)}`}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -1173,6 +1168,7 @@ function S31({ onSaveStateChange }: Props) {
 
 // ----- S32 (PDF p38): Minä opiskelijana -----
 function S32({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Mikä saa sinut innostumaan opinnoissa?",
     "Minkä tekemiseen uppoudut?",
@@ -1184,17 +1180,12 @@ function S32({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s32-h">
-        <h1 className="font-display text-2xl mb-1">Minä opiskelijana</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä opiskelijana")}</h1>
         <p className="text-sm opacity-90">
-          Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös
-          sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä
-          kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia,
-          keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?
+          {tr("Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?")}
         </p>
         <p className="text-sm opacity-90 mt-2">
-          Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja
-          missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää
-          vahvuuksiasi lukiossa.
+          {tr("Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.")}
         </p>
       </StickyNote>
       <div className="grid gap-3">
@@ -1202,7 +1193,7 @@ function S32({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_32_minaopisk_${i + 1}`}
-            label={q}
+            label={tr(q)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -1214,11 +1205,12 @@ function S32({ onSaveStateChange }: Props) {
 
 // ----- S33 (PDF p39): Listaa erityistaidot — 10 slots -----
 function S33({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s33-h">
         <h1 className="font-display text-2xl">
-          Täydennä kaikki erityistaitosi tähän listaan.
+          {tr("Täydennä kaikki erityistaitosi tähän listaan.")}
         </h1>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -1227,7 +1219,7 @@ function S33({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_33_erityistaito_${i + 1}`}
             prefix={`${i + 1}.`}
-            placeholder="Erityistaito…"
+            placeholder={tr("Erityistaito…")}
             onSaveStateChange={onSaveStateChange}
           />
         ))}
@@ -1238,6 +1230,7 @@ function S33({ onSaveStateChange }: Props) {
 
 // ----- S34 (PDF p40): Koulu-kokemuksia -----
 function S34({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs: Array<{ k: string; q: string }> = [
     { k: "screen_34_oppi",         q: "Minkälaisia asioita opit nopeasti ja helposti?" },
     { k: "screen_34_palaute",      q: "Mistä sait rohkaisevaa palautetta peruskoulussa opettajilta entä luokkakavereilta?" },
@@ -1247,10 +1240,9 @@ function S34({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s34-h">
-        <h1 className="font-display text-2xl mb-1">Koulu-kokemuksia</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Koulu-kokemuksia")}</h1>
         <p className="text-sm opacity-90">
-          Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia
-          vahvuuksia sinulla on.
+          {tr("Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1258,7 +1250,7 @@ function S34({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={x.k}
             fieldKey={x.k}
-            label={x.q}
+            label={tr(x.q)}
             rows={3}
             onSaveStateChange={onSaveStateChange}
           />
@@ -1270,28 +1262,26 @@ function S34({ onSaveStateChange }: Props) {
 
 // ----- S35 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
 function S35() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s35-h">
-        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 1/2</h1>
+        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 1/2")}</h1>
       </StickyNote>
       <StickyNote tone="white" seed="s35-b">
         <p className="text-sm leading-relaxed mb-2">
-          Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita
-          haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee
-          vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot
-          hyödyntää tavoitteen saavuttamisessa.
+          {tr("Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.")}
         </p>
         <p className="text-sm font-medium">
-          Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?
+          {tr("Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?")}
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
-          <li>Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.</li>
-          <li>Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.</li>
-          <li>Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.</li>
-          <li>Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.</li>
+          <li>{tr("Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.")}</li>
+          <li>{tr("Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.")}</li>
+          <li>{tr("Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.")}</li>
+          <li>{tr("Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.")}</li>
         </ol>
-        <p className="text-xs italic opacity-70 mt-2">→ Jäävuori seuraavalla sivulla.</p>
+        <p className="text-xs italic opacity-70 mt-2">→ {tr("Jäävuori seuraavalla sivulla.")}</p>
       </StickyNote>
     </div>
   );
@@ -1299,6 +1289,7 @@ function S35() {
 
 // ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
 function S36({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const boxes: Array<{ k: string; label: string }> = [
     { k: "screen_36_tavoite",     label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
     { k: "screen_36_vahvuudet",   label: "2. Vaaditut vahvuudet" },
@@ -1308,14 +1299,14 @@ function S36({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s36-h">
-        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 2/2</h1>
+        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 2/2")}</h1>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         {boxes.map((b) => (
           <StickyNote key={b.k} tone="white" seed={b.k}>
             <ReflectionTextarea
               fieldKey={b.k}
-              label={b.label}
+              label={tr(b.label)}
               rows={4}
               onSaveStateChange={onSaveStateChange}
             />
@@ -1323,8 +1314,7 @@ function S36({ onSaveStateChange }: Props) {
         ))}
       </div>
       <p className="text-center text-xs opacity-60">
-        Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen
-        kuva saadaan käyttöön.
+        {tr("Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan käyttöön.")}
       </p>
     </div>
   );
@@ -1332,31 +1322,31 @@ function S36({ onSaveStateChange }: Props) {
 
 // ----- S37 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
 function S37({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s37-h">
-        <h1 className="font-display text-2xl mb-1">Vahvuuteni opiskelijana</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuteni opiskelijana")}</h1>
         <p className="text-sm opacity-90">
-          Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi.
-          Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!
+          {tr("Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-3">
         <ReflectionTextarea
           fieldKey="screen_37_arvostan"
-          label="Mukavia asioita — Arvostan itsessäni"
+          label={tr("Mukavia asioita — Arvostan itsessäni")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_vahvuuksiani"
-          label="Omia vahvuuksia — Vahvuuksiani ovat mielestäni"
+          label={tr("Omia vahvuuksia — Vahvuuksiani ovat mielestäni")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_paikkoja"
-          label="Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani"
+          label={tr("Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
@@ -1367,22 +1357,20 @@ function S37({ onSaveStateChange }: Props) {
 
 // ----- S38 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
 function S38({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s38-h">
-        <h1 className="font-display text-2xl mb-1">Vahvuuspalaute opiskelukavereilta</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuspalaute opiskelukavereilta")}</h1>
         <p className="text-sm opacity-90">
-          Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä
-          sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte.
-          Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat
-          kanssaihmisiin.
+          {tr("Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat kanssaihmisiin.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_38_uutta"       label="Mitä uutta opin palautteista?" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_tarkeaa"     label="Mikä palautteessa on minulle tärkeää?" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_muistetaan"  label="Millaisista asioista minut muistetaan / tunnistetaan parhaiten?" rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_yhteisoon"   label="Mitä hyvää vahvuuteni tuovat yhteisööni?" rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_uutta"       label={tr("Mitä uutta opin palautteista?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_tarkeaa"     label={tr("Mikä palautteessa on minulle tärkeää?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_muistetaan"  label={tr("Millaisista asioista minut muistetaan / tunnistetaan parhaiten?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea fieldKey="screen_38_yhteisoon"   label={tr("Mitä hyvää vahvuuteni tuovat yhteisööni?")} rows={3} onSaveStateChange={onSaveStateChange} />
       </div>
     </div>
   );
@@ -1390,13 +1378,14 @@ function S38({ onSaveStateChange }: Props) {
 
 // ----- S39 (PDF p45): Minä olen (M2) -----
 function S39({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s39-h">
-        <h1 className="font-display text-2xl mb-1">Minä olen</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä olen")}</h1>
         <p className="text-sm opacity-90">
-          Muuta muilta saamasi palaute lauseiksi minä-muotoon.
-          <em> “Olet sinnikäs.”</em> → <strong>“Minä olen sinnikäs.”</strong>
+          {tr("Muuta muilta saamasi palaute lauseiksi minä-muotoon.")}
+          <em> {tr("“Olet sinnikäs.”")}</em> → <strong>{tr("“Minä olen sinnikäs.”")}</strong>
         </p>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -1404,7 +1393,7 @@ function S39({ onSaveStateChange }: Props) {
           <ReflectionInput
             key={i}
             fieldKey={`screen_39_mina_olen_${i + 1}`}
-            prefix="Minä olen"
+            prefix={tr("Minä olen")}
             placeholder="…"
             onSaveStateChange={onSaveStateChange}
           />
@@ -1413,6 +1402,7 @@ function S39({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
 
 // ----- S40 (PDF p46): Moduuli 3 title card -----
 function M3Intro() {
