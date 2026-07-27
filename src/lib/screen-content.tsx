@@ -1579,6 +1579,7 @@ function S47(p: Props) {
 
 // ----- S48 (PDF p54): Minä vapaa-ajalla -----
 function S48_vapaa({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const cols = [
     { k: "screen_49_tykkaat",      q: "Mitä tykkäät tehdä vapaa-ajalla?" },
     { k: "screen_49_harrastukset", q: "Mitä harrastuksia sinulla on?" },
@@ -1588,10 +1589,9 @@ function S48_vapaa({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s48-h">
-        <h1 className="font-display text-2xl mb-1">Minä vapaa-ajalla</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä vapaa-ajalla")}</h1>
         <p className="text-sm opacity-90">
-          Kirjoita itsellesi muistiin mitä teet vapaa-ajallasi ja millaisia vahvuuksia
-          hyödynnät.
+          {tr("Kirjoita itsellesi muistiin mitä teet vapaa-ajallasi ja millaisia vahvuuksia hyödynnät.")}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1599,7 +1599,7 @@ function S48_vapaa({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={c.k}
             fieldKey={c.k}
-            label={c.q}
+            label={tr(c.q)}
             rows={4}
             onSaveStateChange={onSaveStateChange}
           />
@@ -1611,25 +1611,23 @@ function S48_vapaa({ onSaveStateChange }: Props) {
 
 // ----- S49 (PDF p55): Love to-do -lista 1/3 — informational -----
 function S49_loveinfo() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s49-h">
-        <h1 className="font-display text-2xl">Love to-do -lista 1/3</h1>
+        <h1 className="font-display text-2xl">{tr("Love to-do -lista 1/3")}</h1>
       </StickyNote>
       <StickyNote tone="white" seed="s49-b">
         <p className="text-sm leading-relaxed mb-2">
-          Mitkä asiat päätyvät sinun love-to-do listalle? Tee lista viidestä asiasta,
-          joita rakastat tehdä vapaa-ajalla.
+          {tr("Mitkä asiat päätyvät sinun love-to-do listalle? Tee lista viidestä asiasta, joita rakastat tehdä vapaa-ajalla.")}
         </p>
         <p className="text-sm leading-relaxed">
-          Mieti seuraavaksi, kuinka vahvuutesi liittyvät näihin tekemisiin.
+          {tr("Mieti seuraavaksi, kuinka vahvuutesi liittyvät näihin tekemisiin.")}
         </p>
         <p className="text-xs italic opacity-70 mt-2">
-          Ps. Todennäköisesti harrastukset ja tekemiset, joista pidät eniten, ovat
-          myös tyydyttäviä, koska ne tarjoavat sinulle mahdollisuuden hyödyntää
-          vahvuuksiasi.
+          {tr("Ps. Todennäköisesti harrastukset ja tekemiset, joista pidät eniten, ovat myös tyydyttäviä, koska ne tarjoavat sinulle mahdollisuuden hyödyntää vahvuuksiasi.")}
         </p>
-        <p className="text-xs italic opacity-70 mt-2">→ Love to-do -lista seuraavalla sivulla.</p>
+        <p className="text-xs italic opacity-70 mt-2">{tr("→ Love to-do -lista seuraavalla sivulla.")}</p>
       </StickyNote>
     </div>
   );
@@ -1637,13 +1635,13 @@ function S49_loveinfo() {
 
 // ----- S50 (PDF p56): Love to-do -lista 2/3 — 5 inputs -----
 function S50_love({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s50-h">
-        <h1 className="font-display text-2xl mb-1">Love to-do -lista</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Love to-do -lista")}</h1>
         <p className="text-sm opacity-90">
-          Kirjoita viisi asiaa, joita rakastat tehdä vapaa-ajallasi. Merkkaa sydämiin
-          miten paljon teet kyseistä asiaa.
+          {tr("Kirjoita viisi asiaa, joita rakastat tehdä vapaa-ajallasi. Merkkaa sydämiin miten paljon teet kyseistä asiaa.")}
         </p>
       </StickyNote>
       <div className="grid gap-2">
@@ -1652,7 +1650,7 @@ function S50_love({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_51_love_${i + 1}`}
             prefix={`${i + 1}.`}
-            placeholder="Asia, jota rakastan tehdä…"
+            placeholder={tr("Asia, jota rakastan tehdä…")}
             onSaveStateChange={onSaveStateChange}
           />
         ))}
@@ -1663,20 +1661,21 @@ function S50_love({ onSaveStateChange }: Props) {
 
 // ----- S51 (PDF p57): Love to-do -lista 3/3 -----
 function S51_loveB({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s51-h">
-        <h1 className="font-display text-2xl">Love to-do -lista</h1>
+        <h1 className="font-display text-2xl">{tr("Love to-do -lista")}</h1>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_52_konkreettisesti"
-        label="Kuvittele, että voisit tehdä eniten rakastamaasi asiaa enemmän — miltä se konkreettisesti tuntuisi? Mihin haluaisit käyttää enemmän aikaa?"
+        label={tr("Kuvittele, että voisit tehdä eniten rakastamaasi asiaa enemmän — miltä se konkreettisesti tuntuisi? Mihin haluaisit käyttää enemmän aikaa?")}
         rows={5}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_52_vahvuudet"
-        label="Kirjoita mitä vahvuuksiasi hyödynnät tehdessäsi rakastamiasi asioita vapaa-ajalla!"
+        label={tr("Kirjoita mitä vahvuuksiasi hyödynnät tehdessäsi rakastamiasi asioita vapaa-ajalla!")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
@@ -1686,28 +1685,27 @@ function S51_loveB({ onSaveStateChange }: Props) {
 
 // ----- S52 (PDF p58): Kuvakollaasi 1/2 — informational -----
 function S52_kollaasiInfo() {
+  const tr = useTr();
+  const bullets = [
+    "Kerää kollaasi asioista / tavaroista, jotka ovat sinulle tärkeitä, joista olet kiinnostunut ja joissa voit hyödyntää vahvuuksiasi. Esimerkiksi koripallo, kirja, tietokone ja kissa.",
+    "Teenäistä kollaasi ja ota siitä kuva.",
+    "Esitelkää kuvat ryhmässä. Tutustukaa toistenne vahvuuksiin.",
+    "Mitkä tavarat tai tekemiset valitsit kuvaasi? Miksi?",
+    "Kirjoita, mitä vahvuuksiasi kiinnostuksen kohteesi ovat kehittäneet? Miten?",
+    "Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?",
+    "Käykää ystävän kanssa syvempi keskustelu vahvuuksien ja kiinnostuksen kohteiden välisestä yhteydestä vapaa-ajalla.",
+  ];
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s52-h">
-        <h1 className="font-display text-2xl mb-1">Kuvakollaasi 1/2</h1>
-        <p className="text-sm font-medium">Mitkä asiat sinua kiinnostavat vapaa-ajalla? Miksi?</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Kuvakollaasi 1/2")}</h1>
+        <p className="text-sm font-medium">{tr("Mitkä asiat sinua kiinnostavat vapaa-ajalla? Miksi?")}</p>
       </StickyNote>
       <StickyNote tone="white" seed="s52-b">
         <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed">
-          <li>
-            Kerää kollaasi asioista / tavaroista, jotka ovat sinulle tärkeitä, joista
-            olet kiinnostunut ja joissa voit hyödyntää vahvuuksiasi. Esimerkiksi
-            koripallo, kirja, tietokone ja kissa.
-          </li>
-          <li>Teenäistä kollaasi ja ota siitä kuva.</li>
-          <li>Esitelkää kuvat ryhmässä. Tutustukaa toistenne vahvuuksiin.</li>
-          <li>Mitkä tavarat tai tekemiset valitsit kuvaasi? Miksi?</li>
-          <li>Kirjoita, mitä vahvuuksiasi kiinnostuksen kohteesi ovat kehittäneet? Miten?</li>
-          <li>Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?</li>
-          <li>
-            Käykää ystävän kanssa syvempi keskustelu vahvuuksien ja kiinnostuksen
-            kohteiden välisestä yhteydestä vapaa-ajalla.
-          </li>
+          {bullets.map((b) => (
+            <li key={b}>{tr(b)}</li>
+          ))}
         </ul>
       </StickyNote>
     </div>
@@ -1716,27 +1714,29 @@ function S52_kollaasiInfo() {
 
 // ----- S53 (PDF p59): Kuvakollaasi 2/2 -----
 function S53_kollaasi({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s53-h">
-        <h1 className="font-display text-2xl mb-1">Kuvakollaasi 2/2</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Kuvakollaasi 2/2")}</h1>
         <p className="text-sm opacity-90">
-          Jutelkaa ystävien kanssa vahvuuksistanne ja kiinnostuksen kohteistanne!
+          {tr("Jutelkaa ystävien kanssa vahvuuksistanne ja kiinnostuksen kohteistanne!")}
         </p>
       </StickyNote>
-      <ReflectionTextarea fieldKey="screen_54_valitsin"     label="Mitä valitsin"                                                              rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_54_kehittaneet"  label="Mitä vahvuuksia kiinnostuksen kohteeni ovat kehittäneet?"                  rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_54_uudet"        label="Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?"          rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_54_valitsin"     label={tr("Mitä valitsin")}                                                              rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_54_kehittaneet"  label={tr("Mitä vahvuuksia kiinnostuksen kohteeni ovat kehittäneet?")}                  rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea fieldKey="screen_54_uudet"        label={tr("Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?")}          rows={4} onSaveStateChange={onSaveStateChange} />
     </div>
   );
 }
 
 // ----- S54 (PDF p60): Moduuli 5 title card -----
 function M5Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s54-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 5</div>
-      <h1 className="font-display text-4xl leading-tight">5. Omat vahvuudet ystävyyssuhteissa</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 5")}</div>
+      <h1 className="font-display text-4xl leading-tight">{tr("5. Omat vahvuudet ystävyyssuhteissa")}</h1>
     </StickyNote>
   );
 }
