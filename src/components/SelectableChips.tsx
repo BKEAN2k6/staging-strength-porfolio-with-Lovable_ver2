@@ -10,12 +10,15 @@ export function SelectableChips({
   onSaveStateChange,
   max,
   min = 1,
+  labelFor,
 }: {
   fieldKey: string;
   options: string[];
   onSaveStateChange?: (s: SaveState) => void;
   max?: number;
   min?: number;
+  /** Display-only label mapper. Never affects stored/compared values. */
+  labelFor?: (opt: string) => string;
 }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
