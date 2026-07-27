@@ -9,7 +9,7 @@ import { ScreenContent, hasContent } from "@/lib/screen-content";
 import { REQUIREMENTS, useNavGate } from "@/lib/screen-completion";
 import { supabase } from "@/integrations/supabase/client";
 import type { SaveState } from "@/hooks/use-autosave";
-import { TranslateFi, useT, useTFi } from "@/lib/i18n";
+import { TranslateFi, useT, useTr } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/$screen")({
   component: ScreenView,
@@ -22,7 +22,7 @@ function ScreenView() {
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const { setScreen, isComplete } = useNavGate();
   const t = useT();
-  const tFi = useTFi();
+  const tr = useTr();
   const hint = t("nav.finishFirst");
 
   useEffect(() => {
@@ -54,8 +54,8 @@ function ScreenView() {
       <ScreenChrome n={n} saveState={saveState} />
       <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         <div className="mb-4 flex items-center gap-2">
-          <PencilBadge>{tFi(world.title)}</PencilBadge>
-          <span className="text-sm opacity-80">{tFi(world.subtitle)}</span>
+          <PencilBadge>{tr(world.title)}</PencilBadge>
+          <span className="text-sm opacity-80">{tr(world.subtitle)}</span>
           <span className="ml-auto text-base" aria-hidden>{world.emoji ?? "🗺️"}</span>
         </div>
         {built ? (
