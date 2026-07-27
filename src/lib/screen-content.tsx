@@ -272,10 +272,11 @@ function MinaOlen({ onSaveStateChange }: Props) {
 
 // S11 (PDF p15): pure title card.
 function M1Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s11-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 1</div>
-      <h1 className="font-display text-4xl leading-tight">1. Omat ydinvahvuudet</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 1")}</div>
+      <h1 className="font-display text-4xl leading-tight">1. {tr("Omat ydinvahvuudet")}</h1>
     </StickyNote>
   );
 }
@@ -328,6 +329,7 @@ const KARKKIKAUPPA_STRENGTHS: string[] = [
 const KARKKIKAUPPA_KEY = "screen_12_karkkikauppa_picks";
 
 function Karkkikauppa({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const [picks, setPicks] = useState<number[]>([]);
   const [loaded, setLoaded] = useState(false);
   const report = useReportCompletion();
@@ -362,18 +364,18 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s12-h" className="text-center">
-        <h1 className="font-display text-3xl leading-tight mb-2">YDINVAHVUUKSIEN KARKKIKAUPPA</h1>
+        <h1 className="font-display text-3xl leading-tight mb-2">{tr("YDINVAHVUUKSIEN KARKKIKAUPPA")}</h1>
         <p className="text-sm leading-relaxed">
-          Valitse itsellesi viisi tärkeintä väittämäkarkkia. Kun olet ruksinut ne,
-          katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.
+          {tr("Valitse itsellesi viisi tärkeintä väittämäkarkkia. Kun olet ruksinut ne, katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.")}
         </p>
       </StickyNote>
 
       <div className="sticky top-[5.5rem] z-[5] rounded-full bg-[color:var(--purple-dark)]/80 px-4 py-2 text-center text-xs font-medium backdrop-blur">
         {done
-          ? "Valmista! Olet valinnut viisi väittämäkarkkia."
-          : `Valittu ${picks.length} / 5 — valitse vielä ${remaining}.`}
+          ? tr("Valmista! Olet valinnut viisi väittämäkarkkia.")
+          : tr("Valittu {n} / 5 — valitse vielä {remaining}.", { n: picks.length, remaining })}
       </div>
+
 
       <ul className="grid gap-2 sm:grid-cols-2">
         {KARKKIKAUPPA_STATEMENTS.map((stmt, i) => {
@@ -397,7 +399,7 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
                 <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full border border-current align-middle text-[10px]">
                   {active ? "✓" : ""}
                 </span>
-                {stmt}
+                {tr(stmt)}
               </button>
             </li>
           );
@@ -406,9 +408,9 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
 
       {done && (
         <StickyNote tone="mint" seed="s12-reveal">
-          <h2 className="font-display text-xl mb-2">Väittämiä vastaavat luonteenvahvuudet</h2>
+          <h2 className="font-display text-xl mb-2">{tr("Väittämiä vastaavat luonteenvahvuudet")}</h2>
           <p className="text-xs opacity-80 mb-3">
-            Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?
+            {tr("Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?")}
           </p>
           <ol className="grid gap-1 text-sm sm:grid-cols-2">
             {KARKKIKAUPPA_STRENGTHS.map((s, i) => {
@@ -422,7 +424,7 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
                   )}
                 >
                   <span className="font-mono text-xs opacity-60 w-6">{i + 1}.</span>
-                  <span>{s}</span>
+                  <span>{tr(s)}</span>
                 </li>
               );
             })}
@@ -435,21 +437,22 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
 
 // ----- S13 (PDF p18): Vahvuuskarkkini -----
 function S13({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s13-h">
-        <h1 className="font-display text-2xl mb-1">Vahvuuskarkkini</h1>
-        <p className="text-sm opacity-90">Pohdi omia vahvuuksia ja vastaa:</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuskarkkini")}</h1>
+        <p className="text-sm opacity-90">{tr("Pohdi omia vahvuuksia ja vastaa:")}</p>
       </StickyNote>
 
       <StickyNote tone="white" seed="s13-jar">
-        <div className="mb-2 text-sm font-medium">Merkkaa tähän 5 vahvuuskarkkiasi!</div>
+        <div className="mb-2 text-sm font-medium">{tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}</div>
         <div className="grid gap-2">
           {Array.from({ length: 5 }).map((_, i) => (
             <ReflectionInput
               key={i}
               fieldKey={`screen_13_karkki_${i + 1}`}
-              placeholder="Vahvuuskarkki…"
+              placeholder={tr("Vahvuuskarkki…")}
               onSaveStateChange={onSaveStateChange}
             />
           ))}
@@ -458,19 +461,19 @@ function S13({ onSaveStateChange }: Props) {
 
       <ReflectionTextarea
         fieldKey="screen_13_examples"
-        label="Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista."
+        label={tr("Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_13_success"
-        label="Missä onnistuit omia vahvuuksia hyödyntämällä?"
+        label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
         rows={3}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_13_effect"
-        label="Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?"
+        label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
         rows={3}
         onSaveStateChange={onSaveStateChange}
       />
@@ -480,6 +483,7 @@ function S13({ onSaveStateChange }: Props) {
 
 // ----- S14 (PDF p19): Ydinvahvuuksien tiekartta -----
 function S14({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Mistä innostut?",
     "Minkä tekeminen tuntuu kevyeltä?",
@@ -494,14 +498,14 @@ function S14({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s14-h">
-        <h1 className="font-display text-2xl">Ydinvahvuuksien tiekartta</h1>
+        <h1 className="font-display text-2xl">{tr("Ydinvahvuuksien tiekartta")}</h1>
       </StickyNote>
       <div className="grid gap-3">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_14_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${q}`}
+            label={`${i + 1}. ${tr(q)}`}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -513,27 +517,23 @@ function S14({ onSaveStateChange }: Props) {
 
 // ----- S15 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
 function S15() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s15-h">
-        <h1 className="font-display text-2xl mb-1">Voimavarani opiskelijana 1/2</h1>
-        <p className="text-sm opacity-90">Pohdi ja täydennä omien voimavarojesi sydämet</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Voimavarani opiskelijana 1/2")}</h1>
+        <p className="text-sm opacity-90">{tr("Pohdi ja täydennä omien voimavarojesi sydämet")}</p>
       </StickyNote>
       <StickyNote tone="white" seed="s15-b">
         <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed">
           <li>
-            Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja
-            stressaavissa elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan
-            toiveikas tulevaisuuden suhteen.
+            {tr("Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.")}
           </li>
           <li>
-            Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset
-            ihmiset, tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi,
-            myötätuntoinen suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.
+            {tr("Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset, tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi, myötätuntoinen suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.")}
           </li>
           <li>
-            Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin miten
-            tärkeiksi voimarasi koet.
+            {tr("Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin miten tärkeiksi voimarasi koet.")}
           </li>
         </ul>
       </StickyNote>
@@ -543,6 +543,7 @@ function S15() {
 
 // ----- S16 (PDF p21): Voimavarani opiskelijana 2/2 -----
 function S16({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const groups: Array<{ label: string; key: string }> = [
     { label: "KOULUSSA",       key: "screen_16_koulussa" },
     { label: "VAPAA-AJALLA",   key: "screen_16_vapaa_ajalla" },
@@ -552,14 +553,14 @@ function S16({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s16-h">
-        <h1 className="font-display text-2xl">Voimavarani opiskelijana 2/2</h1>
+        <h1 className="font-display text-2xl">{tr("Voimavarani opiskelijana 2/2")}</h1>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         {groups.map((g) => (
           <StickyNote key={g.key} tone="white" seed={g.key}>
             <ReflectionTextarea
               fieldKey={g.key}
-              label={g.label}
+              label={tr(g.label)}
               rows={4}
               onSaveStateChange={onSaveStateChange}
             />
@@ -572,27 +573,28 @@ function S16({ onSaveStateChange }: Props) {
 
 // ----- S17 (PDF p22): Haasteet ja vahvuudet -----
 function S17({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s17-h">
-        <h1 className="font-display text-2xl mb-1">Haasteet ja vahvuudet</h1>
-        <p className="text-sm font-medium">Pohdi ja kirjoita vastaukset</p>
+        <h1 className="font-display text-2xl mb-1">{tr("Haasteet ja vahvuudet")}</h1>
+        <p className="text-sm font-medium">{tr("Pohdi ja kirjoita vastaukset")}</p>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_17_opetukset"
-        label="Mitä vaikeudet ovat opettaneet vahvuuksistasi?"
+        label={tr("Mitä vaikeudet ovat opettaneet vahvuuksistasi?")}
         rows={3}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_17_kasvu"
-        label="Miten olet kasvanut ja muuttunut ihmisenä vaikeuksien seurauksena?"
+        label={tr("Miten olet kasvanut ja muuttunut ihmisenä vaikeuksien seurauksena?")}
         rows={3}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_17_laheinen"
-        label="Mitä sellainen läheinen ihminen, joka tuntee sinut hyvin, kertoisi olevan vahvuuksiasi ja voimavaroja, joiden avulla selviydyt tulevista haasteista?"
+        label={tr("Mitä sellainen läheinen ihminen, joka tuntee sinut hyvin, kertoisi olevan vahvuuksiasi ja voimavaroja, joiden avulla selviydyt tulevista haasteista?")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
@@ -602,24 +604,24 @@ function S17({ onSaveStateChange }: Props) {
 
 // ----- S18 (PDF p23): Vahvuuksien käyttökielto -----
 function S18({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s18-h">
-        <h1 className="font-display text-2xl mb-2">Vahvuuksien käyttökielto</h1>
+        <h1 className="font-display text-2xl mb-2">{tr("Vahvuuksien käyttökielto")}</h1>
         <p className="text-sm">
-          Mieti tilannetta, jossa ydinvahvuutesi laitetaan seuraavaksi kuukaudeksi
-          käyttökieltoon.
+          {tr("Mieti tilannetta, jossa ydinvahvuutesi laitetaan seuraavaksi kuukaudeksi käyttökieltoon.")}
         </p>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_18_tunne"
-        label="Miltä tämä tuntuisi?"
+        label={tr("Miltä tämä tuntuisi?")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_18_vaikutus"
-        label="Miten tämä vaikuttaisi arkeesi, entä opintoihin?"
+        label={tr("Miten tämä vaikuttaisi arkeesi, entä opintoihin?")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
@@ -629,63 +631,61 @@ function S18({ onSaveStateChange }: Props) {
 
 // ----- S19 (PDF p24): Idea: Vahvuusjulisteet — informational, no required input -----
 function S19() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s19-h">
-        <h1 className="font-display text-2xl mb-1">Idea: Vahvuusjulisteet</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Idea: Vahvuusjulisteet")}</h1>
         <p className="text-sm leading-relaxed mb-2">
-          Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa
-          on oma kuva ja viisi ydinvahvuutta.
+          {tr("Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.")}
         </p>
         <p className="text-sm leading-relaxed mb-2">
-          Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja
-          luovalla tavalla?
+          {tr("Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?")}
         </p>
         <p className="text-sm leading-relaxed">
-          Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat
-          mukanasi päivittäin lukioon.
+          {tr("Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat mukanasi päivittäin lukioon.")}
         </p>
       </StickyNote>
       <StickyNote tone="white" seed="s19-karin">
         <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">
-          Esimerkki — KARIN
+          {tr("Esimerkki")} — KARIN
         </div>
         <ul className="space-y-2 text-sm leading-snug">
           <li>
-            <strong>SINNIKKYYS</strong>
+            <strong>{tr("SINNIKKYYS")}</strong>
             <ul className="ml-5 list-disc opacity-90">
-              <li>säästämisessä</li>
-              <li>kokeisiin lukemisessa</li>
-              <li>treeneissä</li>
+              <li>{tr("säästämisessä")}</li>
+              <li>{tr("kokeisiin lukemisessa")}</li>
+              <li>{tr("treeneissä")}</li>
             </ul>
           </li>
           <li>
-            <strong>YSTÄVÄLLISYYS</strong>
+            <strong>{tr("YSTÄVÄLLISYYS")}</strong>
             <ul className="ml-5 list-disc opacity-90">
-              <li>ystävällisyys tuntuu hyvältä</li>
-              <li>sanon jos jonkun (Sannin) naamassa on räkää.</li>
+              <li>{tr("ystävällisyys tuntuu hyvältä")}</li>
+              <li>{tr("sanon jos jonkun (Sannin) naamassa on räkää.")}</li>
             </ul>
           </li>
           <li>
-            <strong>REILUUS</strong>
+            <strong>{tr("REILUUS")}</strong>
             <ul className="ml-5 list-disc opacity-90">
-              <li>tiimipeluri</li>
-              <li>tasa-arvo</li>
-              <li>lojaali</li>
+              <li>{tr("tiimipeluri")}</li>
+              <li>{tr("tasa-arvo")}</li>
+              <li>{tr("lojaali")}</li>
             </ul>
           </li>
           <li>
-            <strong>HUUMORINTAJU</strong>
+            <strong>{tr("HUUMORINTAJU")}</strong>
             <ul className="ml-5 list-disc opacity-90">
-              <li>nauru pidentää ikää!</li>
-              <li>asiat ei oo aina niin vakavia</li>
+              <li>{tr("nauru pidentää ikää!")}</li>
+              <li>{tr("asiat ei oo aina niin vakavia")}</li>
             </ul>
           </li>
           <li>
-            <strong>MYÖTÄTUNTO</strong>
+            <strong>{tr("MYÖTÄTUNTO")}</strong>
             <ul className="ml-5 list-disc opacity-90">
-              <li>eläinsuojelutyö</li>
-              <li>oikeuksien puolustaja</li>
+              <li>{tr("eläinsuojelutyö")}</li>
+              <li>{tr("oikeuksien puolustaja")}</li>
             </ul>
           </li>
         </ul>
@@ -696,32 +696,33 @@ function S19() {
 
 // ----- S20 (PDF p25): Muistele onnistumista -----
 function S20({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s20-h">
-        <h1 className="font-display text-2xl">Muistele onnistumista</h1>
+        <h1 className="font-display text-2xl">{tr("Muistele onnistumista")}</h1>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_20_onnistuminen"
-        label="Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa. Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait toisilta? Mikä siinä oli sinulle tärkeää?"
+        label={tr("Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa. Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait toisilta? Mikä siinä oli sinulle tärkeää?")}
         rows={5}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_20_ydinvahvuudet"
-        label="Mitä tämä onnistuminen kertoo ydinvahvuuksistasi: mitä omia ydinvahvuuksia käyttämällä onnistuit?"
+        label={tr("Mitä tämä onnistuminen kertoo ydinvahvuuksistasi: mitä omia ydinvahvuuksia käyttämällä onnistuit?")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_20_tuki"
-        label="Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki."
+        label={tr("Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki.")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_20_yhteinen"
-        label="Mitä yhteistä hyvää vahvuutesi edistivät, miten?"
+        label={tr("Mitä yhteistä hyvää vahvuutesi edistivät, miten?")}
         rows={3}
         onSaveStateChange={onSaveStateChange}
       />
@@ -731,6 +732,7 @@ function S20({ onSaveStateChange }: Props) {
 
 // ----- S21 (PDF p26): Pohdi onnistumisia ja täydennä! -----
 function S21({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const stems: Array<{ k: string; label: string }> = [
     { k: "screen_21_ylpea",     label: "Tästä onnistumisesta olen ylpeä" },
     { k: "screen_21_sinnikas",  label: "Olin sinnikäs kun" },
@@ -744,14 +746,14 @@ function S21({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s21-h">
-        <h1 className="font-display text-2xl">Pohdi onnistumisia ja täydennä!</h1>
+        <h1 className="font-display text-2xl">{tr("Pohdi onnistumisia ja täydennä!")}</h1>
       </StickyNote>
       <div className="grid gap-3">
         {stems.map((s) => (
           <ReflectionTextarea
             key={s.k}
             fieldKey={s.k}
-            label={s.label}
+            label={tr(s.label)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -763,20 +765,21 @@ function S21({ onSaveStateChange }: Props) {
 
 // ----- S22 (PDF p27): Tulevaisuuden muistelu -----
 function S22({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s22-h">
-        <h1 className="font-display text-2xl">Tulevaisuuden muistelu</h1>
+        <h1 className="font-display text-2xl">{tr("Tulevaisuuden muistelu")}</h1>
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_22_tulevaisuus"
-        label="Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit lähitulevaisuudessa hyödyntää vahvuuksiasi? Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt vahvuuksiasi tietoisemmin?"
+        label={tr("Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit lähitulevaisuudessa hyödyntää vahvuuksiasi? Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt vahvuuksiasi tietoisemmin?")}
         rows={5}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_22_oppi"
-        label="Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit niitä liikaa? Mitä tämä tilanne opetti sinulle?"
+        label={tr("Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit niitä liikaa? Mitä tämä tilanne opetti sinulle?")}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
@@ -786,6 +789,7 @@ function S22({ onSaveStateChange }: Props) {
 
 // ----- S23 (PDF p28): Ydinvahvuudet parin kanssa -----
 function S23({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Mistä innostut?",
     "Minkä tekeminen tuntuu kevyeltä?",
@@ -801,10 +805,9 @@ function S23({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s23-h">
-        <h1 className="font-display text-2xl mb-1">Ydinvahvuudet parin kanssa</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Ydinvahvuudet parin kanssa")}</h1>
         <p className="text-sm opacity-90">
-          Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja
-          apuna keskustelussa.
+          {tr("Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja apuna keskustelussa.")}
         </p>
       </StickyNote>
       <div className="grid gap-3">
@@ -812,7 +815,7 @@ function S23({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_23_pair_${i + 1}`}
-            label={q}
+            label={tr(q)}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
