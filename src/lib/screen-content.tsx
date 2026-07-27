@@ -424,7 +424,7 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
                   )}
                 >
                   <span className="font-mono text-xs opacity-60 w-6">{i + 1}.</span>
-                  <span>{s}</span>
+                  <span>{tr(s)}</span>
                 </li>
               );
             })}
