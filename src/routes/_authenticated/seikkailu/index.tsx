@@ -6,7 +6,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useStudentProgress } from "@/lib/progress";
-import { useT, useTFi } from "@/lib/i18n";
+import { useT, useTr } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/")({
   component: WorldMap,
@@ -16,7 +16,7 @@ function WorldMap() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const t = useT();
-  const tFi = useTFi();
+  const tr = useTr();
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
   }, []);
@@ -35,7 +35,7 @@ function WorldMap() {
         <StickyNote tone="yellow" className="!p-3 !px-4 max-w-xs">
           <div className="text-xs font-semibold uppercase tracking-wide">{t("worldmap.resumeHeader")}</div>
           <div className="font-display text-lg leading-tight">
-            {t("worldmap.resumeAt", { world: tFi(currentWorld.title), n: current })}
+            {t("worldmap.resumeAt", { world: tr(currentWorld.title), n: current })}
           </div>
           <Button
             className="mt-2 rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white"

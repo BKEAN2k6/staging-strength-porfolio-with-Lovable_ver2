@@ -13,17 +13,19 @@ import {
 } from "@/lib/meter";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { cn } from "@/lib/utils";
+import { useTr } from "@/lib/i18n";
 
 type Props = { onSaveStateChange?: (s: SaveState) => void };
 
 /* ---------- S77: Intro ---------- */
 function MeterIntro() {
+  const tr = useTr();
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow">
-        <div className="text-xs font-bold uppercase tracking-widest opacity-70">Vahvuusmittari</div>
+        <div className="text-xs font-bold uppercase tracking-widest opacity-70">{tr("Vahvuusmittari")}</div>
         <h1 className="font-display text-3xl leading-tight">
-          Lukiolainen, aloita vahvuusmittarin täyttäminen
+          {tr("Lukiolainen, aloita vahvuusmittarin täyttäminen")}
         </h1>
       </StickyNote>
       <StickyNote tone="white">
@@ -57,6 +59,7 @@ function MeterIntro() {
 /* ---------- S78–S103: one strength per screen ---------- */
 function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
   const s = strengthForScreen(n)!;
+  const tr = useTr();
   const [s1, setS1] = useState<number | null>(null);
   const [s2, setS2] = useState<number | null>(null);
   // Load initial scores for the live tally (taking reverse into account)
@@ -75,10 +78,12 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" className="text-center">
-        <div className="text-xs font-bold uppercase tracking-widest opacity-80">{s.virtue}</div>
-        <h1 className="font-display text-3xl leading-tight">{s.name}</h1>
+        <div className="text-xs font-bold uppercase tracking-widest opacity-80">{tr(s.virtue)}</div>
+        <h1 className="font-display text-3xl leading-tight">{tr(s.name)}</h1>
         <div className="mt-2 inline-block rounded-full bg-white/25 px-4 py-1 text-sm font-display font-semibold">
-          {both ? `${s.name}-pisteet: ${total} / 10` : `Pisteet: ${total} / 10 — vastaa molempiin`}
+          {both
+            ? tr("{name}-pisteet: {total} / 10", { name: tr(s.name), total })
+            : tr("Pisteet: {total} / 10 — vastaa molempiin", { total })}
         </div>
       </StickyNote>
 
@@ -102,7 +107,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       </StickyNote>
 
       <p className="text-center text-sm opacity-80">
-        Laske yhteen {s.name.toLowerCase()}-pisteesi.
+        {tr("Laske yhteen {name}-pisteesi.", { name: tr(s.name).toLowerCase() })}
       </p>
     </div>
   );
@@ -110,6 +115,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
 
 /* ---------- S104: Yhteenveto (virtue subtotals) ---------- */
 function MeterSummary() {
+  const tr = useTr();
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const subtotals = useMemo(() => scores ? computeVirtueSubtotals(scores) : [], [scores]);
@@ -117,25 +123,25 @@ function MeterSummary() {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow">
-        <h1 className="font-display text-3xl leading-tight">Yhteenveto</h1>
-        <p className="text-sm">Kirjoita saamasi pisteet tähän listaan — mittari laskee summat puolestasi.</p>
+        <h1 className="font-display text-3xl leading-tight">{tr("Yhteenveto")}</h1>
+        <p className="text-sm">{tr("Kirjoita saamasi pisteet tähän listaan — mittari laskee summat puolestasi.")}</p>
       </StickyNote>
 
-      {!scores && <p className="text-center opacity-70">Lasketaan…</p>}
+      {!scores && <p className="text-center opacity-70">{tr("Lasketaan…")}</p>}
       {scores && (
         <div className="grid gap-3 sm:grid-cols-2">
           {subtotals.map((v) => (
             <StickyNote key={v.virtue} tone="white">
               <div className="flex items-baseline justify-between">
-                <h2 className="font-display text-xl">{v.virtue}</h2>
+                <h2 className="font-display text-xl">{tr(v.virtue)}</h2>
                 <div className="font-display text-lg">
-                  Yht. <strong>{v.total}</strong> / {v.max}
+                  {tr("Yht.")} <strong>{v.total}</strong> / {v.max}
                 </div>
               </div>
               <ol className="mt-2 space-y-1 text-sm">
                 {v.strengths.map((s, i) => (
                   <li key={s.id} className="flex justify-between gap-3">
-                    <span>{i + 1}. {s.name}</span>
+                    <span>{i + 1}. {tr(s.name)}</span>
                     <span className={cn("font-mono", s.complete ? "" : "opacity-40")}>
                       {s.complete ? s.total : "—"}
                     </span>
@@ -152,6 +158,7 @@ function MeterSummary() {
 
 /* ---------- S105: Ydinvahvuuksien pohtiminen (auto top + bottom) ---------- */
 function MeterReflect() {
+  const tr = useTr();
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
   useEffect(() => { loadAllMeterScores().then(setScores); }, []);
   const top = useMemo(() => scores ? computeTop5(scores) : [], [scores]);
@@ -160,7 +167,7 @@ function MeterReflect() {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral">
-        <h1 className="font-display text-2xl leading-tight">Ydinvahvuuksien pohtiminen</h1>
+        <h1 className="font-display text-2xl leading-tight">{tr("Ydinvahvuuksien pohtiminen")}</h1>
         <p className="text-sm leading-relaxed mt-2">
           Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin
           mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon
@@ -173,22 +180,22 @@ function MeterReflect() {
       {scores && (
         <>
           <StickyNote tone="yellow">
-            <h2 className="font-display text-lg mb-2">Ydinvahvuutesi (mittarin mukaan)</h2>
+            <h2 className="font-display text-lg mb-2">{tr("Ydinvahvuutesi (mittarin mukaan)")}</h2>
             <ul className="space-y-1 text-sm">
               {top.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{tr(s.name)}</strong> <span className="opacity-70">— {tr(s.virtue)}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
             </ul>
           </StickyNote>
           <StickyNote tone="mint">
-            <h2 className="font-display text-lg mb-2">Kasvuvahvuutesi</h2>
+            <h2 className="font-display text-lg mb-2">{tr("Kasvuvahvuutesi")}</h2>
             <ul className="space-y-1 text-sm">
               {bot.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{s.name}</strong> <span className="opacity-70">— {s.virtue}</span></span>
+                  <span><strong>{tr(s.name)}</strong> <span className="opacity-70">— {tr(s.virtue)}</span></span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -202,6 +209,7 @@ function MeterReflect() {
 
 /* ---------- S106: Top 5 + Top 3 confirmation + reveal vs candy picks ---------- */
 function MeterTop({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
   const [top5, setTop5] = useState<string[]>([]);
   const [growth3, setGrowth3] = useState<string[]>([]);
@@ -241,15 +249,15 @@ function MeterTop({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" className="text-center">
-        <h1 className="font-display text-3xl leading-tight">Vahvuustulokseni</h1>
+        <h1 className="font-display text-3xl leading-tight">{tr("Vahvuustulokseni")}</h1>
         <p className="text-sm opacity-90">
-          Top 5 ydinvahvuuttani ja Top 3 kasvuvahvuuttani, joiden kehittämisestä on hyötyä.
+          {tr("Top 5 ydinvahvuuttani ja Top 3 kasvuvahvuuttani, joiden kehittämisestä on hyötyä.")}
         </p>
       </StickyNote>
 
       <StickyNote tone="white">
-        <h2 className="font-display text-xl mb-2">Top 5 ydinvahvuuttani</h2>
-        <p className="text-xs opacity-70 mb-2">Valittu {top5.length} / 5</p>
+        <h2 className="font-display text-xl mb-2">{tr("Top 5 ydinvahvuuttani")}</h2>
+        <p className="text-xs opacity-70 mb-2">{tr("Valittu {n} / {max}", { n: top5.length, max: 5 })}</p>
         <div className="flex flex-wrap gap-2">
           {METER_STRENGTHS.map((s) => {
             const active = top5.includes(s.id);
@@ -268,7 +276,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {tr(s.name)}
               </button>
             );
           })}
@@ -276,8 +284,8 @@ function MeterTop({ onSaveStateChange }: Props) {
       </StickyNote>
 
       <StickyNote tone="white">
-        <h2 className="font-display text-xl mb-2">Top 3 kasvuvahvuuttani</h2>
-        <p className="text-xs opacity-70 mb-2">Valittu {growth3.length} / 3</p>
+        <h2 className="font-display text-xl mb-2">{tr("Top 3 kasvuvahvuuttani")}</h2>
+        <p className="text-xs opacity-70 mb-2">{tr("Valittu {n} / {max}", { n: growth3.length, max: 3 })}</p>
         <div className="flex flex-wrap gap-2">
           {METER_STRENGTHS.map((s) => {
             const active = growth3.includes(s.id);
@@ -296,7 +304,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
-                {s.name}
+                {tr(s.name)}
               </button>
             );
           })}
@@ -305,7 +313,7 @@ function MeterTop({ onSaveStateChange }: Props) {
 
       {scores && candyPicks !== null && (
         <StickyNote tone="coral" className="text-center">
-          <h2 className="font-display text-2xl">🎉 Vahvuusmittari suoritettu!</h2>
+          <h2 className="font-display text-2xl">🎉 {tr("Vahvuusmittari suoritettu!")}</h2>
           <p className="text-sm mt-2">
             Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa
             näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.

@@ -11,7 +11,7 @@ import { useNavGate } from "@/lib/screen-completion";
 import { REQUIREMENTS } from "@/lib/screen-completion";
 import { useStudentProgress } from "@/lib/progress";
 import { supabase } from "@/integrations/supabase/client";
-import { useT, useTFi } from "@/lib/i18n";
+import { useT, useTr } from "@/lib/i18n";
 
 function pickResumeTarget(
   start: number,
@@ -36,7 +36,7 @@ export function AppSidebar() {
   const { canNavigateTo, currentScreen } = useNavGate();
   const [userId, setUserId] = useState<string | null>(null);
   const t = useT();
-  const tFi = useTFi();
+  const tr = useTr();
   const hint = t("nav.finishFirst");
 
   useEffect(() => {
@@ -94,8 +94,8 @@ export function AppSidebar() {
                   progress?.completedScreens,
                 );
                 const locked = currentScreen != null && target > currentScreen && !canNavigateTo(target);
-                const title = tFi(w.title);
-                const subtitle = tFi(w.subtitle);
+                const title = tr(w.title);
+                const subtitle = tr(w.subtitle);
                 return (
                   <SidebarMenuItem key={w.id}>
                     <SidebarMenuButton asChild isActive={inWorld}>
