@@ -364,18 +364,18 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s12-h" className="text-center">
-        <h1 className="font-display text-3xl leading-tight mb-2">YDINVAHVUUKSIEN KARKKIKAUPPA</h1>
+        <h1 className="font-display text-3xl leading-tight mb-2">{tr("YDINVAHVUUKSIEN KARKKIKAUPPA")}</h1>
         <p className="text-sm leading-relaxed">
-          Valitse itsellesi viisi tärkeintä väittämäkarkkia. Kun olet ruksinut ne,
-          katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.
+          {tr("Valitse itsellesi viisi tärkeintä väittämäkarkkia. Kun olet ruksinut ne, katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.")}
         </p>
       </StickyNote>
 
       <div className="sticky top-[5.5rem] z-[5] rounded-full bg-[color:var(--purple-dark)]/80 px-4 py-2 text-center text-xs font-medium backdrop-blur">
         {done
-          ? "Valmista! Olet valinnut viisi väittämäkarkkia."
-          : `Valittu ${picks.length} / 5 — valitse vielä ${remaining}.`}
+          ? tr("Valmista! Olet valinnut viisi väittämäkarkkia.")
+          : tr("Valittu {n} / 5 — valitse vielä {remaining}.", { n: picks.length, remaining })}
       </div>
+
 
       <ul className="grid gap-2 sm:grid-cols-2">
         {KARKKIKAUPPA_STATEMENTS.map((stmt, i) => {
