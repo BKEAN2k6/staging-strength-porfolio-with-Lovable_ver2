@@ -108,6 +108,7 @@ export type Database = {
           current_screen: number
           display_name: string | null
           id: string
+          language: string
           updated_at: string
         }
         Insert: {
@@ -115,6 +116,7 @@ export type Database = {
           current_screen?: number
           display_name?: string | null
           id: string
+          language?: string
           updated_at?: string
         }
         Update: {
@@ -122,6 +124,7 @@ export type Database = {
           current_screen?: number
           display_name?: string | null
           id?: string
+          language?: string
           updated_at?: string
         }
         Relationships: []
