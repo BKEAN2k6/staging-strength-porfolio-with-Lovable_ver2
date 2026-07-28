@@ -310,9 +310,9 @@ function MeterTop({ onSaveStateChange }: Props) {
         <StickyNote tone="coral" className="text-center">
           <h2 className="font-display text-2xl">🎉 {tr("Vahvuusmittari suoritettu!")}</h2>
           <p className="text-sm mt-2">
-            Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa
-            näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.
+            {tr("Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.")}
           </p>
+
         </StickyNote>
       )}
     </div>
