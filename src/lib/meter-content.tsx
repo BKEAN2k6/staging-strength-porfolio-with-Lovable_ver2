@@ -97,7 +97,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       <StickyNote tone="white">
         <MeterPicker
           fieldKey={fieldKeyFor(s.id, 1)}
-          statement={s.statements[1].text}
+          statement={tr(s.statements[1].text)}
           reversed={s.statements[1].reversed}
           onSaveStateChange={onSaveStateChange}
           onScoreChange={setS2}
