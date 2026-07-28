@@ -167,12 +167,9 @@ function MeterReflect() {
       <StickyNote tone="coral">
         <h1 className="font-display text-2xl leading-tight">{tr("Ydinvahvuuksien pohtiminen")}</h1>
         <p className="text-sm leading-relaxed mt-2">
-          Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin
-          mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon
-          enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä
-          kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi,
-          joita voit tarkastella kehittymisen näkökulmasta.
+          {tr("Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.")}
         </p>
+
       </StickyNote>
 
       {scores && (
