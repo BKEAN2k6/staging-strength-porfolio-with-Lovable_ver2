@@ -30,27 +30,25 @@ function MeterIntro() {
       </StickyNote>
       <StickyNote tone="white">
         <p className="text-sm leading-relaxed mb-2">
-          <strong>Ohjeita:</strong> Voit selvittää omia ydinvahvuuksiasi käyttämällä alla olevaa
-          vahvuusmittaria.
+          <strong>{tr("Ohjeita:")}</strong>{" "}
+          {tr("Voit selvittää omia ydinvahvuuksiasi käyttämällä alla olevaa vahvuusmittaria.")}
         </p>
         <ul className="list-disc pl-5 text-sm leading-relaxed space-y-1.5">
           <li>
-            Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit),
-            jotka mielestäsi kuvaavat sinua parhaimmillasi.
+            {tr("Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit), jotka mielestäsi kuvaavat sinua parhaimmillasi.")}
           </li>
           <li>
-            Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun
-            vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.
+            {tr("Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.")}
           </li>
-          <li>Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?</li>
-          <li>Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?</li>
-          <li>Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?</li>
-          <li>Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?</li>
+          <li>{tr("Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?")}</li>
+          <li>{tr("Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?")}</li>
+          <li>{tr("Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?")}</li>
+          <li>{tr("Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?")}</li>
         </ul>
         <p className="mt-3 text-sm italic">
-          Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona
-          olevaan väittämään sinulle sopivin vaihtoehto.
+          {tr("Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona olevaan väittämään sinulle sopivin vaihtoehto.")}
         </p>
+
       </StickyNote>
     </div>
   );
