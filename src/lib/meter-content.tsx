@@ -30,27 +30,25 @@ function MeterIntro() {
       </StickyNote>
       <StickyNote tone="white">
         <p className="text-sm leading-relaxed mb-2">
-          <strong>Ohjeita:</strong> Voit selvittää omia ydinvahvuuksiasi käyttämällä alla olevaa
-          vahvuusmittaria.
+          <strong>{tr("Ohjeita:")}</strong>{" "}
+          {tr("Voit selvittää omia ydinvahvuuksiasi käyttämällä alla olevaa vahvuusmittaria.")}
         </p>
         <ul className="list-disc pl-5 text-sm leading-relaxed space-y-1.5">
           <li>
-            Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit),
-            jotka mielestäsi kuvaavat sinua parhaimmillasi.
+            {tr("Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit), jotka mielestäsi kuvaavat sinua parhaimmillasi.")}
           </li>
           <li>
-            Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun
-            vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.
+            {tr("Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.")}
           </li>
-          <li>Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?</li>
-          <li>Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?</li>
-          <li>Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?</li>
-          <li>Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?</li>
+          <li>{tr("Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?")}</li>
+          <li>{tr("Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?")}</li>
+          <li>{tr("Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?")}</li>
+          <li>{tr("Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?")}</li>
         </ul>
         <p className="mt-3 text-sm italic">
-          Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona
-          olevaan väittämään sinulle sopivin vaihtoehto.
+          {tr("Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona olevaan väittämään sinulle sopivin vaihtoehto.")}
         </p>
+
       </StickyNote>
     </div>
   );
@@ -90,7 +88,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       <StickyNote tone="white">
         <MeterPicker
           fieldKey={fieldKeyFor(s.id, 0)}
-          statement={s.statements[0].text}
+          statement={tr(s.statements[0].text)}
           reversed={s.statements[0].reversed}
           onSaveStateChange={onSaveStateChange}
           onScoreChange={setS1}
@@ -99,7 +97,7 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
       <StickyNote tone="white">
         <MeterPicker
           fieldKey={fieldKeyFor(s.id, 1)}
-          statement={s.statements[1].text}
+          statement={tr(s.statements[1].text)}
           reversed={s.statements[1].reversed}
           onSaveStateChange={onSaveStateChange}
           onScoreChange={setS2}
@@ -169,12 +167,9 @@ function MeterReflect() {
       <StickyNote tone="coral">
         <h1 className="font-display text-2xl leading-tight">{tr("Ydinvahvuuksien pohtiminen")}</h1>
         <p className="text-sm leading-relaxed mt-2">
-          Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin
-          mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon
-          enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä
-          kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi,
-          joita voit tarkastella kehittymisen näkökulmasta.
+          {tr("Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.")}
         </p>
+
       </StickyNote>
 
       {scores && (
@@ -315,9 +310,9 @@ function MeterTop({ onSaveStateChange }: Props) {
         <StickyNote tone="coral" className="text-center">
           <h2 className="font-display text-2xl">🎉 {tr("Vahvuusmittari suoritettu!")}</h2>
           <p className="text-sm mt-2">
-            Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa
-            näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.
+            {tr("Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.")}
           </p>
+
         </StickyNote>
       )}
     </div>
