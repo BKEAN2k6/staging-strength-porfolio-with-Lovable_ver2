@@ -1,0 +1,68 @@
+/**
+ * Strength Jar data — derived from the canonical trilingual strengths registry.
+ * Display-only helper: ids are the registry numbers (1–26), never free text.
+ */
+import { STRENGTHS, type Strength } from "@/lib/strengths-i18n";
+
+export interface JarStrength {
+  id: number;
+  /** Finnish source name — pass through tr()/getStrengthName for display. */
+  name: string;
+  fi: string;
+  sv: string;
+  en: string;
+  /** Candy-ish accent color for the pill dot. */
+  color: string;
+}
+
+const PALETTE = [
+  "var(--purple)",
+  "var(--yellow)",
+  "var(--coral)",
+];
+
+export const ALL_STRENGTHS: JarStrength[] = STRENGTHS.map((s: Strength, i) => ({
+  id: s.nr,
+  name: s.fi,
+  fi: s.fi,
+  sv: s.sv,
+  en: s.en,
+  color: PALETTE[i % PALETTE.length],
+}));
+
+/** Normalize a stored/free-text strength name for matching (case/diacritic tolerant). */
+export function normalizeStrengthName(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+const LOOKUP = new Map<string, number>();
+for (const s of ALL_STRENGTHS) {
+  for (const n of [s.fi, s.sv, s.en]) LOOKUP.set(normalizeStrengthName(n), s.id);
+}
+// Spelling variants used elsewhere in the workbook screens.
+const VARIANTS: Record<string, string> = {
+  Innostus: "Innokkuus",
+  Henkisyys: "Hengellisyys",
+  Ryhmätyötaidot: "Ryhmätyötaito",
+  Harkitsevaisuus: "Harkitsevuus",
+  "Kauneuden ja erinomaisuuden arvostus": "Kauneuden ja erinomaisuuden arvostaminen",
+};
+for (const [variant, canonical] of Object.entries(VARIANTS)) {
+  const id = LOOKUP.get(normalizeStrengthName(canonical));
+  if (id) LOOKUP.set(normalizeStrengthName(variant), id);
+}
+
+/** Match an arbitrary stored name to a registry id, or null when unknown. */
+export function matchStrengthId(raw: string): number | null {
+  return LOOKUP.get(normalizeStrengthName(raw)) ?? null;
+}
+
+export function getJarStrength(id: number): JarStrength | undefined {
+  return ALL_STRENGTHS.find((s) => s.id === id);
+}
