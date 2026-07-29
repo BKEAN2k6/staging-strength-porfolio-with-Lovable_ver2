@@ -5,6 +5,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut } from "lucide-react";
 import { useT } from "@/lib/i18n";
+import { StrengthJarHeader } from "@/components/game/StrengthJarHeader";
 
 export function TopBar({ subtitle }: { subtitle?: string }) {
   const navigate = useNavigate();
