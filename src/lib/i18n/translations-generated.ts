@@ -1082,6 +1082,13 @@ Med kärlek, . . . . . . . . . .`,
   "Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.": { en: "You probably got 3–7 items with a score of 9 or 10. According to this meter, these are your core strengths. Some of us have many more! Write down your core strengths and review them. Also check where you got the lowest scores. These are likely your growth strengths, which you can look at from a development perspective.", sv: "Du fick troligtvis 3–7 punkter med poängen 9 eller 10. Enligt denna mätare är dessa dina kärnstyrkor. Vissa av oss har många fler! Skriv ner dina kärnstyrkor och granska dem. Kolla också vilka punkter du fick lägst poäng på. Dessa är troligtvis dina tillväxtstyrkor, som du kan granska ur ett utvecklingsperspektiv." },
   "Top 5 ydinvahvuuttani ja Top 3 kasvuvahvuuttani, joiden kehittämisestä on hyötyä.": { en: "My Top 5 core strengths and Top 3 growth strengths worth developing.", sv: "Mina topp 5 kärnstyrkor och topp 3 tillväxtstyrkor som det lönar sig att utveckla." },
   "Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.": { en: "Did the meter results match your candy shop choices? Compare the Top 5 list with the choices from screen 12 and reflect on the similarities and differences.", sv: "Stämde mätarresultaten överens med dina val i godisbutiken? Jämför topp 5-listan med valen från skärm 12 och fundera på likheter och skillnader." },
+  "Avaa vahvuuspurkki": { en: "Open your strength jar", sv: "Öppna din styrkeburk" },
+  "Vahvuutesi": { en: "Your strengths", sv: "Dina styrkor" },
+  "Valitsemasi vahvuudet": { en: "Strengths you chose", sv: "Styrkor du valt" },
+  "Seikkailussa kerätyt": { en: "Collected on the adventure", sv: "Insamlade under äventyret" },
+  "Kerää vahvuuksia seikkailun aikana": { en: "Collect strengths during your adventure", sv: "Samla styrkor under äventyret" },
+  "vahvuudet": { en: "strengths", sv: "styrkor" },
+  "Sulje": { en: "Close", sv: "Stäng" },
 };
 
 
