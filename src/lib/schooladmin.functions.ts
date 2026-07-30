@@ -166,11 +166,41 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
 
     const profById = new Map<string, any>(((profiles ?? []) as any[]).map((p) => [p.id, p]));
 
+    const { data: assigned } = await db
+      .from("teacher_assigned_strengths")
+      .select("strength_id, student_id");
+    const counts = new Map<string, number>();
+    const giftsPer = new Map<string, number[]>();
+    for (const a of (assigned ?? []) as any[]) {
+      if (!studentIds.includes(a.student_id)) continue;
+      counts.set(a.strength_id, (counts.get(a.strength_id) ?? 0) + 1);
+      const id = Number.isFinite(Number(a.strength_id))
+        ? Number(a.strength_id)
+        : matchStrengthId(String(a.strength_id));
+      if (id && id >= 1 && id <= 26) {
+        const list = giftsPer.get(a.student_id) ?? [];
+        list.push(id);
+        giftsPer.set(a.student_id, list);
+      }
+    }
+
+    const responsesPer = new Map<string, Array<{ field_key: string; value: unknown }>>();
+    for (const r of (responses ?? []) as any[]) {
+      const list = responsesPer.get(r.user_id) ?? [];
+      list.push({ field_key: r.field_key, value: r.value });
+      responsesPer.set(r.user_id, list);
+    }
+
     const students: SchoolAdminStudent[] = studentIds.map((id) => ({
       id,
       name: nameOf.get(id) ?? null,
       email: emails.get(id) ?? null,
       className: classOfStudent.get(id) ?? null,
+      classId: classIdOfStudent.get(id) ?? null,
+      strengthIds: [
+        ...strengthIdsFromResponses(responsesPer.get(id) ?? []),
+        ...(giftsPer.get(id) ?? []),
+      ],
       currentScreen: profById.get(id)?.current_screen ?? 1,
       lastActive: lastPer.get(id) ?? profById.get(id)?.updated_at ?? null,
       filledKeys: Array.from(filledPer.get(id) ?? []),
@@ -190,14 +220,12 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       };
     });
 
-    const { data: assigned } = await db
-      .from("teacher_assigned_strengths")
-      .select("strength_id, student_id");
-    const counts = new Map<string, number>();
-    for (const a of (assigned ?? []) as any[]) {
-      if (!studentIds.includes(a.student_id)) continue;
-      counts.set(a.strength_id, (counts.get(a.strength_id) ?? 0) + 1);
-    }
+    const classList: SchoolAdminClass[] = ((classes ?? []) as any[]).map((c) => ({
+      id: c.id,
+      name: c.name,
+      teacherName: nameOf.get(c.teacher_id) ?? null,
+    }));
+
 
     return {
       school: (school as any) ?? null,
