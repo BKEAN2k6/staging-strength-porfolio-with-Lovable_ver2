@@ -42,7 +42,6 @@ import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
-import { Route as AuthenticatedStudentAchievementsRouteImport } from './routes/_authenticated/student/achievements'
 import { Route as AuthenticatedStudentProfileRouteImport } from './routes/_authenticated/student/profile'
 import { Route as AuthenticatedStudentStrengthsRouteImport } from './routes/_authenticated/student/strengths'
 import { Route as SuperadminSchoolsSchoolIdRouteImport } from './routes/superadmin.schools.$schoolId'
@@ -220,12 +219,6 @@ const AuthenticatedSeikkailuScreenRoute =
     path: '/$screen',
     getParentRoute: () => AuthenticatedSeikkailuRouteRoute,
   } as any)
-const AuthenticatedStudentAchievementsRoute =
-  AuthenticatedStudentAchievementsRouteImport.update({
-    id: '/achievements',
-    path: '/achievements',
-    getParentRoute: () => AuthenticatedStudentRouteRoute,
-  } as any)
 const AuthenticatedStudentProfileRoute =
   AuthenticatedStudentProfileRouteImport.update({
     id: '/profile',
@@ -283,7 +276,6 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
-  '/student/achievements': typeof AuthenticatedStudentAchievementsRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
@@ -320,7 +312,6 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
-  '/student/achievements': typeof AuthenticatedStudentAchievementsRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
@@ -361,7 +352,6 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
-  '/_authenticated/student/achievements': typeof AuthenticatedStudentAchievementsRoute
   '/_authenticated/student/profile': typeof AuthenticatedStudentProfileRoute
   '/_authenticated/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
@@ -402,7 +392,6 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
-    | '/student/achievements'
     | '/student/profile'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
@@ -439,7 +428,6 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
-    | '/student/achievements'
     | '/student/profile'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
@@ -479,7 +467,6 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/seikkailu/$screen'
-    | '/_authenticated/student/achievements'
     | '/_authenticated/student/profile'
     | '/_authenticated/student/strengths'
     | '/superadmin/schools/$schoolId'
@@ -744,13 +731,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
       parentRoute: typeof AuthenticatedSeikkailuRouteRoute
     }
-    '/_authenticated/student/achievements': {
-      id: '/_authenticated/student/achievements'
-      path: '/achievements'
-      fullPath: '/student/achievements'
-      preLoaderRoute: typeof AuthenticatedStudentAchievementsRouteImport
-      parentRoute: typeof AuthenticatedStudentRouteRoute
-    }
     '/_authenticated/student/profile': {
       id: '/_authenticated/student/profile'
       path: '/profile'
@@ -799,15 +779,12 @@ const AuthenticatedSeikkailuRouteRouteWithChildren =
   )
 
 interface AuthenticatedStudentRouteRouteChildren {
-  AuthenticatedStudentAchievementsRoute: typeof AuthenticatedStudentAchievementsRoute
   AuthenticatedStudentProfileRoute: typeof AuthenticatedStudentProfileRoute
   AuthenticatedStudentStrengthsRoute: typeof AuthenticatedStudentStrengthsRoute
 }
 
 const AuthenticatedStudentRouteRouteChildren: AuthenticatedStudentRouteRouteChildren =
   {
-    AuthenticatedStudentAchievementsRoute:
-      AuthenticatedStudentAchievementsRoute,
     AuthenticatedStudentProfileRoute: AuthenticatedStudentProfileRoute,
     AuthenticatedStudentStrengthsRoute: AuthenticatedStudentStrengthsRoute,
   }
