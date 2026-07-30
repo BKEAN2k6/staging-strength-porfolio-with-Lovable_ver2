@@ -13,6 +13,18 @@ export interface RoleGuardState {
   email: string | null;
 }
 
+/** Reads the current user's role (defaults to student). */
+export async function roleOfCurrentUser(): Promise<AppRole | null> {
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return null;
+  const { data } = await supabase
+    .from("user_roles" as never)
+    .select("role")
+    .eq("user_id", userData.user.id)
+    .maybeSingle();
+  return ((data as { role?: AppRole } | null)?.role ?? "student") as AppRole;
+}
+
 /** Where a signed-in user belongs, by role. */
 export function homeForRole(role: AppRole | null): string {
   switch (role) {

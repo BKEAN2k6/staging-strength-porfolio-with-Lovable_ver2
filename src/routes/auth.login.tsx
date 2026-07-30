@@ -9,6 +9,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
 import { toast } from "sonner";
 import { useT, useTr } from "@/lib/i18n";
+import { homeForRole, roleOfCurrentUser } from "@/lib/role-guard";
 import { z } from "zod";
 
 export const Route = createFileRoute("/auth/login")({
