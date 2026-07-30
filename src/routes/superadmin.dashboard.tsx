@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSuperAdminGuard } from "@/lib/superadmin-guard";
 import { useTr } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { EmailTemplatesTab } from "@/components/superadmin/EmailTemplatesTab";
 import {
   listSchools,
   createSchool,
@@ -22,7 +23,7 @@ import {
   type SchoolRow,
 } from "@/lib/superadmin.functions";
 
-const TABS = ["schools", "billing", "users", "reports", "settings"] as const;
+const TABS = ["schools", "billing", "users", "emails", "reports", "settings"] as const;
 type Tab = (typeof TABS)[number];
 
 export const Route = createFileRoute("/superadmin/dashboard")({
@@ -157,9 +158,11 @@ function SuperAdminDashboard() {
                       ? "Laskutus"
                       : tb === "users"
                         ? "Käyttäjät"
-                        : tb === "reports"
-                          ? "Raportit"
-                          : "Asetukset",
+                        : tb === "emails"
+                          ? "Sähköpostit"
+                          : tb === "reports"
+                            ? "Raportit"
+                            : "Asetukset",
                 )}
               </Link>
             ))}
@@ -378,6 +381,8 @@ function SuperAdminDashboard() {
               </ul>
             </StickyNote>
           )}
+
+          {tab === "emails" && <EmailTemplatesTab />}
 
           {tab === "reports" && (
             <StickyNote seed="sa-reports" className="space-y-2">
