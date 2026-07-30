@@ -252,8 +252,8 @@ export const getSchoolDetail = createServerFn({ method: "GET" })
     }
 
     const users: SchoolUser[] = allProfiles.map((p) => ({
-
       id: p.id,
+
       name: p.display_name,
       email: emails.get(p.id) ?? null,
       role: roleOf.get(p.id) ?? "student",
