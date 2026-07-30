@@ -9,73 +9,37 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TeacherRouteImport } from './routes/teacher'
-import { Route as RegisterTeacherRouteImport } from './routes/register-teacher'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as LarareRouteImport } from './routes/larare'
-import { Route as JoinCommunityRouteImport } from './routes/join-community'
-import { Route as GaMedIGemenskapenRouteImport } from './routes/ga-med-i-gemenskapen'
-import { Route as AventyrRouteImport } from './routes/aventyr'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AdventureRouteImport } from './routes/adventure'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthIndexRouteImport } from './routes/auth.index'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AventyrScreenRouteImport } from './routes/aventyr.$screen'
-import { Route as AuthStudentRouteImport } from './routes/auth.student'
-import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
-import { Route as AuthLoginRouteImport } from './routes/auth.login'
-import { Route as AdventureScreenRouteImport } from './routes/adventure.$screen'
-import { Route as AdminSchoolsRouteImport } from './routes/admin.schools'
-import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated/opettaja'
-import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated/liity-yhteisoon'
-import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdventureRouteImport } from './routes/adventure'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AventyrRouteImport } from './routes/aventyr'
+import { Route as GaMedIGemenskapenRouteImport } from './routes/ga-med-i-gemenskapen'
+import { Route as JoinCommunityRouteImport } from './routes/join-community'
+import { Route as LarareRouteImport } from './routes/larare'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as RegisterTeacherRouteImport } from './routes/register-teacher'
+import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated/liity-yhteisoon'
+import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated/opettaja'
 import { Route as AuthenticatedSeikkailuRouteRouteImport } from './routes/_authenticated/seikkailu/route'
+import { Route as AdminSchoolsRouteImport } from './routes/admin.schools'
+import { Route as AdventureScreenRouteImport } from './routes/adventure.$screen'
+import { Route as AuthIndexRouteImport } from './routes/auth.index'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
+import { Route as AuthStudentRouteImport } from './routes/auth.student'
+import { Route as AventyrScreenRouteImport } from './routes/aventyr.$screen'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
-import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes/_authenticated/opettaja_.oppilas.$userId'
 
-const TeacherRoute = TeacherRouteImport.update({
-  id: '/teacher',
-  path: '/teacher',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterTeacherRoute = RegisterTeacherRouteImport.update({
-  id: '/register-teacher',
-  path: '/register-teacher',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LarareRoute = LarareRouteImport.update({
-  id: '/larare',
-  path: '/larare',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JoinCommunityRoute = JoinCommunityRouteImport.update({
-  id: '/join-community',
-  path: '/join-community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GaMedIGemenskapenRoute = GaMedIGemenskapenRouteImport.update({
-  id: '/ga-med-i-gemenskapen',
-  path: '/ga-med-i-gemenskapen',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AventyrRoute = AventyrRouteImport.update({
-  id: '/aventyr',
-  path: '/aventyr',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdventureRoute = AdventureRouteImport.update({
@@ -83,53 +47,61 @@ const AdventureRoute = AdventureRouteImport.update({
   path: '/adventure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthIndexRoute = AuthIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthRoute,
+const AventyrRoute = AventyrRouteImport.update({
+  id: '/aventyr',
+  path: '/aventyr',
+  getParentRoute: () => rootRouteImport,
 } as any)
+const GaMedIGemenskapenRoute = GaMedIGemenskapenRouteImport.update({
+  id: '/ga-med-i-gemenskapen',
+  path: '/ga-med-i-gemenskapen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinCommunityRoute = JoinCommunityRouteImport.update({
+  id: '/join-community',
+  path: '/join-community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LarareRoute = LarareRouteImport.update({
+  id: '/larare',
+  path: '/larare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterTeacherRoute = RegisterTeacherRouteImport.update({
+  id: '/register-teacher',
+  path: '/register-teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeacherRoute = TeacherRouteImport.update({
+  id: '/teacher',
+  path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AventyrScreenRoute = AventyrScreenRouteImport.update({
-  id: '/$screen',
-  path: '/$screen',
-  getParentRoute: () => AventyrRoute,
-} as any)
-const AuthStudentRoute = AuthStudentRouteImport.update({
-  id: '/student',
-  path: '/student',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthOpettajaRoute = AuthOpettajaRouteImport.update({
-  id: '/opettaja',
-  path: '/opettaja',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthLoginRoute = AuthLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AdventureScreenRoute = AdventureScreenRouteImport.update({
-  id: '/$screen',
-  path: '/$screen',
-  getParentRoute: () => AdventureRoute,
-} as any)
-const AdminSchoolsRoute = AdminSchoolsRouteImport.update({
-  id: '/admin/schools',
-  path: '/admin/schools',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedOpettajaRoute = AuthenticatedOpettajaRouteImport.update({
-  id: '/opettaja',
-  path: '/opettaja',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLiityYhteisoonRoute =
@@ -138,23 +110,62 @@ const AuthenticatedLiityYhteisoonRoute =
     path: '/liity-yhteisoon',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const Char91DotwellKnownChar93OauthProtectedResourceRoute =
-  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const AuthenticatedOpettajaRoute = AuthenticatedOpettajaRouteImport.update({
+  id: '/opettaja',
+  path: '/opettaja',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSeikkailuRouteRoute =
   AuthenticatedSeikkailuRouteRouteImport.update({
     id: '/seikkailu',
     path: '/seikkailu',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AdminSchoolsRoute = AdminSchoolsRouteImport.update({
+  id: '/admin/schools',
+  path: '/admin/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdventureScreenRoute = AdventureScreenRouteImport.update({
+  id: '/$screen',
+  path: '/$screen',
+  getParentRoute: () => AdventureRoute,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOpettajaRoute = AuthOpettajaRouteImport.update({
+  id: '/opettaja',
+  path: '/opettaja',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthStudentRoute = AuthStudentRouteImport.update({
+  id: '/student',
+  path: '/student',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AventyrScreenRoute = AventyrScreenRouteImport.update({
+  id: '/$screen',
+  path: '/$screen',
+  getParentRoute: () => AventyrRoute,
+} as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const AuthenticatedSeikkailuIndexRoute =
   AuthenticatedSeikkailuIndexRouteImport.update({
@@ -168,17 +179,6 @@ const AuthenticatedSeikkailuScreenRoute =
     path: '/$screen',
     getParentRoute: () => AuthenticatedSeikkailuRouteRoute,
   } as any)
-const Char91DotmcpChar93InvokeToolToolRoute =
-  Char91DotmcpChar93InvokeToolToolRouteImport.update({
-    id: '/.mcp/invoke-tool/$tool',
-    path: '/.mcp/invoke-tool/$tool',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
-  id: '/.lovable/oauth/consent',
-  path: '/.lovable/oauth/consent',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedOpettajaOppilasUserIdRoute =
   AuthenticatedOpettajaOppilasUserIdRouteImport.update({
     id: '/opettaja_/oppilas/$userId',
@@ -382,60 +382,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/teacher': {
-      id: '/teacher'
-      path: '/teacher'
-      fullPath: '/teacher'
-      preLoaderRoute: typeof TeacherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/register-teacher': {
-      id: '/register-teacher'
-      path: '/register-teacher'
-      fullPath: '/register-teacher'
-      preLoaderRoute: typeof RegisterTeacherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/larare': {
-      id: '/larare'
-      path: '/larare'
-      fullPath: '/larare'
-      preLoaderRoute: typeof LarareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/join-community': {
-      id: '/join-community'
-      path: '/join-community'
-      fullPath: '/join-community'
-      preLoaderRoute: typeof JoinCommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ga-med-i-gemenskapen': {
-      id: '/ga-med-i-gemenskapen'
-      path: '/ga-med-i-gemenskapen'
-      fullPath: '/ga-med-i-gemenskapen'
-      preLoaderRoute: typeof GaMedIGemenskapenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/aventyr': {
-      id: '/aventyr'
-      path: '/aventyr'
-      fullPath: '/aventyr'
-      preLoaderRoute: typeof AventyrRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/adventure': {
@@ -445,88 +396,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdventureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/': {
-      id: '/auth/'
-      path: '/'
-      fullPath: '/auth/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/aventyr/$screen': {
-      id: '/aventyr/$screen'
-      path: '/$screen'
-      fullPath: '/aventyr/$screen'
-      preLoaderRoute: typeof AventyrScreenRouteImport
-      parentRoute: typeof AventyrRoute
-    }
-    '/auth/student': {
-      id: '/auth/student'
-      path: '/student'
-      fullPath: '/auth/student'
-      preLoaderRoute: typeof AuthStudentRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/auth/opettaja': {
-      id: '/auth/opettaja'
-      path: '/opettaja'
-      fullPath: '/auth/opettaja'
-      preLoaderRoute: typeof AuthOpettajaRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/adventure/$screen': {
-      id: '/adventure/$screen'
-      path: '/$screen'
-      fullPath: '/adventure/$screen'
-      preLoaderRoute: typeof AdventureScreenRouteImport
-      parentRoute: typeof AdventureRoute
-    }
-    '/admin/schools': {
-      id: '/admin/schools'
-      path: '/admin/schools'
-      fullPath: '/admin/schools'
-      preLoaderRoute: typeof AdminSchoolsRouteImport
+    '/aventyr': {
+      id: '/aventyr'
+      path: '/aventyr'
+      fullPath: '/aventyr'
+      preLoaderRoute: typeof AventyrRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/opettaja': {
-      id: '/_authenticated/opettaja'
-      path: '/opettaja'
-      fullPath: '/opettaja'
-      preLoaderRoute: typeof AuthenticatedOpettajaRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/ga-med-i-gemenskapen': {
+      id: '/ga-med-i-gemenskapen'
+      path: '/ga-med-i-gemenskapen'
+      fullPath: '/ga-med-i-gemenskapen'
+      preLoaderRoute: typeof GaMedIGemenskapenRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/liity-yhteisoon': {
-      id: '/_authenticated/liity-yhteisoon'
-      path: '/liity-yhteisoon'
-      fullPath: '/liity-yhteisoon'
-      preLoaderRoute: typeof AuthenticatedLiityYhteisoonRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/join-community': {
+      id: '/join-community'
+      path: '/join-community'
+      fullPath: '/join-community'
+      preLoaderRoute: typeof JoinCommunityRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+    '/larare': {
+      id: '/larare'
+      path: '/larare'
+      fullPath: '/larare'
+      preLoaderRoute: typeof LarareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register-teacher': {
+      id: '/register-teacher'
+      path: '/register-teacher'
+      fullPath: '/register-teacher'
+      preLoaderRoute: typeof RegisterTeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teacher': {
+      id: '/teacher'
+      path: '/teacher'
+      fullPath: '/teacher'
+      preLoaderRoute: typeof TeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -536,12 +459,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/liity-yhteisoon': {
+      id: '/_authenticated/liity-yhteisoon'
+      path: '/liity-yhteisoon'
+      fullPath: '/liity-yhteisoon'
+      preLoaderRoute: typeof AuthenticatedLiityYhteisoonRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/opettaja': {
+      id: '/_authenticated/opettaja'
+      path: '/opettaja'
+      fullPath: '/opettaja'
+      preLoaderRoute: typeof AuthenticatedOpettajaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/seikkailu': {
       id: '/_authenticated/seikkailu'
       path: '/seikkailu'
       fullPath: '/seikkailu'
       preLoaderRoute: typeof AuthenticatedSeikkailuRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/admin/schools': {
+      id: '/admin/schools'
+      path: '/admin/schools'
+      fullPath: '/admin/schools'
+      preLoaderRoute: typeof AdminSchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adventure/$screen': {
+      id: '/adventure/$screen'
+      path: '/$screen'
+      fullPath: '/adventure/$screen'
+      preLoaderRoute: typeof AdventureScreenRouteImport
+      parentRoute: typeof AdventureRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/opettaja': {
+      id: '/auth/opettaja'
+      path: '/opettaja'
+      fullPath: '/auth/opettaja'
+      preLoaderRoute: typeof AuthOpettajaRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/student': {
+      id: '/auth/student'
+      path: '/student'
+      fullPath: '/auth/student'
+      preLoaderRoute: typeof AuthStudentRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/aventyr/$screen': {
+      id: '/aventyr/$screen'
+      path: '/$screen'
+      fullPath: '/aventyr/$screen'
+      preLoaderRoute: typeof AventyrScreenRouteImport
+      parentRoute: typeof AventyrRoute
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/seikkailu/': {
       id: '/_authenticated/seikkailu/'
@@ -556,20 +570,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/seikkailu/$screen'
       preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
       parentRoute: typeof AuthenticatedSeikkailuRouteRoute
-    }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.lovable/oauth/consent': {
-      id: '/.lovable/oauth/consent'
-      path: '/.lovable/oauth/consent'
-      fullPath: '/.lovable/oauth/consent'
-      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/opettaja_/oppilas/$userId': {
       id: '/_authenticated/opettaja_/oppilas/$userId'
