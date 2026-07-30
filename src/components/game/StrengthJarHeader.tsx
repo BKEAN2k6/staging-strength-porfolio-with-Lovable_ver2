@@ -3,7 +3,7 @@ import { useLanguage, useTr } from "@/lib/i18n";
 import { useStrengthJar } from "@/hooks/useStrengthJar";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
-import { useReceivedStrengths } from "@/lib/teacher-dashboard-data";
+import { useReceivedGifts } from "@/hooks/useReceivedGifts";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,7 +15,7 @@ export function StrengthJarHeader() {
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const { selected, collected, totalCount } = useStrengthJar();
-  const received = useReceivedStrengths();
+  const { gifts: received } = useReceivedGifts();
   const receivedIds = received
     .map((r) => Number(r.strength_id))
     .filter((n) => Number.isFinite(n));
@@ -116,7 +116,7 @@ export function StrengthJarHeader() {
                     {received
                       .filter((r) => r.message)
                       .map((r) => (
-                        <li key={r.id}>
+                        <li key={r.id} title={`${r.teacher_name ?? tr("Opettaja")}: ${r.message}`}>
                           {getStrengthName(Number(r.strength_id), lang)}: {r.message}
                         </li>
                       ))}
