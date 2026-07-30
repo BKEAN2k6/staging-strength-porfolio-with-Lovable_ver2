@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { getCurrentRole, getStudentClassMembership, getCurrentScreen } from "@/lib/auth-helpers";
 import { homeForRole } from "@/lib/role-guard";
+import { useTr } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/_authenticated/")({
 });
 
 function RootEntry() {
+  const tr = useTr();
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
@@ -34,7 +36,7 @@ function RootEntry() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
-      <p className="text-lg opacity-80">Ladataan…</p>
+      <p className="text-lg opacity-80">{tr("Ladataan…")}</p>
     </div>
   );
 }
