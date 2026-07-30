@@ -14,7 +14,7 @@ export interface RosterStudent {
   lastActive: Date | null;
 }
 
-const REQUIRED_SCREEN_NUMBERS: number[] = (() => {
+export const REQUIRED_SCREEN_NUMBERS: number[] = (() => {
   const arr: number[] = [];
   for (let n = 1; n <= TOTAL_SCREENS; n++) {
     const r = REQUIREMENTS[n];
@@ -23,9 +23,9 @@ const REQUIRED_SCREEN_NUMBERS: number[] = (() => {
   return arr;
 })();
 
-const TOTAL_REQUIRED = REQUIRED_SCREEN_NUMBERS.length;
+export const TOTAL_REQUIRED = REQUIRED_SCREEN_NUMBERS.length;
 
-function isFilled(v: unknown): boolean {
+export function isFilled(v: unknown): boolean {
   if (v === null || v === undefined) return false;
   if (typeof v === "string") {
     const t = v.trim();
@@ -36,7 +36,7 @@ function isFilled(v: unknown): boolean {
   return true;
 }
 
-function computeStudentStats(
+export function computeStudentStats(
   filledKeys: Set<string>,
 ): { screensFilled: number; worldsCompleted: number } {
   let screensFilled = 0;
