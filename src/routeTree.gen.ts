@@ -18,7 +18,6 @@ import { Route as JoinCommunityRouteImport } from './routes/join-community'
 import { Route as LarareRouteImport } from './routes/larare'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as RegisterTeacherRouteImport } from './routes/register-teacher'
-import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
@@ -36,6 +35,7 @@ import { Route as SchoolAdminDashboardRouteImport } from './routes/school-admin.
 import { Route as SuperadminIndexRouteImport } from './routes/superadmin.index'
 import { Route as SuperadminDashboardRouteImport } from './routes/superadmin.dashboard'
 import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
+import { Route as TeacherIndexRouteImport } from './routes/teacher.index'
 import { Route as TeacherDashboardRouteImport } from './routes/teacher.dashboard'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -86,11 +86,6 @@ const McpRoute = McpRouteImport.update({
 const RegisterTeacherRoute = RegisterTeacherRouteImport.update({
   id: '/register-teacher',
   path: '/register-teacher',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeacherRoute = TeacherRouteImport.update({
-  id: '/teacher',
-  path: '/teacher',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotmcpChar93ListToolsRoute =
@@ -182,10 +177,15 @@ const SuperadminLoginRoute = SuperadminLoginRouteImport.update({
   path: '/superadmin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherIndexRoute = TeacherIndexRouteImport.update({
+  id: '/teacher/',
+  path: '/teacher/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeacherDashboardRoute = TeacherDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => TeacherRoute,
+  id: '/teacher/dashboard',
+  path: '/teacher/dashboard',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
@@ -233,7 +233,6 @@ export interface FileRoutesByFullPath {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
-  '/teacher': typeof TeacherRouteWithChildren
   '/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -251,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/teacher/dashboard': typeof TeacherDashboardRoute
   '/auth/': typeof AuthIndexRoute
   '/superadmin/': typeof SuperadminIndexRoute
+  '/teacher/': typeof TeacherIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
@@ -266,7 +266,6 @@ export interface FileRoutesByTo {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
-  '/teacher': typeof TeacherRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
@@ -284,6 +283,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthIndexRoute
   '/superadmin': typeof SuperadminIndexRoute
+  '/teacher': typeof TeacherIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
@@ -302,7 +302,6 @@ export interface FileRoutesById {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
-  '/teacher': typeof TeacherRouteWithChildren
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -321,6 +320,7 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/superadmin/': typeof SuperadminIndexRoute
+  '/teacher/': typeof TeacherIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
@@ -340,7 +340,6 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
-    | '/teacher'
     | '/seikkailu'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -358,6 +357,7 @@ export interface FileRouteTypes {
     | '/teacher/dashboard'
     | '/auth/'
     | '/superadmin/'
+    | '/teacher/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
@@ -373,7 +373,6 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
-    | '/teacher'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/liity-yhteisoon'
@@ -391,6 +390,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/superadmin'
+    | '/teacher'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
@@ -408,7 +408,6 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
-    | '/teacher'
     | '/_authenticated/seikkailu'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -427,6 +426,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/auth/'
     | '/superadmin/'
+    | '/teacher/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/seikkailu/$screen'
@@ -445,14 +445,15 @@ export interface RootRouteChildren {
   LarareRoute: typeof LarareRoute
   McpRoute: typeof McpRoute
   RegisterTeacherRoute: typeof RegisterTeacherRoute
-  TeacherRoute: typeof TeacherRouteWithChildren
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSchoolsRoute: typeof AdminSchoolsRoute
   SchoolAdminDashboardRoute: typeof SchoolAdminDashboardRoute
   SuperadminDashboardRoute: typeof SuperadminDashboardRoute
   SuperadminLoginRoute: typeof SuperadminLoginRoute
+  TeacherDashboardRoute: typeof TeacherDashboardRoute
   SuperadminIndexRoute: typeof SuperadminIndexRoute
+  TeacherIndexRoute: typeof TeacherIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   SuperadminSchoolsSchoolIdRoute: typeof SuperadminSchoolsSchoolIdRoute
@@ -521,13 +522,6 @@ declare module '@tanstack/react-router' {
       path: '/register-teacher'
       fullPath: '/register-teacher'
       preLoaderRoute: typeof RegisterTeacherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/teacher': {
-      id: '/teacher'
-      path: '/teacher'
-      fullPath: '/teacher'
-      preLoaderRoute: typeof TeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -649,12 +643,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperadminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/': {
+      id: '/teacher/'
+      path: '/teacher'
+      fullPath: '/teacher/'
+      preLoaderRoute: typeof TeacherIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teacher/dashboard': {
       id: '/teacher/dashboard'
-      path: '/dashboard'
+      path: '/teacher/dashboard'
       fullPath: '/teacher/dashboard'
       preLoaderRoute: typeof TeacherDashboardRouteImport
-      parentRoute: typeof TeacherRoute
+      parentRoute: typeof rootRouteImport
     }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
@@ -777,17 +778,6 @@ const AventyrRouteChildren: AventyrRouteChildren = {
 const AventyrRouteWithChildren =
   AventyrRoute._addFileChildren(AventyrRouteChildren)
 
-interface TeacherRouteChildren {
-  TeacherDashboardRoute: typeof TeacherDashboardRoute
-}
-
-const TeacherRouteChildren: TeacherRouteChildren = {
-  TeacherDashboardRoute: TeacherDashboardRoute,
-}
-
-const TeacherRouteWithChildren =
-  TeacherRoute._addFileChildren(TeacherRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdventureRoute: AdventureRouteWithChildren,
@@ -798,7 +788,6 @@ const rootRouteChildren: RootRouteChildren = {
   LarareRoute: LarareRoute,
   McpRoute: McpRoute,
   RegisterTeacherRoute: RegisterTeacherRoute,
-  TeacherRoute: TeacherRouteWithChildren,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
@@ -806,7 +795,9 @@ const rootRouteChildren: RootRouteChildren = {
   SchoolAdminDashboardRoute: SchoolAdminDashboardRoute,
   SuperadminDashboardRoute: SuperadminDashboardRoute,
   SuperadminLoginRoute: SuperadminLoginRoute,
+  TeacherDashboardRoute: TeacherDashboardRoute,
   SuperadminIndexRoute: SuperadminIndexRoute,
+  TeacherIndexRoute: TeacherIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   SuperadminSchoolsSchoolIdRoute: SuperadminSchoolsSchoolIdRoute,
