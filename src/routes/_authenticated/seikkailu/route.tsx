@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/AppSidebar";
 import { TopBar } from "@/components/TopBar";
 import { CornerBlobs } from "@/components/CornerBlobs";
+import { ClassRemovedNotice } from "@/components/ClassRemovedNotice";
 import { getCurrentRole, getStudentClassMembership } from "@/lib/auth-helpers";
 import { homeForRole } from "@/lib/role-guard";
 import { NavGateProvider } from "@/lib/screen-completion";
@@ -18,6 +19,7 @@ export const Route = createFileRoute("/_authenticated/seikkailu")({
 function SeikkailuLayout() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   const t = useT();
   const { setLanguage } = useLanguage();
 
@@ -36,6 +38,16 @@ function SeikkailuLayout() {
       // Class language governs everything student-facing. Fetch it once
       // here, apply it, and only then render — avoids flashing Finnish.
       try {
+        const { data: removed } = await supabase.rpc("my_classes_deleted" as never);
+        if (removed === true) {
+          setBlocked(true);
+          setReady(true);
+          return;
+        }
+      } catch (err) {
+        console.warn("[class-access] check failed:", err);
+      }
+      try {
         const { data: lang } = await supabase.rpc("get_my_class_language" as never);
         if (isLanguage(lang)) setLanguage(lang);
       } catch (err) {
@@ -48,6 +60,8 @@ function SeikkailuLayout() {
   if (!ready) {
     return <div className="flex min-h-screen items-center justify-center text-foreground">{t("common.loading")}</div>;
   }
+
+  if (blocked) return <ClassRemovedNotice />;
 
   return (
     <NavGateProvider>

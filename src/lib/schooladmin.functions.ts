@@ -103,6 +103,7 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     const { data: classes } = await db
       .from("classes")
       .select("id, name, teacher_id")
+      .eq("is_deleted", false)
       .in("teacher_id", teacherIds.length ? teacherIds : ["00000000-0000-0000-0000-000000000000"]);
 
     const classIds = ((classes ?? []) as any[]).map((c) => c.id);

@@ -27,12 +27,31 @@ function StudentStrengthsPage() {
   const { selected, collected } = useStrengthJar();
   const { gifts } = useReceivedGifts();
 
-  const receivedIds = new Set(
-    gifts.map((g) => Number(g.strength_id)).filter((n) => Number.isFinite(n)),
-  );
-  const collectedIds = new Set<number>([...selected, ...collected]);
-  const owned = new Set<number>([...collectedIds, ...receivedIds]);
-  const pct = Math.round((owned.size / ALL_STRENGTHS.length) * 100);
+  // How many times each strength has been earned: candy-shop picks, jar
+  // discoveries anywhere in the adventure, and each teacher gift.
+  const counts = new Map<number, number>();
+  const bump = (id: number) => {
+    if (!Number.isFinite(id)) return;
+    counts.set(id, (counts.get(id) ?? 0) + 1);
+  };
+  selected.forEach(bump);
+  collected.forEach(bump);
+  gifts.forEach((g) => bump(Number(g.strength_id)));
+
+  const uniqueCount = ALL_STRENGTHS.filter((s) => (counts.get(s.id) ?? 0) > 0).length;
+  const totalCount = Array.from(counts.values()).reduce((a, b) => a + b, 0);
+  const pct = Math.round((uniqueCount / ALL_STRENGTHS.length) * 100);
+  const top = ALL_STRENGTHS.reduce<{ id: number; n: number } | null>((best, s) => {
+    const n = counts.get(s.id) ?? 0;
+    return n > 0 && (!best || n > best.n) ? { id: s.id, n } : best;
+  }, null);
+
+  function tierOf(n: number) {
+    if (n >= 5) return { label: tr("Mestari!"), badge: "🏆", glow: true };
+    if (n >= 3) return { label: tr("Kasvava"), badge: "⭐", glow: false };
+    if (n >= 1) return { label: tr("Löydetty"), badge: "🍬", glow: false };
+    return { label: "", badge: "", glow: false };
+  }
 
   function Pills({ ids, empty }: { ids: number[]; empty: string }) {
     if (ids.length === 0) return <p className="text-sm opacity-70">{empty}</p>;
@@ -97,41 +116,79 @@ function StudentStrengthsPage() {
 
       <StickyNote seed="student-strengths-all" className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="font-display text-xl">{tr("Kaikki vahvuudet")}</h2>
+          <h2 className="font-display text-xl">{tr("Vahvuuskokoelmani")}</h2>
           <span className="text-sm font-bold">
-            {owned.size}/{ALL_STRENGTHS.length}
+            {uniqueCount}/{ALL_STRENGTHS.length}
           </span>
         </div>
+
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div className="rounded-2xl bg-white/70 px-3 py-2 text-sm text-slate-900">
+            <div className="text-[0.7rem] uppercase tracking-wider opacity-60">
+              {tr("Löydetyt vahvuudet")}
+            </div>
+            <div className="font-display text-base">
+              {uniqueCount}/{ALL_STRENGTHS.length}
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white/70 px-3 py-2 text-sm text-slate-900">
+            <div className="text-[0.7rem] uppercase tracking-wider opacity-60">
+              {tr("Kerätyt karkit yhteensä")}
+            </div>
+            <div className="font-display text-base">{totalCount}</div>
+          </div>
+          <div className="rounded-2xl bg-white/70 px-3 py-2 text-sm text-slate-900">
+            <div className="text-[0.7rem] uppercase tracking-wider opacity-60">
+              {tr("Vahvin vahvuutesi")}
+            </div>
+            <div className="font-display text-base">
+              {top ? `${getStrengthName(top.id, lang)} ×${top.n}` : "—"}
+            </div>
+          </div>
+        </div>
+
         <div className="h-3 w-full overflow-hidden rounded-full bg-black/10">
           <div
             className="h-full rounded-full bg-[color:var(--purple)] transition-all"
             style={{ width: `${pct}%` }}
           />
         </div>
+        <p className="text-xs opacity-70">
+          {pct}% {tr("vahvuuksista löydetty")}
+        </p>
+
         <ul className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
           {ALL_STRENGTHS.map((s) => {
-            const isReceived = receivedIds.has(s.id);
-            const isCollected = collectedIds.has(s.id);
-            const state = isCollected
-              ? tr("Kerätty")
-              : isReceived
-                ? tr("Saatu")
-                : tr("Lukittu");
+            const n = counts.get(s.id) ?? 0;
+            const tier = tierOf(n);
             return (
               <li
                 key={s.id}
                 className={
-                  "flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm " +
-                  (isCollected || isReceived
-                    ? "bg-white/90 text-slate-900 shadow-sm"
-                    : "bg-white/30 text-slate-900/50")
+                  "flex items-center justify-between gap-2 rounded-xl border-l-4 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm transition-all " +
+                  (n === 0 ? "opacity-40 " : "") +
+                  (tier.glow ? "ring-2 ring-[color:var(--yellow)] shadow-md" : "")
                 }
+                style={{ borderLeftColor: s.color }}
               >
-                <span className="truncate">
-                  {isCollected ? "🍬" : isReceived ? "🎁" : "🔒"} {getStrengthName(s.id, lang)}
+                <span className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ background: s.color }}
+                    aria-hidden
+                  />
+                  <span className="truncate">
+                    {tier.badge && <span aria-hidden>{tier.badge} </span>}
+                    {getStrengthName(s.id, lang)}
+                  </span>
                 </span>
-                <span className="shrink-0 text-[0.65rem] uppercase tracking-wider opacity-70">
-                  {state}
+                <span className="shrink-0 text-right">
+                  <span className="font-display text-sm tabular-nums">×{n}</span>
+                  {tier.label && (
+                    <span className="block text-[0.6rem] uppercase tracking-wider opacity-70">
+                      {tier.label}
+                    </span>
+                  )}
                 </span>
               </li>
             );
@@ -141,3 +198,4 @@ function StudentStrengthsPage() {
     </div>
   );
 }
+

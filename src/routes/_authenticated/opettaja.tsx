@@ -64,6 +64,7 @@ function TeacherDashboard() {
     const { data, error } = await supabase
       .from("classes" as never)
       .select("id,name,join_code,created_at,language")
+      .eq("is_deleted" as never, false as never)
       .order("created_at", { ascending: false });
     if (error) {
       toast.error(error.message);

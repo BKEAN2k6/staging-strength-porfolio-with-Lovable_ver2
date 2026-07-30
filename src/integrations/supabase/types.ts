@@ -43,7 +43,10 @@ export type Database = {
       classes: {
         Row: {
           created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
           id: string
+          is_deleted: boolean
           join_code: string
           language: string
           name: string
@@ -51,7 +54,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           id?: string
+          is_deleted?: boolean
           join_code: string
           language?: string
           name: string
@@ -59,7 +65,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           id?: string
+          is_deleted?: boolean
           join_code?: string
           language?: string
           name?: string
@@ -340,6 +349,7 @@ export type Database = {
     Functions: {
       check_school_expiry: { Args: never; Returns: undefined }
       claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
+      cleanup_deleted_classes: { Args: never; Returns: undefined }
       get_my_class_language: { Args: never; Returns: string }
       get_my_received_strengths: {
         Args: never
@@ -363,6 +373,7 @@ export type Database = {
       is_class_teacher: { Args: { _class_id: string }; Returns: boolean }
       is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
       join_class: { Args: { p_join_code: string }; Returns: Json }
+      my_classes_deleted: { Args: never; Returns: boolean }
       my_school_id: { Args: never; Returns: string }
       register_teacher_with_any_code: {
         Args: { p_code: string }
