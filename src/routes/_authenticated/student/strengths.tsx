@@ -75,9 +75,47 @@ function StudentStrengthsPage() {
     );
   }
 
+  const top5 = ALL_STRENGTHS.map((s) => ({ id: s.id, color: s.color, n: counts.get(s.id) ?? 0 }))
+    .filter((s) => s.n > 0)
+    .sort((a, b) => b.n - a.n || a.id - b.id)
+    .slice(0, 5);
+
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6 px-4 py-8">
       <h1 className="font-display text-3xl">{tr("Vahvuuteni")} 🍬</h1>
+
+      <StickyNote seed="student-strengths-top5" className="space-y-3">
+        <h2 className="font-display text-xl">{tr("Top 5 vahvuuttasi")} ✨</h2>
+        {top5.length === 0 ? (
+          <p className="text-sm opacity-70">{tr("Et ole vielä kerännyt vahvuuksia.")}</p>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {top5.map((s, i) => (
+              <div
+                key={s.id}
+                className={
+                  "flex flex-col items-center gap-2 rounded-3xl bg-white/90 p-4 text-center text-slate-900 shadow-md " +
+                  (i === 0 ? "border-4 border-[color:var(--yellow)] shadow-lg sm:scale-105" : "")
+                }
+              >
+                <span className="text-xs font-bold uppercase tracking-wider opacity-60">
+                  #{i + 1}
+                </span>
+                <span
+                  className="flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-bold tabular-nums text-white shadow-inner"
+                  style={{ background: s.color }}
+                >
+                  {s.n}
+                </span>
+                <span className="text-sm font-bold leading-tight">
+                  {getStrengthName(s.id, lang)}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </StickyNote>
+
 
       <StickyNote seed="student-strengths-picks" className="space-y-3">
         <h2 className="font-display text-xl">{tr("Valitsemasi vahvuudet")}</h2>
