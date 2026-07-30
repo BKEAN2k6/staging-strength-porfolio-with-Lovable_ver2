@@ -87,6 +87,10 @@ function TeacherDashboardPage() {
       schoolName={guard.schoolName}
     >
       {tab === "classes" && !openClass && (
+        <TopStrengths students={students} classes={classes} assigned={assigned} />
+      )}
+
+      {tab === "classes" && !openClass && (
         <div className="grid gap-3 md:grid-cols-2">
           {classes.length === 0 && <p className="opacity-70">{tr("Ei luokkia.")}</p>}
           {classes.map((c) => {
@@ -497,6 +501,125 @@ function AssignStrengths({
         )}
       </StickyNote>
     </>
+  );
+}
+
+/** Counts every collected strength id for a set of students (+ teacher gifts). */
+function countStrengths(students: TeacherStudent[], assigned: { student_id: string; strength_id: string }[]) {
+  const ids = new Set(students.map((s) => s.studentId));
+  const counts = new Map<number, { total: number; students: Set<string> }>();
+  const add = (id: number, studentId: string) => {
+    if (id < 1 || id > 26) return;
+    let e = counts.get(id);
+    if (!e) {
+      e = { total: 0, students: new Set() };
+      counts.set(id, e);
+    }
+    e.total += 1;
+    e.students.add(studentId);
+  };
+  for (const s of students) for (const id of s.strengthIds) add(id, s.studentId);
+  for (const g of assigned) {
+    if (!ids.has(g.student_id)) continue;
+    add(Number(g.strength_id), g.student_id);
+  }
+  return [...counts.entries()]
+    .map(([id, e]) => ({ id, total: e.total, students: e.students.size }))
+    .sort((a, b) => b.total - a.total || a.id - b.id);
+}
+
+function TopStrengths({
+  students,
+  classes,
+  assigned,
+}: {
+  students: TeacherStudent[];
+  classes: TeacherClass[];
+  assigned: { student_id: string; strength_id: string }[];
+}) {
+  const tr = useTr();
+  const { language } = useLanguage();
+  const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
+  const top = useMemo(() => countStrengths(students, assigned).slice(0, 5), [students, assigned]);
+
+  const colorOf = (id: number) => ALL_STRENGTHS.find((s) => s.id === id)?.color ?? "var(--purple)";
+
+  return (
+    <StickyNote seed="t-top-strengths" className="space-y-4 md:col-span-2">
+      <h2 className="text-2xl font-bold">{tr("Ryhmän suosituimmat vahvuudet")} ✨</h2>
+      {top.length === 0 ? (
+        <p className="opacity-70">{tr("Opiskelijasi eivät ole vielä keränneet vahvuuksia.")}</p>
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {top.map((s, i) => (
+            <div
+              key={s.id}
+              className={cn(
+                "flex flex-col items-center gap-2 rounded-3xl bg-white/90 p-4 text-center text-slate-900 shadow-md",
+                i === 0 && "border-4 border-[color:var(--yellow)] shadow-lg sm:scale-105",
+              )}
+            >
+              <span className="text-xs font-bold uppercase tracking-wider opacity-60">#{i + 1}</span>
+              <span
+                className="flex h-12 w-12 items-center justify-center rounded-full text-lg"
+                style={{ background: colorOf(s.id) }}
+                aria-hidden
+              >
+                {i === 0 ? "🏆" : ""}
+              </span>
+              <span className="text-sm font-bold leading-tight">{getStrengthName(s.id, lang)}</span>
+              <span className="text-xs opacity-80">
+                {tr("yhteensä")} ×{s.total}
+              </span>
+              <span className="text-xs opacity-70">
+                {s.students} {tr("opiskelijaa")}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {classes.length > 0 && (
+        <div className="grid gap-3 md:grid-cols-2">
+          {classes.map((c) => {
+            const inClass = students.filter((s) => s.classId === c.id);
+            const list = countStrengths(inClass, assigned);
+            return (
+              <div key={c.id} className="rounded-2xl bg-white/70 p-3 text-slate-900">
+                <div className="font-bold">{c.name}</div>
+                {list.length === 0 ? (
+                  <p className="text-sm opacity-70">
+                    {tr("Opiskelijasi eivät ole vielä keränneet vahvuuksia.")}
+                  </p>
+                ) : (
+                  <>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {list.slice(0, 3).map((s, i) => (
+                        <span
+                          key={s.id}
+                          className="flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium shadow-sm"
+                        >
+                          <span className="opacity-60">#{i + 1}</span>
+                          <span
+                            className="h-3 w-3 rounded-full"
+                            style={{ background: colorOf(s.id) }}
+                            aria-hidden
+                          />
+                          {getStrengthName(s.id, lang)} ×{s.total}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-2 text-xs opacity-70">
+                      {list.length}/26 · {tr("uusia vahvuuksia kerätty")}
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </StickyNote>
   );
 }
 

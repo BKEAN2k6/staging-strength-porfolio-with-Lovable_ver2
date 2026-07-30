@@ -66,3 +66,52 @@ export function matchStrengthId(raw: string): number | null {
 export function getJarStrength(id: number): JarStrength | undefined {
   return ALL_STRENGTHS.find((s) => s.id === id);
 }
+
+const KARKKIKAUPPA_KEY = "screen_12_karkkikauppa_picks";
+const CHIPS_KEY = "screen_6_known_strengths";
+
+function parseValue<T>(value: string): T | null {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return value as unknown as T;
+  }
+}
+
+/**
+ * Strength ids collected in a set of autosaved response rows.
+ * Mirrors the student jar logic (candy-shop picks + named strengths).
+ * Returns one entry per occurrence so callers can count.
+ */
+export function strengthIdsFromResponses(
+  rows: Array<{ field_key: string; value: unknown }>,
+): number[] {
+  const out: number[] = [];
+  for (const row of rows) {
+    if (typeof row.value !== "string") continue;
+    const key = row.field_key;
+    if (key === KARKKIKAUPPA_KEY) {
+      const picks = parseValue<number[]>(row.value);
+      if (Array.isArray(picks)) {
+        for (const i of picks) {
+          const id = Number(i) + 1;
+          if (id >= 1 && id <= 26) out.push(id);
+        }
+      }
+      continue;
+    }
+    const isNameField =
+      key === CHIPS_KEY || key.endsWith("_karkit") || /^screen_13_karkki_\d+$/.test(key);
+    if (!isNameField) continue;
+    const v = parseValue<unknown>(row.value);
+    const names = Array.isArray(v) ? v : [v];
+    for (const n of names) {
+      if (typeof n !== "string" || !n.trim()) continue;
+      for (const part of n.split(/[,;/]| ja /i)) {
+        const id = matchStrengthId(part);
+        if (id) out.push(id);
+      }
+    }
+  }
+  return out;
+}

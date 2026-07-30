@@ -389,6 +389,14 @@
   "ARVIOINTIKYKY / OMDÖME": {
     "sv": "section_header"
   },
+  "Aktiivisimmat opiskelijat": {
+    "en": "Most active students",
+    "sv": "Mest aktiva elever"
+  },
+  "Aktiivisin luokka": {
+    "en": "Most active class",
+    "sv": "Mest aktiva klass"
+  },
   "Anna vahvuuksiesi loistaa.": {
     "en": "Let your strengths shine.",
     "sv": "Låt dina styrkor skina."
@@ -456,6 +464,10 @@
   "Haasteet ja vahvuudet – Pohdi ja kirjoita vastaukset.": {
     "en": "Challenges and strengths – Reflect and write down your answers.",
     "sv": "Utmaningar och styrkor – Fundera och skriv ner svaren."
+  },
+  "Haluatko varmasti poistaa luokan": {
+    "en": "Are you sure you want to delete the class",
+    "sv": "Vill du verkligen radera klassen"
   },
   "Harkitsevuus": {
     "en": "Prudence",
@@ -567,6 +579,10 @@
   "KREATIVITEETTI / KREATIVITET": {
     "sv": "section_header"
   },
+  "Kasvava": {
+    "en": "Growing",
+    "sv": "Växande"
+  },
   "Katso edelliseltä aukeamalta mitkä viisi väittämiäkarkkia olit valinnut!": {
     "sv": "Titta på föregående uppslag och se vilka fem påståenden du valt."
   },
@@ -586,6 +602,10 @@
     "en": "Whose strengths would you most like to develop?",
     "sv": "Vilkas styrkor skulle du ha mest glädje av att utveckla?"
   },
+  "Kerätyt karkit yhteensä": {
+    "en": "Candies collected in total",
+    "sv": "Totalt insamlade godisar"
+  },
   "Ketä autoin tänään? Miltä se tuntui?": {
     "en": "Who did I help today? How did it feel?",
     "sv": "Vem hjälpte jag idag? Hur kändes det?"
@@ -593,6 +613,10 @@
   "Kiitollisuus": {
     "en": "Gratitude",
     "sv": "Tacksamhet"
+  },
+  "Kirjaudu ulos": {
+    "en": "Log out",
+    "sv": "Logga ut"
   },
   "Kirjoita jäävuoren näkyvään osaan vesirajan yläpuolelle tavoitteesi. Pohdi ja merkitse kaikki vahvuudet vesirajan alapuolelle joiden käyttö ja kehittäminen tukee tavoitteen saavuttamista.": {
     "en": "Write your goal on the visible part of the iceberg above the waterline. Reflect and note all the strengths below the waterline whose use and development support achieving your goal.",
@@ -614,6 +638,10 @@
     "en": "School Memories – Look back at your own previous study experiences and notice what strengths you have.",
     "sv": "Skolerfarenheter – Titta tillbaka på dina egna tidigare studieerfarenheter och lägg märke till vilka styrkor du har."
   },
+  "Koulun yhteenveto": {
+    "en": "School summary",
+    "sv": "Skolsammanfattning"
+  },
   "Kuka auttoi minua onnistumaan?": {
     "en": "Who helped me succeed?",
     "sv": "Vem hjälpte mig att lyckas?"
@@ -629,6 +657,10 @@
   "Kun olet ruksinut ne, katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.": {
     "en": "Once you have ticked them, look on the next page for the character strengths that correspond to your choices.",
     "sv": "När du har kryssat för dem, leta på nästa sida upp de karaktärsstyrkor som motsvarar dina val."
+  },
+  "Kuukausiraportti": {
+    "en": "Monthly Report",
+    "sv": "Månadsrapport"
   },
   "Kuvittele tilanne, jossa ydinvahvuutesi on kielletty seuraavaksi kuukaudeksi.": {
     "en": "Imagine a situation where your core strength is banned for the next month.",
@@ -653,6 +685,10 @@
   "Lempipuuhat": {
     "en": "Favourite activities",
     "sv": "Favoritaktiviteter"
+  },
+  "Liity uuteen luokkaan": {
+    "en": "Join a new class",
+    "sv": "Gå med i en ny klass"
   },
   "Listaa resurssisi taulukkoon seuraavalle sivulle. Merkitse tähtistä sen mukaan, kuinka tärkeitä resurssit ovat sinulle.": {
     "en": "List your resources in the table on the next page. Rate the hearts according to how important the resources are to you.",
@@ -682,6 +718,22 @@
     "en": "At school I would like to learn",
     "sv": "I gymnasiet skulle jag vilja lära mig"
   },
+  "Luokka palautettu.": {
+    "en": "Class restored.",
+    "sv": "Klassen återställdes."
+  },
+  "Luokka poistettu.": {
+    "en": "Class deleted.",
+    "sv": "Klassen raderades."
+  },
+  "Luokkasi on poistettu": {
+    "en": "Your class has been deleted",
+    "sv": "Din klass har raderats"
+  },
+  "Luokkasi on poistettu. Ota yhteyttä opettajaasi tai liity uuteen luokkaan koodilla.": {
+    "en": "Your class has been deleted. Contact your teacher or join a new class with a code.",
+    "sv": "Din klass har raderats. Kontakta din lärare eller gå med i en ny klass med en kod."
+  },
   "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.": {
     "en": "Character strengths are positive traits in your personality. By using them, you, your classmates and various communities such as schools can flourish. They include perseverance, curiosity, courage and compassion. Every student has strengths and a developing strength potential. You can think of your strengths as a reflection of who each of us is at our best.",
     "sv": "Karaktärsstyrkor är positiva drag i din personlighet. När du använder dem kan du, dina studiekompisar och flera omgivningar, såsom skolor, blomstra. Styrkor kan exempelvis vara uthållighet, nyfikenhet, mod och medkänsla. Varje studerande har styrkor och en styrkepotential som hela tiden växer. Du kan tänka på dina styrkor som en spegling av vem du är när du är som bäst."
@@ -693,6 +745,26 @@
   "Luovuus": {
     "en": "Creativity",
     "sv": "Kreativitet"
+  },
+  "Lähetä kuukausiraportti sähköpostiini": {
+    "en": "Send monthly report to my email",
+    "sv": "Skicka månadsrapport till min e-post"
+  },
+  "Lähetä palautuslinkki": {
+    "en": "Send reset link",
+    "sv": "Skicka återställningslänk"
+  },
+  "Lähetä viikkoraportti sähköpostiini": {
+    "en": "Send weekly report to my email",
+    "sv": "Skicka veckorapport till min e-post"
+  },
+  "Löydetty": {
+    "en": "Discovered",
+    "sv": "Upptäckt"
+  },
+  "Löydetyt vahvuudet": {
+    "en": "Strengths discovered",
+    "sv": "Upptäckta styrkor"
   },
   "Löysin tilanteessa itsestäni uusia tai yllättäviä puolia": {
     "en": "I discovered new or surprising sides of myself in the situation",
@@ -708,6 +780,10 @@
   "Meissä kaikissa on paljon enemmän vahvuuksia kuin päällepäin näkyy. Omien vahvuuksien pohtiminen ja hyödyntäminen tukee itsetuntoa, antaa itsevarmuutta ja auttaa tekemään valintoja – esimerkiksi opiskeluun tai työpaikkaan liittyen.": {
     "en": "There is much more strength in all of us than is visible on the surface. Reflecting on and using your own strengths supports self-esteem, gives confidence, and helps you make choices – for example regarding studies or a workplace.",
     "sv": "Det finns mycket mer styrka i oss alla än vad som syns utåt. Att fundera på sina styrkor och använda dem stärker självkänslan, ger självförtroende och hjälper dig göra val – till exempel när det gäller studier eller arbetsplats."
+  },
+  "Mestari!": {
+    "en": "Champion!",
+    "sv": "Mästare!"
   },
   "Mieti kolmea hyvää asiaa, jota sait tänään kokea.": {
     "en": "Think of three good things you got to experience today.",
@@ -1143,6 +1219,18 @@
     "en": "Do you have a role model who has these qualities? Who and what?",
     "sv": "Har du någon förebild som har dessa egenskaper? Vem och vilka?"
   },
+  "Opettajalta saadut vahvuudet": {
+    "en": "Strengths received from your teacher",
+    "sv": "Styrkor du fått av läraren"
+  },
+  "Opiskelijasi eivät ole vielä keränneet vahvuuksia.": {
+    "en": "Your students haven't collected strengths yet.",
+    "sv": "Dina elever har inte samlat styrkor ännu."
+  },
+  "Opiskelijat menettävät pääsyn seikkailuun. Voit palauttaa luokan 60 päivän ajan.": {
+    "en": "Students will lose access to the adventure. You can restore the class for 60 days.",
+    "sv": "Eleverna förlorar tillgången till äventyret. Du kan återställa klassen i 60 dagar."
+  },
   "Opiskelussani minulla on monia mahdollisuuksia hyödyntää vahvuuksiani.": {
     "en": "In my studies I have many opportunities to use my strengths.",
     "sv": "I mina studier har jag många möjligheter att använda mina styrkor."
@@ -1162,6 +1250,14 @@
   "Ovatko mittarin tulokset ja omat valintasi samassa linjassa?": {
     "en": "Are the meter results and your own choices aligned?",
     "sv": "Stämmer resultaten från mätaren och dina egna val överens?"
+  },
+  "Palauta luokka": {
+    "en": "Restore class",
+    "sv": "Återställ klass"
+  },
+  "Palautuslinkki lähetetty sähköpostiisi.": {
+    "en": "Reset link sent to your email.",
+    "sv": "Återställningslänk skickad till din e-post."
   },
   "Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.": {
     "en": "Invest in your strengths. You grow most in the areas where you are already strong.",
@@ -1194,6 +1290,18 @@
   "Pohdi onnistumisia ja täytä!": {
     "en": "Reflect on successes and fill in!",
     "sv": "Fundera på framgångar och fyll i!"
+  },
+  "Poista luokka": {
+    "en": "Delete class",
+    "sv": "Radera klass"
+  },
+  "Poistetaan pysyvästi": {
+    "en": "Permanently deleted in",
+    "sv": "Raderas permanent om"
+  },
+  "Poistetut luokat": {
+    "en": "Deleted classes",
+    "sv": "Raderade klasser"
   },
   "Pyrin aina hyödyntämään vahvuuksiani.": {
     "en": "I always strive to use my strengths.",
@@ -1246,6 +1354,10 @@
     "en": "Love",
     "sv": "Kärlek"
   },
+  "Raportti lähetetty sähköpostiisi!": {
+    "en": "Report sent to your email!",
+    "sv": "Rapport skickad till din e-post!"
+  },
   "Reflektering om kärnstyrkor – Du fick kanske 3–7 delar med 9 eller 10 poäng. Dessa är dina kärnstyrkor enligt den här mätaren.": {
     "en": "Reflection on core strengths – You may have got 3–7 areas with 9 or 10 points. These are your core strengths according to this meter.",
     "sv": "Reflektion om kärnstyrkor – Du fick kanske 3–7 delar med 9 eller 10 poäng. Dessa är dina kärnstyrkor enligt den här mätaren."
@@ -1269,6 +1381,10 @@
   "Rohkeus: Rohkeus · Sinnikkyys · Rehellisyys · Innokkuus · Sisukkuus": {
     "en": "Courage: Bravery · Perseverance · Honesty · Zest · Sisu (inner strength)",
     "sv": "Mod: Mod · Uthållighet · Ärlighet · Entusiasm · Sisu - ihärdighet"
+  },
+  "Ryhmän suosituimmat vahvuudet": {
+    "en": "Group's most popular strengths",
+    "sv": "Gruppens mest populära styrkor"
   },
   "Ryhmätyötaito": {
     "en": "Teamwork",
@@ -1294,6 +1410,22 @@
   "Sain kehuja ja kannustusta": {
     "en": "I received praise and encouragement for",
     "sv": "Jag fick beröm och uppmuntran för"
+  },
+  "Salasana vaihdettu! Voit nyt kirjautua sisään.": {
+    "en": "Password changed! You can now log in.",
+    "sv": "Lösenordet ändrat! Du kan nu logga in."
+  },
+  "Salasanan palautus": {
+    "en": "Password Reset",
+    "sv": "Lösenordsåterställning"
+  },
+  "Salasanan tulee olla vähintään 6 merkkiä.": {
+    "en": "Password must be at least 6 characters.",
+    "sv": "Lösenordet måste vara minst 6 tecken."
+  },
+  "Salasanat eivät täsmää.": {
+    "en": "Passwords do not match.",
+    "sv": "Lösenorden matchar inte."
   },
   "Se, mikä inspiroi minua lukiossa": {
     "en": "What inspires me at school",
@@ -1335,9 +1467,21 @@
     "en": "Strengths in the family – Fill in the notes.",
     "sv": "Styrkor i familjen – Fyll i lapparna."
   },
+  "Sulje": {
+    "en": "Close",
+    "sv": "Stäng"
+  },
   "Suurimman osan ajastani teen asioita, joissa olen hyvä.": {
     "en": "For most of my time I do things I am good at.",
     "sv": "Större delen av min tid gör jag saker jag är bra på."
+  },
+  "Sähköpostia ei löytynyt.": {
+    "en": "Email not found.",
+    "sv": "E-postadressen hittades inte."
+  },
+  "Sähköpostiosoitteesi": {
+    "en": "Your email address",
+    "sv": "Din e-postadress"
   },
   "TAIDOT – Mitä taitoja sinulla on jo, joita hyödynnät opiskelussasi?": {
     "en": "SKILLS – What skills do you already have that you use in your studies?",
@@ -1353,6 +1497,10 @@
   "Tabell: HEMMA | I SKOLAN | I VÄNSKAPSRELATIONER | PÅ FRITIDEN": {
     "en": "Table: AT HOME | AT SCHOOL | IN FRIENDSHIPS | IN FREE TIME",
     "sv": "Tabell: HEMMA | I SKOLAN | I VÄNSKAPSRELATIONER | PÅ FRITIDEN"
+  },
+  "Tallenna": {
+    "en": "Save",
+    "sv": "Spara"
   },
   "Taulukko: Mitä tykkäät tehdä vapaa-ajalla? | Mitä harrastuksia sinulla on? | Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa? | Mitä vahvuuksia haluat hyödyntää enemmän vapaa-ajallasi?": {
     "en": "Table: What do you enjoy doing in your free time? | What hobbies do you have? | What strengths do you recognise in yourself in your free time and hobbies? | What strengths do you want to use more in your free time?",
@@ -1386,6 +1534,18 @@
     "en": "Hope",
     "sv": "Hopp"
   },
+  "Top 5 vahvuudet koko koulussa": {
+    "en": "Top 5 strengths school-wide",
+    "sv": "Topp 5 styrkor i hela skolan"
+  },
+  "Top 5 vahvuudet per luokka": {
+    "en": "Top 5 strengths per class",
+    "sv": "Topp 5 styrkor per klass"
+  },
+  "Top 5 vahvuudet ryhmässäsi": {
+    "en": "Top 5 strengths in your group",
+    "sv": "Topp 5 styrkor i din grupp"
+  },
   "Transsendenssi: Kauneuden ja erinomaisuuden arvostaminen / Kiitollisuus / Toiveikkuus / Huumorintaju / Hengellisyys": {
     "en": "Transcendence: Appreciation of Beauty & Excellence / Gratitude / Hope / Humour / Spirituality",
     "sv": "Transcendens: Uppskatta skönhet / Tacksamhet / Hopp / Humor / Andlighet"
@@ -1414,6 +1574,10 @@
     "en": "In this module you explore and work with your strengths as an upper secondary student.",
     "sv": "I den här modulen utforskar och arbetar du med dina styrkor som gymnasiestuderande."
   },
+  "Tässä viikkosi yhteenveto": {
+    "en": "Here is your weekly summary",
+    "sv": "Här är din veckosammanfattning"
+  },
   "Tästä onnistumisesta olen ylpeä": {
     "en": "I am proud of this success",
     "sv": "Av den här framgången är jag stolt"
@@ -1433,9 +1597,17 @@
     "en": "Dreams Roadmap in Studies: 1. Who can support and guide me? 2. Which of my strengths can I use? 3. What do I still need to learn? 4. What am I already good at? 5. My dream profession",
     "sv": "Drömmarnas vägkarta i studierna: 1. Vem kan ge mig stöd och vägledning? 2. Vilka av mina styrkor kan jag använda? 3. Vad borde jag ännu lära mig? 4. Vad kan jag redan bra? 5. Mitt drömyrke"
   },
+  "Unohditko salasanan?": {
+    "en": "Forgot your password?",
+    "sv": "Glömt ditt lösenord?"
+  },
   "Uteliaisuus": {
     "en": "Curiosity",
     "sv": "Nyfikenhet"
+  },
+  "Uusi salasana": {
+    "en": "New password",
+    "sv": "Nytt lösenord"
   },
   "VAATIMATTOMUUS / ANSPRÅKSLÖSHET": {
     "sv": "section_header"
@@ -1467,6 +1639,14 @@
   "Vad är viktigt för mig i feedbacken?": {
     "en": "What is important to me in the feedback?",
     "sv": "Vad är viktigt för mig i responsen?"
+  },
+  "Vahvin vahvuutesi": {
+    "en": "Your top strength",
+    "sv": "Din starkaste styrka"
+  },
+  "Vahvista salasana": {
+    "en": "Confirm password",
+    "sv": "Bekräfta lösenord"
   },
   "Vahvuudet auttavat haasteiden kohtaamisessa ja edistävät niistä ylipääsemisessä eli selviytymisessä. Taidoilla ja vahvuuksilla on eroa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.": {
     "en": "Strengths help in facing challenges and support overcoming them. Skills and strengths are different. Skills are learned, whereas strengths are your natural and important ways of thinking and acting.",
@@ -1508,6 +1688,10 @@
     "en": "My strength candy – at school: Choose 1–2 strength candy and use them in your studies.",
     "sv": "Mitt styrkegodis – i gymnasiet: Välj 1–2 styrkegodisar och använd dem i studierna."
   },
+  "Vahvuuskokoelmani": {
+    "en": "My strength collection",
+    "sv": "Min styrkesamling"
+  },
   "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.": {
     "en": "Strengths Feedback with Classmates – Write feedback and praise in a group of 2–4 classmates. Name the strengths you appreciate in each other.",
     "sv": "Styrkerespons från studiekamrater – Skriv respons och beröm i grupp med 2–4 studiekamrater. Namnge de styrkor ni uppskattar hos varandra."
@@ -1524,6 +1708,14 @@
     "en": "Your strengths are ______ and ______",
     "sv": "Dina styrkor är ______ och ______"
   },
+  "Valitse ensin luokka": {
+    "en": "Select a class first",
+    "sv": "Välj en klass först"
+  },
+  "Valitse luokka": {
+    "en": "Select class",
+    "sv": "Välj klass"
+  },
   "Valitse muutama sinulle tärkeä henkilö, jonka palautetta arvostat. Pyydä viestillä palautetta ja täydennä tehtävä itse.": {
     "en": "Choose a few people who are important to you and whose feedback you value. Ask them for feedback via a message and then complete the task yourself.",
     "sv": "Välj några personer som är viktiga för dig och vars respons du värdesätter. Be dem via ett meddelande om respons och fyll sedan i uppgiften själv."
@@ -1539,6 +1731,10 @@
   "Vertaa sitten muiden arvioita omiisi ja lopuksi mittarin tuloksiin. Yllätyitkö?": {
     "en": "Then compare others' assessments with your own and finally with the meter results. Were you surprised?",
     "sv": "Jämför sedan andras bedömningar med dina egna och slutligen med resultatet från mätaren. Blev du förvånad?"
+  },
+  "Viikkoraportti": {
+    "en": "Weekly Report",
+    "sv": "Veckorapport"
   },
   "Viisaus ja tieto: Luovuus / Uteliaisuus / Arviointikyky / Oppimisen ilo / Näkökulmanottokyky": {
     "en": "Wisdom & Knowledge: Creativity / Curiosity / Judgement / Love of Learning / Perspective",
@@ -1590,100 +1786,36 @@
     "en": "Kindness",
     "sv": "Vänlighet"
   },
-  "Opettajalta saadut vahvuudet": {
-    "en": "Strengths received from your teacher",
-    "sv": "Styrkor du fått av läraren"
+  "aktiivinen": {
+    "en": "active",
+    "sv": "aktiv"
   },
-  "Poista luokka": {
-    "en": "Delete class",
-    "sv": "Radera klass"
+  "keskimääräinen valmistuminen": {
+    "en": "avg completion",
+    "sv": "genomsnittligt slutförande"
   },
-  "Haluatko varmasti poistaa luokan": {
-    "en": "Are you sure you want to delete the class",
-    "sv": "Vill du verkligen radera klassen"
+  "näyttöä tällä viikolla": {
+    "en": "screens this week",
+    "sv": "skärmar denna vecka"
   },
-  "Opiskelijat menettävät pääsyn seikkailuun. Voit palauttaa luokan 60 päivän ajan.": {
-    "en": "Students will lose access to the adventure. You can restore the class for 60 days.",
-    "sv": "Eleverna förlorar tillgången till äventyret. Du kan återställa klassen i 60 dagar."
-  },
-  "Luokka poistettu.": {
-    "en": "Class deleted.",
-    "sv": "Klassen raderades."
-  },
-  "Luokka palautettu.": {
-    "en": "Class restored.",
-    "sv": "Klassen återställdes."
-  },
-  "Poistetut luokat": {
-    "en": "Deleted classes",
-    "sv": "Raderade klasser"
-  },
-  "Poistetaan pysyvästi": {
-    "en": "Permanently deleted in",
-    "sv": "Raderas permanent om"
+  "opiskelijaa": {
+    "en": "students",
+    "sv": "elever"
   },
   "päivän kuluttua": {
     "en": "days",
     "sv": "dagar"
   },
-  "Palauta luokka": {
-    "en": "Restore class",
-    "sv": "Återställ klass"
-  },
-  "Luokkasi on poistettu": {
-    "en": "Your class has been deleted",
-    "sv": "Din klass har raderats"
-  },
-  "Luokkasi on poistettu. Ota yhteyttä opettajaasi tai liity uuteen luokkaan koodilla.": {
-    "en": "Your class has been deleted. Contact your teacher or join a new class with a code.",
-    "sv": "Din klass har raderats. Kontakta din lärare eller gå med i en ny klass med en kod."
-  },
-  "Liity uuteen luokkaan": {
-    "en": "Join a new class",
-    "sv": "Gå med i en ny klass"
-  },
-  "Kirjaudu ulos": {
-    "en": "Log out",
-    "sv": "Logga ut"
-  },
-  "Valitse luokka": {
-    "en": "Select class",
-    "sv": "Välj klass"
-  },
-  "Valitse ensin luokka": {
-    "en": "Select a class first",
-    "sv": "Välj en klass först"
-  },
-  "Vahvuuskokoelmani": {
-    "en": "My strength collection",
-    "sv": "Min styrkesamling"
-  },
-  "Löydetyt vahvuudet": {
-    "en": "Strengths discovered",
-    "sv": "Upptäckta styrkor"
-  },
-  "Kerätyt karkit yhteensä": {
-    "en": "Candies collected in total",
-    "sv": "Totalt insamlade godisar"
-  },
-  "Vahvin vahvuutesi": {
-    "en": "Your top strength",
-    "sv": "Din starkaste styrka"
+  "uusia vahvuuksia kerätty": {
+    "en": "new strengths collected",
+    "sv": "nya styrkor samlade"
   },
   "vahvuuksista löydetty": {
     "en": "of strengths discovered",
     "sv": "av styrkorna upptäckta"
   },
-  "Löydetty": {
-    "en": "Discovered",
-    "sv": "Upptäckt"
-  },
-  "Kasvava": {
-    "en": "Growing",
-    "sv": "Växande"
-  },
-  "Mestari!": {
-    "en": "Champion!",
-    "sv": "Mästare!"
+  "yhteensä": {
+    "en": "total",
+    "sv": "totalt"
   }
 }
