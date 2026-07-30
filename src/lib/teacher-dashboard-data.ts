@@ -41,7 +41,9 @@ export function useTeacherData() {
   const [deletedClasses, setDeletedClasses] = useState<TeacherClass[]>([]);
   const [students, setStudents] = useState<TeacherStudent[]>([]);
   const [assigned, setAssigned] = useState<AssignedStrength[]>([]);
+  const [events, setEvents] = useState<ReportEvent[]>([]);
   const [loading, setLoading] = useState(true);
+
 
   const refresh = useCallback(async () => {
     setLoading(true);
