@@ -83,7 +83,7 @@ function Consent() {
     <main className="relative min-h-screen flex items-center justify-center p-6">
       <CornerBlobs />
       <StickyNote className="max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-2">{tr("Yhdistä sovellus tiliisi", { name: clientName })}</h1>
+        <h1 className="text-2xl font-bold mb-2">{tr("Yhdistä {name} tiliisi", { name: clientName })}</h1>
         <p className="mb-4">
           {tr(
             "{name} pyytää lupaa käyttää Huomaa Hyvä -sovellusta sinun nimissäsi. Näkyviin tulevat vain sinun omat tietosi.",
