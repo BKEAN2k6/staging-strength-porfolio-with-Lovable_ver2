@@ -18,16 +18,16 @@ export const STRENGTHS: Strength[] = [
   // WISDOM (Visdom & kunskap)
   { nr: 1, fi: "Luovuus", sv: "Kreativitet", en: "Creativity" },
   { nr: 2, fi: "Uteliaisuus", sv: "Nyfikenhet", en: "Curiosity" },
-  { nr: 3, fi: "Arviointikyky", sv: "Omdöme", en: "Judgement / Critical Thinking" },
+  { nr: 3, fi: "Arviointikyky", sv: "Omdöme", en: "Judgment" },
   { nr: 4, fi: "Oppimisen ilo", sv: "Lärandets glädje", en: "Love of Learning" },
   { nr: 5, fi: "Näkökulmanottokyky", sv: "Perspektivförmåga", en: "Perspective" },
 
   // COURAGE (Mod)
-  { nr: 6, fi: "Rohkeus", sv: "Mod", en: "Bravery" },
+  { nr: 6, fi: "Rohkeus", sv: "Mod", en: "Courage" },
   { nr: 7, fi: "Sinnikkyys", sv: "Uthållighet", en: "Perseverance" },
   { nr: 8, fi: "Rehellisyys", sv: "Ärlighet", en: "Honesty" },
-  { nr: 9, fi: "Innokkuus", sv: "Entusiasm", en: "Zest" },
-  { nr: 10, fi: "Sisukkuus", sv: "Sisu / Ihärdighet", en: "Sisu / Bravery (inner)" },
+  { nr: 9, fi: "Innokkuus", sv: "Entusiasm", en: "Enthusiasm" },
+  { nr: 10, fi: "Sisukkuus", sv: "Sisu / Ihärdighet", en: "Sisu" },
 
   // HUMANITY (Mänsklighet)
   { nr: 11, fi: "Myötätunto", sv: "Medkänsla", en: "Compassion" },
@@ -42,15 +42,15 @@ export const STRENGTHS: Strength[] = [
 
   // TEMPERANCE (Måttfullhet)
   { nr: 18, fi: "Anteeksiantavuus", sv: "Förlåtelse", en: "Forgiveness" },
-  { nr: 19, fi: "Vaatimattomuus", sv: "Anspråkslöshet", en: "Humility" },
-  { nr: 20, fi: "Harkitsevuus", sv: "Eftertänksamhet", en: "Prudence" },
+  { nr: 19, fi: "Vaatimattomuus", sv: "Anspråkslöshet", en: "Modesty" },
+  { nr: 20, fi: "Harkitsevuus", sv: "Eftertänksamhet", en: "Carefulness" },
   { nr: 21, fi: "Itsesäätely", sv: "Självreglering", en: "Self-Regulation" },
 
   // TRANSCENDENCE (Transcendens)
-  { nr: 22, fi: "Kauneuden ja erinomaisuuden arvostaminen", sv: "Uppskatta skönhet", en: "Appreciation of Beauty & Excellence" },
+  { nr: 22, fi: "Kauneuden ja erinomaisuuden arvostaminen", sv: "Uppskatta skönhet", en: "Love of Beauty" },
   { nr: 23, fi: "Kiitollisuus", sv: "Tacksamhet", en: "Gratitude" },
   { nr: 24, fi: "Toiveikkuus", sv: "Hopp", en: "Hope" },
-  { nr: 25, fi: "Huumorintaju", sv: "Humor", en: "Humour" },
+  { nr: 25, fi: "Huumorintaju", sv: "Humor", en: "Humor" },
   { nr: 26, fi: "Hengellisyys", sv: "Andlighet", en: "Spirituality" },
 ];
 
