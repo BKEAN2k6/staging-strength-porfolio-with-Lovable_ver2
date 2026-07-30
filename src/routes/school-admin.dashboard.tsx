@@ -64,6 +64,8 @@ function SchoolAdminDashboard() {
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const guard = useRoleGuard(["school_admin"]);
   const [tab, setTab] = useState("overview");
+  const [days, setDays] = useState<RangeDays>(30);
+
   const [data, setData] = useState<SchoolAdminData | null>(null);
 
   const fetchData = useServerFn(getSchoolAdminData);
