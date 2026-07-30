@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type AppRole = "student" | "teacher";
+export type AppRole = "student" | "teacher" | "admin";
 
 export async function getCurrentRole(): Promise<AppRole | null> {
   const { data: userData } = await supabase.auth.getUser();

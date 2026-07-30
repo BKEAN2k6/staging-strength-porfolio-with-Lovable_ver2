@@ -50,6 +50,7 @@ function TeacherDashboard() {
   const [language, setLanguageChoice] = useState<Language>("en");
   const [busy, setBusy] = useState(false);
   const t = useT();
+  const tr = useTr();
 
   useEffect(() => {
     getCurrentRole().then((r) => {
@@ -109,7 +110,9 @@ function TeacherDashboard() {
     navigate({ to: "/auth", replace: true });
   }
 
-  if (role !== "teacher") {
+  const isAdmin = role === "admin";
+
+  if (role !== "teacher" && !isAdmin) {
     return <div className="flex min-h-screen items-center justify-center text-foreground">{t("common.loading")}</div>;
   }
 
