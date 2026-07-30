@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
+import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
 import { toast } from "sonner";
-import { useT } from "@/lib/i18n";
+import { useT, useTr } from "@/lib/i18n";
 import { z } from "zod";
 
 export const Route = createFileRoute("/auth/login")({
@@ -29,6 +30,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const t = useT();
+  const tr = useTr();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
