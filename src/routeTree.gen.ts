@@ -26,6 +26,7 @@ import { Route as AuthStudentRouteImport } from './routes/auth.student'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AdventureScreenRouteImport } from './routes/adventure.$screen'
+import { Route as AdminSchoolsRouteImport } from './routes/admin.schools'
 import { Route as AuthenticatedOpettajaRouteImport } from './routes/_authenticated/opettaja'
 import { Route as AuthenticatedLiityYhteisoonRouteImport } from './routes/_authenticated/liity-yhteisoon'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -121,6 +122,11 @@ const AdventureScreenRoute = AdventureScreenRouteImport.update({
   path: '/$screen',
   getParentRoute: () => AdventureRoute,
 } as any)
+const AdminSchoolsRoute = AdminSchoolsRouteImport.update({
+  id: '/admin/schools',
+  path: '/admin/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedOpettajaRoute = AuthenticatedOpettajaRouteImport.update({
   id: '/opettaja',
   path: '/opettaja',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/admin/schools': typeof AdminSchoolsRoute
   '/adventure/$screen': typeof AdventureScreenRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
@@ -221,6 +228,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/opettaja': typeof AuthenticatedOpettajaRoute
+  '/admin/schools': typeof AdminSchoolsRoute
   '/adventure/$screen': typeof AdventureScreenRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/liity-yhteisoon': typeof AuthenticatedLiityYhteisoonRoute
   '/_authenticated/opettaja': typeof AuthenticatedOpettajaRoute
+  '/admin/schools': typeof AdminSchoolsRoute
   '/adventure/$screen': typeof AdventureScreenRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/opettaja': typeof AuthOpettajaRoute
@@ -282,6 +291,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/liity-yhteisoon'
     | '/opettaja'
+    | '/admin/schools'
     | '/adventure/$screen'
     | '/auth/login'
     | '/auth/opettaja'
@@ -307,6 +317,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/liity-yhteisoon'
     | '/opettaja'
+    | '/admin/schools'
     | '/adventure/$screen'
     | '/auth/login'
     | '/auth/opettaja'
@@ -336,6 +347,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/liity-yhteisoon'
     | '/_authenticated/opettaja'
+    | '/admin/schools'
     | '/adventure/$screen'
     | '/auth/login'
     | '/auth/opettaja'
@@ -363,6 +375,7 @@ export interface RootRouteChildren {
   TeacherRoute: typeof TeacherRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  AdminSchoolsRoute: typeof AdminSchoolsRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -487,6 +500,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/adventure/$screen'
       preLoaderRoute: typeof AdventureScreenRouteImport
       parentRoute: typeof AdventureRoute
+    }
+    '/admin/schools': {
+      id: '/admin/schools'
+      path: '/admin/schools'
+      fullPath: '/admin/schools'
+      preLoaderRoute: typeof AdminSchoolsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/opettaja': {
       id: '/_authenticated/opettaja'
@@ -651,6 +671,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  AdminSchoolsRoute: AdminSchoolsRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
