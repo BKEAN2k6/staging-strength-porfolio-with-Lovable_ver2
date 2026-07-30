@@ -5,7 +5,7 @@ import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
 import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
-import { useT } from "@/lib/i18n";
+import { useT, useTr } from "@/lib/i18n";
 import { z } from "zod";
 
 export const Route = createFileRoute("/auth/")({
@@ -17,6 +17,7 @@ function AuthLanding() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const t = useT();
+  const tr = useTr();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -57,7 +58,7 @@ function AuthLanding() {
             onClick={() => navigate({ to: "/register-teacher" })}
             className="w-full rounded-full bg-yellow hover:bg-yellow/90 text-ink font-bold py-6 text-base h-auto"
           >
-            {t("Luo opettajatili")}
+            {tr("Luo opettajatili")}
           </Button>
         </StickyNote>
       </div>
