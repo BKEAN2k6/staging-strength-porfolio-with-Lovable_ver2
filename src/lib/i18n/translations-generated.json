@@ -315,6 +315,10 @@
     "en": "(See the strength meter appendix for the complete list.)",
     "sv": "(Se styrkemätaren i bilagan för den fullständiga listan.)"
   },
+  "1 vuosi": {
+    "en": "1 year",
+    "sv": "1 år"
+  },
   "1 – Omat ydinvahvuudet | Tutustut ja opit omista luonteenvahvuuksista. | sivut 16–33": {
     "en": "1 – My Core Strengths | Discover and learn about your character strengths. | pages 16–33",
     "sv": "1 – Mina kärnstyrkor | Lär känna och utforska dina karaktärsstyrkor. | sidor 16–33"
@@ -351,6 +355,10 @@
     "en": "3. Deepen and describe how the strength shows in the other person. Put the feeling into words. \"You were brave. I noticed that you dared to bring up difficult things.\"",
     "sv": "3. Fördjupa och beskriv hur styrkan tar sig uttryck hos den andra personen. Sätt ord på känslan. \"Du var modig. Jag märkte att du vågade lyfta fram svåra saker.\""
   },
+  "30 päivää": {
+    "en": "30 days",
+    "sv": "30 dagar"
+  },
   "4 – Omat vahvuudet vapaa-ajalla ja harrastuksissa | Tutustut omiin vahvuuksiin ja niiden hyödyntämiseen vapaa-ajalla. | sivut 53–60": {
     "en": "4 – My Strengths in Hobbies & Free Time | Explore your strengths and how to use them in your free time. | pages 53–60",
     "sv": "4 – Mina styrkor på fritiden och i hobbyer | Utforska dina styrkor och hur du kan använda dem på fritiden. | sidor 53–60"
@@ -383,6 +391,14 @@
     "en": "6 – Compiling the Strength Portfolio | Reflect on what you have learned and use your strengths – for example when applying for a summer job. | pages 65–76",
     "sv": "6 – Sammanställning av styrkeportföljen | Reflektera över vad du lärt dig och använd dina styrkor – till exempel när du söker sommarjobb. | sidor 65–76"
   },
+  "7 päivää": {
+    "en": "7 days",
+    "sv": "7 dagar"
+  },
+  "90 päivää": {
+    "en": "90 days",
+    "sv": "90 dagar"
+  },
   "ANTEEKSIANTAVUUS / FÖRLÅTELSE": {
     "sv": "section_header"
   },
@@ -392,6 +408,14 @@
   "Aika": {
     "en": "Time",
     "sv": "Tid"
+  },
+  "Aikaväli": {
+    "en": "Time range",
+    "sv": "Tidsintervall"
+  },
+  "Aktiiviset opiskelijat": {
+    "en": "Active Students",
+    "sv": "Aktiva elever"
   },
   "Aktiivisimmat opiskelijat": {
     "en": "Most active students",
@@ -436,6 +460,10 @@
   "Det bästa med mina vänner är:": {
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
+  },
+  "Ei dataa tällä aikavälillä.": {
+    "en": "No data for this period.",
+    "sv": "Inga data för denna period."
   },
   "Ei lähetettyjä viestejä tällä aikavälillä.": {
     "en": "No emails sent in this period.",
@@ -646,6 +674,14 @@
     "en": "Candies collected in total",
     "sv": "Totalt insamlade godisar"
   },
+  "Kerätyt vahvuudet": {
+    "en": "Strengths collected",
+    "sv": "Samlade styrkor"
+  },
+  "Keskimääräinen valmistuminen %": {
+    "en": "Average completion %",
+    "sv": "Genomsnittligt slutförande %"
+  },
   "Ketä autoin tänään? Miltä se tuntui?": {
     "en": "Who did I help today? How did it feel?",
     "sv": "Vem hjälpte jag idag? Hur kändes det?"
@@ -782,6 +818,10 @@
     "en": "Class deleted.",
     "sv": "Klassen raderades."
   },
+  "Luokkakohtainen kasvu": {
+    "en": "Growth by class",
+    "sv": "Tillväxt per klass"
+  },
   "Luokkakohtaiset vahvuudet": {
     "en": "Strengths by class",
     "sv": "Styrkor per klass"
@@ -810,8 +850,12 @@
     "en": "Total sent",
     "sv": "Totalt skickade"
   },
+  "Lähetetään kuukauden 1. päivä rehtorille": {
+    "en": "Sent to the principal on the 1st of each month",
+    "sv": "Skickas till rektorn den 1:a varje månad"
+  },
   "Lähetysloki": {
-    "en": "Sent log",
+    "en": "Sending Log",
     "sv": "Sändningslogg"
   },
   "Lähetä kuukausiraportti sähköpostiini": {
@@ -1820,6 +1864,10 @@
     "en": "Strengths 'ban period'",
     "sv": "Styrkornas 'förbudstid'"
   },
+  "Vahvuuksien keräämisen kasvu": {
+    "en": "Strength Collection Growth",
+    "sv": "Tillväxt av styrkeinsamling"
+  },
   "Vahvuuksien yhteenveto – Kokoa saamasi palaute. Kirjoita ylös vahvuudet, joita eri ympäristöissä sinussa havaitaan.": {
     "en": "Summary of Strengths – Compile the feedback you have received. Write down the strengths observed in you in different environments.",
     "sv": "Sammanfattning av styrkor – Sammanställ den respons du fått. Skriv upp de styrkor som observerats hos dig i olika miljöer."
@@ -1879,6 +1927,10 @@
   "Valitse viisi tärkeintä 'karkkiväittämää', jotka kuvaavat sinua parhaiten.": {
     "en": "Choose the five most important 'strength candy' statements that best describe you.",
     "sv": "Välj de fem viktigaste 'styrkegodis' påståenden som stämmer bäst in på dig."
+  },
+  "Valmistumisen edistyminen": {
+    "en": "Completion Progress",
+    "sv": "Framsteg i slutförande"
   },
   "Vapaa-ajalla tykkään": {
     "en": "In my free time I like",
