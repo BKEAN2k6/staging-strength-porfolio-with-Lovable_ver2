@@ -36,10 +36,17 @@ export interface SchoolAdminCode {
   created_at: string;
 }
 
+export interface SchoolAdminClass {
+  id: string;
+  name: string;
+  teacherName: string | null;
+}
+
 export interface SchoolAdminData {
   school: { id: string; name: string } | null;
   students: SchoolAdminStudent[];
   teachers: SchoolAdminTeacher[];
+  classes: SchoolAdminClass[];
   codes: SchoolAdminCode[];
   strengthCounts: { strengthId: string; count: number }[];
 }
