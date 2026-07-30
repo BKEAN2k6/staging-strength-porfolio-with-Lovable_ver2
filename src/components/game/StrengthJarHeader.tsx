@@ -22,6 +22,16 @@ export function StrengthJarHeader() {
   const badgeCount = totalCount + receivedIds.length;
   const [open, setOpen] = useState(false);
 
+  // Count every occurrence: candy-shop picks, adventure finds and teacher gifts.
+  const counts = new Map<number, number>();
+  for (const id of [...selected, ...collected, ...receivedIds]) {
+    counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+  const top3 = [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0] - b[0])
+    .slice(0, 3)
+    .map(([id, count]) => ({ id, count, color: ALL_STRENGTHS.find((s) => s.id === id)?.color }));
+
   function Pills({ ids }: { ids: number[] }) {
     return (
       <div className="flex flex-wrap gap-2">
@@ -49,15 +59,36 @@ export function StrengthJarHeader() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={tr("Avaa vahvuuspurkki")}
-        title={`${badgeCount} ${tr("vahvuudet")}`}
-        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-xl transition-transform hover:scale-105 hover:bg-white/20 active:scale-95"
+        title={badgeCount > 0 ? tr("Top 3 vahvuutta") : tr("Kerää vahvuuksia!")}
+        className="relative inline-flex h-10 min-w-[52px] items-center justify-center gap-2 rounded-2xl bg-white px-2 shadow-md transition-transform hover:scale-105 active:scale-95 sm:min-w-[124px] sm:px-3"
       >
-        <span aria-hidden>🍬</span>
-        {badgeCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--coral)] px-1 text-[11px] font-bold leading-none text-white shadow">
-            {badgeCount}
+        {top3.length === 0 ? (
+          <span className="hidden text-[11px] font-semibold text-slate-700 sm:inline">
+            {tr("Kerää vahvuuksia!")}
+          </span>
+        ) : (
+          <span className="flex items-end gap-2">
+            {top3.map((s, i) => (
+              <span
+                key={s.id}
+                className={cn(
+                  "flex flex-col items-center gap-0.5",
+                  i > 0 && "hidden sm:flex",
+                )}
+                title={`${getStrengthName(s.id, lang)} ×${s.count}`}
+              >
+                <span
+                  className="h-4 w-4 rounded-full ring-2 ring-white"
+                  style={{ background: s.color ?? "var(--purple)" }}
+                />
+                <span className="text-[9px] font-bold leading-none text-slate-700">×{s.count}</span>
+              </span>
+            ))}
           </span>
         )}
+        <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--yellow)] px-1 text-[11px] font-bold leading-none text-[color:var(--ink)] shadow">
+          {badgeCount}
+        </span>
       </button>
 
       {open && (
