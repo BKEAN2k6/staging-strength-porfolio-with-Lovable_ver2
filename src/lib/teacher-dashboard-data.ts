@@ -47,7 +47,7 @@ export function useTeacherData() {
         .from("classes" as never)
         .select("id,name,join_code,created_at,language")
         .order("created_at", { ascending: false });
-      const classRows = ((cls ?? []) as unknown as TeacherClass[]) ?? [];
+      const classRows = (cls ?? []) as unknown as TeacherClass[];
       setClasses(classRows);
 
       const classIds = classRows.map((c) => c.id);
