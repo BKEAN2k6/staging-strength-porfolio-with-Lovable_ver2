@@ -32,6 +32,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthStudentRouteImport } from './routes/auth.student'
 import { Route as AventyrScreenRouteImport } from './routes/aventyr.$screen'
+import { Route as SchoolAdminDashboardRouteImport } from './routes/school-admin.dashboard'
 import { Route as SuperadminIndexRouteImport } from './routes/superadmin.index'
 import { Route as SuperadminDashboardRouteImport } from './routes/superadmin.dashboard'
 import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
@@ -160,6 +161,11 @@ const AventyrScreenRoute = AventyrScreenRouteImport.update({
   path: '/$screen',
   getParentRoute: () => AventyrRoute,
 } as any)
+const SchoolAdminDashboardRoute = SchoolAdminDashboardRouteImport.update({
+  id: '/school-admin/dashboard',
+  path: '/school-admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuperadminIndexRoute = SuperadminIndexRouteImport.update({
   id: '/superadmin/',
   path: '/superadmin/',
@@ -233,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/auth/': typeof AuthIndexRoute
@@ -263,6 +270,7 @@ export interface FileRoutesByTo {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/': typeof AuthenticatedIndexRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
@@ -334,6 +343,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/school-admin/dashboard'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/auth/'
@@ -364,6 +374,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/school-admin/dashboard'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/school-admin/dashboard'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/_authenticated/'
@@ -425,6 +437,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSchoolsRoute: typeof AdminSchoolsRoute
+  SchoolAdminDashboardRoute: typeof SchoolAdminDashboardRoute
   SuperadminDashboardRoute: typeof SuperadminDashboardRoute
   SuperadminLoginRoute: typeof SuperadminLoginRoute
   SuperadminIndexRoute: typeof SuperadminIndexRoute
@@ -596,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AventyrScreenRouteImport
       parentRoute: typeof AventyrRoute
     }
+    '/school-admin/dashboard': {
+      id: '/school-admin/dashboard'
+      path: '/school-admin/dashboard'
+      fullPath: '/school-admin/dashboard'
+      preLoaderRoute: typeof SchoolAdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/superadmin/': {
       id: '/superadmin/'
       path: '/superadmin'
@@ -753,6 +773,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSchoolsRoute: AdminSchoolsRoute,
+  SchoolAdminDashboardRoute: SchoolAdminDashboardRoute,
   SuperadminDashboardRoute: SuperadminDashboardRoute,
   SuperadminLoginRoute: SuperadminLoginRoute,
   SuperadminIndexRoute: SuperadminIndexRoute,
