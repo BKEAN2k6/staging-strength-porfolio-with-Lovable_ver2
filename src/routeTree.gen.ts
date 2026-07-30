@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as RegisterTeacherRouteImport } from './routes/register-teacher'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as LarareRouteImport } from './routes/larare'
 import { Route as JoinCommunityRouteImport } from './routes/join-community'
@@ -39,6 +40,11 @@ import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
   path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterTeacherRoute = RegisterTeacherRouteImport.update({
+  id: '/register-teacher',
+  path: '/register-teacher',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/join-community': typeof JoinCommunityRoute
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
+  '/register-teacher': typeof RegisterTeacherRoute
   '/teacher': typeof TeacherRoute
   '/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/join-community': typeof JoinCommunityRoute
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
+  '/register-teacher': typeof RegisterTeacherRoute
   '/teacher': typeof TeacherRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/join-community': typeof JoinCommunityRoute
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
+  '/register-teacher': typeof RegisterTeacherRoute
   '/teacher': typeof TeacherRoute
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -266,6 +275,7 @@ export interface FileRouteTypes {
     | '/join-community'
     | '/larare'
     | '/mcp'
+    | '/register-teacher'
     | '/teacher'
     | '/seikkailu'
     | '/.mcp/list-tools'
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/join-community'
     | '/larare'
     | '/mcp'
+    | '/register-teacher'
     | '/teacher'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/join-community'
     | '/larare'
     | '/mcp'
+    | '/register-teacher'
     | '/teacher'
     | '/_authenticated/seikkailu'
     | '/.mcp/list-tools'
@@ -347,6 +359,7 @@ export interface RootRouteChildren {
   JoinCommunityRoute: typeof JoinCommunityRoute
   LarareRoute: typeof LarareRoute
   McpRoute: typeof McpRoute
+  RegisterTeacherRoute: typeof RegisterTeacherRoute
   TeacherRoute: typeof TeacherRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -361,6 +374,13 @@ declare module '@tanstack/react-router' {
       path: '/teacher'
       fullPath: '/teacher'
       preLoaderRoute: typeof TeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register-teacher': {
+      id: '/register-teacher'
+      path: '/register-teacher'
+      fullPath: '/register-teacher'
+      preLoaderRoute: typeof RegisterTeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -626,6 +646,7 @@ const rootRouteChildren: RootRouteChildren = {
   JoinCommunityRoute: JoinCommunityRoute,
   LarareRoute: LarareRoute,
   McpRoute: McpRoute,
+  RegisterTeacherRoute: RegisterTeacherRoute,
   TeacherRoute: TeacherRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
