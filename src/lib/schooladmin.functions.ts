@@ -231,6 +231,7 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       school: (school as any) ?? null,
       students,
       teachers,
+      classes: classList,
       codes: ((codes ?? []) as any[]).map((c) => ({
         id: c.id,
         code: c.code,
