@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
+import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
 import { useT } from "@/lib/i18n";
 import { z } from "zod";
 
