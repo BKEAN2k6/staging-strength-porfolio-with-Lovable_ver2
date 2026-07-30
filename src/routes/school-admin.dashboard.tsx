@@ -155,23 +155,8 @@ function SchoolAdminDashboard() {
               value={`${derived.avgCompletion} %`}
             />
           </div>
-          <StickyNote seed="sa-modules" className="space-y-3">
-            <h2 className="text-2xl font-bold">{tr("Moduulien valmistuminen")}</h2>
-            {derived.modules.map((m) => (
-              <div key={m.id} className="space-y-1">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span>{tr(m.label)}</span>
-                  <span>{m.pct} %</span>
-                </div>
-                <div className="h-3 w-full overflow-hidden rounded-full bg-black/10">
-                  <div
-                    className="h-full rounded-full bg-[color:var(--purple)]"
-                    style={{ width: `${m.pct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </StickyNote>
+          <SchoolTopStrengths data={data} lang={lang} />
+
         </>
       )}
 
