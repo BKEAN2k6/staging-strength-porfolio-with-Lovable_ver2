@@ -39,6 +39,7 @@ import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
+import { Route as SuperadminSchoolsSchoolIdRouteImport } from './routes/superadmin.schools.$schoolId'
 import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes/_authenticated/opettaja_.oppilas.$userId'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -197,6 +198,12 @@ const AuthenticatedSeikkailuScreenRoute =
     path: '/$screen',
     getParentRoute: () => AuthenticatedSeikkailuRouteRoute,
   } as any)
+const SuperadminSchoolsSchoolIdRoute =
+  SuperadminSchoolsSchoolIdRouteImport.update({
+    id: '/superadmin/schools/$schoolId',
+    path: '/superadmin/schools/$schoolId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedOpettajaOppilasUserIdRoute =
   AuthenticatedOpettajaOppilasUserIdRouteImport.update({
     id: '/opettaja_/oppilas/$userId',
@@ -233,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
   '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
@@ -263,6 +271,7 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
   '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
@@ -297,6 +306,7 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
   '/_authenticated/opettaja_/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
 }
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
+    | '/superadmin/schools/$schoolId'
     | '/seikkailu/'
     | '/opettaja/oppilas/$userId'
   fileRoutesByTo: FileRoutesByTo
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
+    | '/superadmin/schools/$schoolId'
     | '/seikkailu'
     | '/opettaja/oppilas/$userId'
   id:
@@ -394,6 +406,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/seikkailu/$screen'
+    | '/superadmin/schools/$schoolId'
     | '/_authenticated/seikkailu/'
     | '/_authenticated/opettaja_/oppilas/$userId'
   fileRoutesById: FileRoutesById
@@ -417,6 +430,7 @@ export interface RootRouteChildren {
   SuperadminIndexRoute: typeof SuperadminIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  SuperadminSchoolsSchoolIdRoute: typeof SuperadminSchoolsSchoolIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -631,6 +645,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
       parentRoute: typeof AuthenticatedSeikkailuRouteRoute
     }
+    '/superadmin/schools/$schoolId': {
+      id: '/superadmin/schools/$schoolId'
+      path: '/superadmin/schools/$schoolId'
+      fullPath: '/superadmin/schools/$schoolId'
+      preLoaderRoute: typeof SuperadminSchoolsSchoolIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/opettaja_/oppilas/$userId': {
       id: '/_authenticated/opettaja_/oppilas/$userId'
       path: '/opettaja/oppilas/$userId'
@@ -737,6 +758,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperadminIndexRoute: SuperadminIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  SuperadminSchoolsSchoolIdRoute: SuperadminSchoolsSchoolIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
