@@ -233,3 +233,18 @@ export function downloadCsv(filename: string, csv: string) {
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 }
+
+/** Per-world completion percentage for one student's filled field keys. */
+export function worldCompletion(filledKeys: Set<string>): Array<{ id: string; done: number; total: number }> {
+  return WORLDS.map((w) => {
+    let total = 0;
+    let done = 0;
+    for (let n = w.start; n <= w.end; n++) {
+      const req = REQUIREMENTS[n];
+      if (!req || req.length === 0) continue;
+      total++;
+      if (req.every((k) => filledKeys.has(k))) done++;
+    }
+    return { id: w.id, done, total };
+  });
+}
