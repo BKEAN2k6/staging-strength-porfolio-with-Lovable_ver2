@@ -23,6 +23,7 @@ import {
   LANGUAGE_FLAG,
   LANGUAGES,
   useT,
+  useTr,
   type Language,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -49,11 +50,12 @@ function TeacherDashboard() {
   const [language, setLanguageChoice] = useState<Language>("en");
   const [busy, setBusy] = useState(false);
   const t = useT();
+  const tr = useTr();
 
   useEffect(() => {
     getCurrentRole().then((r) => {
       setRole(r);
-      if (r !== "teacher") navigate({ to: "/seikkailu", replace: true });
+      if (r !== "teacher" && r !== "admin") navigate({ to: "/seikkailu", replace: true });
       else loadClasses();
     });
   }, [navigate]);
@@ -108,7 +110,9 @@ function TeacherDashboard() {
     navigate({ to: "/auth", replace: true });
   }
 
-  if (role !== "teacher") {
+  const isAdmin = role === "admin";
+
+  if (role !== "teacher" && !isAdmin) {
     return <div className="flex min-h-screen items-center justify-center text-foreground">{t("common.loading")}</div>;
   }
 
@@ -117,9 +121,19 @@ function TeacherDashboard() {
       <CornerBlobs />
       <header className="no-print relative z-10 flex items-center justify-between px-6 py-4">
         <h1 className="text-2xl font-display">{t("teacher.title")}</h1>
+        <div className="flex items-center gap-2">
+        {isAdmin && (
+          <Link
+            to="/admin/schools"
+            className="rounded-full px-3 py-2 text-sm font-semibold text-foreground hover:bg-white/10"
+          >
+            {tr("Hallinnoi kouluja")}
+          </Link>
+        )}
         <Button variant="ghost" onClick={signOut} className="text-foreground hover:bg-white/10 rounded-full">
           {t("common.logout")}
         </Button>
+        </div>
       </header>
 
       <main className="relative z-10 mx-auto max-w-5xl px-6 py-6 space-y-6">
