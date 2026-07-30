@@ -1593,5 +1593,97 @@
   "Opettajalta saadut vahvuudet": {
     "en": "Strengths received from your teacher",
     "sv": "Styrkor du fått av läraren"
+  },
+  "Poista luokka": {
+    "en": "Delete class",
+    "sv": "Radera klass"
+  },
+  "Haluatko varmasti poistaa luokan": {
+    "en": "Are you sure you want to delete the class",
+    "sv": "Vill du verkligen radera klassen"
+  },
+  "Opiskelijat menettävät pääsyn seikkailuun. Voit palauttaa luokan 60 päivän ajan.": {
+    "en": "Students will lose access to the adventure. You can restore the class for 60 days.",
+    "sv": "Eleverna förlorar tillgången till äventyret. Du kan återställa klassen i 60 dagar."
+  },
+  "Luokka poistettu.": {
+    "en": "Class deleted.",
+    "sv": "Klassen raderades."
+  },
+  "Luokka palautettu.": {
+    "en": "Class restored.",
+    "sv": "Klassen återställdes."
+  },
+  "Poistetut luokat": {
+    "en": "Deleted classes",
+    "sv": "Raderade klasser"
+  },
+  "Poistetaan pysyvästi": {
+    "en": "Permanently deleted in",
+    "sv": "Raderas permanent om"
+  },
+  "päivän kuluttua": {
+    "en": "days",
+    "sv": "dagar"
+  },
+  "Palauta luokka": {
+    "en": "Restore class",
+    "sv": "Återställ klass"
+  },
+  "Luokkasi on poistettu": {
+    "en": "Your class has been deleted",
+    "sv": "Din klass har raderats"
+  },
+  "Luokkasi on poistettu. Ota yhteyttä opettajaasi tai liity uuteen luokkaan koodilla.": {
+    "en": "Your class has been deleted. Contact your teacher or join a new class with a code.",
+    "sv": "Din klass har raderats. Kontakta din lärare eller gå med i en ny klass med en kod."
+  },
+  "Liity uuteen luokkaan": {
+    "en": "Join a new class",
+    "sv": "Gå med i en ny klass"
+  },
+  "Kirjaudu ulos": {
+    "en": "Log out",
+    "sv": "Logga ut"
+  },
+  "Valitse luokka": {
+    "en": "Select class",
+    "sv": "Välj klass"
+  },
+  "Valitse ensin luokka": {
+    "en": "Select a class first",
+    "sv": "Välj en klass först"
+  },
+  "Vahvuuskokoelmani": {
+    "en": "My strength collection",
+    "sv": "Min styrkesamling"
+  },
+  "Löydetyt vahvuudet": {
+    "en": "Strengths discovered",
+    "sv": "Upptäckta styrkor"
+  },
+  "Kerätyt karkit yhteensä": {
+    "en": "Candies collected in total",
+    "sv": "Totalt insamlade godisar"
+  },
+  "Vahvin vahvuutesi": {
+    "en": "Your top strength",
+    "sv": "Din starkaste styrka"
+  },
+  "vahvuuksista löydetty": {
+    "en": "of strengths discovered",
+    "sv": "av styrkorna upptäckta"
+  },
+  "Löydetty": {
+    "en": "Discovered",
+    "sv": "Upptäckt"
+  },
+  "Kasvava": {
+    "en": "Growing",
+    "sv": "Växande"
+  },
+  "Mestari!": {
+    "en": "Champion!",
+    "sv": "Mästare!"
   }
 }
