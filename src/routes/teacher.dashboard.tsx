@@ -17,6 +17,8 @@ import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/te
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
+import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
+import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
 export const Route = createFileRoute("/teacher/dashboard")({
   head: () => ({
@@ -56,7 +58,7 @@ function TeacherDashboardPage() {
   const [tab, setTab] = useState("classes");
   const [openClass, setOpenClass] = useState<string | null>(null);
   const [openStudent, setOpenStudent] = useState<string | null>(null);
-  const { classes, deletedClasses, students, assigned, refresh } = useTeacherData();
+  const { classes, deletedClasses, students, assigned, events, refresh } = useTeacherData();
 
   if (!guard.ready) return null;
 

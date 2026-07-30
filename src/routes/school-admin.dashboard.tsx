@@ -24,6 +24,8 @@ import {
   promoteToSchoolAdmin,
   type SchoolAdminData,
 } from "@/lib/schooladmin.functions";
+import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
+import type { RangeDays } from "@/lib/report-series";
 
 export const Route = createFileRoute("/school-admin/dashboard")({
   head: () => ({
@@ -318,13 +320,24 @@ function SchoolAdminDashboard() {
       {tab === "reports" && (
         <>
           <StickyNote seed="sa-report-eng" className="space-y-2">
-            <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
+              <RangeSelector value={days} onChange={setDays} />
+            </div>
             <p className="opacity-80">
               {tr("Opiskelijat")}: {derived.rows.length} · {tr("Opettajat")}:{" "}
               {data?.teachers.length ?? 0} · {tr("Keskimääräinen valmistuminen")}:{" "}
               {derived.avgCompletion} %
             </p>
           </StickyNote>
+          <ReportTrends
+            events={data?.events ?? []}
+            days={days}
+            studentCount={derived.rows.length}
+            totalRequired={TOTAL_REQUIRED}
+            classes={data?.classes ?? []}
+            seedPrefix="sa"
+          />
           <StickyNote seed="sa-report-strength" className="space-y-2">
             <h3 className="text-xl font-bold">{tr("Suosituimmat vahvuudet")}</h3>
             {(data?.strengthCounts.length ?? 0) === 0 ? (
