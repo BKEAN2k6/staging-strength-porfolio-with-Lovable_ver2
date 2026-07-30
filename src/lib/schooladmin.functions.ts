@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { strengthIdsFromResponses } from "@/lib/strength-jar-data";
+import { matchStrengthId, strengthIdsFromResponses } from "@/lib/strength-jar-data";
 
 export interface SchoolAdminStudent {
   id: string;
