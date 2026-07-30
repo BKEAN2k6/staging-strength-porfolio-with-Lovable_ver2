@@ -627,6 +627,11 @@ const trWarned = new Set<string>();
 function trFinnish(finnish: string, language: Language): string {
   if (language === "fi") return finnish;
   const out = translateFinnish(finnish, language as AppLanguage);
+  if (out !== finnish && TRANSLATIONS[finnish]) return out;
+  // Fall back to the Excel-derived dictionary (normalized key match).
+  const hit = CONTENT_DICT[normalize(finnish)];
+  const alt = hit && hit[language];
+  if (alt && alt.trim()) return alt;
   if (out === finnish && !TRANSLATIONS[finnish]) {
     const key = `${language}:${finnish}`;
     if (!trWarned.has(key)) {
@@ -640,6 +645,7 @@ function trFinnish(finnish: string, language: Language): string {
   }
   return out;
 }
+
 
 /**
  * Translate a Finnish source string into the active language.
