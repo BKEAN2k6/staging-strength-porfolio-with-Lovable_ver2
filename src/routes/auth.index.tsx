@@ -54,9 +54,8 @@ function AuthLanding() {
             {t("auth.landing.signupBtn")}
           </Button>
           <Button
-            variant="outline"
             onClick={() => navigate({ to: "/register-teacher" })}
-            className="w-full rounded-full border-white/70 bg-transparent text-white hover:bg-white/10 hover:text-white font-semibold py-5 text-sm h-auto"
+            className="w-full rounded-full bg-yellow hover:bg-yellow/90 text-ink font-bold py-6 text-base h-auto"
           >
             {t("Luo opettajatili")}
           </Button>
