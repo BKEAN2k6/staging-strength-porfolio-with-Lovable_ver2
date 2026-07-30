@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StickyNote } from "@/components/StickyNote";
 import { DashboardShell } from "@/components/DashboardShell";
-import { ProfileSettings } from "@/routes/school-admin.dashboard";
+import { ProfileSettings } from "@/components/ProfileSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { useRoleGuard } from "@/lib/role-guard";
 import { useLanguage, useTr, LANGUAGES, LANGUAGE_LABEL, type Language } from "@/lib/i18n";
