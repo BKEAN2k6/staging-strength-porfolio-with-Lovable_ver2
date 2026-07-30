@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
+import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
 import { useT } from "@/lib/i18n";
 import { z } from "zod";
 
@@ -26,6 +27,7 @@ function AuthLanding() {
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden flex items-center justify-center px-4 py-10">
       <CornerBlobs />
+      <AuthLanguageSwitcher />
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-5xl font-bold">{t("app.title")}</h1>
@@ -50,6 +52,13 @@ function AuthLanding() {
             className="w-full rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white font-bold py-6 text-base h-auto"
           >
             {t("auth.landing.signupBtn")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate({ to: "/register-teacher" })}
+            className="w-full rounded-full border-white/70 bg-transparent text-white hover:bg-white/10 hover:text-white font-semibold py-5 text-sm h-auto"
+          >
+            {t("Luo opettajatili")}
           </Button>
         </StickyNote>
       </div>
