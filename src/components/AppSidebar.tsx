@@ -4,7 +4,7 @@ import { Map as MapIcon, Lock } from "lucide-react";
 import { toast } from "sonner";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarFooter,
 } from "@/components/ui/sidebar";
 import { WORLDS } from "@/lib/screens";
 import { useNavGate } from "@/lib/screen-completion";
@@ -35,12 +35,31 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const { canNavigateTo, currentScreen } = useNavGate();
   const [userId, setUserId] = useState<string | null>(null);
+  const [schoolName, setSchoolName] = useState<string | null>(null);
   const t = useT();
   const tr = useTr();
   const hint = t("nav.finishFirst");
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
+    (async () => {
+      const { data } = await supabase.auth.getUser();
+      const uid = data.user?.id ?? null;
+      setUserId(uid);
+      if (!uid) return;
+      const { data: profile } = await supabase
+        .from("profiles" as never)
+        .select("school_id")
+        .eq("id", uid)
+        .maybeSingle();
+      const schoolId = (profile as { school_id?: string | null } | null)?.school_id;
+      if (!schoolId) return;
+      const { data: school } = await supabase
+        .from("schools" as never)
+        .select("name")
+        .eq("id", schoolId)
+        .maybeSingle();
+      setSchoolName((school as { name?: string } | null)?.name ?? null);
+    })();
   }, []);
 
   const progress = useStudentProgress(userId);
@@ -118,6 +137,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      {schoolName && (
+        <SidebarFooter>
+          <div className="truncate px-2 pb-2 text-xs opacity-60" title={schoolName}>
+            {schoolName}
+          </div>
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }
