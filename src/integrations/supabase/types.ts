@@ -341,6 +341,16 @@ export type Database = {
       check_school_expiry: { Args: never; Returns: undefined }
       claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
       get_my_class_language: { Args: never; Returns: string }
+      get_my_received_strengths: {
+        Args: never
+        Returns: {
+          created_at: string
+          id: string
+          message: string
+          strength_id: string
+          teacher_name: string
+        }[]
+      }
       get_share_link_info: { Args: { p_token: string }; Returns: Json }
       has_role: {
         Args: {
