@@ -143,6 +143,7 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     }
     const studentIds = Array.from(studentIdSet);
 
+    const extraProfiles: any[] = [];
     const missingIds = studentIds.filter((id) => !nameOf.has(id));
     if (missingIds.length) {
       const { data: extra } = await db
@@ -151,9 +152,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
         .in("id", missingIds);
       for (const p of (extra ?? []) as any[]) {
         nameOf.set(p.id, p.display_name);
-        (profiles as any[]).push(p);
+        extraProfiles.push(p);
       }
     }
+
 
     const { data: responses } = studentIds.length
       ? await db
