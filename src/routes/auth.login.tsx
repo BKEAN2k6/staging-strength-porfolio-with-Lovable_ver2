@@ -33,14 +33,13 @@ function LoginPage() {
   const tr = useTr();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
-        if (next) {
-          window.location.href = next;
-        } else {
-          navigate({ to: "/seikkailu", replace: true });
-        }
+    supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) return;
+      if (next) {
+        window.location.href = next;
+        return;
       }
+      window.location.href = homeForRole(await roleOfCurrentUser());
     });
   }, [navigate, next]);
 
@@ -57,18 +56,7 @@ function LoginPage() {
         window.location.href = next;
         return;
       }
-      const { data: u } = await supabase.auth.getUser();
-      let isTeacher = false;
-      if (u.user) {
-        const { data: roleRow } = await supabase
-          .from("user_roles" as never)
-          .select("role")
-          .eq("user_id", u.user.id)
-          .eq("role", "teacher" as never)
-          .maybeSingle();
-        isTeacher = !!roleRow;
-      }
-      navigate({ to: isTeacher ? "/opettaja" : "/seikkailu", replace: true });
+      window.location.href = homeForRole(await roleOfCurrentUser());
     } finally {
       setBusy(false);
     }
