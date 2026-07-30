@@ -83,12 +83,42 @@ export const listSchools = createServerFn({ method: "GET" })
     const roleOf = new Map<string, string>();
     for (const r of roles ?? []) roleOf.set(r.user_id, r.role);
 
+    // Map class-joined students to their teacher's school so students without a
+    // school_id on their profile still show up in the counts.
+    const schoolOfProfile = new Map<string, string>();
+    for (const p of (profiles ?? []) as any[]) if (p.school_id) schoolOfProfile.set(p.id, p.school_id);
+
+    const { data: classRows } = await db
+      .from("classes")
+      .select("id, teacher_id")
+      .eq("is_deleted", false);
+    const { data: memberRows } = await db.from("class_members").select("class_id, student_id");
+    const schoolOfClass = new Map<string, string>();
+    for (const c of (classRows ?? []) as any[]) {
+      const sid = schoolOfProfile.get(c.teacher_id);
+      if (sid) schoolOfClass.set(c.id, sid);
+    }
+    const extraStudents = new Map<string, Set<string>>();
+    for (const m of (memberRows ?? []) as any[]) {
+      const sid = schoolOfClass.get(m.class_id);
+      if (!sid) continue;
+      const set = extraStudents.get(sid) ?? new Set<string>();
+      set.add(m.student_id);
+      extraStudents.set(sid, set);
+    }
+
     return (schools ?? []).map((s: any) => {
       const members = (profiles ?? []).filter((p: any) => p.school_id === s.id);
+      const studentIds = new Set<string>(
+        members.filter((p: any) => roleOf.get(p.id) === "student").map((p: any) => p.id),
+      );
+      for (const id of extraStudents.get(s.id) ?? []) {
+        if ((roleOf.get(id) ?? "student") === "student") studentIds.add(id);
+      }
       return {
         ...s,
         teacherCount: members.filter((p: any) => roleOf.get(p.id) === "teacher").length,
-        studentCount: members.filter((p: any) => roleOf.get(p.id) === "student").length,
+        studentCount: studentIds.size,
         adminNames: members
           .filter((p: any) => roleOf.get(p.id) === "school_admin")
           .map((p: any) => p.display_name ?? "—"),
@@ -96,6 +126,7 @@ export const listSchools = createServerFn({ method: "GET" })
       };
     });
   });
+
 
 export const createSchool = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
