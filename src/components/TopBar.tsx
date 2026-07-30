@@ -68,7 +68,6 @@ export function TopBar({ subtitle }: { subtitle?: string }) {
         <span className="inline-flex max-w-[40vw] items-center rounded-full px-3 py-1 font-display text-base sm:text-lg leading-none truncate text-foreground">
           {name}
         </span>
-        <StrengthJarHeader />
         <Button
           variant="ghost"
           size="icon"
