@@ -429,6 +429,14 @@
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
   },
+  "Ei sähköpostimalleja.": {
+    "en": "No email templates.",
+    "sv": "Inga e-postmallar."
+  },
+  "Ei vielä vahvuuksia.": {
+    "en": "No strengths yet.",
+    "sv": "Inga styrkor ännu."
+  },
   "Elämä tarjoaa minulle monia eri tapoja hyödyntää vahvuuksiani.": {
     "en": "Life offers me many different ways to use my strengths.",
     "sv": "Livet erbjuder mig många olika sätt att använda mina styrkor."
@@ -440,6 +448,14 @@
   "Ennen kuin täytät mittarin, valitse viisi vahvuutta (vahvuuskarkkia), jotka mielestäsi kuvaavat sinua parhaimmillasi.": {
     "en": "Before filling in the meter, choose five strengths (strength candy) that you feel describe you at your best.",
     "sv": "Innan du fyller i mätaren bör du välja fem styrkor (styrkegodisar) som du tycker beskriver dig när du är som bäst."
+  },
+  "Esikatsele": {
+    "en": "Preview",
+    "sv": "Förhandsgranska"
+  },
+  "Esikatselu": {
+    "en": "Preview",
+    "sv": "Förhandsgranskning"
   },
   "FINSKA TERM": {
     "sv": "SVENSKA TERM"
@@ -638,6 +654,10 @@
     "en": "School Memories – Look back at your own previous study experiences and notice what strengths you have.",
     "sv": "Skolerfarenheter – Titta tillbaka på dina egna tidigare studieerfarenheter och lägg märke till vilka styrkor du har."
   },
+  "Koulun 5 yleisintä vahvuutta": {
+    "en": "School-wide top 5 strengths",
+    "sv": "Skolans 5 vanligaste styrkor"
+  },
   "Koulun yhteenveto": {
     "en": "School summary",
     "sv": "Skolsammanfattning"
@@ -677,6 +697,10 @@
   "Kysy palautetta ja opi lisää itsestäsi": {
     "en": "Ask for feedback and learn more about yourself",
     "sv": "Be om respons och lär känna dig själv bättre"
+  },
+  "Käytettävissä olevat muuttujat": {
+    "en": "Available variables",
+    "sv": "Tillgängliga variabler"
   },
   "LAHJAKKUUS – Missä asioissa olet hyvä?": {
     "en": "TALENT – What are you good at?",
@@ -726,6 +750,10 @@
     "en": "Class deleted.",
     "sv": "Klassen raderades."
   },
+  "Luokkakohtaiset vahvuudet": {
+    "en": "Strengths by class",
+    "sv": "Styrkor per klass"
+  },
   "Luokkasi on poistettu": {
     "en": "Your class has been deleted",
     "sv": "Din klass har raderats"
@@ -761,6 +789,10 @@
   "Löydetty": {
     "en": "Discovered",
     "sv": "Upptäckt"
+  },
+  "Löydettyjä vahvuuksia": {
+    "en": "Strengths discovered",
+    "sv": "Upptäckta styrkor"
   },
   "Löydetyt vahvuudet": {
     "en": "Strengths discovered",
@@ -1157,6 +1189,18 @@
     "en": "Recall a success – Think of a situation in studies or free time that went well, that you are proud of, and where you noticed yourself succeeding at something important to you.",
     "sv": "Minns en framgång – Tänk på en situation i dina studier eller på fritiden som gick bra, som du är stolt över och där du märkte att du lyckades med något viktigt för dig."
   },
+  "Muokkaa": {
+    "en": "Edit",
+    "sv": "Redigera"
+  },
+  "Muokkaa sähköpostimallia": {
+    "en": "Edit email template",
+    "sv": "Redigera e-postmall"
+  },
+  "Muokkaa viestien otsikoita ja sisältöä kaikilla kielillä.": {
+    "en": "Edit subjects and content in every language.",
+    "sv": "Redigera rubriker och innehåll på alla språk."
+  },
   "Muuta muilta saamasi palaute lauseiksi minä muotoon:": {
     "en": "Transform feedback you have received from others into 'I am' statements:",
     "sv": "Förvandla andras respons till \"jag är\"-meningar:"
@@ -1246,6 +1290,10 @@
   "Osaan hyvin ja pidän": {
     "en": "I am good at and enjoy",
     "sv": "Jag kan bra och tycker om att göra"
+  },
+  "Otsikko": {
+    "en": "Subject",
+    "sv": "Rubrik"
   },
   "Ovatko mittarin tulokset ja omat valintasi samassa linjassa?": {
     "en": "Are the meter results and your own choices aligned?",
@@ -1479,9 +1527,17 @@
     "en": "Email not found.",
     "sv": "E-postadressen hittades inte."
   },
+  "Sähköpostimallit": {
+    "en": "Email templates",
+    "sv": "E-postmallar"
+  },
   "Sähköpostiosoitteesi": {
     "en": "Your email address",
     "sv": "Din e-postadress"
+  },
+  "Sähköpostit": {
+    "en": "Emails",
+    "sv": "E-post"
   },
   "TAIDOT – Mitä taitoja sinulla on jo, joita hyödynnät opiskelussasi?": {
     "en": "SKILLS – What skills do you already have that you use in your studies?",
@@ -1498,9 +1554,17 @@
     "en": "Table: AT HOME | AT SCHOOL | IN FRIENDSHIPS | IN FREE TIME",
     "sv": "Tabell: HEMMA | I SKOLAN | I VÄNSKAPSRELATIONER | PÅ FRITIDEN"
   },
+  "Takaisin": {
+    "en": "Back",
+    "sv": "Tillbaka"
+  },
   "Tallenna": {
     "en": "Save",
     "sv": "Spara"
+  },
+  "Tallennettu!": {
+    "en": "Saved!",
+    "sv": "Sparat!"
   },
   "Taulukko: Mitä tykkäät tehdä vapaa-ajalla? | Mitä harrastuksia sinulla on? | Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa? | Mitä vahvuuksia haluat hyödyntää enemmän vapaa-ajallasi?": {
     "en": "Table: What do you enjoy doing in your free time? | What hobbies do you have? | What strengths do you recognise in yourself in your free time and hobbies? | What strengths do you want to use more in your free time?",
@@ -1732,6 +1796,10 @@
     "en": "Then compare others' assessments with your own and finally with the meter results. Were you surprised?",
     "sv": "Jämför sedan andras bedömningar med dina egna och slutligen med resultatet från mätaren. Blev du förvånad?"
   },
+  "Viestin sisältö": {
+    "en": "Email body",
+    "sv": "Meddelandets innehåll"
+  },
   "Viikkoraportti": {
     "en": "Weekly Report",
     "sv": "Veckorapport"
@@ -1799,6 +1867,10 @@
     "sv": "skärmar denna vecka"
   },
   "opiskelijaa": {
+    "en": "students",
+    "sv": "elever"
+  },
+  "oppilasta": {
     "en": "students",
     "sv": "elever"
   },

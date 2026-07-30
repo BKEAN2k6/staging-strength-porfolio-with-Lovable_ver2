@@ -76,6 +76,74 @@ export type Database = {
         }
         Relationships: []
       }
+      email_templates: {
+        Row: {
+          body_en: string
+          body_fi: string
+          body_sv: string
+          created_at: string
+          description_en: string | null
+          description_fi: string | null
+          description_sv: string | null
+          id: string
+          name_en: string
+          name_fi: string
+          name_sv: string
+          subject_en: string
+          subject_fi: string
+          subject_sv: string
+          template_key: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          body_en: string
+          body_fi: string
+          body_sv: string
+          created_at?: string
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          id?: string
+          name_en: string
+          name_fi: string
+          name_sv: string
+          subject_en: string
+          subject_fi: string
+          subject_sv: string
+          template_key: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          body_en?: string
+          body_fi?: string
+          body_sv?: string
+          created_at?: string
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          id?: string
+          name_en?: string
+          name_fi?: string
+          name_sv?: string
+          subject_en?: string
+          subject_fi?: string
+          subject_sv?: string
+          template_key?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_templates_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       external_responses: {
         Row: {
           field_key: string

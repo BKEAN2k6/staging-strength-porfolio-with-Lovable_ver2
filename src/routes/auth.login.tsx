@@ -107,7 +107,13 @@ function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-4 text-center">
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <a
+              href="/auth"
+              className="text-xs text-muted-foreground underline underline-offset-2 hover:text-[color:var(--purple)]"
+            >
+              {tr("Takaisin")}
+            </a>
             <button
               type="button"
               onClick={() => setForgotOpen(true)}
