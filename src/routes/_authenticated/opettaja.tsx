@@ -55,7 +55,7 @@ function TeacherDashboard() {
   useEffect(() => {
     getCurrentRole().then((r) => {
       setRole(r);
-      if (r !== "teacher") navigate({ to: "/seikkailu", replace: true });
+      if (r !== "teacher" && r !== "admin") navigate({ to: "/seikkailu", replace: true });
       else loadClasses();
     });
   }, [navigate]);
