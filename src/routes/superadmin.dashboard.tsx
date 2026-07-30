@@ -14,6 +14,8 @@ import { useSuperAdminGuard } from "@/lib/superadmin-guard";
 import { useTr } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { EmailTemplatesTab } from "@/components/superadmin/EmailTemplatesTab";
+import { EmailAnalyticsTab } from "@/components/superadmin/EmailAnalyticsTab";
+import { SuperAdminsTab } from "@/components/superadmin/SuperAdminsTab";
 import {
   listSchools,
   createSchool,
@@ -23,8 +25,17 @@ import {
   type SchoolRow,
 } from "@/lib/superadmin.functions";
 
-const TABS = ["schools", "billing", "users", "emails", "reports", "settings"] as const;
+const TABS = [
+  "schools",
+  "billing",
+  "users",
+  "admins",
+  "emails",
+  "reports",
+  "settings",
+] as const;
 type Tab = (typeof TABS)[number];
+
 
 export const Route = createFileRoute("/superadmin/dashboard")({
   validateSearch: z.object({ tab: z.enum(TABS).optional() }).parse,
