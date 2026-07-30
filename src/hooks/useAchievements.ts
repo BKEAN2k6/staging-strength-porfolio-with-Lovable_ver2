@@ -11,19 +11,21 @@ export interface Achievement {
   title: string;
   description: string;
   emoji: string;
+  /** Untranslated suffix appended after the translated title (e.g. "1", "10"). */
+  titleSuffix?: string;
   unlocked: boolean;
   /** 0–1 for tiered/progress achievements. */
   progress: number;
   progressLabel?: string;
 }
 
-const MODULE_META: Array<{ id: WorldId; label: string; emoji: string }> = [
-  { id: "m1", label: "Moduuli 1", emoji: "🌟" },
-  { id: "m2", label: "Moduuli 2", emoji: "🎓" },
-  { id: "m3", label: "Moduuli 3", emoji: "🏠" },
-  { id: "m4", label: "Moduuli 4", emoji: "🎨" },
-  { id: "m5", label: "Moduuli 5", emoji: "🤝" },
-  { id: "m6", label: "Moduuli 6", emoji: "🏆" },
+const MODULE_META: Array<{ id: WorldId; nr: number; emoji: string }> = [
+  { id: "m1", nr: 1, emoji: "🌟" },
+  { id: "m2", nr: 2, emoji: "🎓" },
+  { id: "m3", nr: 3, emoji: "🏠" },
+  { id: "m4", nr: 4, emoji: "🎨" },
+  { id: "m5", nr: 5, emoji: "🤝" },
+  { id: "m6", nr: 6, emoji: "🏆" },
 ];
 
 const COLLECTOR_TIERS = [10, 15, 20, 26];
@@ -88,7 +90,8 @@ export function useAchievements() {
       const total = w?.total ?? 0;
       list.push({
         id: `module-${m.id}`,
-        title: `${m.label} mestari`,
+        title: "Moduulin mestari",
+        titleSuffix: String(m.nr),
         description: "Täytit kaikki moduulin tehtävät.",
         emoji: m.emoji,
         unlocked: total > 0 && done >= total,
@@ -111,7 +114,8 @@ export function useAchievements() {
     for (const tier of COLLECTOR_TIERS) {
       list.push({
         id: `collector-${tier}`,
-        title: `Vahvuuksien kerääjä ${tier}`,
+        title: "Vahvuuksien kerääjä",
+        titleSuffix: String(tier),
         description: "Keräsit vahvuuksia purkkiisi.",
         emoji: tier >= 26 ? "👑" : tier >= 20 ? "🏅" : tier >= 15 ? "🥈" : "🥉",
         unlocked: strengthCount >= tier,

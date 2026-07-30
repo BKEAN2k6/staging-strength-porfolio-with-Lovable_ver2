@@ -74,7 +74,10 @@ function StudentAchievementsPage() {
             <div className="text-3xl" aria-hidden>
               {a.unlocked ? a.emoji : "🔒"}
             </div>
-            <div className="font-display text-lg">{tr(a.title)}</div>
+            <div className="font-display text-lg">
+              {tr(a.title)}
+              {a.titleSuffix ? ` ${a.titleSuffix}` : ""}
+            </div>
             <p className="text-sm opacity-80">{tr(a.description)}</p>
             {a.progressLabel && !a.unlocked && (
               <>
@@ -103,7 +106,10 @@ function StudentAchievementsPage() {
               {fresh[0].emoji}
             </div>
             <h2 className="mt-3 font-display text-2xl">{tr("Uusi saavutus!")} ✨</h2>
-            <p className="mt-2 font-bold">{tr(fresh[0].title)}</p>
+            <p className="mt-2 font-bold">
+              {tr(fresh[0].title)}
+              {fresh[0].titleSuffix ? ` ${fresh[0].titleSuffix}` : ""}
+            </p>
             <p className="mt-1 text-sm opacity-80">{tr(fresh[0].description)}</p>
             {fresh.length > 1 && (
               <p className="mt-2 text-xs opacity-70">
