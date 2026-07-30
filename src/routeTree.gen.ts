@@ -18,6 +18,7 @@ import { Route as JoinCommunityRouteImport } from './routes/join-community'
 import { Route as LarareRouteImport } from './routes/larare'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as RegisterTeacherRouteImport } from './routes/register-teacher'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
@@ -89,6 +90,11 @@ const McpRoute = McpRouteImport.update({
 const RegisterTeacherRoute = RegisterTeacherRouteImport.update({
   id: '/register-teacher',
   path: '/register-teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotmcpChar93ListToolsRoute =
@@ -254,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/student': typeof AuthenticatedStudentRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -290,6 +297,7 @@ export interface FileRoutesByTo {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/student': typeof AuthenticatedStudentRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -329,6 +337,7 @@ export interface FileRoutesById {
   '/larare': typeof LarareRoute
   '/mcp': typeof McpRoute
   '/register-teacher': typeof RegisterTeacherRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/seikkailu': typeof AuthenticatedSeikkailuRouteRouteWithChildren
   '/_authenticated/student': typeof AuthenticatedStudentRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -370,6 +379,7 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
+    | '/reset-password'
     | '/seikkailu'
     | '/student'
     | '/.mcp/list-tools'
@@ -406,6 +416,7 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
+    | '/reset-password'
     | '/student'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -444,6 +455,7 @@ export interface FileRouteTypes {
     | '/larare'
     | '/mcp'
     | '/register-teacher'
+    | '/reset-password'
     | '/_authenticated/seikkailu'
     | '/_authenticated/student'
     | '/.mcp/list-tools'
@@ -484,6 +496,7 @@ export interface RootRouteChildren {
   LarareRoute: typeof LarareRoute
   McpRoute: typeof McpRoute
   RegisterTeacherRoute: typeof RegisterTeacherRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSchoolsRoute: typeof AdminSchoolsRoute
@@ -561,6 +574,13 @@ declare module '@tanstack/react-router' {
       path: '/register-teacher'
       fullPath: '/register-teacher'
       preLoaderRoute: typeof RegisterTeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -866,6 +886,7 @@ const rootRouteChildren: RootRouteChildren = {
   LarareRoute: LarareRoute,
   McpRoute: McpRoute,
   RegisterTeacherRoute: RegisterTeacherRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
