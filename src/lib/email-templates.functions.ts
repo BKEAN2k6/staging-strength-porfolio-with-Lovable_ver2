@@ -71,3 +71,69 @@ export const saveEmailTemplate = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export type EmailLogRow = {
+  id: string;
+  template_key: string;
+  recipient_email: string;
+  language: string;
+  subject: string | null;
+  status: string;
+  error_message: string | null;
+  opened_at: string | null;
+  bounced_at: string | null;
+  created_at: string;
+};
+
+export type EmailAnalytics = {
+  total: number;
+  sent: number;
+  failed: number;
+  opened: number;
+  bounced: number;
+  openRate: number;
+  bounceRate: number;
+  byTemplate: { template_key: string; count: number }[];
+};
+
+/** Sent log + delivery analytics for the super admin email dashboard. */
+export const getEmailLog = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { days?: number } | undefined) => input ?? {})
+  .handler(async ({ data, context }): Promise<{ rows: EmailLogRow[]; analytics: EmailAnalytics }> => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    const db = await admin();
+    const days = data.days ?? 30;
+    const since = new Date(Date.now() - days * 24 * 3600 * 1000).toISOString();
+    const { data: rows, error } = await db
+      .from("email_log")
+      .select("*")
+      .gte("created_at", since)
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw new Error(error.message);
+
+    const list = (rows ?? []) as EmailLogRow[];
+    const sent = list.filter((r) => r.status === "sent").length;
+    const failed = list.filter((r) => r.status === "failed").length;
+    const opened = list.filter((r) => r.opened_at).length;
+    const bounced = list.filter((r) => r.bounced_at || r.status === "bounced").length;
+    const byKey = new Map<string, number>();
+    for (const r of list) byKey.set(r.template_key, (byKey.get(r.template_key) ?? 0) + 1);
+
+    return {
+      rows: list,
+      analytics: {
+        total: list.length,
+        sent,
+        failed,
+        opened,
+        bounced,
+        openRate: list.length ? Math.round((opened / list.length) * 100) : 0,
+        bounceRate: list.length ? Math.round((bounced / list.length) * 100) : 0,
+        byTemplate: Array.from(byKey, ([template_key, count]) => ({ template_key, count })).sort(
+          (a, b) => b.count - a.count,
+        ),
+      },
+    };
+  });

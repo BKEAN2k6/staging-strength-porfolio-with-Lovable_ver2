@@ -354,3 +354,90 @@ export const setUserRole = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export type SuperAdminRow = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  created_at: string | null;
+  isSelf: boolean;
+};
+
+export const listSuperAdmins = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<SuperAdminRow[]> => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    const db = await admin();
+    const { data: roles } = await db
+      .from("user_roles")
+      .select("user_id, created_at")
+      .eq("role", "super_admin");
+    const emails = await emailMap(db);
+    const ids = ((roles ?? []) as any[]).map((r) => r.user_id);
+    const { data: profiles } = ids.length
+      ? await db.from("profiles").select("id, display_name").in("id", ids)
+      : { data: [] as any[] };
+    const nameOf = new Map(((profiles ?? []) as any[]).map((p) => [p.id, p.display_name]));
+    return ((roles ?? []) as any[]).map((r) => ({
+      id: r.user_id,
+      name: nameOf.get(r.user_id) ?? null,
+      email: emails.get(r.user_id) ?? null,
+      created_at: r.created_at ?? null,
+      isSelf: r.user_id === context.userId,
+    }));
+  });
+
+/** Invite a new super admin: creates the account if needed, then grants the role. */
+export const inviteSuperAdmin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { email: string; name?: string; password?: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    const db = await admin();
+    const email = data.email.trim().toLowerCase();
+    if (!email.includes("@")) throw new Error("Invalid email");
+
+    const emails = await emailMap(db);
+    let userId: string | null = null;
+    for (const [id, e] of emails) if (e.toLowerCase() === email) userId = id;
+
+    if (!userId) {
+      const { data: created, error } = await db.auth.admin.createUser({
+        email,
+        password: data.password || crypto.randomUUID(),
+        email_confirm: true,
+        user_metadata: { display_name: data.name || email.split("@")[0] },
+      });
+      if (error) throw new Error(error.message);
+      userId = created.user.id as string;
+      await db
+        .from("profiles")
+        .upsert({ id: userId, display_name: data.name || email.split("@")[0] }, { onConflict: "id" });
+    }
+
+    const { error: roleErr } = await db
+      .from("user_roles")
+      .upsert({ user_id: userId, role: "super_admin" }, { onConflict: "user_id" });
+    if (roleErr) throw new Error(roleErr.message);
+    return { ok: true, userId };
+  });
+
+/** Demote another super admin back to teacher. Never allows self-removal. */
+export const removeSuperAdmin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { userId: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    if (data.userId === context.userId) throw new Error("You cannot remove your own super admin role");
+    const db = await admin();
+    const { count } = await db
+      .from("user_roles")
+      .select("user_id", { count: "exact", head: true })
+      .eq("role", "super_admin");
+    if ((count ?? 0) <= 1) throw new Error("At least one super admin is required");
+    const { error } = await db
+      .from("user_roles")
+      .upsert({ user_id: data.userId, role: "teacher" }, { onConflict: "user_id" });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
