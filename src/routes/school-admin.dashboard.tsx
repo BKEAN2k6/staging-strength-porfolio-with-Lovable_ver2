@@ -15,6 +15,7 @@ import { useTr } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
 import { computeStudentStats, TOTAL_REQUIRED, worldCompletion } from "@/lib/teacher-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
+import { getJarStrength } from "@/lib/strength-jar-data";
 import { useLanguage } from "@/lib/i18n";
 import {
   getSchoolAdminData,
@@ -424,6 +425,136 @@ function TeacherRow({
           </td>
         </tr>
       )}
+    </>
+  );
+}
+
+function StrengthRow({
+  rank,
+  id,
+  count,
+  students,
+  lang,
+  tr,
+}: {
+  rank: number;
+  id: number;
+  count: number;
+  students: number;
+  lang: "fi" | "sv" | "en";
+  tr: (s: string) => string;
+}) {
+  const color = getJarStrength(id)?.color ?? "var(--purple)";
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-white/70 px-3 py-2">
+      <span className="w-6 shrink-0 text-sm font-bold opacity-60">#{rank}</span>
+      <span
+        className="h-6 w-6 shrink-0 rounded-full"
+        style={{ background: `color-mix(in srgb, ${color} 70%, white)` }}
+        aria-hidden
+      />
+      <span className="min-w-0 flex-1 truncate font-semibold">{getStrengthName(id, lang)}</span>
+      <span className="shrink-0 rounded-full bg-[color:var(--yellow)] px-2 py-0.5 text-xs font-bold text-[color:var(--ink,#1c1533)]">
+        ×{count}
+      </span>
+      <span className="hidden shrink-0 text-xs opacity-70 sm:inline">
+        {students} {tr("oppilasta")}
+      </span>
+    </div>
+  );
+}
+
+function tally(students: { strengthIds: number[] }[]) {
+  const total = new Map<number, number>();
+  const byStudent = new Map<number, Set<number>>();
+  students.forEach((s, idx) => {
+    for (const id of s.strengthIds) {
+      total.set(id, (total.get(id) ?? 0) + 1);
+      const set = byStudent.get(id) ?? new Set<number>();
+      set.add(idx);
+      byStudent.set(id, set);
+    }
+  });
+  return Array.from(total, ([id, count]) => ({
+    id,
+    count,
+    students: byStudent.get(id)?.size ?? 0,
+  })).sort((a, b) => b.count - a.count || a.id - b.id);
+}
+
+function SchoolTopStrengths({
+  data,
+  lang,
+}: {
+  data: SchoolAdminData | null;
+  lang: "fi" | "sv" | "en";
+}) {
+  const tr = useTr();
+  const students = data?.students ?? [];
+  const schoolTop = tally(students).slice(0, 5);
+
+  return (
+    <>
+      <StickyNote seed="sa-top-strengths" className="space-y-3">
+        <h2 className="text-2xl font-bold">{tr("Koulun 5 yleisintä vahvuutta")}</h2>
+        {schoolTop.length === 0 ? (
+          <p className="text-sm opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
+        ) : (
+          schoolTop.map((s, i) => (
+            <StrengthRow
+              key={s.id}
+              rank={i + 1}
+              id={s.id}
+              count={s.count}
+              students={s.students}
+              lang={lang}
+              tr={tr}
+            />
+          ))
+        )}
+      </StickyNote>
+
+      <StickyNote seed="sa-class-strengths" className="space-y-4">
+        <h2 className="text-2xl font-bold">{tr("Luokkakohtaiset vahvuudet")}</h2>
+        {(data?.classes ?? []).length === 0 ? (
+          <p className="text-sm opacity-70">{tr("Ei luokkia.")}</p>
+        ) : (
+          (data?.classes ?? []).map((c) => {
+            const inClass = students.filter((s) => s.classId === c.id);
+            const top = tally(inClass);
+            return (
+              <div key={c.id} className="space-y-2 rounded-3xl border border-black/10 p-3">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="font-bold">
+                    {c.name}
+                    {c.teacherName ? ` — ${c.teacherName}` : ""}
+                  </h3>
+                  <span className="text-xs opacity-70">
+                    {tr("Löydettyjä vahvuuksia")}: {top.length} / 26
+                  </span>
+                </div>
+                {top.length === 0 ? (
+                  <p className="text-xs opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
+                ) : (
+                  top
+                    .slice(0, 5)
+                    .map((s, i) => (
+                      <StrengthRow
+                        key={s.id}
+                        rank={i + 1}
+                        id={s.id}
+                        count={s.count}
+                        students={s.students}
+                        lang={lang}
+                        tr={tr}
+                      />
+                    ))
+                )}
+              </div>
+            );
+          })
+        )}
+      </StickyNote>
     </>
   );
 }
