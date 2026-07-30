@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useCallback, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -185,7 +186,10 @@ function SchoolDetailPage() {
         </Link>
 
         <header className="flex flex-wrap items-center gap-3">
-          <h1 className="text-4xl font-bold">{school.name}</h1>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="text-4xl font-bold">{school.name}</h1>
+            <LanguageSwitcher />
+          </div>
           <span
             className={
               school.is_active
