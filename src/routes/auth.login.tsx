@@ -106,21 +106,19 @@ function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-5 space-y-2 text-center text-xs">
-            <Link
-              to="/auth/student"
-              className="block font-semibold text-[color:var(--purple)] underline"
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => setForgotOpen(true)}
+              className="text-xs text-muted-foreground underline underline-offset-2 hover:text-[color:var(--purple)]"
             >
-              {tr("Rekisteröidy opiskelijaksi")}
-            </Link>
-            <Link
-              to="/register-teacher"
-              className="block rounded-full border border-[color:var(--purple)]/40 px-3 py-1.5 font-medium text-muted-foreground hover:text-[color:var(--purple)]"
-            >
-              {tr("Rekisteröidy opettajaksi")}
-            </Link>
+              {tr("Unohditko salasanan?")}
+            </button>
           </div>
         </StickyNote>
+
+        {forgotOpen && <ForgotPasswordDialog onClose={() => setForgotOpen(false)} />}
+
 
       </div>
     </div>
