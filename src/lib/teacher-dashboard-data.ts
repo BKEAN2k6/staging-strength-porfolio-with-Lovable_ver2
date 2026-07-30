@@ -8,6 +8,7 @@ import {
 } from "@/lib/teacher-data";
 import type { Language } from "@/lib/i18n";
 import { strengthIdsFromResponses } from "@/lib/strength-jar-data";
+import type { ReportEvent } from "@/lib/report-series";
 
 export interface TeacherClass {
   id: string;
@@ -96,6 +97,8 @@ export function useTeacherData() {
             }>).map((p) => [p.id, p]),
           );
 
+          const classOf = new Map(memberRows.map((m) => [m.student_id, m.class_id]));
+          const collected: ReportEvent[] = [];
           const strengthsPer = new Map<string, number[]>();
           const filledPer = new Map<string, Set<string>>();
           const lastPer = new Map<string, Date>();
@@ -114,6 +117,15 @@ export function useTeacherData() {
               s.add(r.field_key);
             }
             const ids = strengthIdsFromResponses([{ field_key: r.field_key, value: r.value }]);
+            if (r.updated_at) {
+              collected.push({
+                userId: r.user_id,
+                classId: classOf.get(r.user_id) ?? null,
+                at: r.updated_at,
+                fieldKey: isFilled(r.value) ? r.field_key : undefined,
+                strengths: ids.length,
+              });
+            }
             if (ids.length) {
               const prev = strengthsPer.get(r.user_id) ?? [];
               strengthsPer.set(r.user_id, prev.concat(ids));
@@ -125,6 +137,7 @@ export function useTeacherData() {
             }
           }
 
+          setEvents(collected);
           const classNameById = new Map(classRows.map((c) => [c.id, c.name]));
           setStudents(
             memberRows.map((m) => {
@@ -155,7 +168,17 @@ export function useTeacherData() {
         .select("id, student_id, strength_id, message, created_at")
         .eq("teacher_id", u.user.id as never)
         .order("created_at", { ascending: false });
-      setAssigned((gifts ?? []) as unknown as AssignedStrength[]);
+      const giftRows = (gifts ?? []) as unknown as AssignedStrength[];
+      setAssigned(giftRows);
+      setEvents((prev) => [
+        ...prev,
+        ...giftRows.map((g) => ({
+          userId: g.student_id,
+          classId: null,
+          at: g.created_at,
+          strengths: 1,
+        })),
+      ]);
     } finally {
       setLoading(false);
     }
@@ -165,7 +188,7 @@ export function useTeacherData() {
     void refresh();
   }, [refresh]);
 
-  return { classes, deletedClasses, students, assigned, loading, refresh };
+  return { classes, deletedClasses, students, assigned, events, loading, refresh };
 }
 
 /** Strengths a student has received from their teachers (read-only). */
