@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/AppSidebar";
 import { TopBar } from "@/components/TopBar";
 import { CornerBlobs } from "@/components/CornerBlobs";
+import { ClassRemovedNotice } from "@/components/ClassRemovedNotice";
 import { getCurrentRole } from "@/lib/auth-helpers";
 import { homeForRole } from "@/lib/role-guard";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/_authenticated/student")({
 function StudentLayout() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   const t = useT();
   const { setLanguage } = useLanguage();
 
@@ -26,6 +28,16 @@ function StudentLayout() {
       if (role && role !== "student") {
         window.location.href = homeForRole(role);
         return;
+      }
+      try {
+        const { data: removed } = await supabase.rpc("my_classes_deleted" as never);
+        if (removed === true) {
+          setBlocked(true);
+          setReady(true);
+          return;
+        }
+      } catch (err) {
+        console.warn("[class-access] check failed:", err);
       }
       try {
         const { data: lang } = await supabase.rpc("get_my_class_language" as never);
@@ -44,6 +56,8 @@ function StudentLayout() {
       </div>
     );
   }
+
+  if (blocked) return <ClassRemovedNotice />;
 
   return (
     <SidebarProvider>
