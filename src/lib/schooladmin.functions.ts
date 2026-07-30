@@ -123,12 +123,14 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       : { data: [] as any[] };
 
     const classOfStudent = new Map<string, string>();
+    const classIdOfStudent = new Map<string, string>();
     const classNameById = new Map<string, string>(
       ((classes ?? []) as any[]).map((c) => [c.id, c.name]),
     );
     const studentsPerClass = new Map<string, number>();
     for (const m of (members ?? []) as any[]) {
       classOfStudent.set(m.student_id, classNameById.get(m.class_id) ?? "");
+      classIdOfStudent.set(m.student_id, m.class_id);
       studentsPerClass.set(m.class_id, (studentsPerClass.get(m.class_id) ?? 0) + 1);
     }
 
