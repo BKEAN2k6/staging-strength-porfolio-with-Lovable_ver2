@@ -164,30 +164,91 @@ export type Database = {
         }
         Relationships: []
       }
+      school_codes: {
+        Row: {
+          code: string
+          created_at: string
+          created_by_super_admin_id: string | null
+          id: string
+          is_used: boolean
+          school_id: string
+          used_by_admin_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by_super_admin_id?: string | null
+          id?: string
+          is_used?: boolean
+          school_id: string
+          used_by_admin_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by_super_admin_id?: string | null
+          id?: string
+          is_used?: boolean
+          school_id?: string
+          used_by_admin_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "school_codes_created_by_super_admin_id_fkey"
+            columns: ["created_by_super_admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "school_codes_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "school_codes_used_by_admin_id_fkey"
+            columns: ["used_by_admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       schools: {
         Row: {
+          billing_expiry_date: string | null
+          billing_start_date: string
           code: string
           created_at: string
           id: string
           is_active: boolean
           language: string
           name: string
+          school_logo_url: string | null
         }
         Insert: {
+          billing_expiry_date?: string | null
+          billing_start_date?: string
           code: string
           created_at?: string
           id?: string
           is_active?: boolean
           language?: string
           name: string
+          school_logo_url?: string | null
         }
         Update: {
+          billing_expiry_date?: string | null
+          billing_start_date?: string
           code?: string
           created_at?: string
           id?: string
           is_active?: boolean
           language?: string
           name?: string
+          school_logo_url?: string | null
         }
         Relationships: []
       }
@@ -241,6 +302,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_school_expiry: { Args: never; Returns: undefined }
       claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
       get_my_class_language: { Args: never; Returns: string }
       get_share_link_info: { Args: { p_token: string }; Returns: Json }
@@ -270,7 +332,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "student" | "teacher" | "admin"
+      app_role: "student" | "teacher" | "admin" | "super_admin" | "school_admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -398,7 +460,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["student", "teacher", "admin"],
+      app_role: ["student", "teacher", "admin", "super_admin", "school_admin"],
     },
   },
 } as const
