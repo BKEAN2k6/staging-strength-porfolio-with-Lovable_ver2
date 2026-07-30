@@ -64,19 +64,6 @@ function RegisterTeacher() {
 
     setBusy(true);
     try {
-      const { data: schools, error: codeErr } = await supabase.rpc(
-        "validate_school_code" as never,
-        { input_code: code } as never,
-      );
-      if (codeErr) throw codeErr;
-      const school = (schools as
-        | { school_id: string; school_name: string; school_language: string }[]
-        | null)?.[0];
-      if (!school) {
-        toast.error(tr("Virheellinen koulukoodi. Tarkista koodi ja yritä uudelleen."));
-        return;
-      }
-
       const { error: signUpErr } = await supabase.auth.signUp({
         email,
         password,
@@ -114,7 +101,7 @@ function RegisterTeacher() {
       }
 
       const { data: rpcData, error: rpcErr } = await supabase.rpc(
-        "register_teacher_with_school" as never,
+        "register_teacher_with_any_code" as never,
         { p_code: code } as never,
       );
       if (rpcErr) throw rpcErr;
@@ -125,7 +112,7 @@ function RegisterTeacher() {
         return;
       }
       if (isLanguage(res.language)) setLanguage(res.language);
-      navigate({ to: "/opettaja", replace: true });
+      navigate({ to: "/teacher/dashboard", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error");
     } finally {
