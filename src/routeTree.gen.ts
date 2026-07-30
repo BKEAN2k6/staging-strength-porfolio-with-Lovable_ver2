@@ -32,6 +32,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthStudentRouteImport } from './routes/auth.student'
 import { Route as AventyrScreenRouteImport } from './routes/aventyr.$screen'
+import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
@@ -156,6 +157,11 @@ const AventyrScreenRoute = AventyrScreenRouteImport.update({
   path: '/$screen',
   getParentRoute: () => AventyrRoute,
 } as any)
+const SuperadminLoginRoute = SuperadminLoginRouteImport.update({
+  id: '/superadmin/login',
+  path: '/superadmin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/superadmin/login': typeof SuperadminLoginRoute
   '/auth/': typeof AuthIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/superadmin/login': typeof SuperadminLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/auth/opettaja': typeof AuthOpettajaRoute
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
+  '/superadmin/login': typeof SuperadminLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -297,6 +306,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/superadmin/login'
     | '/auth/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -323,6 +333,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/superadmin/login'
     | '/'
     | '/auth'
     | '/.lovable/oauth/consent'
@@ -353,6 +364,7 @@ export interface FileRouteTypes {
     | '/auth/opettaja'
     | '/auth/student'
     | '/aventyr/$screen'
+    | '/superadmin/login'
     | '/_authenticated/'
     | '/auth/'
     | '/.lovable/oauth/consent'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSchoolsRoute: typeof AdminSchoolsRoute
+  SuperadminLoginRoute: typeof SuperadminLoginRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -543,6 +556,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AventyrScreenRouteImport
       parentRoute: typeof AventyrRoute
     }
+    '/superadmin/login': {
+      id: '/superadmin/login'
+      path: '/superadmin/login'
+      fullPath: '/superadmin/login'
+      preLoaderRoute: typeof SuperadminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -672,6 +692,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSchoolsRoute: AdminSchoolsRoute,
+  SuperadminLoginRoute: SuperadminLoginRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
