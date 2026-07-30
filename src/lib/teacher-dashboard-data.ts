@@ -7,6 +7,7 @@ import {
   type RosterStudent,
 } from "@/lib/teacher-data";
 import type { Language } from "@/lib/i18n";
+import { strengthIdsFromResponses } from "@/lib/strength-jar-data";
 
 export interface TeacherClass {
   id: string;
@@ -22,6 +23,8 @@ export interface TeacherStudent extends RosterStudent {
   classId: string;
   className: string;
   filledKeys: string[];
+  /** Strength ids collected by this student, one entry per occurrence. */
+  strengthIds: number[];
 }
 
 export interface AssignedStrength {
@@ -91,6 +94,7 @@ export function useTeacherData() {
             }>).map((p) => [p.id, p]),
           );
 
+          const strengthsPer = new Map<string, number[]>();
           const filledPer = new Map<string, Set<string>>();
           const lastPer = new Map<string, Date>();
           for (const r of (resps ?? []) as unknown as Array<{
@@ -106,6 +110,11 @@ export function useTeacherData() {
                 filledPer.set(r.user_id, s);
               }
               s.add(r.field_key);
+            }
+            const ids = strengthIdsFromResponses([{ field_key: r.field_key, value: r.value }]);
+            if (ids.length) {
+              const prev = strengthsPer.get(r.user_id) ?? [];
+              strengthsPer.set(r.user_id, prev.concat(ids));
             }
             if (r.updated_at) {
               const d = new Date(r.updated_at);
@@ -132,6 +141,7 @@ export function useTeacherData() {
                 classId: m.class_id,
                 className: classNameById.get(m.class_id) ?? "",
                 filledKeys: Array.from(filled),
+                strengthIds: strengthsPer.get(m.student_id) ?? [],
               };
             }),
           );
