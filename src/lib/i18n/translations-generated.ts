@@ -1290,6 +1290,8 @@ Med kärlek, . . . . . . . . . .`,
   "Palvelin ei palauttanut uudelleenohjausta.": { en: "The server did not return a redirect.", sv: "Servern returnerade ingen omdirigering." },
   "Kerää vahvuuksia!": { en: "Collect strengths!", sv: "Samla styrkor!" },
   "Top 3 vahvuutta": { en: "Top 3 strengths", sv: "Topp 3 styrkor" },
+  "Hyväksy": { en: "Approve", sv: "Godkänn" },
+  "Hylkää": { en: "Deny", sv: "Avvisa" },
 };
 
 
