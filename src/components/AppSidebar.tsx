@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Map as MapIcon, Lock } from "lucide-react";
+import { Map as MapIcon, Lock, Candy, Trophy, User } from "lucide-react";
 import { toast } from "sonner";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -93,6 +93,27 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild isActive={isMap}>
                   <Link to="/seikkailu" className="flex items-center gap-2">
                     <MapIcon className="h-4 w-4" /> <span>{t("sidebar.worldmap")}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={path === "/student/strengths"}>
+                  <Link to="/student/strengths" className="flex items-center gap-2">
+                    <Candy className="h-4 w-4" /> <span>{tr("Vahvuuteni")}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={path === "/student/achievements"}>
+                  <Link to="/student/achievements" className="flex items-center gap-2">
+                    <Trophy className="h-4 w-4" /> <span>{tr("Saavutukset")}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={path === "/student/profile"}>
+                  <Link to="/student/profile" className="flex items-center gap-2">
+                    <User className="h-4 w-4" /> <span>{tr("Profiili")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

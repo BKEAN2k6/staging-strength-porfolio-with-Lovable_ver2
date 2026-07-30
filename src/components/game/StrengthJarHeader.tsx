@@ -15,7 +15,7 @@ export function StrengthJarHeader() {
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const { selected, collected, totalCount } = useStrengthJar();
-  const received = useReceivedStrengths();
+  const { gifts: received } = useReceivedGifts();
   const receivedIds = received
     .map((r) => Number(r.strength_id))
     .filter((n) => Number.isFinite(n));
