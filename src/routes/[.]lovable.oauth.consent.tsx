@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { StickyNote } from "@/components/StickyNote";
 import { CornerBlobs } from "@/components/CornerBlobs";
+import { useTr } from "@/lib/i18n";
 
 type AuthorizationDetails = {
   client?: { name?: string } | null;
@@ -51,11 +52,12 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
 });
 
 function Consent() {
+  const tr = useTr();
   const details = Route.useLoaderData();
   const { authorization_id } = Route.useSearch();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const clientName = details?.client?.name ?? "sovellus";
+  const clientName = details?.client?.name ?? tr("sovellus");
 
   async function decide(approve: boolean) {
     setBusy(true);
@@ -71,7 +73,7 @@ function Consent() {
     const target = data?.redirect_url ?? data?.redirect_to;
     if (!target) {
       setBusy(false);
-      setError("Palvelin ei palauttanut uudelleenohjausta.");
+      setError(tr("Palvelin ei palauttanut uudelleenohjausta."));
       return;
     }
     window.location.href = target;
@@ -81,10 +83,12 @@ function Consent() {
     <main className="relative min-h-screen flex items-center justify-center p-6">
       <CornerBlobs />
       <StickyNote className="max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-2">Yhdistä {clientName} tiliisi</h1>
+        <h1 className="text-2xl font-bold mb-2">{tr("Yhdistä {name} tiliisi", { name: clientName })}</h1>
         <p className="mb-4">
-          {clientName} pyytää lupaa käyttää Huomaa Hyvä -sovellusta sinun nimissäsi. Näkyviin
-          tulevat vain sinun omat tietosi.
+          {tr(
+            "{name} pyytää lupaa käyttää Huomaa Hyvä -sovellusta sinun nimissäsi. Näkyviin tulevat vain sinun omat tietosi.",
+            { name: clientName },
+          )}
         </p>
         {error && (
           <p role="alert" className="mb-3 text-red-600">
@@ -93,10 +97,10 @@ function Consent() {
         )}
         <div className="flex gap-3">
           <Button disabled={busy} onClick={() => decide(true)}>
-            Hyväksy
+            {tr("Hyväksy")}
           </Button>
           <Button variant="outline" disabled={busy} onClick={() => decide(false)}>
-            Hylkää
+            {tr("Hylkää")}
           </Button>
         </div>
       </StickyNote>

@@ -9,6 +9,7 @@ import { WORLDS, TOTAL_SCREENS, worldForScreen } from "@/lib/screens";
 import { REQUIREMENTS } from "@/lib/screen-completion";
 import { METER_STRENGTHS } from "@/lib/meter-data";
 import { Printer, ArrowLeft } from "lucide-react";
+import { useTr } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/opettaja_/oppilas/$userId")({
   component: StudentPortfolio,
@@ -18,6 +19,7 @@ interface ResponseRow { field_key: string; value: unknown; }
 interface ProfileRow { id: string; display_name: string | null; current_screen: number | null; }
 
 function StudentPortfolio() {
+  const tr = useTr();
   const { userId } = Route.useParams();
   const navigate = useNavigate();
   const [allowed, setAllowed] = useState<boolean | null>(null);
@@ -64,7 +66,7 @@ function StudentPortfolio() {
     return { totalRequired, done };
   }, [responses]);
 
-  if (!allowed) return <div className="flex min-h-screen items-center justify-center">Ladataan…</div>;
+  if (!allowed) return <div className="flex min-h-screen items-center justify-center">{tr("Ladataan…")}</div>;
 
   const meterDone = METER_STRENGTHS.every(
     (s) => isFilled(responses.get(`meter2_${s.id}_s1`)) && isFilled(responses.get(`meter2_${s.id}_s2`)),
@@ -79,18 +81,18 @@ function StudentPortfolio() {
         <div className="flex items-center gap-3">
           <Link to="/opettaja" className="inline-flex">
             <Button variant="ghost" className="rounded-full">
-              <ArrowLeft className="h-4 w-4 mr-2" /> Takaisin
+              <ArrowLeft className="h-4 w-4 mr-2" /> {tr("Takaisin")}
             </Button>
           </Link>
           <h1 className="text-2xl font-display">
-            {profile?.display_name ?? "Opiskelija"} — Portfolio
+            {profile?.display_name ?? tr("Opiskelija")} — {tr("Portfolio")}
           </h1>
         </div>
         <Button
           onClick={() => window.print()}
           className="rounded-full bg-[color:var(--coral)] hover:bg-[color:var(--coral)]/90 text-white"
         >
-          <Printer className="h-4 w-4 mr-2" /> Tulosta Portfolio
+          <Printer className="h-4 w-4 mr-2" /> {tr("Tulosta portfolio")}
         </Button>
       </header>
 
@@ -98,27 +100,27 @@ function StudentPortfolio() {
         <StickyNote tone="yellow">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <div className="text-xs uppercase tracking-wider opacity-70">Edistyminen</div>
+              <div className="text-xs uppercase tracking-wider opacity-70">{tr("Edistyminen")}</div>
               <div className="font-display text-2xl">
-                {stats.done} / {stats.totalRequired} näyttöä täytetty
+                {stats.done} / {stats.totalRequired} {tr("näyttöä täytetty")}
               </div>
               <div className="text-sm opacity-80">
-                Nykyinen näyttö: {profile?.current_screen ?? 1} / {TOTAL_SCREENS}
+                {tr("Nykyinen näyttö")}: {profile?.current_screen ?? 1} / {TOTAL_SCREENS}
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xs uppercase tracking-wider opacity-70">Vahvuusmittari</div>
-              <div className="font-display text-xl">{meterDone ? "Suoritettu ✓" : "Kesken"}</div>
+              <div className="text-xs uppercase tracking-wider opacity-70">{tr("Vahvuusmittari")}</div>
+              <div className="font-display text-xl">{meterDone ? `${tr("Suoritettu")} ✓` : tr("Kesken")}</div>
             </div>
           </div>
         </StickyNote>
 
         {meterDone && (top5?.length || growth3?.length) ? (
           <StickyNote tone="coral">
-            <h2 className="font-display text-2xl mb-2">Vahvuustulos</h2>
+            <h2 className="font-display text-2xl mb-2">{tr("Vahvuustulos")}</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <div className="text-xs font-bold uppercase tracking-wide opacity-80 mb-1">Top 5 ydinvahvuutta</div>
+                <div className="text-xs font-bold uppercase tracking-wide opacity-80 mb-1">{tr("Top 5 ydinvahvuutta")}</div>
                 <ol className="list-decimal pl-5 text-sm space-y-0.5">
                   {(top5 ?? []).map((id) => {
                     const s = METER_STRENGTHS.find((m) => m.id === id);
@@ -127,7 +129,7 @@ function StudentPortfolio() {
                 </ol>
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-wide opacity-80 mb-1">Top 3 kasvuvahvuutta</div>
+                <div className="text-xs font-bold uppercase tracking-wide opacity-80 mb-1">{tr("Top 3 kasvuvahvuutta")}</div>
                 <ol className="list-decimal pl-5 text-sm space-y-0.5">
                   {(growth3 ?? []).map((id) => {
                     const s = METER_STRENGTHS.find((m) => m.id === id);
@@ -153,13 +155,13 @@ function StudentPortfolio() {
           return (
             <section key={w.id} className="space-y-2">
               <h2 className="font-display text-2xl flex items-center gap-2">
-                <span>{w.emoji}</span> {w.title} — <span className="opacity-70 text-lg">{w.subtitle}</span>
+                <span>{w.emoji}</span> {tr(w.title)} — <span className="opacity-70 text-lg">{tr(w.subtitle)}</span>
               </h2>
               <div className="grid gap-2">
                 {screens.map(({ n, entries }) => (
                   <StickyNote key={n} tone="white">
                     <div className="text-xs uppercase tracking-wider opacity-60 mb-1">
-                      Näyttö {n} — {worldForScreen(n).title}
+                      {tr("Näyttö")} {n} — {tr(worldForScreen(n).title)}
                     </div>
                     <dl className="space-y-1.5">
                       {entries.map((e) => (
