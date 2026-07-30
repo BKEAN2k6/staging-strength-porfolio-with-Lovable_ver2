@@ -187,7 +187,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     const { data: authUsers } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 });
     for (const u of authUsers?.users ?? []) emails.set(u.id, u.email ?? "");
 
-    const profById = new Map<string, any>(((profiles ?? []) as any[]).map((p) => [p.id, p]));
+    const profById = new Map<string, any>(
+      [...((profiles ?? []) as any[]), ...extraProfiles].map((p) => [p.id, p]),
+    );
+
 
     const { data: assigned } = await db
       .from("teacher_assigned_strengths")
