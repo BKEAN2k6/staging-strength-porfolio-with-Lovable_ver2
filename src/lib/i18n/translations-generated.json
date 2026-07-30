@@ -389,6 +389,10 @@
   "ARVIOINTIKYKY / OMDÖME": {
     "sv": "section_header"
   },
+  "Aika": {
+    "en": "Time",
+    "sv": "Tid"
+  },
   "Aktiivisimmat opiskelijat": {
     "en": "Most active students",
     "sv": "Mest aktiva elever"
@@ -413,6 +417,10 @@
     "en": "Judgement / Critical Thinking",
     "sv": "Omdöme"
   },
+  "Avausprosentti": {
+    "en": "Open rate",
+    "sv": "Öppningsfrekvens"
+  },
   "Berätta om dina styrkor via video eller presentation – Vilka är dina kärnstyrkor? Vad älskar du att göra?": {
     "en": "Share your strengths via video or presentation – What are your core strengths? What do you love to do?",
     "sv": "Berätta om dina styrkor via video eller presentation – Vilka är dina kärnstyrkor? Vad älskar du att göra?"
@@ -428,6 +436,14 @@
   "Det bästa med mina vänner är:": {
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
+  },
+  "Ei lähetettyjä viestejä tällä aikavälillä.": {
+    "en": "No emails sent in this period.",
+    "sv": "Inga meddelanden skickade under denna period."
+  },
+  "Ei pääkäyttäjiä.": {
+    "en": "No super admins.",
+    "sv": "Inga huvudanvändare."
   },
   "Ei sähköpostimalleja.": {
     "en": "No email templates.",
@@ -449,6 +465,10 @@
     "en": "Before filling in the meter, choose five strengths (strength candy) that you feel describe you at your best.",
     "sv": "Innan du fyller i mätaren bör du välja fem styrkor (styrkegodisar) som du tycker beskriver dig när du är som bäst."
   },
+  "Epäonnistuneet": {
+    "en": "Failed",
+    "sv": "Misslyckade"
+  },
   "Esikatsele": {
     "en": "Preview",
     "sv": "Förhandsgranska"
@@ -456,6 +476,10 @@
   "Esikatselu": {
     "en": "Preview",
     "sv": "Förhandsgranskning"
+  },
+  "Et ole vielä kerännyt vahvuuksia.": {
+    "en": "You haven't collected any strengths yet.",
+    "sv": "Du har inte samlat några styrkor ännu."
   },
   "FINSKA TERM": {
     "sv": "SVENSKA TERM"
@@ -678,6 +702,14 @@
     "en": "Once you have ticked them, look on the next page for the character strengths that correspond to your choices.",
     "sv": "När du har kryssat för dem, leta på nästa sida upp de karaktärsstyrkor som motsvarar dina val."
   },
+  "Kutsu": {
+    "en": "Invite",
+    "sv": "Bjud in"
+  },
+  "Kutsu uusi pääkäyttäjä": {
+    "en": "Invite a new super admin",
+    "sv": "Bjud in en ny huvudanvändare"
+  },
   "Kuukausiraportti": {
     "en": "Monthly Report",
     "sv": "Månadsrapport"
@@ -774,6 +806,14 @@
     "en": "Creativity",
     "sv": "Kreativitet"
   },
+  "Lähetetyt yhteensä": {
+    "en": "Total sent",
+    "sv": "Totalt skickade"
+  },
+  "Lähetysloki": {
+    "en": "Sent log",
+    "sv": "Sändningslogg"
+  },
   "Lähetä kuukausiraportti sähköpostiini": {
     "en": "Send monthly report to my email",
     "sv": "Skicka månadsrapport till min e-post"
@@ -808,6 +848,10 @@
   },
   "MYÖTÄTUNTO / MEDKÄNSLA": {
     "sv": "section_header"
+  },
+  "Malli": {
+    "en": "Template",
+    "sv": "Mall"
   },
   "Meissä kaikissa on paljon enemmän vahvuuksia kuin päällepäin näkyy. Omien vahvuuksien pohtiminen ja hyödyntäminen tukee itsetuntoa, antaa itsevarmuutta ja auttaa tekemään valintoja – esimerkiksi opiskeluun tai työpaikkaan liittyen.": {
     "en": "There is much more strength in all of us than is visible on the surface. Reflecting on and using your own strengths supports self-esteem, gives confidence, and helps you make choices – for example regarding studies or a workplace.",
@@ -1209,6 +1253,10 @@
     "en": "Compassion",
     "sv": "Medkänsla"
   },
+  "Nimi": {
+    "en": "Name",
+    "sv": "Namn"
+  },
   "NÄKÖKULMANOTTOKYKY / PERSPEKTIVFÖRMÅGA": {
     "sv": "section_header"
   },
@@ -1230,6 +1278,10 @@
   "Oikeudenmukaisuus: Ryhmätyötaito · Reiluus · Johtajuus": {
     "en": "Justice: Teamwork · Fairness · Leadership",
     "sv": "Rättvisa: Samarbetsförmåga · Rättvisa · Ledarskap"
+  },
+  "Oikeudet poistettu.": {
+    "en": "Rights removed.",
+    "sv": "Rättigheterna har tagits bort."
   },
   "Olen bongannut niitä erityisesti kun:": {
     "en": "I have particularly noticed them when:",
@@ -1262,6 +1314,10 @@
   "Onko sinulla esikuva, jolla on näitä ominaisuuksia? Kuka ja mitä?": {
     "en": "Do you have a role model who has these qualities? Who and what?",
     "sv": "Har du någon förebild som har dessa egenskaper? Vem och vilka?"
+  },
+  "Onnistuneet": {
+    "en": "Delivered",
+    "sv": "Levererade"
   },
   "Opettajalta saadut vahvuudet": {
     "en": "Strengths received from your teacher",
@@ -1307,6 +1363,10 @@
     "en": "Reset link sent to your email.",
     "sv": "Återställningslänk skickad till din e-post."
   },
+  "Palautusprosentti": {
+    "en": "Bounce rate",
+    "sv": "Studsfrekvens"
+  },
   "Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.": {
     "en": "Invest in your strengths. You grow most in the areas where you are already strong.",
     "sv": "Satsa på dina styrkor. Du växer mest inom de områden där du redan är stark."
@@ -1339,6 +1399,10 @@
     "en": "Reflect on successes and fill in!",
     "sv": "Fundera på framgångar och fyll i!"
   },
+  "Poista": {
+    "en": "Delete",
+    "sv": "Ta bort"
+  },
   "Poista luokka": {
     "en": "Delete class",
     "sv": "Radera klass"
@@ -1346,6 +1410,10 @@
   "Poistetaan pysyvästi": {
     "en": "Permanently deleted in",
     "sv": "Raderas permanent om"
+  },
+  "Poistetaanko pääkäyttäjän oikeudet?": {
+    "en": "Remove super admin rights?",
+    "sv": "Ta bort huvudanvändarens rättigheter?"
   },
   "Poistetut luokat": {
     "en": "Deleted classes",
@@ -1374,6 +1442,10 @@
   "Pyydä vanhempaasi täyttämään! – Kirjoita vahvuuskirje nuorellesi:": {
     "en": "Ask your parent to fill in! – Write a strengths letter to your young person:",
     "sv": "Be din förälder fylla i! – Skriv ett styrkebrev till din ungdom:"
+  },
+  "Pääkäyttäjät": {
+    "en": "Super admins",
+    "sv": "Huvudanvändare"
   },
   "RAKKAUS / KÄRLEK": {
     "sv": "section_header"
@@ -1459,6 +1531,10 @@
     "en": "I received praise and encouragement for",
     "sv": "Jag fick beröm och uppmuntran för"
   },
+  "Salasana (valinnainen)": {
+    "en": "Password (optional)",
+    "sv": "Lösenord (valfritt)"
+  },
   "Salasana vaihdettu! Voit nyt kirjautua sisään.": {
     "en": "Password changed! You can now log in.",
     "sv": "Lösenordet ändrat! Du kan nu logga in."
@@ -1527,9 +1603,17 @@
     "en": "Email not found.",
     "sv": "E-postadressen hittades inte."
   },
+  "Sähköpostien analytiikka": {
+    "en": "Email analytics",
+    "sv": "E-poststatistik"
+  },
   "Sähköpostimallit": {
     "en": "Email templates",
     "sv": "E-postmallar"
+  },
+  "Sähköpostiosoite": {
+    "en": "Email address",
+    "sv": "E-postadress"
   },
   "Sähköpostiosoitteesi": {
     "en": "Your email address",
@@ -1590,6 +1674,10 @@
     "en": "About Character Strengths",
     "sv": "Om styrkor"
   },
+  "Tila": {
+    "en": "Status",
+    "sv": "Status"
+  },
   "Tips: Det är troligt att de hobbys och aktiviteter du gillar mest är tillfredsställande just för att de ger dig möjlighet att använda dina styrkor.": {
     "en": "Tip: It is likely that the hobbies and activities you enjoy most are fulfilling precisely because they give you the opportunity to use your strengths.",
     "sv": "Tips: Det är troligt att de hobbyer och aktiviteter du gillar mest är tillfredsställande just för att de ger dig möjlighet att använda dina styrkor."
@@ -1609,6 +1697,10 @@
   "Top 5 vahvuudet ryhmässäsi": {
     "en": "Top 5 strengths in your group",
     "sv": "Topp 5 styrkor i din grupp"
+  },
+  "Top 5 vahvuuttasi": {
+    "en": "Your top 5 strengths",
+    "sv": "Dina 5 starkaste styrkor"
   },
   "Transsendenssi: Kauneuden ja erinomaisuuden arvostaminen / Kiitollisuus / Toiveikkuus / Huumorintaju / Hengellisyys": {
     "en": "Transcendence: Appreciation of Beauty & Excellence / Gratitude / Hope / Humour / Spirituality",
@@ -1792,6 +1884,10 @@
     "en": "In my free time I like",
     "sv": "På fritiden gillar jag"
   },
+  "Vastaanottaja": {
+    "en": "Recipient",
+    "sv": "Mottagare"
+  },
   "Vertaa sitten muiden arvioita omiisi ja lopuksi mittarin tuloksiin. Yllätyitkö?": {
     "en": "Then compare others' assessments with your own and finally with the meter results. Were you surprised?",
     "sv": "Jämför sedan andras bedömningar med dina egna och slutligen med resultatet från mätaren. Blev du förvånad?"
@@ -1846,6 +1942,14 @@
     "en": "Summary – write the scores in this list:",
     "sv": "Sammanfattning – skriv poängen i den här listan:"
   },
+  "Ylläpitäjä lisätty.": {
+    "en": "Administrator added.",
+    "sv": "Administratören har lagts till."
+  },
+  "Ylläpitäjät": {
+    "en": "Administrators",
+    "sv": "Administratörer"
+  },
   "Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?": {
     "en": "Were you surprised by the meter results or others' choices? How?",
     "sv": "Förvånades du av mätarens resultat eller andras val? Hur?"
@@ -1877,6 +1981,14 @@
   "päivän kuluttua": {
     "en": "days",
     "sv": "dagar"
+  },
+  "päivää": {
+    "en": "days",
+    "sv": "dagar"
+  },
+  "sinä": {
+    "en": "you",
+    "sv": "du"
   },
   "uusia vahvuuksia kerätty": {
     "en": "new strengths collected",
