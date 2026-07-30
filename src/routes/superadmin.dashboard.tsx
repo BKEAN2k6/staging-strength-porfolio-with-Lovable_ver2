@@ -169,12 +169,15 @@ function SuperAdminDashboard() {
                       ? "Laskutus"
                       : tb === "users"
                         ? "Käyttäjät"
-                        : tb === "emails"
-                          ? "Sähköpostit"
-                          : tb === "reports"
-                            ? "Raportit"
-                            : "Asetukset",
+                        : tb === "admins"
+                          ? "Ylläpitäjät"
+                          : tb === "emails"
+                            ? "Sähköpostit"
+                            : tb === "reports"
+                              ? "Raportit"
+                              : "Asetukset",
                 )}
+
               </Link>
             ))}
           </nav>
