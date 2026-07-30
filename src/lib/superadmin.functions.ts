@@ -219,7 +219,40 @@ export const getSchoolDetail = createServerFn({ method: "GET" })
     const roleOf = new Map<string, string>();
     for (const r of roles ?? []) roleOf.set(r.user_id, r.role);
 
-    const users: SchoolUser[] = ((profiles ?? []) as any[]).map((p) => ({
+    // Students who joined through a class code have no school_id on their
+    // profile — find them through the classes owned by this school's teachers.
+    const allProfiles: any[] = [...((profiles ?? []) as any[])];
+    const teacherIds = allProfiles
+      .filter((p) => roleOf.get(p.id) === "teacher" || roleOf.get(p.id) === "school_admin")
+      .map((p) => p.id);
+    if (teacherIds.length) {
+      const { data: classes } = await db
+        .from("classes")
+        .select("id")
+        .eq("is_deleted", false)
+        .in("teacher_id", teacherIds);
+      const classIds = ((classes ?? []) as any[]).map((c) => c.id);
+      if (classIds.length) {
+        const { data: members } = await db
+          .from("class_members")
+          .select("student_id")
+          .in("class_id", classIds);
+        const known = new Set(allProfiles.map((p) => p.id));
+        const missing = Array.from(
+          new Set(((members ?? []) as any[]).map((m) => m.student_id as string)),
+        ).filter((id) => !known.has(id));
+        if (missing.length) {
+          const { data: extra } = await db
+            .from("profiles")
+            .select("id, display_name, current_screen, created_at, updated_at")
+            .in("id", missing);
+          allProfiles.push(...((extra ?? []) as any[]));
+        }
+      }
+    }
+
+    const users: SchoolUser[] = allProfiles.map((p) => ({
+
       id: p.id,
       name: p.display_name,
       email: emails.get(p.id) ?? null,
