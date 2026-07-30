@@ -14,6 +14,8 @@ export interface TeacherClass {
   join_code: string;
   language: Language;
   created_at: string;
+  is_deleted?: boolean;
+  deleted_at?: string | null;
 }
 
 export interface TeacherStudent extends RosterStudent {
@@ -33,6 +35,7 @@ export interface AssignedStrength {
 /** Everything the teacher dashboard needs: classes, students, gifted strengths. */
 export function useTeacherData() {
   const [classes, setClasses] = useState<TeacherClass[]>([]);
+  const [deletedClasses, setDeletedClasses] = useState<TeacherClass[]>([]);
   const [students, setStudents] = useState<TeacherStudent[]>([]);
   const [assigned, setAssigned] = useState<AssignedStrength[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,10 +48,12 @@ export function useTeacherData() {
 
       const { data: cls } = await supabase
         .from("classes" as never)
-        .select("id,name,join_code,created_at,language")
+        .select("id,name,join_code,created_at,language,is_deleted,deleted_at")
         .order("created_at", { ascending: false });
-      const classRows = (cls ?? []) as unknown as TeacherClass[];
+      const allRows = (cls ?? []) as unknown as TeacherClass[];
+      const classRows = allRows.filter((c) => !c.is_deleted);
       setClasses(classRows);
+      setDeletedClasses(allRows.filter((c) => c.is_deleted));
 
       const classIds = classRows.map((c) => c.id);
       if (classIds.length === 0) {
@@ -148,7 +153,7 @@ export function useTeacherData() {
     void refresh();
   }, [refresh]);
 
-  return { classes, students, assigned, loading, refresh };
+  return { classes, deletedClasses, students, assigned, loading, refresh };
 }
 
 /** Strengths a student has received from their teachers (read-only). */

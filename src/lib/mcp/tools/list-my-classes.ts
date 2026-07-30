@@ -23,6 +23,7 @@ export default defineTool({
     const { data: classes, error } = await supabase
       .from("classes")
       .select("id, name, join_code, created_at")
+      .eq("is_deleted", false)
       .order("created_at", { ascending: false });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     const withCounts = await Promise.all(
