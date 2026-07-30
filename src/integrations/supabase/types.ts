@@ -167,27 +167,36 @@ export type Database = {
       school_codes: {
         Row: {
           code: string
+          code_type: string
           created_at: string
+          created_by: string | null
           created_by_super_admin_id: string | null
           id: string
+          is_revoked: boolean
           is_used: boolean
           school_id: string
           used_by_admin_id: string | null
         }
         Insert: {
           code: string
+          code_type?: string
           created_at?: string
+          created_by?: string | null
           created_by_super_admin_id?: string | null
           id?: string
+          is_revoked?: boolean
           is_used?: boolean
           school_id: string
           used_by_admin_id?: string | null
         }
         Update: {
           code?: string
+          code_type?: string
           created_at?: string
+          created_by?: string | null
           created_by_super_admin_id?: string | null
           id?: string
+          is_revoked?: boolean
           is_used?: boolean
           school_id?: string
           used_by_admin_id?: string | null
@@ -224,7 +233,7 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean
-          language: string
+          language: string | null
           name: string
           school_logo_url: string | null
         }
@@ -235,7 +244,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          language?: string
+          language?: string | null
           name: string
           school_logo_url?: string | null
         }
@@ -246,7 +255,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          language?: string
+          language?: string | null
           name?: string
           school_logo_url?: string | null
         }
@@ -276,6 +285,33 @@ export type Database = {
           target?: string
           token?: string
           used?: boolean
+        }
+        Relationships: []
+      }
+      teacher_assigned_strengths: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          strength_id: string
+          student_id: string
+          teacher_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          strength_id: string
+          student_id: string
+          teacher_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          strength_id?: string
+          student_id?: string
+          teacher_id?: string
         }
         Relationships: []
       }
@@ -317,6 +353,11 @@ export type Database = {
       is_class_teacher: { Args: { _class_id: string }; Returns: boolean }
       is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
       join_class: { Args: { p_join_code: string }; Returns: Json }
+      my_school_id: { Args: never; Returns: string }
+      register_teacher_with_any_code: {
+        Args: { p_code: string }
+        Returns: Json
+      }
       register_teacher_with_school: { Args: { p_code: string }; Returns: Json }
       submit_external_response: {
         Args: { p_payload: Json; p_token: string }

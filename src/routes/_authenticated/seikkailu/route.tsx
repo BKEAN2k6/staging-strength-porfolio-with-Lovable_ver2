@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { TopBar } from "@/components/TopBar";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { getCurrentRole, getStudentClassMembership } from "@/lib/auth-helpers";
+import { homeForRole } from "@/lib/role-guard";
 import { NavGateProvider } from "@/lib/screen-completion";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage, useT, isLanguage } from "@/lib/i18n";
@@ -23,8 +24,8 @@ function SeikkailuLayout() {
   useEffect(() => {
     (async () => {
       const role = await getCurrentRole();
-      if (role === "teacher") {
-        navigate({ to: "/opettaja", replace: true });
+      if (role && role !== "student") {
+        window.location.href = homeForRole(role);
         return;
       }
       const m = await getStudentClassMembership();

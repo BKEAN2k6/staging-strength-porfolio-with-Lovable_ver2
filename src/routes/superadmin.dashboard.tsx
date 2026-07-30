@@ -11,7 +11,8 @@ import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
 import { supabase } from "@/integrations/supabase/client";
 import { useSuperAdminGuard } from "@/lib/superadmin-guard";
-import { useTr, LANGUAGES, LANGUAGE_LABEL, type Language } from "@/lib/i18n";
+import { useTr } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   listSchools,
   createSchool,
@@ -70,7 +71,6 @@ function SuperAdminDashboard() {
   const [name, setName] = useState("");
   const [start, setStart] = useState(today());
   const [expiry, setExpiry] = useState("");
-  const [language, setLanguage] = useState<Language>("fi");
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
@@ -93,7 +93,7 @@ function SuperAdminDashboard() {
     setBusy(true);
     try {
       const res = await addSchool({
-        data: { name, language, start: new Date(start).toISOString(), expiry: new Date(expiry).toISOString() },
+        data: { name, language: "fi", start: new Date(start).toISOString(), expiry: new Date(expiry).toISOString() },
       });
       toast.success(`${tr("Koulu lisätty! Koodi: ")}${res.code}`);
       setName("");
@@ -178,13 +178,16 @@ function SuperAdminDashboard() {
 
         <main className="min-w-0 flex-1 space-y-6">
           <header>
-            <h1 className="text-4xl font-bold">{tr("Näy hyvää! ylläpitojakso")}</h1>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h1 className="text-4xl font-bold">{tr("Näy hyvää! ylläpitojakso")}</h1>
+              <LanguageSwitcher />
+            </div>
           </header>
 
           {tab === "schools" && (
             <>
               <StickyNote seed="sa-add-school">
-                <form onSubmit={onAdd} className="grid gap-4 md:grid-cols-4">
+                <form onSubmit={onAdd} className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-1">
                     <Label htmlFor="sa-name">{tr("Koulun nimi")}</Label>
                     <Input id="sa-name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -207,22 +210,7 @@ function SuperAdminDashboard() {
                       onChange={(e) => setExpiry(e.target.value)}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="sa-lang">{tr("Oletuskieli")}</Label>
-                    <select
-                      id="sa-lang"
-                      value={language}
-                      onChange={(e) => setLanguage(e.target.value as Language)}
-                      className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                    >
-                      {LANGUAGES.map((l) => (
-                        <option key={l} value={l}>
-                          {LANGUAGE_LABEL[l]} ({l})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="md:col-span-4">
+                  <div className="md:col-span-3">
                     <Button
                       type="submit"
                       disabled={busy}

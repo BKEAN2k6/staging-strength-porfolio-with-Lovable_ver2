@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { getCurrentRole, getStudentClassMembership, getCurrentScreen } from "@/lib/auth-helpers";
+import { homeForRole } from "@/lib/role-guard";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -17,8 +18,8 @@ function RootEntry() {
   useEffect(() => {
     (async () => {
       const role = await getCurrentRole();
-      if (role === "teacher") {
-        navigate({ to: "/opettaja", replace: true });
+      if (role && role !== "student") {
+        window.location.href = homeForRole(role);
         return;
       }
       const membership = await getStudentClassMembership();
