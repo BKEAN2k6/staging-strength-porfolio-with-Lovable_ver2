@@ -134,13 +134,36 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       studentsPerClass.set(m.class_id, (studentsPerClass.get(m.class_id) ?? 0) + 1);
     }
 
-    const studentIds = memberIds.filter((id) => roleOf.get(id) === "student");
+    // Students are found both by profile.school_id AND by membership in a class
+    // owned by one of the school's teachers (students who joined via a class code
+    // never get a school_id on their profile).
+    const studentIdSet = new Set<string>(memberIds.filter((id) => roleOf.get(id) === "student"));
+    for (const m of (members ?? []) as any[]) {
+      if ((roleOf.get(m.student_id) ?? "student") === "student") studentIdSet.add(m.student_id);
+    }
+    const studentIds = Array.from(studentIdSet);
+
+    const extraProfiles: any[] = [];
+    const missingIds = studentIds.filter((id) => !nameOf.has(id));
+    if (missingIds.length) {
+      const { data: extra } = await db
+        .from("profiles")
+        .select("id, display_name, current_screen, updated_at")
+        .in("id", missingIds);
+      for (const p of (extra ?? []) as any[]) {
+        nameOf.set(p.id, p.display_name);
+        extraProfiles.push(p);
+      }
+    }
+
+
     const { data: responses } = studentIds.length
       ? await db
           .from("responses")
           .select("user_id, field_key, value, updated_at")
           .in("user_id", studentIds)
       : { data: [] as any[] };
+
 
     const filledPer = new Map<string, Set<string>>();
     const lastPer = new Map<string, string>();
@@ -164,7 +187,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     const { data: authUsers } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 });
     for (const u of authUsers?.users ?? []) emails.set(u.id, u.email ?? "");
 
-    const profById = new Map<string, any>(((profiles ?? []) as any[]).map((p) => [p.id, p]));
+    const profById = new Map<string, any>(
+      [...((profiles ?? []) as any[]), ...extraProfiles].map((p) => [p.id, p]),
+    );
+
 
     const { data: assigned } = await db
       .from("teacher_assigned_strengths")

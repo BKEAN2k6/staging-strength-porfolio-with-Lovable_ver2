@@ -561,19 +561,16 @@ function TopStrengths({
             >
               <span className="text-xs font-bold uppercase tracking-wider opacity-60">#{i + 1}</span>
               <span
-                className="flex h-12 w-12 items-center justify-center rounded-full text-lg"
+                className="flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-bold tabular-nums text-white shadow-inner"
                 style={{ background: colorOf(s.id) }}
-                aria-hidden
               >
-                {i === 0 ? "🏆" : ""}
+                {s.total}
               </span>
               <span className="text-sm font-bold leading-tight">{getStrengthName(s.id, lang)}</span>
-              <span className="text-xs opacity-80">
-                {tr("yhteensä")} ×{s.total}
-              </span>
               <span className="text-xs opacity-70">
                 {s.students} {tr("opiskelijaa")}
               </span>
+
             </div>
           ))}
         </div>

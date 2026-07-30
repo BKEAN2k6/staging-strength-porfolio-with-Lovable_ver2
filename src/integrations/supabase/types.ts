@@ -76,6 +76,48 @@ export type Database = {
         }
         Relationships: []
       }
+      email_log: {
+        Row: {
+          bounced_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          language: string
+          opened_at: string | null
+          recipient_email: string
+          recipient_id: string | null
+          status: string
+          subject: string | null
+          template_key: string
+        }
+        Insert: {
+          bounced_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          language?: string
+          opened_at?: string | null
+          recipient_email: string
+          recipient_id?: string | null
+          status?: string
+          subject?: string | null
+          template_key: string
+        }
+        Update: {
+          bounced_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          language?: string
+          opened_at?: string | null
+          recipient_email?: string
+          recipient_id?: string | null
+          status?: string
+          subject?: string | null
+          template_key?: string
+        }
+        Relationships: []
+      }
       email_templates: {
         Row: {
           body_en: string
