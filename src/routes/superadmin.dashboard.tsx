@@ -396,7 +396,15 @@ function SuperAdminDashboard() {
             </StickyNote>
           )}
 
-          {tab === "emails" && <EmailTemplatesTab />}
+          {tab === "admins" && <SuperAdminsTab />}
+
+          {tab === "emails" && (
+            <>
+              <EmailTemplatesTab />
+              <EmailAnalyticsTab />
+            </>
+          )}
+
 
           {tab === "reports" && (
             <StickyNote seed="sa-reports" className="space-y-2">
