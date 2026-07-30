@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
+import { AuthLanguageSwitcher } from "@/components/AuthLanguageSwitcher";
 import { toast } from "sonner";
-import { useT } from "@/lib/i18n";
+import { useT, useTr } from "@/lib/i18n";
 import { z } from "zod";
 
 export const Route = createFileRoute("/auth/login")({
@@ -29,6 +30,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const t = useT();
+  const tr = useTr();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -75,6 +77,7 @@ function LoginPage() {
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden flex items-center justify-center px-4 py-10">
       <CornerBlobs />
+      <AuthLanguageSwitcher />
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold">{t("auth.login.title")}</h1>
@@ -114,12 +117,22 @@ function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-5 text-center text-xs text-muted-foreground">
-            <Link to="/auth" className="font-semibold text-[color:var(--purple)] underline">
-              {t("auth.login.newAccount")}
+          <div className="mt-5 space-y-2 text-center text-xs">
+            <Link
+              to="/auth/student"
+              className="block font-semibold text-[color:var(--purple)] underline"
+            >
+              {tr("Rekisteröidy opiskelijaksi")}
+            </Link>
+            <Link
+              to="/register-teacher"
+              className="block rounded-full border border-[color:var(--purple)]/40 px-3 py-1.5 font-medium text-muted-foreground hover:text-[color:var(--purple)]"
+            >
+              {tr("Rekisteröidy opettajaksi")}
             </Link>
           </div>
         </StickyNote>
+
       </div>
     </div>
   );

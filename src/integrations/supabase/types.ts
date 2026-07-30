@@ -109,6 +109,7 @@ export type Database = {
           display_name: string | null
           id: string
           language: string
+          school_id: string | null
           updated_at: string
         }
         Insert: {
@@ -117,6 +118,7 @@ export type Database = {
           display_name?: string | null
           id: string
           language?: string
+          school_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -125,9 +127,18 @@ export type Database = {
           display_name?: string | null
           id?: string
           language?: string
+          school_id?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       responses: {
         Row: {
@@ -150,6 +161,33 @@ export type Database = {
           updated_at?: string
           user_id?: string
           value?: string | null
+        }
+        Relationships: []
+      }
+      schools: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_active: boolean
+          language: string
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language?: string
+          name?: string
         }
         Relationships: []
       }
@@ -217,9 +255,18 @@ export type Database = {
       is_class_teacher: { Args: { _class_id: string }; Returns: boolean }
       is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
       join_class: { Args: { p_join_code: string }; Returns: Json }
+      register_teacher_with_school: { Args: { p_code: string }; Returns: Json }
       submit_external_response: {
         Args: { p_payload: Json; p_token: string }
         Returns: Json
+      }
+      validate_school_code: {
+        Args: { input_code: string }
+        Returns: {
+          school_id: string
+          school_language: string
+          school_name: string
+        }[]
       }
     }
     Enums: {

@@ -1089,6 +1089,21 @@ Med kärlek, . . . . . . . . . .`,
   "Kerää vahvuuksia seikkailun aikana": { en: "Collect strengths during your adventure", sv: "Samla styrkor under äventyret" },
   "vahvuudet": { en: "strengths", sv: "styrkor" },
   "Sulje": { en: "Close", sv: "Stäng" },
+  "Luo opettajatili": { en: "Create teacher account", sv: "Skapa lärarkonto" },
+  "Liity seikkailuun koulukoodillasi": { en: "Join the adventure with your school code", sv: "Gå med i äventyret med din skolkod" },
+  "Koulukoodi": { en: "School code", sv: "Skolkod" },
+  "esim. SCHOOL001": { en: "e.g. SCHOOL001", sv: "t.ex. SCHOOL001" },
+  "Sait koulukoodin koulusi yhteyshenkilöltä.": { en: "You received the school code from your school contact person.", sv: "Du fick skolkoden från din skolas kontaktperson." },
+  "Rekisteröidy opettajaksi": { en: "Register as a teacher", sv: "Registrera dig som lärare" },
+  "Rekisteröidy opiskelijaksi": { en: "Register as a student", sv: "Registrera dig som elev" },
+  "esim. Anna Virtanen": { en: "e.g. Anna Parker", sv: "t.ex. Anna Lindberg" },
+  "Virheellinen koulukoodi. Tarkista koodi ja yritä uudelleen.": { en: "Invalid school code. Check the code and try again.", sv: "Ogiltig skolkod. Kontrollera koden och försök igen." },
+  "Tämä sähköposti on jo käytössä.": { en: "This email is already in use.", sv: "Denna e-postadress används redan." },
+  "Salasana on liian heikko.": { en: "Password is too weak.", sv: "Lösenordet är för svagt." },
+  "Tarkista sähköpostiosoite.": { en: "Check the email address.", sv: "Kontrollera e-postadressen." },
+  "Anna koulukoodi.": { en: "Enter the school code.", sv: "Ange skolkoden." },
+  "Rekisteröidytään…": { en: "Registering…", sv: "Registrerar…" },
+
 };
 
 
