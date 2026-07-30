@@ -1119,7 +1119,6 @@ Med kärlek, . . . . . . . . . .`,
   "Ei aktiivinen": { en: "Inactive", sv: "Inaktiv" },
   "Poista käytöstä": { en: "Deactivate", sv: "Inaktivera" },
   "Aktivoi": { en: "Activate", sv: "Aktivera" },
-  "Kopioi": { en: "Copy", sv: "Kopiera" },
   "Kopioitu!": { en: "Copied!", sv: "Kopierad!" },
   "Ei kouluja vielä.": { en: "No schools yet.", sv: "Inga skolor ännu." },
 };
