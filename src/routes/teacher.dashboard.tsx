@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Copy, ExternalLink } from "lucide-react";
+import { Copy, ExternalLink, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,7 @@ import { useRoleGuard } from "@/lib/role-guard";
 import { useLanguage, useTr, LANGUAGES, LANGUAGE_LABEL, type Language } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
 import { formatLastActive, TOTAL_REQUIRED, worldCompletion } from "@/lib/teacher-data";
-import { useTeacherData, type TeacherStudent } from "@/lib/teacher-dashboard-data";
+import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/teacher-dashboard-data";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
@@ -56,7 +56,7 @@ function TeacherDashboardPage() {
   const [tab, setTab] = useState("classes");
   const [openClass, setOpenClass] = useState<string | null>(null);
   const [openStudent, setOpenStudent] = useState<string | null>(null);
-  const { classes, students, assigned, refresh } = useTeacherData();
+  const { classes, deletedClasses, students, assigned, refresh } = useTeacherData();
 
   if (!guard.ready) return null;
 
@@ -111,9 +111,22 @@ function TeacherDashboardPage() {
                   {tr("Opiskelijoita")}: {inClass.length} · {tr("Valmistuminen %")}: {avg} % ·{" "}
                   {tr("Luotu")}: {new Date(c.created_at).toLocaleDateString()}
                 </div>
+                <div className="pt-1">
+                  <DeleteClassButton
+                    klass={c}
+                    studentCount={inClass.length}
+                    teacherId={guard.userId}
+                    onDone={refresh}
+                  />
+                </div>
               </StickyNote>
             );
           })}
+          {deletedClasses.length > 0 && (
+            <div className="md:col-span-2">
+              <DeletedClasses classes={deletedClasses} onDone={refresh} />
+            </div>
+          )}
         </div>
       )}
 
@@ -144,6 +157,7 @@ function TeacherDashboardPage() {
 
       {tab === "strengths" && (
         <AssignStrengths
+          classes={classes}
           students={students}
           assigned={assigned}
           teacherId={guard.userId}
@@ -295,11 +309,13 @@ function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: (
 }
 
 function AssignStrengths({
+  classes,
   students,
   assigned,
   teacherId,
   onDone,
 }: {
+  classes: TeacherClass[];
   students: TeacherStudent[];
   assigned: { id: string; student_id: string; strength_id: string; message: string | null; created_at: string }[];
   teacherId: string | null;
@@ -308,6 +324,7 @@ function AssignStrengths({
   const tr = useTr();
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
+  const [classId, setClassId] = useState("");
   const [studentId, setStudentId] = useState("");
   const [strengthId, setStrengthId] = useState<number | null>(null);
   const [message, setMessage] = useState("");
@@ -321,6 +338,14 @@ function AssignStrengths({
 
   const nameOf = (id: string) =>
     unique.find((s) => s.studentId === id)?.displayName?.trim() || id.slice(0, 8);
+
+  const classNameOf = (id: string) =>
+    unique.find((s) => s.studentId === id)?.className ?? "—";
+
+  const inClass = useMemo(
+    () => (classId ? unique.filter((s) => s.classId === classId) : []),
+    [unique, classId],
+  );
 
   async function submit() {
     if (!teacherId || !studentId || strengthId == null) return;
@@ -351,21 +376,49 @@ function AssignStrengths({
   return (
     <>
       <StickyNote seed="assign-strength" className="space-y-4">
-        <div className="space-y-1">
-          <Label htmlFor="as-student">{tr("Valitse opiskelija")}</Label>
-          <select
-            id="as-student"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">—</option>
-            {unique.map((s) => (
-              <option key={s.studentId} value={s.studentId}>
-                {(s.displayName?.trim() || s.studentId.slice(0, 8)) + " · " + s.className}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-1">
+            <Label htmlFor="as-class">{tr("Valitse luokka")}</Label>
+            <select
+              id="as-class"
+              value={classId}
+              onChange={(e) => {
+                setClassId(e.target.value);
+                setStudentId("");
+              }}
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+            >
+              <option value="">—</option>
+              {classes.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="as-student">{tr("Valitse opiskelija")}</Label>
+            <select
+              id="as-student"
+              value={studentId}
+              disabled={!classId}
+              onChange={(e) => setStudentId(e.target.value)}
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm disabled:opacity-50"
+            >
+              <option value="">
+                {classId ? "—" : tr("Valitse ensin luokka")}
               </option>
-            ))}
-          </select>
+              {inClass.map((s) => (
+                <option key={s.studentId} value={s.studentId}>
+                  {s.displayName?.trim() || s.studentId.slice(0, 8)}
+                </option>
+              ))}
+            </select>
+            {classId && inClass.length === 0 && (
+              <p className="text-xs opacity-70">{tr("Ei opiskelijoita.")}</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -423,6 +476,7 @@ function AssignStrengths({
             <thead>
               <tr className="border-b border-black/10">
                 <th className="py-2 pr-3">{tr("Opiskelija")}</th>
+                <th className="py-2 pr-3">{tr("Luokka")}</th>
                 <th className="py-2 pr-3">{tr("Vahvuus")}</th>
                 <th className="py-2 pr-3">{tr("Viesti")}</th>
                 <th className="py-2">{tr("Päivämäärä")}</th>
@@ -432,6 +486,7 @@ function AssignStrengths({
               {assigned.map((a) => (
                 <tr key={a.id} className="border-b border-black/5">
                   <td className="py-2 pr-3">{nameOf(a.student_id)}</td>
+                  <td className="py-2 pr-3 opacity-80">{classNameOf(a.student_id)}</td>
                   <td className="py-2 pr-3">{getStrengthName(Number(a.strength_id), lang)}</td>
                   <td className="py-2 pr-3 opacity-80">{a.message ?? "—"}</td>
                   <td className="py-2 opacity-70">{new Date(a.created_at).toLocaleDateString()}</td>
@@ -562,6 +617,123 @@ function CreateClass({ onDoneNoop, onCreated }: { onDoneNoop?: never; onCreated:
         <Copy className="mr-1 inline h-3 w-3" />
         {tr("Luokan koodi")}
       </p>
+    </StickyNote>
+  );
+}
+
+function DeleteClassButton({
+  klass,
+  studentCount,
+  teacherId,
+  onDone,
+}: {
+  klass: TeacherClass;
+  studentCount: number;
+  teacherId: string | null;
+  onDone: () => Promise<void>;
+}) {
+  const tr = useTr();
+  const [busy, setBusy] = useState(false);
+
+  async function remove() {
+    const ok = window.confirm(
+      `${tr("Haluatko varmasti poistaa luokan")} "${klass.name}"? ${tr("Opiskelijat menettävät pääsyn seikkailuun. Voit palauttaa luokan 60 päivän ajan.")} (${tr("Opiskelijoita")}: ${studentCount})`,
+    );
+    if (!ok) return;
+    setBusy(true);
+    try {
+      const { error } = await supabase
+        .from("classes" as never)
+        .update({
+          is_deleted: true,
+          deleted_at: new Date().toISOString(),
+          deleted_by: teacherId,
+        } as never)
+        .eq("id", klass.id);
+      if (error) throw error;
+      toast.success(tr("Luokka poistettu."));
+      await onDone();
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Button
+      type="button"
+      size="sm"
+      disabled={busy}
+      onClick={() => void remove()}
+      className="rounded-full bg-red-600 font-bold text-white hover:bg-red-700"
+    >
+      <Trash2 className="mr-1 h-4 w-4" /> {tr("Poista luokka")}
+    </Button>
+  );
+}
+
+function DeletedClasses({
+  classes,
+  onDone,
+}: {
+  classes: TeacherClass[];
+  onDone: () => Promise<void>;
+}) {
+  const tr = useTr();
+  const [busy, setBusy] = useState<string | null>(null);
+
+  function daysLeft(deletedAt?: string | null): number {
+    if (!deletedAt) return 60;
+    const passed = (Date.now() - new Date(deletedAt).getTime()) / 86400000;
+    return Math.max(0, Math.ceil(60 - passed));
+  }
+
+  async function restore(id: string) {
+    setBusy(id);
+    try {
+      const { error } = await supabase
+        .from("classes" as never)
+        .update({ is_deleted: false, deleted_at: null, deleted_by: null } as never)
+        .eq("id", id);
+      if (error) throw error;
+      toast.success(tr("Luokka palautettu."));
+      await onDone();
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <StickyNote seed="deleted-classes" className="space-y-3">
+      <h3 className="text-xl font-bold">{tr("Poistetut luokat")}</h3>
+      <ul className="space-y-2">
+        {classes.map((c) => (
+          <li
+            key={c.id}
+            className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/70 px-3 py-2 text-sm"
+          >
+            <span>
+              <strong>{c.name}</strong> ·{" "}
+              <span className="opacity-70">
+                {tr("Poistetaan pysyvästi")}: {daysLeft(c.deleted_at)} {tr("päivän kuluttua")}
+              </span>
+            </span>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              disabled={busy === c.id}
+              onClick={() => void restore(c.id)}
+              className="rounded-full"
+            >
+              <RotateCcw className="mr-1 h-4 w-4" /> {tr("Palauta luokka")}
+            </Button>
+          </li>
+        ))}
+      </ul>
     </StickyNote>
   );
 }
