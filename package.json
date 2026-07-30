@@ -12,7 +12,7 @@
     "format": "prettier --write ."
   },
   "overrides": {
-    "seroval": ">=1.4.2"
+    "seroval": ">=1.5.5"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
