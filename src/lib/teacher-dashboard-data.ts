@@ -64,6 +64,7 @@ export function useTeacherData() {
       const classIds = classRows.map((c) => c.id);
       if (classIds.length === 0) {
         setStudents([]);
+        setEvents([]);
       } else {
         const { data: members } = await supabase
           .from("class_members" as never)
@@ -77,6 +78,7 @@ export function useTeacherData() {
 
         if (ids.length === 0) {
           setStudents([]);
+          setEvents([]);
         } else {
           const [{ data: profs }, { data: resps }] = await Promise.all([
             supabase

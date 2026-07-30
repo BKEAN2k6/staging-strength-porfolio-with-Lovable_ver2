@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { matchStrengthId, strengthIdsFromResponses } from "@/lib/strength-jar-data";
+import type { ReportEvent } from "@/lib/report-series";
 
 export interface SchoolAdminStudent {
   id: string;
@@ -49,6 +50,7 @@ export interface SchoolAdminData {
   classes: SchoolAdminClass[];
   codes: SchoolAdminCode[];
   strengthCounts: { strengthId: string; count: number }[];
+  events: ReportEvent[];
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -194,7 +196,7 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
 
     const { data: assigned } = await db
       .from("teacher_assigned_strengths")
-      .select("strength_id, student_id");
+      .select("strength_id, student_id, created_at");
     const counts = new Map<string, number>();
     const giftsPer = new Map<string, number[]>();
     for (const a of (assigned ?? []) as any[]) {
@@ -208,6 +210,30 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
         list.push(id);
         giftsPer.set(a.student_id, list);
       }
+    }
+
+    const events: ReportEvent[] = [];
+    for (const r of (responses ?? []) as any[]) {
+      if (!studentIdSet.has(r.user_id) || !r.updated_at) continue;
+      const v = r.value;
+      const filled =
+        v !== null && v !== undefined && !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
+      events.push({
+        userId: r.user_id,
+        classId: classIdOfStudent.get(r.user_id) ?? null,
+        at: r.updated_at,
+        fieldKey: filled ? r.field_key : undefined,
+        strengths: strengthIdsFromResponses([{ field_key: r.field_key, value: r.value }]).length,
+      });
+    }
+    for (const a of (assigned ?? []) as any[]) {
+      if (!studentIdSet.has(a.student_id) || !a.created_at) continue;
+      events.push({
+        userId: a.student_id,
+        classId: classIdOfStudent.get(a.student_id) ?? null,
+        at: a.created_at,
+        strengths: 1,
+      });
     }
 
     const responsesPer = new Map<string, Array<{ field_key: string; value: unknown }>>();
@@ -267,6 +293,7 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
         used_by: c.used_by_admin_id ? (nameOf.get(c.used_by_admin_id) ?? null) : null,
         created_at: c.created_at,
       })),
+      events,
       strengthCounts: Array.from(counts, ([strengthId, count]) => ({ strengthId, count })).sort(
         (a, b) => b.count - a.count,
       ),
