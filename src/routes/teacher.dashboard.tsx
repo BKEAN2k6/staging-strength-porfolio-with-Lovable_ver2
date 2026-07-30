@@ -169,7 +169,9 @@ function TeacherDashboardPage() {
         />
       )}
 
-      {tab === "reports" && <TeacherReports students={students} classes={classes} />}
+      {tab === "reports" && (
+        <TeacherReports students={students} classes={classes} events={events} />
+      )}
 
       {tab === "settings" && (
         <>
@@ -623,18 +625,24 @@ function TopStrengths({
 function TeacherReports({
   students,
   classes,
+  events,
 }: {
   students: TeacherStudent[];
   classes: { id: string; name: string }[];
+  events: ReportEvent[];
 }) {
   const tr = useTr();
+  const [days, setDays] = useState<RangeDays>(30);
   const atRisk = students.filter(
     (s) => !s.lastActive || Date.now() - s.lastActive.getTime() > 14 * 24 * 3600 * 1000,
   );
   return (
     <>
       <StickyNote seed="t-reports" className="space-y-2">
-        <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
+          <RangeSelector value={days} onChange={setDays} />
+        </div>
         <p className="opacity-80">
           {tr("Opiskelijoita")}: {students.length} · {tr("Luokkia")}: {classes.length}
         </p>
@@ -652,6 +660,13 @@ function TeacherReports({
           })}
         </ul>
       </StickyNote>
+      <ReportTrends
+        events={events}
+        days={days}
+        studentCount={students.length}
+        totalRequired={TOTAL_REQUIRED}
+        seedPrefix="t"
+      />
       <StickyNote seed="t-risk" className="space-y-2">
         <h3 className="text-xl font-bold">{tr("Riskissä olevat opiskelijat")}</h3>
         {atRisk.length === 0 ? (
