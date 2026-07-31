@@ -215,7 +215,7 @@ function StudentStrengthsPage() {
                     style={{ background: s.color }}
                     aria-hidden
                   />
-                  <span className="truncate">
+                  <span className="break-words text-xs leading-snug">
                     {tier.badge && <span aria-hidden>{tier.badge} </span>}
                     {getStrengthName(s.id, lang)}
                   </span>

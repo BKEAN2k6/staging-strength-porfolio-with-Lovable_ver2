@@ -2,7 +2,7 @@
  * Strength Jar data — derived from the canonical trilingual strengths registry.
  * Display-only helper: ids are the registry numbers (1–26), never free text.
  */
-import { STRENGTHS, type Strength } from "@/lib/strengths-i18n";
+import { STRENGTHS, getStrengthColor, type Strength } from "@/lib/strengths-i18n";
 
 export interface JarStrength {
   id: number;
@@ -11,23 +11,17 @@ export interface JarStrength {
   fi: string;
   sv: string;
   en: string;
-  /** Candy-ish accent color for the pill dot. */
+  /** Brand accent color for this strength. */
   color: string;
 }
 
-const PALETTE = [
-  "var(--purple)",
-  "var(--yellow)",
-  "var(--coral)",
-];
-
-export const ALL_STRENGTHS: JarStrength[] = STRENGTHS.map((s: Strength, i) => ({
+export const ALL_STRENGTHS: JarStrength[] = STRENGTHS.map((s: Strength) => ({
   id: s.nr,
   name: s.fi,
   fi: s.fi,
   sv: s.sv,
   en: s.en,
-  color: PALETTE[i % PALETTE.length],
+  color: getStrengthColor(s.nr),
 }));
 
 /** Normalize a stored/free-text strength name for matching (case/diacritic tolerant). */

@@ -124,7 +124,7 @@ export const UI: UIDict = {
     "app.screensSuffix": "näyttöä",
 
     "sidebar.general": "Yleiset",
-    "sidebar.modules": "Moduulit",
+    "sidebar.modules": "Tasot",
     "sidebar.worldmap": "Maailmankartta",
 
     "worldmap.title": "Maailmankartta",
@@ -261,7 +261,7 @@ export const UI: UIDict = {
     "app.screensSuffix": "screens",
 
     "sidebar.general": "General",
-    "sidebar.modules": "Modules",
+    "sidebar.modules": "Levels",
     "sidebar.worldmap": "World map",
 
     "worldmap.title": "World map",
@@ -403,7 +403,7 @@ export const UI: UIDict = {
     "app.screensSuffix": "sidor",
 
     "sidebar.general": "Allmänt",
-    "sidebar.modules": "Moduler",
+    "sidebar.modules": "Nivåer",
     "sidebar.worldmap": "Världskarta",
 
     "worldmap.title": "Världskarta",
