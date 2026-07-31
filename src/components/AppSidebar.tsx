@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Map as MapIcon, Lock, Candy, User } from "lucide-react";
+import { MapIcon, LockIcon, CandyIcon, UserIcon, WorldIcon } from "@/components/icons/AppIcons";
 import { toast } from "sonner";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -92,21 +92,21 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={isMap}>
                   <Link to="/seikkailu" className="flex items-center gap-2">
-                    <MapIcon className="h-4 w-4" /> <span>{t("sidebar.worldmap")}</span>
+                    <MapIcon size={18} /> <span>{t("sidebar.worldmap")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={path === "/student/strengths"}>
                   <Link to="/student/strengths" className="flex items-center gap-2">
-                    <Candy className="h-4 w-4" /> <span>{tr("Vahvuuteni")}</span>
+                    <CandyIcon size={18} /> <span>{tr("Vahvuuteni")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={path === "/student/profile"}>
                   <Link to="/student/profile" className="flex items-center gap-2">
-                    <User className="h-4 w-4" /> <span>{tr("Profiili")}</span>
+                    <UserIcon size={18} /> <span>{tr("Profiili")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -143,11 +143,11 @@ export function AppSidebar() {
                         aria-disabled={locked || undefined}
                         title={locked ? hint : `${title} — ${subtitle}`}
                       >
-                        <span className="mt-0.5 text-base leading-none" aria-hidden>{w.emoji}</span>
+                        <WorldIcon id={w.id} size={18} className="mt-0.5 shrink-0" />
                         <span className="min-w-0 flex-1 space-y-1">
                           <span className="block break-words text-sm font-bold leading-snug">
                             {title}
-                            {locked && <Lock className="ml-1 inline h-3 w-3 opacity-60" aria-hidden />}
+                            {locked && <LockIcon size={12} className="ml-1 inline opacity-60" />}
                           </span>
                           <span className="block break-words text-xs leading-snug opacity-80">
                             {subtitle}
@@ -160,7 +160,7 @@ export function AppSidebar() {
                               />
                             </span>
                             <span className="shrink-0 text-[10px] tabular-nums opacity-70">
-                              {pct}%{pct === 100 ? " ✓" : ""}
+                              {pct}%
                             </span>
                           </span>
                         </span>

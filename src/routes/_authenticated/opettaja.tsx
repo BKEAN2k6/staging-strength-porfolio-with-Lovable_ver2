@@ -188,7 +188,7 @@ function TeacherDashboard() {
                       <span
                         className="absolute right-3 top-3 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[color:var(--coral)] text-[11px] font-bold text-white"
                         aria-hidden
-                      >✓</span>
+                      ><CheckIcon size={12} /></span>
                     )}
                   </button>
                 ))}

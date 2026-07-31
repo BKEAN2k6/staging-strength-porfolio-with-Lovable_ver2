@@ -295,7 +295,7 @@ function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: (
           return (
             <div key={w.id} className="flex justify-between border-b border-black/5 py-1 text-sm">
               <span>
-                {meta.emoji} {tr(meta.title)}
+                <><WorldIcon id={meta.id} size={18} className="inline align-[-3px]" /> {tr(meta.title)}</>
               </span>
               <span className="tabular-nums opacity-80">
                 {w.done}/{w.total} · {tr(state)}
@@ -550,7 +550,7 @@ function TopStrengths({
 
   return (
     <StickyNote seed="t-top-strengths" className="space-y-4 md:col-span-2">
-      <h2 className="text-2xl font-bold">{tr("Ryhmän suosituimmat vahvuudet")} ✨</h2>
+      <h2 className="text-2xl font-bold">{tr("Ryhmän suosituimmat vahvuudet")}</h2>
       {top.length === 0 ? (
         <p className="opacity-70">{tr("Opiskelijasi eivät ole vielä keränneet vahvuuksia.")}</p>
       ) : (
