@@ -6,7 +6,8 @@ import { SelectableChips } from "@/components/SelectableChips";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
 import { useReportCompletion } from "@/lib/screen-completion";
 import { cn } from "@/lib/utils";
-import { useTr } from "@/lib/i18n";
+import { useTr, useLanguage } from "@/lib/i18n";
+import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 
 
 // Screens 1–22: content sourced verbatim from the workbook PDF
@@ -342,6 +343,7 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
     })();
   }, []);
 
+  const { language: lang } = useLanguage();
   const state = useAutosave(KARKKIKAUPPA_KEY, picks, { enabled: loaded });
   useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
 
