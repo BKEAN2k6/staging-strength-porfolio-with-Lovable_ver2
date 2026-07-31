@@ -25,6 +25,8 @@ import {
 import { PortfolioView } from "@/components/portfolio/PortfolioView";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
+import { StudentDetailReport } from "@/components/students/StudentDetailReport";
+
 import { useLanguage } from "@/lib/i18n";
 import {
   getSchoolAdminData,
