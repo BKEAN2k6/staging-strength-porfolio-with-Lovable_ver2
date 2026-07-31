@@ -35,9 +35,11 @@ import {
   promoteToSchoolAdmin,
   getStudentPortfolio,
   type SchoolAdminData,
+  type SchoolAdminClass,
 } from "@/lib/schooladmin.functions";
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
-import type { RangeDays } from "@/lib/report-series";
+import type { RangeDays, ReportEvent } from "@/lib/report-series";
+
 
 export const Route = createFileRoute("/school-admin/dashboard")({
   head: () => ({
