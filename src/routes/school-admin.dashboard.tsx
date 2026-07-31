@@ -206,74 +206,75 @@ function SchoolAdminDashboard() {
       )}
 
       {tab === "classes" && openClass && !openStudent && (
-        <StickyNote seed={`sa-cls-detail-${openClass}`} className="space-y-3 overflow-x-auto">
-          <Breadcrumbs
-            items={[
-              { label: tr("Luokat"), onClick: () => setOpenClass(null) },
-              { label: data?.classes.find((c) => c.id === openClass)?.name ?? "" },
-            ]}
+        <SchoolAdminClassReport
+          cls={data?.classes.find((c) => c.id === openClass) ?? null}
+          rows={derived.rows.filter((r) => r.classId === openClass)}
+          events={(data?.events ?? []).filter((e) => e.classId === openClass)}
+          lang={lang}
+          onBack={() => setOpenClass(null)}
+          onOpenStudent={(id) => {
+            setOpenStudent(id);
+            setShowPortfolio(false);
+          }}
+        />
+      )}
+
+      {openStudent && showPortfolio && (tab === "classes" || tab === "students") && (
+        <SchoolAdminPortfolio
+          userId={openStudent}
+          crumbs={
+            tab === "classes"
+              ? [tr("Luokat"), data?.classes.find((c) => c.id === openClass)?.name ?? ""]
+              : [tr("Opiskelijat")]
+          }
+          onBack={() => setShowPortfolio(false)}
+        />
+      )}
+
+      {openStudent && !showPortfolio && (tab === "classes" || tab === "students") && (() => {
+        const s = derived.rows.find((r) => r.id === openStudent);
+        if (!s) return null;
+        return (
+          <StudentDetailReport
+            name={s.name}
+            className={s.className}
+            email={s.email}
+            lastActive={s.lastActive}
+            currentScreen={s.currentScreen}
+            screensFilled={s.screensFilled}
+            filledKeys={s.filledKeys}
+            strengthIds={s.strengthIds}
+            header={
+              <Breadcrumbs
+                items={[
+                  tab === "classes"
+                    ? { label: tr("Luokat"), onClick: () => setOpenStudent(null) }
+                    : { label: tr("Opiskelijat"), onClick: () => setOpenStudent(null) },
+                  ...(tab === "classes"
+                    ? [
+                        {
+                          label: data?.classes.find((c) => c.id === openClass)?.name ?? "",
+                          onClick: () => setOpenStudent(null),
+                        },
+                      ]
+                    : []),
+                  { label: s.name ?? tr("Opiskelija") },
+                ]}
+              />
+            }
+            onBack={() => setOpenStudent(null)}
+            portfolioAction={
+              <Button
+                className="rounded-full bg-[color:var(--purple)] text-white hover:bg-[color:var(--purple)]/90"
+                onClick={() => setShowPortfolio(true)}
+              >
+                {tr("Avaa portfolio")}
+              </Button>
+            }
           />
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-black/10">
-                <th className="py-2 pr-3">{tr("Nimi")}</th>
-                <th className="py-2 pr-3">{tr("Viimeksi aktiivinen")}</th>
-                <th className="py-2 pr-3">{tr("Valmistuminen %")}</th>
-                <th className="py-2">{tr("Tila")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {derived.rows
-                .filter((r) => r.classId === openClass)
-                .map((s) => (
-                  <tr key={s.id} className="border-b border-black/5">
-                    <td className="py-2 pr-3 font-medium">
-                      <button
-                        type="button"
-                        className="underline-offset-2 hover:underline"
-                        onClick={() => setOpenStudent(s.id)}
-                      >
-                        {s.name ?? "—"}
-                      </button>
-                    </td>
-                    <td className="py-2 pr-3 opacity-70">
-                      {formatLastActive(s.lastActive ? new Date(s.lastActive) : null, tr)}
-                    </td>
-                    <td className="py-2 pr-3 tabular-nums">{s.pct} %</td>
-                    <td className="py-2">
-                      <StatusPill
-                        status={studentStatus({
-                          pct: s.pct,
-                          currentScreen: s.currentScreen,
-                          lastActive: s.lastActive,
-                        })}
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </StickyNote>
-      )}
+        );
+      })()}
 
-      {tab === "classes" && openClass && openStudent && (
-        <SchoolAdminPortfolio
-          userId={openStudent}
-          crumbs={[
-            tr("Luokat"),
-            data?.classes.find((c) => c.id === openClass)?.name ?? "",
-          ]}
-          onBack={() => setOpenStudent(null)}
-        />
-      )}
-
-      {tab === "students" && openStudent && (
-        <SchoolAdminPortfolio
-          userId={openStudent}
-          crumbs={[tr("Opiskelijat")]}
-          onBack={() => setOpenStudent(null)}
-        />
-      )}
 
       {tab === "students" && !openStudent && (
         <StickyNote seed="sa-students" className="overflow-x-auto">
