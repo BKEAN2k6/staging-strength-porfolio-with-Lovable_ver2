@@ -27,6 +27,7 @@ import {
   type Language,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { CheckIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/opettaja")({
   component: TeacherDashboard,

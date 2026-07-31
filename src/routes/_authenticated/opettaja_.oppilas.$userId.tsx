@@ -10,6 +10,7 @@ import { REQUIREMENTS } from "@/lib/screen-completion";
 import { METER_STRENGTHS } from "@/lib/meter-data";
 import { Printer, ArrowLeft } from "lucide-react";
 import { useTr } from "@/lib/i18n";
+import { WorldIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/opettaja_/oppilas/$userId")({
   component: StudentPortfolio,

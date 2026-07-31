@@ -1,4 +1,5 @@
 import { Lock } from "lucide-react";
+import { WorldIcon } from "@/components/icons/AppIcons";
 import type { WorldMeta } from "@/lib/screens";
 import { cn } from "@/lib/utils";
 import { useT, useTr } from "@/lib/i18n";
