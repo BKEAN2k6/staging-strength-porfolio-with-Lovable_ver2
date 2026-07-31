@@ -41,7 +41,10 @@ export interface SchoolAdminClass {
   id: string;
   name: string;
   teacherName: string | null;
+  joinCode?: string | null;
+  language?: string | null;
 }
+
 
 export interface SchoolAdminData {
   school: { id: string; name: string } | null;
