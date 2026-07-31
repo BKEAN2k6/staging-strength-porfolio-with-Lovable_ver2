@@ -126,6 +126,7 @@ export function useTeacherData() {
                 at: r.updated_at,
                 fieldKey: isFilled(r.value) ? r.field_key : undefined,
                 strengths: ids.length,
+                strengthIds: ids,
               });
             }
             if (ids.length) {

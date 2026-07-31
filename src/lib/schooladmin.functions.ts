@@ -218,21 +218,29 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       const v = r.value;
       const filled =
         v !== null && v !== undefined && !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
+      const rowStrengthIds = strengthIdsFromResponses([
+        { field_key: r.field_key, value: r.value },
+      ]);
       events.push({
         userId: r.user_id,
         classId: classIdOfStudent.get(r.user_id) ?? null,
         at: r.updated_at,
         fieldKey: filled ? r.field_key : undefined,
-        strengths: strengthIdsFromResponses([{ field_key: r.field_key, value: r.value }]).length,
+        strengths: rowStrengthIds.length,
+        strengthIds: rowStrengthIds,
       });
     }
     for (const a of (assigned ?? []) as any[]) {
       if (!studentIdSet.has(a.student_id) || !a.created_at) continue;
+      const giftId = Number.isFinite(Number(a.strength_id))
+        ? Number(a.strength_id)
+        : matchStrengthId(String(a.strength_id));
       events.push({
         userId: a.student_id,
         classId: classIdOfStudent.get(a.student_id) ?? null,
         at: a.created_at,
         strengths: 1,
+        strengthIds: giftId ? [giftId] : [],
       });
     }
 
