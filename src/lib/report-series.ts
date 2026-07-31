@@ -12,6 +12,15 @@ export interface ReportEvent {
   fieldKey?: string;
   /** How many strengths this event contributed. */
   strengths: number;
+  /** Registry ids (1–26) contributed by this event, for per-strength graphs. */
+  strengthIds?: number[];
+}
+
+export interface StrengthSeries {
+  /** Chart rows: { label, date, "s12": 4, ... } keyed by `s<id>`. */
+  rows: Array<Record<string, string | number>>;
+  /** Visible strengths, most collected first. */
+  legend: Array<{ id: number; key: string; total: number }>;
 }
 
 export type RangeDays = 7 | 30 | 90 | 365;
