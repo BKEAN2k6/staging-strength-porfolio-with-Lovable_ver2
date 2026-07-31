@@ -2,7 +2,7 @@
  * Simple inline stroke icons — no external icon library.
  * 20px default, 1.5px stroke, currentColor so they invert on dark/light.
  */
-import type { SVGProps } from "react";
+import type { ReactElement, SVGProps } from "react";
 import type { WorldId } from "@/lib/screens";
 
 export type IconProps = SVGProps<SVGSVGElement> & { size?: number };
@@ -144,7 +144,7 @@ export const CheckIcon = (p: IconProps) => (
 );
 
 /** One icon per adventure level, replacing the old emoji glyphs. */
-export const WORLD_ICONS: Record<WorldId, (p: IconProps) => JSX.Element> = {
+export const WORLD_ICONS: Record<WorldId, (p: IconProps) => ReactElement> = {
   prologi: SparkleIcon,
   m1: StarIcon,
   m2: PaletteIcon,
