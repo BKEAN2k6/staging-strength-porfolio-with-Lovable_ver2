@@ -145,8 +145,9 @@ export function useTeacherData() {
           setStudents(
             memberRows.map((m) => {
               const filled = filledPer.get(m.student_id) ?? new Set<string>();
-              const stats = computeStudentStats(filled);
               const prof = profMap.get(m.student_id);
+              const stats = computeStudentStats(filled, prof?.current_screen ?? 1);
+
               return {
                 studentId: m.student_id,
                 displayName: prof?.display_name ?? null,
