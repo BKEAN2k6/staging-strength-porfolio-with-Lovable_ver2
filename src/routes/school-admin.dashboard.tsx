@@ -71,6 +71,8 @@ function SchoolAdminDashboard() {
   const [days, setDays] = useState<RangeDays>(30);
   const [openClass, setOpenClass] = useState<string | null>(null);
   const [openStudent, setOpenStudent] = useState<string | null>(null);
+  const [showPortfolio, setShowPortfolio] = useState(false);
+
 
   const [data, setData] = useState<SchoolAdminData | null>(null);
 
