@@ -3,38 +3,23 @@
 // autosave fires.
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { REQUIREMENTS } from "@/lib/screen-completion";
-import { WORLDS, TOTAL_SCREENS, type WorldId } from "@/lib/screens";
+import { type WorldId } from "@/lib/screens";
+import { computeScreenProgress } from "@/lib/screen-registry";
 
 export interface ScreenProgress {
   filledKeys: Set<string>;
   currentScreen: number;
-  /** screens for which all REQUIREMENTS keys are present (or which have none) */
+  /** screens counted as complete (all required fields filled, or passed) */
   completedScreens: Set<number>;
   /** per-world: how many screens of the world are completed */
   byWorld: Record<WorldId, { completed: number; total: number }>;
 }
 
 function compute(filled: Set<string>, current: number): ScreenProgress {
-  const completedScreens = new Set<number>();
-  for (let n = 1; n <= TOTAL_SCREENS; n++) {
-    const req = REQUIREMENTS[n];
-    if (!req || req.length === 0) continue; // purely informational screens don't count
-    if (req.every((k) => filled.has(k))) completedScreens.add(n);
-  }
-  const byWorld = {} as Record<WorldId, { completed: number; total: number }>;
-  for (const w of WORLDS) {
-    let total = 0, done = 0;
-    for (let n = w.start; n <= w.end; n++) {
-      const req = REQUIREMENTS[n];
-      if (!req || req.length === 0) continue;
-      total++;
-      if (completedScreens.has(n)) done++;
-    }
-    byWorld[w.id] = { completed: done, total };
-  }
+  const { completedScreens, byWorld } = computeScreenProgress(filled, current);
   return { filledKeys: filled, currentScreen: current, completedScreens, byWorld };
 }
+
 
 export function useStudentProgress(userId: string | null): ScreenProgress | null {
   const [progress, setProgress] = useState<ScreenProgress | null>(null);
