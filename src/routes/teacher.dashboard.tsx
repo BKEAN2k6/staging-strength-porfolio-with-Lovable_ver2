@@ -288,7 +288,7 @@ function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: (
       </div>
 
       <div className="space-y-1">
-        <h3 className="font-bold">{tr("Moduulien valmistuminen")}</h3>
+        <h3 className="font-bold">{tr("Tasojen valmistuminen")}</h3>
         {worlds.map((w, i) => {
           const meta = WORLDS[i];
           const state = w.done === 0 ? "Ei aloitettu" : w.done === w.total ? "Valmis" : "Kesken";

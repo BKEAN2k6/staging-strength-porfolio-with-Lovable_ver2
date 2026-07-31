@@ -67,13 +67,13 @@ function Modules() {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s2-intro">
-        <h1 className="font-display text-3xl mb-1">{tr("Moduulit")}</h1>
+        <h1 className="font-display text-3xl mb-1">{tr("Tasot")}</h1>
         <p className="text-sm opacity-90">{tr("Seikkailu kulkee kuuden moduulin läpi. Tässä on yleiskuva siitä, mitä edessä on.")}</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {modules.map((w, i) => (
           <StickyNote key={w.id} seed={`mod-${w.id}`} tone={mapTone(w.tone)}>
-            <div className="text-xs font-bold opacity-70">{tr(`Moduuli ${i + 1}`)}</div>
+            <div className="text-xs font-bold opacity-70">{tr(`Taso ${i + 1}`)}</div>
             <div className="font-display text-lg leading-tight mb-1">{tr(titles[w.id])}</div>
             <p className="text-xs leading-snug opacity-90">{tr(blurbs[w.id])}</p>
           </StickyNote>
@@ -275,7 +275,7 @@ function M1Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s11-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 1")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 1")}</div>
       <h1 className="font-display text-4xl leading-tight">1. {tr("Omat ydinvahvuudet")}</h1>
     </StickyNote>
   );
@@ -1016,7 +1016,7 @@ function M2Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s27-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 2")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 2")}</div>
       <h1 className="font-display text-4xl leading-tight">{tr("2. Omat vahvuudet lukiossa")}</h1>
     </StickyNote>
   );
@@ -1409,7 +1409,7 @@ function M3Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 3")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 3")}</div>
       <h1 className="font-display text-4xl leading-tight">{tr("3. Omat vahvuudet kotona")}</h1>
     </StickyNote>
   );
@@ -1557,7 +1557,7 @@ function M4Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s46-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 4")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 4")}</div>
       <h1 className="font-display text-4xl leading-tight">
         {tr("4. Omat vahvuudet vapaa-ajalla ja harrastuksissa")}
       </h1>
@@ -1735,7 +1735,7 @@ function M5Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s54-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 5")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 5")}</div>
       <h1 className="font-display text-4xl leading-tight">{tr("5. Omat vahvuudet ystävyyssuhteissa")}</h1>
     </StickyNote>
   );
@@ -1796,7 +1796,7 @@ function M6Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="yellow" seed="s58-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Moduuli 6")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 6")}</div>
       <h1 className="font-display text-4xl leading-tight">{tr("6. Vahvuusportfolion kokoaminen")}</h1>
     </StickyNote>
   );
