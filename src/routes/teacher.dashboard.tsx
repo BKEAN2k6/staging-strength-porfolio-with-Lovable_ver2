@@ -17,6 +17,8 @@ import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/te
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
+import { WorldIcon } from "@/components/icons/AppIcons";
+import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
 import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
@@ -295,7 +297,7 @@ function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: (
           return (
             <div key={w.id} className="flex justify-between border-b border-black/5 py-1 text-sm">
               <span>
-                {meta.emoji} {tr(meta.title)}
+                <><WorldIcon id={meta.id} size={18} className="inline align-[-3px]" /> {tr(meta.title)}</>
               </span>
               <span className="tabular-nums opacity-80">
                 {w.done}/{w.total} · {tr(state)}
@@ -550,34 +552,18 @@ function TopStrengths({
 
   return (
     <StickyNote seed="t-top-strengths" className="space-y-4 md:col-span-2">
-      <h2 className="text-2xl font-bold">{tr("Ryhmän suosituimmat vahvuudet")} ✨</h2>
+      <h2 className="text-2xl font-bold">{tr("Ryhmän suosituimmat vahvuudet")}</h2>
       {top.length === 0 ? (
         <p className="opacity-70">{tr("Opiskelijasi eivät ole vielä keränneet vahvuuksia.")}</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {top.map((s, i) => (
-            <div
-              key={s.id}
-              className={cn(
-                "flex flex-col items-center gap-2 rounded-3xl bg-white/90 p-4 text-center text-slate-900 shadow-md",
-                i === 0 && "border-4 border-[color:var(--yellow)] shadow-lg sm:scale-105",
-              )}
-            >
-              <span className="text-xs font-bold uppercase tracking-wider opacity-60">#{i + 1}</span>
-              <span
-                className="flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-bold tabular-nums text-white shadow-inner"
-                style={{ background: colorOf(s.id) }}
-              >
-                {s.total}
-              </span>
-              <span className="text-sm font-bold leading-tight">{getStrengthName(s.id, lang)}</span>
-              <span className="text-xs opacity-70">
-                {s.students} {tr("opiskelijaa")}
-              </span>
-
-            </div>
-          ))}
-        </div>
+        <TopStrengthCards
+          items={top.map((x) => ({
+            id: x.id,
+            count: x.total,
+            caption: `${x.students} ${tr("opiskelijaa")}`,
+          }))}
+          lang={lang}
+        />
       )}
 
       {classes.length > 0 && (

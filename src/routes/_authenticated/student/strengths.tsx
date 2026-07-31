@@ -5,6 +5,8 @@ import { useReceivedGifts } from "@/hooks/useReceivedGifts";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { useLanguage, useTr } from "@/lib/i18n";
+import { CandyIcon, StarIcon, TrophyIcon } from "@/components/icons/AppIcons";
+import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 
 export const Route = createFileRoute("/_authenticated/student/strengths")({
   component: StudentStrengthsPage,
@@ -47,10 +49,10 @@ function StudentStrengthsPage() {
   }, null);
 
   function tierOf(n: number) {
-    if (n >= 5) return { label: tr("Mestari!"), badge: "🏆", glow: true };
-    if (n >= 3) return { label: tr("Kasvava"), badge: "⭐", glow: false };
-    if (n >= 1) return { label: tr("Löydetty"), badge: "🍬", glow: false };
-    return { label: "", badge: "", glow: false };
+    if (n >= 5) return { label: tr("Mestari!"), Badge: TrophyIcon, glow: true };
+    if (n >= 3) return { label: tr("Kasvava"), Badge: StarIcon, glow: false };
+    if (n >= 1) return { label: tr("Löydetty"), Badge: CandyIcon, glow: false };
+    return { label: "", Badge: null, glow: false };
   }
 
   function Pills({ ids, empty }: { ids: number[]; empty: string }) {
@@ -82,37 +84,19 @@ function StudentStrengthsPage() {
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6 px-4 py-8">
-      <h1 className="font-display text-3xl">{tr("Vahvuuteni")} 🍬</h1>
+      <h1 className="flex items-center gap-2 font-display text-3xl">
+        <CandyIcon size={24} /> {tr("Vahvuuteni")}
+      </h1>
 
       <StickyNote seed="student-strengths-top5" className="space-y-3">
-        <h2 className="font-display text-xl">{tr("Top 5 vahvuuttasi")} ✨</h2>
+        <h2 className="font-display text-xl">{tr("Top 5 vahvuuttasi")}</h2>
         {top5.length === 0 ? (
           <p className="text-sm opacity-70">{tr("Et ole vielä kerännyt vahvuuksia.")}</p>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {top5.map((s, i) => (
-              <div
-                key={s.id}
-                className={
-                  "flex flex-col items-center gap-2 rounded-3xl bg-white/90 p-4 text-center text-slate-900 shadow-md " +
-                  (i === 0 ? "border-4 border-[color:var(--yellow)] shadow-lg sm:scale-105" : "")
-                }
-              >
-                <span className="text-xs font-bold uppercase tracking-wider opacity-60">
-                  #{i + 1}
-                </span>
-                <span
-                  className="flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-bold tabular-nums text-white shadow-inner"
-                  style={{ background: s.color }}
-                >
-                  {s.n}
-                </span>
-                <span className="text-sm font-bold leading-tight">
-                  {getStrengthName(s.id, lang)}
-                </span>
-              </div>
-            ))}
-          </div>
+          <TopStrengthCards
+            items={top5.map((s) => ({ id: s.id, count: s.n }))}
+            lang={lang}
+          />
         )}
       </StickyNote>
 
@@ -138,7 +122,8 @@ function StudentStrengthsPage() {
                   style={{ borderLeftColor: s?.color ?? "var(--purple)" }}
                 >
                   <div className="font-display text-lg">
-                    🍬 {Number.isFinite(id) ? getStrengthName(id, lang) : g.strength_id}
+                    <CandyIcon size={18} className="mr-1 inline align-[-3px]" />
+                    {Number.isFinite(id) ? getStrengthName(id, lang) : g.strength_id}
                   </div>
                   {g.message && <p className="mt-1 text-sm">{g.message}</p>}
                   <div className="mt-2 text-xs opacity-60">
@@ -216,7 +201,7 @@ function StudentStrengthsPage() {
                     aria-hidden
                   />
                   <span className="break-words text-xs leading-snug">
-                    {tier.badge && <span aria-hidden>{tier.badge} </span>}
+                    {tier.Badge && <tier.Badge size={14} className="mr-1 inline align-[-2px]" />}
                     {getStrengthName(s.id, lang)}
                   </span>
                 </span>

@@ -15,7 +15,7 @@ import { useTr } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
 import { computeStudentStats, TOTAL_REQUIRED, worldCompletion } from "@/lib/teacher-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
-import { getJarStrength } from "@/lib/strength-jar-data";
+import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 import { useLanguage } from "@/lib/i18n";
 import {
   getSchoolAdminData,
@@ -444,41 +444,6 @@ function TeacherRow({
   );
 }
 
-function StrengthRow({
-  rank,
-  id,
-  count,
-  students,
-  lang,
-  tr,
-}: {
-  rank: number;
-  id: number;
-  count: number;
-  students: number;
-  lang: "fi" | "sv" | "en";
-  tr: (s: string) => string;
-}) {
-  const color = getJarStrength(id)?.color ?? "var(--purple)";
-  return (
-    <div className="flex items-center gap-3 rounded-2xl bg-white/70 px-3 py-2">
-      <span className="w-6 shrink-0 text-sm font-bold opacity-60">#{rank}</span>
-      <span
-        className="h-6 w-6 shrink-0 rounded-full"
-        style={{ background: `color-mix(in srgb, ${color} 70%, white)` }}
-        aria-hidden
-      />
-      <span className="min-w-0 flex-1 truncate font-semibold">{getStrengthName(id, lang)}</span>
-      <span className="shrink-0 rounded-full bg-[color:var(--yellow)] px-2 py-0.5 text-xs font-bold text-[color:var(--ink,#1c1533)]">
-        ×{count}
-      </span>
-      <span className="hidden shrink-0 text-xs opacity-70 sm:inline">
-        {students} {tr("oppilasta")}
-      </span>
-    </div>
-  );
-}
-
 function tally(students: { strengthIds: number[] }[]) {
   const total = new Map<number, number>();
   const byStudent = new Map<number, Set<number>>();
@@ -511,21 +476,18 @@ function SchoolTopStrengths({
   return (
     <>
       <StickyNote seed="sa-top-strengths" className="space-y-3">
-        <h2 className="text-2xl font-bold">{tr("Koulun 5 yleisintä vahvuutta")}</h2>
+        <h2 className="text-2xl font-bold">{tr("Koulun suosituimmat vahvuudet")}</h2>
         {schoolTop.length === 0 ? (
           <p className="text-sm opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
         ) : (
-          schoolTop.map((s, i) => (
-            <StrengthRow
-              key={s.id}
-              rank={i + 1}
-              id={s.id}
-              count={s.count}
-              students={s.students}
-              lang={lang}
-              tr={tr}
-            />
-          ))
+          <TopStrengthCards
+            items={schoolTop.map((s) => ({
+              id: s.id,
+              count: s.count,
+              caption: `${s.students} ${tr("oppilasta")}`,
+            }))}
+            lang={lang}
+          />
         )}
       </StickyNote>
 
@@ -551,19 +513,11 @@ function SchoolTopStrengths({
                 {top.length === 0 ? (
                   <p className="text-xs opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
                 ) : (
-                  top
-                    .slice(0, 5)
-                    .map((s, i) => (
-                      <StrengthRow
-                        key={s.id}
-                        rank={i + 1}
-                        id={s.id}
-                        count={s.count}
-                        students={s.students}
-                        lang={lang}
-                        tr={tr}
-                      />
-                    ))
+                  <TopStrengthCards
+                    items={top.slice(0, 5).map((s) => ({ id: s.id, count: s.count }))}
+                    lang={lang}
+                    size="sm"
+                  />
                 )}
               </div>
             );

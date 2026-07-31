@@ -27,6 +27,7 @@ import {
   type Language,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { CheckIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/opettaja")({
   component: TeacherDashboard,
@@ -188,7 +189,7 @@ function TeacherDashboard() {
                       <span
                         className="absolute right-3 top-3 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[color:var(--coral)] text-[11px] font-bold text-white"
                         aria-hidden
-                      >✓</span>
+                      ><CheckIcon size={12} /></span>
                     )}
                   </button>
                 ))}

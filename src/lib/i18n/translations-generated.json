@@ -2024,7 +2024,7 @@
   },
   "opiskelijaa": {
     "en": "students",
-    "sv": "elever"
+    "sv": "studerande"
   },
   "oppilasta": {
     "en": "students",
@@ -2112,7 +2112,7 @@
   },
   "valmis": {
     "en": "complete",
-    "sv": "klart"
+    "sv": "klar"
   },
   "Taso 1": {
     "en": "Level 1",
@@ -2137,5 +2137,29 @@
   "Taso 6": {
     "en": "Level 6",
     "sv": "Nivå 6"
+  },
+  "Innostus": {
+    "en": "Enthusiasm",
+    "sv": "Entusiasm"
+  },
+  "Harkitsevaisuus": {
+    "en": "Carefulness",
+    "sv": "Eftertänksamhet"
+  },
+  "Henkisyys": {
+    "en": "Spirituality",
+    "sv": "Andlighet"
+  },
+  "Ryhmätyötaidot": {
+    "en": "Teamwork",
+    "sv": "Samarbetsförmåga"
+  },
+  "Kauneuden ja erinomaisuuden arvostus": {
+    "en": "Love of Beauty",
+    "sv": "Uppskattning av skönhet"
+  },
+  "Koulun suosituimmat vahvuudet": {
+    "en": "The school's most common strengths",
+    "sv": "Skolans vanligaste styrkor"
   }
 }

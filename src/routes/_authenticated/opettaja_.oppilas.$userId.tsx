@@ -10,6 +10,7 @@ import { REQUIREMENTS } from "@/lib/screen-completion";
 import { METER_STRENGTHS } from "@/lib/meter-data";
 import { Printer, ArrowLeft } from "lucide-react";
 import { useTr } from "@/lib/i18n";
+import { WorldIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/opettaja_/oppilas/$userId")({
   component: StudentPortfolio,
@@ -110,7 +111,7 @@ function StudentPortfolio() {
             </div>
             <div className="text-right">
               <div className="text-xs uppercase tracking-wider opacity-70">{tr("Vahvuusmittari")}</div>
-              <div className="font-display text-xl">{meterDone ? `${tr("Suoritettu")} ✓` : tr("Kesken")}</div>
+              <div className="font-display text-xl">{meterDone ? tr("Suoritettu") : tr("Kesken")}</div>
             </div>
           </div>
         </StickyNote>
@@ -155,7 +156,7 @@ function StudentPortfolio() {
           return (
             <section key={w.id} className="space-y-2">
               <h2 className="font-display text-2xl flex items-center gap-2">
-                <span>{w.emoji}</span> {tr(w.title)} — <span className="opacity-70 text-lg">{tr(w.subtitle)}</span>
+                <WorldIcon id={w.id} size={18} /> {tr(w.title)} — <span className="opacity-70 text-lg">{tr(w.subtitle)}</span>
               </h2>
               <div className="grid gap-2">
                 {screens.map(({ n, entries }) => (
