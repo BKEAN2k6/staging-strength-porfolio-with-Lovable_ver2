@@ -10,6 +10,8 @@ import { REQUIREMENTS, useNavGate } from "@/lib/screen-completion";
 import { supabase } from "@/integrations/supabase/client";
 import type { SaveState } from "@/hooks/use-autosave";
 import { TranslateFi, useT, useTr } from "@/lib/i18n";
+import { useStudentProgress } from "@/lib/progress";
+import { WorldIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/$screen")({
   component: ScreenView,
