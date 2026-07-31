@@ -26,6 +26,8 @@ import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
 import { WorldIcon } from "@/components/icons/AppIcons";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
+import { StudentDetailReport } from "@/components/students/StudentDetailReport";
+
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
 import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
