@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { StickyNote } from "@/components/StickyNote";
 import { useStrengthJar } from "@/hooks/useStrengthJar";
 import { useReceivedGifts } from "@/hooks/useReceivedGifts";
@@ -7,6 +9,7 @@ import { getStrengthName } from "@/lib/strengths-i18n";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { CandyIcon, StarIcon, TrophyIcon } from "@/components/icons/AppIcons";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
+import { getPeerTopStrengths, type PeerTopStrengths } from "@/lib/student-strengths.functions";
 
 export const Route = createFileRoute("/_authenticated/student/strengths")({
   component: StudentStrengthsPage,
@@ -28,6 +31,23 @@ function StudentStrengthsPage() {
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const { selected, collected } = useStrengthJar();
   const { gifts } = useReceivedGifts();
+  const fetchPeers = useServerFn(getPeerTopStrengths);
+  const [peers, setPeers] = useState<PeerTopStrengths | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = (await fetchPeers()) as PeerTopStrengths;
+        if (!cancelled) setPeers(res);
+      } catch {
+        /* peers are optional extra context */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchPeers]);
 
   // How many times each strength has been earned: candy-shop picks, jar
   // discoveries anywhere in the adventure, and each teacher gift.
@@ -100,6 +120,48 @@ function StudentStrengthsPage() {
         )}
       </StickyNote>
 
+
+      {peers && peers.classTop.length > 0 && (
+        <StickyNote
+          seed="student-strengths-class-top5"
+          className="space-y-3 border-4 border-[color:var(--blue,#2899B8)]"
+        >
+          <h2 className="font-display text-xl">
+            {tr("Luokkasi top 5")}
+            {peers.className ? ` — ${peers.className}` : ""}
+          </h2>
+          <TopStrengthCards
+            items={peers.classTop.map((s) => ({
+              id: s.strengthId,
+              count: s.count,
+              caption: `${s.students} ${tr("opiskelijaa")}`,
+            }))}
+            lang={lang}
+            size="sm"
+          />
+        </StickyNote>
+      )}
+
+      {peers && peers.schoolTop.length > 0 && (
+        <StickyNote
+          seed="student-strengths-school-top5"
+          className="space-y-3 border-4 border-[color:var(--purple)]"
+        >
+          <h2 className="font-display text-xl">
+            {tr("Koulusi top 5")}
+            {peers.schoolName ? ` — ${peers.schoolName}` : ""}
+          </h2>
+          <TopStrengthCards
+            items={peers.schoolTop.map((s) => ({
+              id: s.strengthId,
+              count: s.count,
+              caption: `${s.students} ${tr("opiskelijaa")}`,
+            }))}
+            lang={lang}
+            size="sm"
+          />
+        </StickyNote>
+      )}
 
       <StickyNote seed="student-strengths-picks" className="space-y-3">
         <h2 className="font-display text-xl">{tr("Valitsemasi vahvuudet")}</h2>

@@ -461,6 +461,14 @@
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
   },
+  "Ei aktiivisuutta": {
+    "en": "No activity",
+    "sv": "Ingen aktivitet"
+  },
+  "Ei aloitettu": {
+    "en": "Not started",
+    "sv": "Inte påbörjad"
+  },
   "Ei dataa tällä aikavälillä.": {
     "en": "No data for this period.",
     "sv": "Inga data för denna period."
@@ -480,6 +488,10 @@
   "Ei vielä vahvuuksia.": {
     "en": "No strengths yet.",
     "sv": "Inga styrkor ännu."
+  },
+  "Eilen": {
+    "en": "Yesterday",
+    "sv": "I går"
   },
   "Elämä tarjoaa minulle monia eri tapoja hyödyntää vahvuuksiani.": {
     "en": "Life offers me many different ways to use my strengths.",
@@ -537,6 +549,10 @@
     "en": "Are you sure you want to delete the class",
     "sv": "Vill du verkligen radera klassen"
   },
+  "Harkitsevaisuus": {
+    "en": "Carefulness",
+    "sv": "Eftertänksamhet"
+  },
   "Harkitsevuus": {
     "en": "Carefulness",
     "sv": "Eftertänksamhet"
@@ -546,6 +562,10 @@
     "sv": "Hej"
   },
   "Hengellisyys": {
+    "en": "Spirituality",
+    "sv": "Andlighet"
+  },
+  "Henkisyys": {
     "en": "Spirituality",
     "sv": "Andlighet"
   },
@@ -611,6 +631,14 @@
     "en": "Enthusiasm",
     "sv": "Entusiasm"
   },
+  "Innostus": {
+    "en": "Enthusiasm",
+    "sv": "Entusiasm"
+  },
+  "Itsearviointi ja tulokset": {
+    "en": "Self-Assessment and Results",
+    "sv": "Självbedömning och resultat"
+  },
   "Itsesäätely": {
     "en": "Self-Regulation",
     "sv": "Självreglering"
@@ -658,6 +686,10 @@
     "en": "Love of Beauty",
     "sv": "Uppskatta skönhet"
   },
+  "Kauneuden ja erinomaisuuden arvostus": {
+    "en": "Love of Beauty",
+    "sv": "Uppskattning av skönhet"
+  },
   "Kehitä omia vahvuuksia": {
     "en": "Develop your strengths",
     "sv": "Utveckla dina styrkor"
@@ -677,6 +709,10 @@
   "Kerätyt vahvuudet": {
     "en": "Strengths collected",
     "sv": "Samlade styrkor"
+  },
+  "Kesken": {
+    "en": "In progress",
+    "sv": "Pågår"
   },
   "Keskimääräinen valmistuminen %": {
     "en": "Average completion %",
@@ -718,9 +754,17 @@
     "en": "School-wide top 5 strengths",
     "sv": "Skolans 5 vanligaste styrkor"
   },
+  "Koulun suosituimmat vahvuudet": {
+    "en": "The school's most common strengths",
+    "sv": "Skolans vanligaste styrkor"
+  },
   "Koulun yhteenveto": {
     "en": "School summary",
     "sv": "Skolsammanfattning"
+  },
+  "Koulusi top 5": {
+    "en": "Your school's top 5",
+    "sv": "Din skolas topp 5"
   },
   "Kuka auttoi minua onnistumaan?": {
     "en": "Who helped me succeed?",
@@ -833,6 +877,10 @@
   "Luokkasi on poistettu. Ota yhteyttä opettajaasi tai liity uuteen luokkaan koodilla.": {
     "en": "Your class has been deleted. Contact your teacher or join a new class with a code.",
     "sv": "Din klass har raderats. Kontakta din lärare eller gå med i en ny klass med en kod."
+  },
+  "Luokkasi top 5": {
+    "en": "Your class's top 5",
+    "sv": "Din klass topp 5"
   },
   "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.": {
     "en": "Character strengths are positive traits in your personality. By using them, you, your classmates and various communities such as schools can flourish. They include perseverance, curiosity, courage and compassion. Every student has strengths and a developing strength potential. You can think of your strengths as a reflection of who each of us is at our best.",
@@ -1351,6 +1399,30 @@
     "en": "My resources as a student 1/2 – Reflect and fill in the resource branches",
     "sv": "Mina resurser som studerande 1/2 – Fundera och fyll i resurshjärtan"
   },
+  "Omat vahvuudet kotona": {
+    "en": "My Strengths at Home",
+    "sv": "Mina styrkor hemma"
+  },
+  "Omat vahvuudet koulussa": {
+    "en": "My Strengths at School",
+    "sv": "Mina styrkor i skolan"
+  },
+  "Omat vahvuudet lukiossa": {
+    "en": "My Strengths at School",
+    "sv": "Mina styrkor i skolan"
+  },
+  "Omat vahvuudet vapaa-ajalla ja harrastuksissa": {
+    "en": "My Strengths in Free Time",
+    "sv": "Mina styrkor på fritiden"
+  },
+  "Omat vahvuudet ystävyyssuhteissa": {
+    "en": "My Strengths in Friendships",
+    "sv": "Mina styrkor i vänskapsrelationer"
+  },
+  "Omat ydinvahvuudet": {
+    "en": "My Core Strengths",
+    "sv": "Mina kärnstyrkor"
+  },
   "Omien vahvuuksien käyttäminen – asteikko (Govindji & Linley, 2007) – Vastaa seuraavaan asteikolla 1 (täysin eri mieltä) – 5 (täysin samaa mieltä).": {
     "en": "Using My Own Strengths – scale (Govindji & Linley, 2007) – Answer the following on a scale of 1 (strongly disagree) to 5 (strongly agree).",
     "sv": "Användning av egna styrkor – skala (Govindji & Linley, 2007) – Svara på följande på en skala 1 (helt av annan åsikt) till 5 (helt av samma åsikt)."
@@ -1463,6 +1535,10 @@
     "en": "Deleted classes",
     "sv": "Raderade klasser"
   },
+  "Prologi": {
+    "en": "Prologue",
+    "sv": "Prolog"
+  },
   "Pyrin aina hyödyntämään vahvuuksiani.": {
     "en": "I always strive to use my strengths.",
     "sv": "Jag strävar alltid efter att använda mina styrkor."
@@ -1549,6 +1625,10 @@
   "Ryhmän suosituimmat vahvuudet": {
     "en": "Group's most popular strengths",
     "sv": "Gruppens mest populära styrkor"
+  },
+  "Ryhmätyötaidot": {
+    "en": "Teamwork",
+    "sv": "Samarbetsförmåga"
   },
   "Ryhmätyötaito": {
     "en": "Teamwork",
@@ -1694,6 +1774,46 @@
     "en": "Saved!",
     "sv": "Sparat!"
   },
+  "Taso": {
+    "en": "Level",
+    "sv": "Nivå"
+  },
+  "Taso 1": {
+    "en": "Level 1",
+    "sv": "Nivå 1"
+  },
+  "Taso 2": {
+    "en": "Level 2",
+    "sv": "Nivå 2"
+  },
+  "Taso 3": {
+    "en": "Level 3",
+    "sv": "Nivå 3"
+  },
+  "Taso 4": {
+    "en": "Level 4",
+    "sv": "Nivå 4"
+  },
+  "Taso 5": {
+    "en": "Level 5",
+    "sv": "Nivå 5"
+  },
+  "Taso 6": {
+    "en": "Level 6",
+    "sv": "Nivå 6"
+  },
+  "Taso {n}": {
+    "en": "Level {n}",
+    "sv": "Nivå {n}"
+  },
+  "Tasojen valmistuminen": {
+    "en": "Level completion",
+    "sv": "Nivåernas slutförande"
+  },
+  "Tasot": {
+    "en": "Levels",
+    "sv": "Nivåer"
+  },
   "Taulukko: Mitä tykkäät tehdä vapaa-ajalla? | Mitä harrastuksia sinulla on? | Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa? | Mitä vahvuuksia haluat hyödyntää enemmän vapaa-ajallasi?": {
     "en": "Table: What do you enjoy doing in your free time? | What hobbies do you have? | What strengths do you recognise in yourself in your free time and hobbies? | What strengths do you want to use more in your free time?",
     "sv": "Tabell: Vad gillar du att göra på fritiden? | Vilka hobbyer har du? | Vilka styrkor känner du igen hos dig själv på fritiden och i hobbyer? | Vilka styrkor vill du använda mer på din fritid?"
@@ -1705,6 +1825,10 @@
   "Tavoitteeni opiskelijana 1/2 – Tässä tehtävässä selkiytät tavoitteesi opiskelijana – tavoitteen, jonka haluat saavuttaa.": {
     "en": "My Goal as a Student 1/2 – In this task you clarify your goal as a student – the goal you want to achieve.",
     "sv": "Mitt mål som studerande 1/2 – I den här uppgiften klargör du ditt mål som studerande – det mål du vill nå."
+  },
+  "Tervetuloa": {
+    "en": "Welcome",
+    "sv": "Välkommen"
   },
   "Tervetuloa mukaan lukiolainen!": {
     "en": "Welcome, upper secondary student!",
@@ -1816,6 +1940,10 @@
     "en": "TIP! Here is how you can give others praise and encouragement based on strengths:",
     "sv": "TIPS! Så här kan du ge andra beröm och uppmuntran baserat på styrkor:"
   },
+  "Vaarassa jäädä jälkeen": {
+    "en": "At risk",
+    "sv": "Risk att halka efter"
+  },
   "Vaatimattomuus": {
     "en": "Modesty",
     "sv": "Anspråkslöshet"
@@ -1896,6 +2024,10 @@
     "en": "My strength collection",
     "sv": "Min styrkesamling"
   },
+  "Vahvuusmittari": {
+    "en": "Strengths Meter",
+    "sv": "Styrkomätare"
+  },
   "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.": {
     "en": "Strengths Feedback with Classmates – Write feedback and praise in a group of 2–4 classmates. Name the strengths you appreciate in each other.",
     "sv": "Styrkerespons från studiekamrater – Skriv respons och beröm i grupp med 2–4 studiekamrater. Namnge de styrkor ni uppskattar hos varandra."
@@ -1903,6 +2035,10 @@
   "Vahvuusportfolio lukiolaiselle": {
     "en": "Strength Portfolio for Upper Secondary Students",
     "sv": "Styrkeportfölj för gymnasiet"
+  },
+  "Vahvuusportfolion kokoaminen": {
+    "en": "Compiling the Strength Portfolio",
+    "sv": "Sammanställning av styrkeportföljen"
   },
   "Vahvuuteni opiskelijana – Tunnista vahvuutesi. Arvosta ja ole ylpeä vahvuuksistasi. Kirjoita parhaat puolesi opiskelijana!": {
     "en": "My Strength as a Student – Identify your strengths. Appreciate and be proud of your strengths. Write down your best qualities as a student!",
@@ -1927,6 +2063,10 @@
   "Valitse viisi tärkeintä 'karkkiväittämää', jotka kuvaavat sinua parhaiten.": {
     "en": "Choose the five most important 'strength candy' statements that best describe you.",
     "sv": "Välj de fem viktigaste 'styrkegodis' påståenden som stämmer bäst in på dig."
+  },
+  "Valmis": {
+    "en": "Completed",
+    "sv": "Klar"
   },
   "Valmistumisen edistyminen": {
     "en": "Completion Progress",
@@ -2014,6 +2154,10 @@
     "en": "active",
     "sv": "aktiv"
   },
+  "juuri nyt": {
+    "en": "just now",
+    "sv": "just nu"
+  },
   "keskimääräinen valmistuminen": {
     "en": "avg completion",
     "sv": "genomsnittligt slutförande"
@@ -2050,116 +2194,24 @@
     "en": "of strengths discovered",
     "sv": "av styrkorna upptäckta"
   },
-  "yhteensä": {
-    "en": "total",
-    "sv": "totalt"
-  },
-  "Taso": {
-    "en": "Level",
-    "sv": "Nivå"
-  },
-  "Tasot": {
-    "en": "Levels",
-    "sv": "Nivåer"
-  },
-  "Tasojen valmistuminen": {
-    "en": "Level completion",
-    "sv": "Nivåernas slutförande"
-  },
-  "Prologi": {
-    "en": "Prologue",
-    "sv": "Prolog"
-  },
-  "Tervetuloa": {
-    "en": "Welcome",
-    "sv": "Välkommen"
-  },
-  "Omat ydinvahvuudet": {
-    "en": "My Core Strengths",
-    "sv": "Mina kärnstyrkor"
-  },
-  "Omat vahvuudet lukiossa": {
-    "en": "My Strengths at School",
-    "sv": "Mina styrkor i skolan"
-  },
-  "Omat vahvuudet koulussa": {
-    "en": "My Strengths at School",
-    "sv": "Mina styrkor i skolan"
-  },
-  "Omat vahvuudet kotona": {
-    "en": "My Strengths at Home",
-    "sv": "Mina styrkor hemma"
-  },
-  "Omat vahvuudet vapaa-ajalla ja harrastuksissa": {
-    "en": "My Strengths in Free Time",
-    "sv": "Mina styrkor på fritiden"
-  },
-  "Omat vahvuudet ystävyyssuhteissa": {
-    "en": "My Strengths in Friendships",
-    "sv": "Mina styrkor i vänskapsrelationer"
-  },
-  "Vahvuusportfolion kokoaminen": {
-    "en": "Compiling the Strength Portfolio",
-    "sv": "Sammanställning av styrkeportföljen"
-  },
-  "Vahvuusmittari": {
-    "en": "Strengths Meter",
-    "sv": "Styrkomätare"
-  },
-  "Itsearviointi ja tulokset": {
-    "en": "Self-Assessment and Results",
-    "sv": "Självbedömning och resultat"
-  },
   "valmis": {
     "en": "complete",
     "sv": "klar"
   },
-  "Taso 1": {
-    "en": "Level 1",
-    "sv": "Nivå 1"
+  "yhteensä": {
+    "en": "total",
+    "sv": "totalt"
   },
-  "Taso 2": {
-    "en": "Level 2",
-    "sv": "Nivå 2"
+  "{n} min sitten": {
+    "en": "{n} min ago",
+    "sv": "{n} min sedan"
   },
-  "Taso 3": {
-    "en": "Level 3",
-    "sv": "Nivå 3"
+  "{n} päivää sitten": {
+    "en": "{n} days ago",
+    "sv": "{n} dagar sedan"
   },
-  "Taso 4": {
-    "en": "Level 4",
-    "sv": "Nivå 4"
-  },
-  "Taso 5": {
-    "en": "Level 5",
-    "sv": "Nivå 5"
-  },
-  "Taso 6": {
-    "en": "Level 6",
-    "sv": "Nivå 6"
-  },
-  "Innostus": {
-    "en": "Enthusiasm",
-    "sv": "Entusiasm"
-  },
-  "Harkitsevaisuus": {
-    "en": "Carefulness",
-    "sv": "Eftertänksamhet"
-  },
-  "Henkisyys": {
-    "en": "Spirituality",
-    "sv": "Andlighet"
-  },
-  "Ryhmätyötaidot": {
-    "en": "Teamwork",
-    "sv": "Samarbetsförmåga"
-  },
-  "Kauneuden ja erinomaisuuden arvostus": {
-    "en": "Love of Beauty",
-    "sv": "Uppskattning av skönhet"
-  },
-  "Koulun suosituimmat vahvuudet": {
-    "en": "The school's most common strengths",
-    "sv": "Skolans vanligaste styrkor"
+  "{n} t sitten": {
+    "en": "{n}h ago",
+    "sv": "{n} h sedan"
   }
 }

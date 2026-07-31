@@ -360,3 +360,67 @@ export const promoteToSchoolAdmin = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+/** Read one student's raw responses for the school-admin portfolio drill-down. */
+export const getStudentPortfolio = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { userId: string }) => d)
+  .handler(
+    async ({
+      data,
+      context,
+    }): Promise<{
+      name: string | null;
+      currentScreen: number | null;
+      responses: { field_key: string; value: string | null }[];
+    }> => {
+      const schoolId = await assertSchoolAdmin(context.supabase, context.userId);
+      const db = await admin();
+
+      // The student must belong to this school, either directly or through a
+      // class owned by one of the school's teachers.
+      const { data: profile } = await db
+        .from("profiles")
+        .select("id, display_name, current_screen, school_id")
+        .eq("id", data.userId)
+        .maybeSingle();
+      if (!profile) throw new Error("Not found");
+
+      let allowed = profile.school_id === schoolId;
+      if (!allowed) {
+        const { data: teachers } = await db
+          .from("profiles")
+          .select("id")
+          .eq("school_id", schoolId);
+        const teacherIds = ((teachers ?? []) as any[]).map((t) => t.id);
+        const { data: classes } = teacherIds.length
+          ? await db.from("classes").select("id").in("teacher_id", teacherIds)
+          : { data: [] as any[] };
+        const classIds = ((classes ?? []) as any[]).map((c) => c.id);
+        if (classIds.length) {
+          const { data: member } = await db
+            .from("class_members")
+            .select("class_id")
+            .eq("student_id", data.userId)
+            .in("class_id", classIds)
+            .maybeSingle();
+          allowed = Boolean(member);
+        }
+      }
+      if (!allowed) throw new Error("Forbidden");
+
+      const { data: rows } = await db
+        .from("responses")
+        .select("field_key, value")
+        .eq("user_id", data.userId);
+
+      return {
+        name: profile.display_name ?? null,
+        currentScreen: profile.current_screen ?? null,
+        responses: ((rows ?? []) as any[]).map((r) => ({
+          field_key: r.field_key as string,
+          value: (r.value ?? null) as string | null,
+        })),
+      };
+    },
+  );

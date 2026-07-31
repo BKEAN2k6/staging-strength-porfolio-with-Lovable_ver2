@@ -67,12 +67,13 @@ export interface ClassStats {
   avgCurrentScreen: number; // 0 if no students
   avgScreensFilled: number;
   lastActivity: Date | null;
-  worldLabel: string;       // e.g. "Maailma 2.3"
+  worldLabel: string;       // e.g. "Taso 2.3" (Finnish source, translate at render)
+  worldNumber: string;      // e.g. "2.3" — for tr("Taso {n}", { n })
 }
 
 export function summariseClass(students: RosterStudent[]): ClassStats {
   if (students.length === 0) {
-    return { totalStudents: 0, avgCurrentScreen: 0, avgScreensFilled: 0, lastActivity: null, worldLabel: "–" };
+    return { totalStudents: 0, avgCurrentScreen: 0, avgScreensFilled: 0, lastActivity: null, worldLabel: "–", worldNumber: "–" };
   }
   const avgScreen = students.reduce((a, s) => a + s.currentScreen, 0) / students.length;
   const avgFilled = students.reduce((a, s) => a + s.screensFilled, 0) / students.length;
@@ -81,19 +82,20 @@ export function summariseClass(students: RosterStudent[]): ClassStats {
     if (!a || s.lastActive > a) return s.lastActive;
     return a;
   }, null);
-  // Average world index → "Maailma X.Y" (1-based among WORLDS, treating prologi as 0).
-  // We compute a fractional world position from average current_screen.
+  // Average level index → "Taso X.Y" (1-based among WORLDS, treating prologi as 0).
+  // We compute a fractional level position from average current_screen.
   const w = worldForScreen(Math.round(avgScreen));
   const idx = WORLDS.findIndex((x) => x.id === w.id);
   const within = (avgScreen - w.start) / Math.max(1, w.end - w.start);
   const decimal = Math.max(0, Math.min(1, within));
-  const label = `Maailma ${(idx + decimal).toFixed(1)}`;
+  const number = (idx + decimal).toFixed(1);
   return {
     totalStudents: students.length,
     avgCurrentScreen: avgScreen,
     avgScreensFilled: avgFilled,
     lastActivity: last,
-    worldLabel: label,
+    worldLabel: `Taso ${number}`,
+    worldNumber: number,
   };
 }
 
@@ -198,18 +200,69 @@ export function useClassRoster(classId: string | null): {
   return { students, loading, refresh: load };
 }
 
-export function formatLastActive(d: Date | null): string {
-  if (!d) return "Ei aktiivisuutta";
+type Translate = (s: string, vars?: Record<string, string | number>) => string;
+
+/**
+ * Relative "last active" label. Pass `tr` (from useTr) to localise it;
+ * without it the Finnish source strings are returned.
+ */
+export function formatLastActive(d: Date | null, tr?: Translate): string {
+  const t: Translate = tr ?? ((s, vars) =>
+    vars ? s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? "")) : s);
+  if (!d) return t("Ei aktiivisuutta");
   const diffMs = Date.now() - d.getTime();
   const mins = Math.floor(diffMs / 60_000);
-  if (mins < 1) return "juuri nyt";
-  if (mins < 60) return `${mins} min sitten`;
+  if (mins < 1) return t("juuri nyt");
+  if (mins < 60) return t("{n} min sitten", { n: mins });
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h sitten`;
+  if (hours < 24) return t("{n} t sitten", { n: hours });
   const days = Math.floor(hours / 24);
-  if (days === 1) return "Eilen";
-  if (days < 7) return `${days} päivää sitten`;
-  return d.toLocaleDateString("fi-FI");
+  if (days === 1) return t("Eilen");
+  if (days < 7) return t("{n} päivää sitten", { n: days });
+  return d.toLocaleDateString();
+}
+
+export type StudentStatus = "not_started" | "in_progress" | "completed" | "at_risk";
+
+/** Finnish source labels — pass through tr() at the call site. */
+export const STATUS_LABEL: Record<StudentStatus, string> = {
+  not_started: "Ei aloitettu",
+  in_progress: "Kesken",
+  completed: "Valmis",
+  at_risk: "Vaarassa jäädä jälkeen",
+};
+
+export const STATUS_TONE: Record<StudentStatus, string> = {
+  not_started: "bg-black/10 text-foreground/70",
+  in_progress: "bg-yellow-500/25 text-yellow-900",
+  completed: "bg-green-600/15 text-green-800",
+  at_risk: "bg-red-600/15 text-red-800",
+};
+
+/**
+ * Status rules:
+ *  - completed  : 100 % of required screens filled
+ *  - at_risk    : last active more than 14 days ago and not complete
+ *  - not_started: nothing filled and still on screen 1 (or never opened)
+ *  - in_progress: anything in between
+ */
+export function studentStatus(input: {
+  pct: number;
+  currentScreen?: number | null;
+  lastActive?: Date | string | null;
+}): StudentStatus {
+  const pct = Math.max(0, Math.min(100, Math.round(input.pct)));
+  if (pct >= 100) return "completed";
+  const last = input.lastActive
+    ? input.lastActive instanceof Date
+      ? input.lastActive
+      : new Date(input.lastActive)
+    : null;
+  const started = pct > 0 || (input.currentScreen ?? 1) > 1;
+  if (!started && !last) return "not_started";
+  if (last && Date.now() - last.getTime() > 14 * 24 * 3600 * 1000) return "at_risk";
+  if (!started) return "not_started";
+  return "in_progress";
 }
 
 export function rosterToCsv(students: RosterStudent[]): string {
