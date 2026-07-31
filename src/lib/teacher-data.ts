@@ -2,28 +2,29 @@ import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { REQUIREMENTS } from "@/lib/screen-completion";
 import { TOTAL_SCREENS, worldForScreen, WORLDS } from "@/lib/screens";
+import {
+  ACTIVE_SCREENS,
+  EMPTY_SCREENS,
+  TOTAL_ACTIVE_SCREENS,
+  computeScreenProgress,
+  isScreenComplete,
+} from "@/lib/screen-registry";
 
 export interface RosterStudent {
   studentId: string;
   displayName: string | null;
   email: string | null;
   currentScreen: number;
-  screensFilled: number;     // count of screens whose REQUIREMENTS are all met
-  totalRequiredScreens: number; // denominator
-  worldsCompleted: number;   // worlds where every required screen is done
+  screensFilled: number;     // count of active screens completed
+  totalRequiredScreens: number; // denominator (all active screens)
+  worldsCompleted: number;   // worlds where every active screen is done
   lastActive: Date | null;
 }
 
-export const REQUIRED_SCREEN_NUMBERS: number[] = (() => {
-  const arr: number[] = [];
-  for (let n = 1; n <= TOTAL_SCREENS; n++) {
-    const r = REQUIREMENTS[n];
-    if (r && r.length > 0) arr.push(n);
-  }
-  return arr;
-})();
+/** Every screen a student can visit and complete (S1–S70, S77–S106). */
+export const REQUIRED_SCREEN_NUMBERS: number[] = ACTIVE_SCREENS;
 
-export const TOTAL_REQUIRED = REQUIRED_SCREEN_NUMBERS.length;
+export const TOTAL_REQUIRED = TOTAL_ACTIVE_SCREENS;
 
 export function isFilled(v: unknown): boolean {
   if (v === null || v === undefined) return false;
@@ -38,29 +39,17 @@ export function isFilled(v: unknown): boolean {
 
 export function computeStudentStats(
   filledKeys: Set<string>,
+  currentScreen = 1,
 ): { screensFilled: number; worldsCompleted: number } {
-  let screensFilled = 0;
-  const screenDone = new Set<number>();
-  for (const n of REQUIRED_SCREEN_NUMBERS) {
-    const req = REQUIREMENTS[n]!;
-    if (req.every((k) => filledKeys.has(k))) {
-      screensFilled++;
-      screenDone.add(n);
-    }
-  }
+  const progress = computeScreenProgress(filledKeys, currentScreen);
   let worldsCompleted = 0;
   for (const w of WORLDS) {
-    let total = 0, done = 0;
-    for (let n = w.start; n <= w.end; n++) {
-      const req = REQUIREMENTS[n];
-      if (!req || req.length === 0) continue;
-      total++;
-      if (screenDone.has(n)) done++;
-    }
-    if (total > 0 && done === total) worldsCompleted++;
+    const stats = progress.byWorld[w.id];
+    if (stats && stats.total > 0 && stats.completed === stats.total) worldsCompleted++;
   }
-  return { screensFilled, worldsCompleted };
+  return { screensFilled: progress.done, worldsCompleted };
 }
+
 
 export interface ClassStats {
   totalStudents: number;
