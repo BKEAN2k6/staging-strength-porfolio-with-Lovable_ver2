@@ -2053,5 +2053,89 @@
   "yhteensä": {
     "en": "total",
     "sv": "totalt"
+  },
+  "Taso": {
+    "en": "Level",
+    "sv": "Nivå"
+  },
+  "Tasot": {
+    "en": "Levels",
+    "sv": "Nivåer"
+  },
+  "Tasojen valmistuminen": {
+    "en": "Level completion",
+    "sv": "Nivåernas slutförande"
+  },
+  "Prologi": {
+    "en": "Prologue",
+    "sv": "Prolog"
+  },
+  "Tervetuloa": {
+    "en": "Welcome",
+    "sv": "Välkommen"
+  },
+  "Omat ydinvahvuudet": {
+    "en": "My Core Strengths",
+    "sv": "Mina kärnstyrkor"
+  },
+  "Omat vahvuudet lukiossa": {
+    "en": "My Strengths at School",
+    "sv": "Mina styrkor i skolan"
+  },
+  "Omat vahvuudet koulussa": {
+    "en": "My Strengths at School",
+    "sv": "Mina styrkor i skolan"
+  },
+  "Omat vahvuudet kotona": {
+    "en": "My Strengths at Home",
+    "sv": "Mina styrkor hemma"
+  },
+  "Omat vahvuudet vapaa-ajalla ja harrastuksissa": {
+    "en": "My Strengths in Free Time",
+    "sv": "Mina styrkor på fritiden"
+  },
+  "Omat vahvuudet ystävyyssuhteissa": {
+    "en": "My Strengths in Friendships",
+    "sv": "Mina styrkor i vänskapsrelationer"
+  },
+  "Vahvuusportfolion kokoaminen": {
+    "en": "Compiling the Strength Portfolio",
+    "sv": "Sammanställning av styrkeportföljen"
+  },
+  "Vahvuusmittari": {
+    "en": "Strengths Meter",
+    "sv": "Styrkomätare"
+  },
+  "Itsearviointi ja tulokset": {
+    "en": "Self-Assessment and Results",
+    "sv": "Självbedömning och resultat"
+  },
+  "valmis": {
+    "en": "complete",
+    "sv": "klart"
+  },
+  "Taso 1": {
+    "en": "Level 1",
+    "sv": "Nivå 1"
+  },
+  "Taso 2": {
+    "en": "Level 2",
+    "sv": "Nivå 2"
+  },
+  "Taso 3": {
+    "en": "Level 3",
+    "sv": "Nivå 3"
+  },
+  "Taso 4": {
+    "en": "Level 4",
+    "sv": "Nivå 4"
+  },
+  "Taso 5": {
+    "en": "Level 5",
+    "sv": "Nivå 5"
+  },
+  "Taso 6": {
+    "en": "Level 6",
+    "sv": "Nivå 6"
   }
 }
