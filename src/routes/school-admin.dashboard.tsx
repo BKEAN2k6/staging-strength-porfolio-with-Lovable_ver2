@@ -13,7 +13,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRoleGuard } from "@/lib/role-guard";
 import { useTr } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
-import { computeStudentStats, TOTAL_REQUIRED, worldCompletion } from "@/lib/teacher-data";
+import {
+  computeStudentStats,
+  formatLastActive,
+  studentStatus,
+  STATUS_LABEL,
+  STATUS_TONE,
+  TOTAL_REQUIRED,
+  worldCompletion,
+} from "@/lib/teacher-data";
+import { PortfolioView } from "@/components/portfolio/PortfolioView";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 import { useLanguage } from "@/lib/i18n";
@@ -22,6 +31,7 @@ import {
   createTeacherCode,
   revokeTeacherCode,
   promoteToSchoolAdmin,
+  getStudentPortfolio,
   type SchoolAdminData,
 } from "@/lib/schooladmin.functions";
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
@@ -52,12 +62,6 @@ function fmtDate(v: string | null): string {
   return v ? new Date(v).toLocaleDateString() : "—";
 }
 
-function statusTone(pct: number): string {
-  if (pct >= 60) return "bg-green-600/15 text-green-800";
-  if (pct >= 25) return "bg-yellow-500/25 text-yellow-900";
-  return "bg-red-600/15 text-red-800";
-}
-
 function SchoolAdminDashboard() {
   const tr = useTr();
   const { language } = useLanguage();
@@ -65,6 +69,8 @@ function SchoolAdminDashboard() {
   const guard = useRoleGuard(["school_admin"]);
   const [tab, setTab] = useState("overview");
   const [days, setDays] = useState<RangeDays>(30);
+  const [openClass, setOpenClass] = useState<string | null>(null);
+  const [openStudent, setOpenStudent] = useState<string | null>(null);
 
   const [data, setData] = useState<SchoolAdminData | null>(null);
 
@@ -121,6 +127,7 @@ function SchoolAdminDashboard() {
 
   const tabs = [
     { id: "overview", label: tr("Yhteenveto") },
+    { id: "classes", label: tr("Luokat") },
     { id: "students", label: tr("Opiskelijat") },
     { id: "teachers", label: tr("Opettajat") },
     { id: "codes", label: tr("Opettajakoodit") },
@@ -143,7 +150,11 @@ function SchoolAdminDashboard() {
       title={tr("Koulun hallintapaneeli")}
       tabs={tabs}
       active={tab}
-      onSelect={setTab}
+      onSelect={(id) => {
+        setTab(id);
+        setOpenClass(null);
+        setOpenStudent(null);
+      }}
       schoolName={data?.school?.name ?? guard.schoolName}
     >
       {tab === "overview" && (
@@ -165,7 +176,106 @@ function SchoolAdminDashboard() {
         </>
       )}
 
-      {tab === "students" && (
+      {tab === "classes" && !openClass && (
+        <div className="grid gap-3 md:grid-cols-2">
+          {(data?.classes.length ?? 0) === 0 && <p className="opacity-70">{tr("Ei luokkia.")}</p>}
+          {(data?.classes ?? []).map((c) => {
+            const inClass = derived.rows.filter((r) => r.classId === c.id);
+            const avg = inClass.length
+              ? Math.round(inClass.reduce((a, r) => a + r.pct, 0) / inClass.length)
+              : 0;
+            return (
+              <StickyNote key={c.id} seed={`sa-cls-${c.id}`} className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setOpenClass(c.id)}
+                  className="text-left text-xl font-bold underline-offset-2 hover:underline"
+                >
+                  {c.name}
+                </button>
+                <div className="text-sm opacity-80">
+                  {tr("Opettaja")}: {c.teacherName ?? "—"}
+                </div>
+                <div className="text-sm">
+                  {tr("Opiskelijoita")}: {inClass.length} · {tr("Valmistuminen %")}: {avg} %
+                </div>
+              </StickyNote>
+            );
+          })}
+        </div>
+      )}
+
+      {tab === "classes" && openClass && !openStudent && (
+        <StickyNote seed={`sa-cls-detail-${openClass}`} className="space-y-3 overflow-x-auto">
+          <Breadcrumbs
+            items={[
+              { label: tr("Luokat"), onClick: () => setOpenClass(null) },
+              { label: data?.classes.find((c) => c.id === openClass)?.name ?? "" },
+            ]}
+          />
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-black/10">
+                <th className="py-2 pr-3">{tr("Nimi")}</th>
+                <th className="py-2 pr-3">{tr("Viimeksi aktiivinen")}</th>
+                <th className="py-2 pr-3">{tr("Valmistuminen %")}</th>
+                <th className="py-2">{tr("Tila")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {derived.rows
+                .filter((r) => r.classId === openClass)
+                .map((s) => (
+                  <tr key={s.id} className="border-b border-black/5">
+                    <td className="py-2 pr-3 font-medium">
+                      <button
+                        type="button"
+                        className="underline-offset-2 hover:underline"
+                        onClick={() => setOpenStudent(s.id)}
+                      >
+                        {s.name ?? "—"}
+                      </button>
+                    </td>
+                    <td className="py-2 pr-3 opacity-70">
+                      {formatLastActive(s.lastActive ? new Date(s.lastActive) : null, tr)}
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">{s.pct} %</td>
+                    <td className="py-2">
+                      <StatusPill
+                        status={studentStatus({
+                          pct: s.pct,
+                          currentScreen: s.currentScreen,
+                          lastActive: s.lastActive,
+                        })}
+                      />
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </StickyNote>
+      )}
+
+      {tab === "classes" && openClass && openStudent && (
+        <SchoolAdminPortfolio
+          userId={openStudent}
+          crumbs={[
+            tr("Luokat"),
+            data?.classes.find((c) => c.id === openClass)?.name ?? "",
+          ]}
+          onBack={() => setOpenStudent(null)}
+        />
+      )}
+
+      {tab === "students" && openStudent && (
+        <SchoolAdminPortfolio
+          userId={openStudent}
+          crumbs={[tr("Opiskelijat")]}
+          onBack={() => setOpenStudent(null)}
+        />
+      )}
+
+      {tab === "students" && !openStudent && (
         <StickyNote seed="sa-students" className="overflow-x-auto">
           {derived.rows.length === 0 ? (
             <p className="opacity-70">{tr("Ei opiskelijoita.")}</p>
@@ -184,17 +294,29 @@ function SchoolAdminDashboard() {
               <tbody>
                 {derived.rows.map((s) => (
                   <tr key={s.id} className="border-b border-black/5">
-                    <td className="py-2 pr-3 font-medium">{s.name ?? "—"}</td>
+                    <td className="py-2 pr-3 font-medium">
+                      <button
+                        type="button"
+                        className="underline-offset-2 hover:underline"
+                        onClick={() => setOpenStudent(s.id)}
+                      >
+                        {s.name ?? "—"}
+                      </button>
+                    </td>
                     <td className="py-2 pr-3 opacity-80">{s.email ?? "—"}</td>
                     <td className="py-2 pr-3">{s.className ?? "—"}</td>
-                    <td className="py-2 pr-3 opacity-70">{fmtDate(s.lastActive)}</td>
+                    <td className="py-2 pr-3 opacity-70">
+                      {formatLastActive(s.lastActive ? new Date(s.lastActive) : null, tr)}
+                    </td>
                     <td className="py-2 pr-3 tabular-nums">{s.pct} %</td>
                     <td className="py-2">
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-xs font-semibold ${statusTone(s.pct)}`}
-                      >
-                        {s.pct >= 60 ? tr("Aktiivinen") : s.pct >= 25 ? tr("Kesken") : tr("Ei aloitettu")}
-                      </span>
+                      <StatusPill
+                        status={studentStatus({
+                          pct: s.pct,
+                          currentScreen: s.currentScreen,
+                          lastActive: s.lastActive,
+                        })}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -525,5 +647,103 @@ function SchoolTopStrengths({
         )}
       </StickyNote>
     </>
+  );
+}
+
+export function StatusPill({ status }: { status: ReturnType<typeof studentStatus> }) {
+  const tr = useTr();
+  return (
+    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_TONE[status]}`}>
+      {tr(STATUS_LABEL[status])}
+    </span>
+  );
+}
+
+function Breadcrumbs({
+  items,
+}: {
+  items: Array<{ label: string; onClick?: () => void }>;
+}) {
+  return (
+    <nav className="flex flex-wrap items-center gap-1 text-sm opacity-80">
+      {items.map((it, i) => (
+        <span key={`${it.label}-${i}`} className="flex items-center gap-1">
+          {i > 0 && <span className="opacity-50">/</span>}
+          {it.onClick ? (
+            <button
+              type="button"
+              onClick={it.onClick}
+              className="underline-offset-2 hover:underline"
+            >
+              {it.label}
+            </button>
+          ) : (
+            <span className="font-semibold">{it.label}</span>
+          )}
+        </span>
+      ))}
+    </nav>
+  );
+}
+
+function SchoolAdminPortfolio({
+  userId,
+  crumbs,
+  onBack,
+}: {
+  userId: string;
+  crumbs: string[];
+  onBack: () => void;
+}) {
+  const tr = useTr();
+  const fetchPortfolio = useServerFn(getStudentPortfolio);
+  const [state, setState] = useState<{
+    name: string | null;
+    currentScreen: number | null;
+    responses: Map<string, unknown>;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetchPortfolio({ data: { userId } });
+        if (cancelled) return;
+        const m = new Map<string, unknown>();
+        for (const r of res.responses) m.set(r.field_key, r.value);
+        setState({ name: res.name, currentScreen: res.currentScreen, responses: m });
+      } catch (e) {
+        toast.error((e as Error).message);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchPortfolio, userId]);
+
+  if (!state) return <p className="opacity-70">{tr("Ladataan…")}</p>;
+
+  return (
+    <PortfolioView
+      name={state.name}
+      currentScreen={state.currentScreen}
+      responses={state.responses}
+      header={
+        <div className="space-y-2">
+          <Breadcrumbs
+            items={[
+              ...crumbs.map((c, i) => ({
+                label: c,
+                onClick: i === crumbs.length - 1 ? onBack : onBack,
+              })),
+              { label: `${state.name ?? tr("Opiskelija")} — ${tr("Portfolio")}` },
+            ]}
+          />
+          <Button variant="outline" className="rounded-full" onClick={onBack}>
+            {tr("Takaisin")}
+          </Button>
+        </div>
+      }
+    />
   );
 }
