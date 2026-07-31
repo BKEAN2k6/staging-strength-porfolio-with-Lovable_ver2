@@ -99,13 +99,14 @@ function SchoolAdminDashboard() {
     const students = data?.students ?? [];
     const rows = students.map((s) => {
       const filled = new Set(s.filledKeys);
-      const stats = computeStudentStats(filled);
+      const stats = computeStudentStats(filled, s.currentScreen ?? 1);
       return {
         ...s,
         screensFilled: stats.screensFilled,
         pct: Math.round((stats.screensFilled / TOTAL_REQUIRED) * 100),
-        worlds: worldCompletion(filled),
+        worlds: worldCompletion(filled, s.currentScreen ?? 1),
       };
+
     });
     const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
     const activeThisMonth = rows.filter(
