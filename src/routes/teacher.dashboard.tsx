@@ -606,29 +606,68 @@ function TeacherReports({
   students,
   classes,
   events,
+  assigned,
 }: {
   students: TeacherStudent[];
   classes: { id: string; name: string }[];
   events: ReportEvent[];
+  assigned: { student_id: string; strength_id: string }[];
 }) {
   const tr = useTr();
+  const { language } = useLanguage();
+  const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const [days, setDays] = useState<RangeDays>(30);
-  const atRisk = students.filter(
+  const [classFilter, setClassFilter] = useState<string>("all");
+
+  const shownClasses = useMemo(
+    () => (classFilter === "all" ? classes : classes.filter((c) => c.id === classFilter)),
+    [classes, classFilter],
+  );
+  const shownStudents = useMemo(
+    () => (classFilter === "all" ? students : students.filter((s) => s.classId === classFilter)),
+    [students, classFilter],
+  );
+  const shownEvents = useMemo(
+    () => (classFilter === "all" ? events : events.filter((e) => e.classId === classFilter)),
+    [events, classFilter],
+  );
+  const top = useMemo(
+    () => countStrengths(shownStudents, assigned).slice(0, 5),
+    [shownStudents, assigned],
+  );
+
+  const atRisk = shownStudents.filter(
     (s) => !s.lastActive || Date.now() - s.lastActive.getTime() > 14 * 24 * 3600 * 1000,
   );
+
   return (
     <>
       <StickyNote seed="t-reports" className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
-          <RangeSelector value={days} onChange={setDays} />
+          <div className="flex flex-wrap items-center gap-2">
+            <select
+              value={classFilter}
+              onChange={(e) => setClassFilter(e.target.value)}
+              aria-label={tr("Luokka")}
+              className="rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-semibold text-slate-900"
+            >
+              <option value="all">{tr("Kaikki luokat")}</option>
+              {classes.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <RangeSelector value={days} onChange={setDays} />
+          </div>
         </div>
         <p className="opacity-80">
-          {tr("Opiskelijoita")}: {students.length} · {tr("Luokkia")}: {classes.length}
+          {tr("Opiskelijoita")}: {shownStudents.length} · {tr("Luokkia")}: {shownClasses.length}
         </p>
         <ul className="space-y-1 text-sm">
-          {classes.map((c) => {
-            const inClass = students.filter((s) => s.classId === c.id);
+          {shownClasses.map((c) => {
+            const inClass = shownStudents.filter((s) => s.classId === c.id);
             const avg = inClass.length
               ? Math.round(inClass.reduce((a, s) => a + pctOf(s), 0) / inClass.length)
               : 0;
@@ -640,11 +679,31 @@ function TeacherReports({
           })}
         </ul>
       </StickyNote>
+
+      <StickyNote seed="t-report-top5" className="space-y-3">
+        <h3 className="text-xl font-bold">
+          {classFilter === "all" ? tr("Ryhmän suosituimmat vahvuudet") : tr("Luokan Top 5 vahvuudet")}
+        </h3>
+        {top.length === 0 ? (
+          <p className="opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
+        ) : (
+          <TopStrengthCards
+            items={top.map((x) => ({
+              id: x.id,
+              count: x.total,
+              caption: `${x.students} ${tr("opiskelijaa")}`,
+            }))}
+            lang={lang}
+          />
+        )}
+      </StickyNote>
+
       <ReportTrends
-        events={events}
+        events={shownEvents}
         days={days}
-        studentCount={students.length}
+        studentCount={shownStudents.length}
         totalRequired={TOTAL_REQUIRED}
+        classes={shownClasses}
         seedPrefix="t"
       />
       <StickyNote seed="t-risk" className="space-y-2">
@@ -663,6 +722,7 @@ function TeacherReports({
       </StickyNote>
     </>
   );
+
 }
 
 function CreateClass({ onDoneNoop, onCreated }: { onDoneNoop?: never; onCreated: () => Promise<void> }) {
