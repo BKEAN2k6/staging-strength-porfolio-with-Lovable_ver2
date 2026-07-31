@@ -461,6 +461,10 @@
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
   },
+  "Ei aktiivisuutta": {
+    "en": "No activity",
+    "sv": "Ingen aktivitet"
+  },
   "Ei aloitettu": {
     "en": "Not started",
     "sv": "Inte påbörjad"
@@ -484,6 +488,10 @@
   "Ei vielä vahvuuksia.": {
     "en": "No strengths yet.",
     "sv": "Inga styrkor ännu."
+  },
+  "Eilen": {
+    "en": "Yesterday",
+    "sv": "I går"
   },
   "Elämä tarjoaa minulle monia eri tapoja hyödyntää vahvuuksiani.": {
     "en": "Life offers me many different ways to use my strengths.",
@@ -2146,6 +2154,10 @@
     "en": "active",
     "sv": "aktiv"
   },
+  "juuri nyt": {
+    "en": "just now",
+    "sv": "just nu"
+  },
   "keskimääräinen valmistuminen": {
     "en": "avg completion",
     "sv": "genomsnittligt slutförande"
@@ -2189,5 +2201,17 @@
   "yhteensä": {
     "en": "total",
     "sv": "totalt"
+  },
+  "{n} min sitten": {
+    "en": "{n} min ago",
+    "sv": "{n} min sedan"
+  },
+  "{n} päivää sitten": {
+    "en": "{n} days ago",
+    "sv": "{n} dagar sedan"
+  },
+  "{n} t sitten": {
+    "en": "{n}h ago",
+    "sv": "{n} h sedan"
   }
 }
