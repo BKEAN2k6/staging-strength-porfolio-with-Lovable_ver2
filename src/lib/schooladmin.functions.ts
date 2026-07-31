@@ -115,7 +115,8 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
 
     const { data: classes } = await db
       .from("classes")
-      .select("id, name, teacher_id")
+      .select("id, name, teacher_id, join_code, language")
+
       .eq("is_deleted", false)
       .in("teacher_id", teacherIds.length ? teacherIds : ["00000000-0000-0000-0000-000000000000"]);
 
