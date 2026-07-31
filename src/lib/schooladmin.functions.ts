@@ -285,7 +285,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       id: c.id,
       name: c.name,
       teacherName: nameOf.get(c.teacher_id) ?? null,
+      joinCode: c.join_code ?? null,
+      language: c.language ?? null,
     }));
+
 
 
     return {
