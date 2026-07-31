@@ -266,69 +266,42 @@ function StudentTable({
   );
 }
 
-function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: () => void }) {
+function StudentDetail({
+  student,
+  gifts,
+  onBack,
+}: {
+  student: TeacherStudent;
+  gifts: { id: string; student_id: string; strength_id: string; message: string | null; created_at: string }[];
+  onBack: () => void;
+}) {
   const tr = useTr();
-  const worlds = useMemo(() => worldCompletion(new Set(student.filledKeys)), [student.filledKeys]);
-  const pct = pctOf(student);
+  const mine = gifts.filter((g) => g.student_id === student.studentId);
 
   return (
-    <StickyNote seed={`student-${student.studentId}`} className="space-y-4">
-      <Button variant="outline" className="rounded-full" onClick={onBack}>
-        {tr("Takaisin")}
-      </Button>
-      <div>
-        <h2 className="text-2xl font-bold">
-          {student.displayName?.trim() || student.studentId.slice(0, 8)}
-        </h2>
-        <p className="text-sm opacity-80">
-          {tr("Luokka")}: {student.className} · {tr("Viimeksi aktiivinen")}:{" "}
-          {formatLastActive(student.lastActive, tr)}
-        </p>
-      </div>
-
-      <div className="space-y-1">
-        <div className="flex justify-between text-xs font-semibold">
-          <span>
-            {tr("Näytöt")}: {student.screensFilled} / {TOTAL_REQUIRED}
-          </span>
-          <span>{pct} %</span>
-        </div>
-        <div className="h-4 w-full overflow-hidden rounded-full bg-black/10">
-          <div
-            className="h-full rounded-full bg-[color:var(--coral)]"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
-      </div>
-
-      <div className="space-y-1">
-        <h3 className="font-bold">{tr("Tasojen valmistuminen")}</h3>
-        {worlds.map((w, i) => {
-          const meta = WORLDS[i];
-          const state = w.done === 0 ? "Ei aloitettu" : w.done === w.total ? "Valmis" : "Kesken";
-          return (
-            <div key={w.id} className="flex justify-between border-b border-black/5 py-1 text-sm">
-              <span>
-                <><WorldIcon id={meta.id} size={18} className="inline align-[-3px]" /> {tr(meta.title)}</>
-              </span>
-              <span className="tabular-nums opacity-80">
-                {w.done}/{w.total} · {tr(state)}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
-      <Link
-        to="/opettaja/oppilas/$userId"
-        params={{ userId: student.studentId }}
-        className="inline-flex items-center gap-1 rounded-full bg-[color:var(--purple)] px-4 py-2 text-sm font-semibold text-white hover:bg-[color:var(--purple)]/90"
-      >
-        {tr("Avaa portfolio")} <ExternalLink className="h-3 w-3" />
-      </Link>
-    </StickyNote>
+    <StudentDetailReport
+      name={student.displayName?.trim() || student.studentId.slice(0, 8)}
+      className={student.className}
+      lastActive={student.lastActive}
+      currentScreen={student.currentScreen}
+      screensFilled={student.screensFilled}
+      filledKeys={student.filledKeys}
+      strengthIds={student.strengthIds}
+      gifts={mine}
+      onBack={onBack}
+      portfolioAction={
+        <Link
+          to="/opettaja/oppilas/$userId"
+          params={{ userId: student.studentId }}
+          className="inline-flex items-center gap-1 rounded-full bg-[color:var(--purple)] px-4 py-2 text-sm font-semibold text-white hover:bg-[color:var(--purple)]/90"
+        >
+          {tr("Avaa portfolio")} <ExternalLink className="h-3 w-3" />
+        </Link>
+      }
+    />
   );
 }
+
 
 function AssignStrengths({
   classes,
