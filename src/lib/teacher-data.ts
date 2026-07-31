@@ -165,8 +165,9 @@ export function useClassRoster(classId: string | null): {
       const out: RosterStudent[] = rows.map((m) => {
         const id = m.student_id;
         const filled = filledPerStudent.get(id) ?? new Set<string>();
-        const stats = computeStudentStats(filled);
         const prof = profMap.get(id);
+        const stats = computeStudentStats(filled, prof?.current_screen ?? 1);
+
         return {
           studentId: id,
           displayName: prof?.display_name ?? null,
