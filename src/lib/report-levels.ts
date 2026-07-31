@@ -32,12 +32,8 @@ for (const w of WORLDS) {
  */
 export function buildLevelCompletion(
   events: ReportEvent[],
-  opts: { days: RangeDays; studentCount: number },
+  opts: { days?: RangeDays; studentCount: number },
 ): LevelCompletion[] {
-  const cutoff = new Date();
-  cutoff.setUTCDate(cutoff.getUTCDate() - (opts.days - 1));
-  cutoff.setUTCHours(0, 0, 0, 0);
-
   const seen = new Map<WorldId, Set<string>>();
   for (const w of WORLDS) seen.set(w.id, new Set());
 
