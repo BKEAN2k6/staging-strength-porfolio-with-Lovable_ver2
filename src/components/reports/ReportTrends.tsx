@@ -127,45 +127,10 @@ export function ReportTrends({
 
   return (
     <>
-      <ChartCard seed={`${seedPrefix}-growth`} title={tr("Vahvuuksien keräämisen kasvu")}>
-        <AreaChart data={series} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-          <defs>
-            <linearGradient id={`${seedPrefix}-fill`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={PURPLE} stopOpacity={0.6} />
-              <stop offset="100%" stopColor={PURPLE} stopOpacity={0.05} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
-          <XAxis dataKey="label" {...axisProps} />
-          <YAxis {...axisProps} allowDecimals={false} />
-          <Tooltip formatter={(v: number) => [v, tr("Kerätyt vahvuudet")]} />
-          <Area
-            type="monotone"
-            dataKey="strengths"
-            stroke={PURPLE}
-            strokeWidth={3}
-            fill={`url(#${seedPrefix}-fill)`}
-            name={tr("Kerätyt vahvuudet")}
-          />
-        </AreaChart>
-      </ChartCard>
+      <StrengthGrowthCard events={events} days={days} seed={`${seedPrefix}-growth`} />
 
-      <ChartCard seed={`${seedPrefix}-completion`} title={tr("Valmistumisen edistyminen")}>
-        <LineChart data={series} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-          <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
-          <XAxis dataKey="label" {...axisProps} />
-          <YAxis {...axisProps} unit="%" />
-          <Tooltip formatter={(v: number) => [`${v} %`, tr("Keskimääräinen valmistuminen %")]} />
-          <Line
-            type="monotone"
-            dataKey="completion"
-            stroke={CORAL}
-            strokeWidth={3}
-            dot={false}
-            name={tr("Keskimääräinen valmistuminen %")}
-          />
-        </LineChart>
-      </ChartCard>
+      <LevelCompletionCard events={events} studentCount={studentCount} seed={`${seedPrefix}-levels`} />
+
 
       <ChartCard seed={`${seedPrefix}-active`} title={tr("Aktiiviset opiskelijat")}>
         <BarChart data={series} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
