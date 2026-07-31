@@ -290,7 +290,7 @@ function ClassDashboard({ c, tone }: { c: ClassRow; tone: "white" | "yellow" }) 
 
       <div className="mt-3 grid gap-2 sm:grid-cols-4 rounded-2xl bg-black/5 p-3 text-sm">
         <Stat label={t("teacher.classCard.students")} value={String(stats.totalStudents)} />
-        <Stat label={t("teacher.classCard.avg")} value={stats.totalStudents ? stats.worldLabel : "–"} />
+        <Stat label={t("teacher.classCard.avg")} value={stats.totalStudents ? t("Taso {n}", { n: stats.worldNumber }) : "–"} />
         <Stat
           label={t("teacher.classCard.screensAvg")}
           value={
@@ -299,7 +299,7 @@ function ClassDashboard({ c, tone }: { c: ClassRow; tone: "white" | "yellow" }) 
               : "–"
           }
         />
-        <Stat label={t("teacher.classCard.lastActive")} value={formatLastActive(stats.lastActivity)} />
+        <Stat label={t("teacher.classCard.lastActive")} value={formatLastActive(stats.lastActivity, t)} />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -391,7 +391,7 @@ function RosterTable({ students }: { students: RosterStudent[] }) {
                 <strong>{s.screensFilled}</strong>/{s.totalRequiredScreens}
               </td>
               <td className="px-3 py-2 tabular-nums">{s.worldsCompleted} / 7</td>
-              <td className="px-3 py-2">{formatLastActive(s.lastActive)}</td>
+              <td className="px-3 py-2">{formatLastActive(s.lastActive, t)}</td>
               <td className="px-3 py-2 text-right">
                 <Link
                   to="/opettaja/oppilas/$userId"

@@ -12,7 +12,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRoleGuard } from "@/lib/role-guard";
 import { useLanguage, useTr, LANGUAGES, LANGUAGE_LABEL, type Language } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
-import { formatLastActive, TOTAL_REQUIRED, worldCompletion } from "@/lib/teacher-data";
+import {
+  formatLastActive,
+  studentStatus,
+  STATUS_LABEL,
+  STATUS_TONE,
+  TOTAL_REQUIRED,
+  worldCompletion,
+} from "@/lib/teacher-data";
 import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/teacher-dashboard-data";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
@@ -229,22 +236,27 @@ function StudentTable({
                 </button>
               </td>
               {showClass && <td className="py-2 pr-3">{s.className}</td>}
-              <td className="py-2 pr-3 opacity-70">{formatLastActive(s.lastActive)}</td>
+              <td className="py-2 pr-3 opacity-70">{formatLastActive(s.lastActive, tr)}</td>
               <td className="py-2 pr-3 tabular-nums">{s.currentScreen}</td>
               <td className="py-2 pr-3 tabular-nums">{pct} %</td>
               <td className="py-2">
-                <span
-                  className={cn(
-                    "rounded-full px-2 py-0.5 text-xs font-semibold",
-                    pct >= 60
-                      ? "bg-green-600/15 text-green-800"
-                      : pct >= 25
-                        ? "bg-yellow-500/25 text-yellow-900"
-                        : "bg-red-600/15 text-red-800",
-                  )}
-                >
-                  {pct >= 60 ? tr("Valmis") : pct >= 25 ? tr("Kesken") : tr("Ei aloitettu")}
-                </span>
+                {(() => {
+                  const status = studentStatus({
+                    pct,
+                    currentScreen: s.currentScreen,
+                    lastActive: s.lastActive,
+                  });
+                  return (
+                    <span
+                      className={cn(
+                        "rounded-full px-2 py-0.5 text-xs font-semibold",
+                        STATUS_TONE[status],
+                      )}
+                    >
+                      {tr(STATUS_LABEL[status])}
+                    </span>
+                  );
+                })()}
               </td>
             </tr>
           );
@@ -270,7 +282,7 @@ function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: (
         </h2>
         <p className="text-sm opacity-80">
           {tr("Luokka")}: {student.className} · {tr("Viimeksi aktiivinen")}:{" "}
-          {formatLastActive(student.lastActive)}
+          {formatLastActive(student.lastActive, tr)}
         </p>
       </div>
 
