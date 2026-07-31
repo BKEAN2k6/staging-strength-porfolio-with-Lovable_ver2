@@ -369,6 +369,7 @@ function EmptyState({ code }: { code: string }) {
 
 function RosterTable({ students }: { students: RosterStudent[] }) {
   const t = useT();
+  const tr = useTr();
   return (
     <div className="overflow-x-auto rounded-2xl border border-black/10 bg-white/60">
       <table className="w-full text-sm">

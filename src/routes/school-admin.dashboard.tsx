@@ -707,7 +707,11 @@ function SchoolAdminPortfolio({
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetchPortfolio({ data: { userId } });
+        const res = (await fetchPortfolio({ data: { userId } })) as {
+          name: string | null;
+          currentScreen: number | null;
+          responses: { field_key: string; value: unknown }[];
+        };
         if (cancelled) return;
         const m = new Map<string, unknown>();
         for (const r of res.responses) m.set(r.field_key, r.value);
