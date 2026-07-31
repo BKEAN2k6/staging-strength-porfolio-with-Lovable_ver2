@@ -413,18 +413,24 @@ function Karkkikauppa({ onSaveStateChange }: Props) {
             {tr("Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?")}
           </p>
           <ol className="grid gap-1 text-sm sm:grid-cols-2">
-            {KARKKIKAUPPA_STRENGTHS.map((s, i) => {
+            {KARKKIKAUPPA_STRENGTHS.map((_s, i) => {
               const chosen = picks.includes(i);
               return (
                 <li
                   key={i}
                   className={cn(
-                    "flex items-baseline gap-2 rounded-lg px-2 py-1",
-                    chosen && "bg-[color:var(--coral)]/20 font-bold",
+                    "flex items-baseline gap-2 rounded-lg border-l-4 px-2 py-1 text-slate-900",
+                    chosen && "font-bold",
                   )}
+                  style={{
+                    borderLeftColor: getStrengthColor(i + 1),
+                    background: chosen
+                      ? `color-mix(in srgb, ${getStrengthColor(i + 1)} 45%, white)`
+                      : undefined,
+                  }}
                 >
                   <span className="font-mono text-xs opacity-60 w-6">{i + 1}.</span>
-                  <span>{tr(s)}</span>
+                  <span className="break-words">{getStrengthName(i + 1, lang)}</span>
                 </li>
               );
             })}
