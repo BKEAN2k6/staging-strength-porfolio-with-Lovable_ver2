@@ -1,3 +1,4 @@
+import { TOTAL_REQUIRED } from "@/lib/teacher-data";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useCallback, useEffect, useState } from "react";
@@ -118,9 +119,10 @@ function SchoolDetailPage() {
               </td>
               {showScreen && (
                 <td className="py-2 pr-3">
-                  {Math.round(((u.currentScreen ?? 1) / 106) * 100)}%
+                  {Math.min(100, Math.round(((u.currentScreen ?? 1) / TOTAL_REQUIRED) * 100))}%
                 </td>
               )}
+
               <td className="py-2">
                 <div className="flex flex-wrap gap-1.5">
                   <Button

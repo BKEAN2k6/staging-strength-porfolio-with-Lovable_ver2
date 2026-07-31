@@ -8,6 +8,11 @@ export interface TranslationPair {
 }
 
 export const TRANSLATIONS: Record<string, TranslationPair> = {
+  "Opiskelijan Top 5 vahvuudet": { en: "Student's Top 5 Strengths", sv: "Elevens topp 5 styrkor" },
+  "Luokan Top 5 vahvuudet": { en: "Class Top 5 Strengths", sv: "Klassens topp 5 styrkor" },
+  "Kaikki luokat": { en: "All classes", sv: "Alla klasser" },
+  "Vahvuuskokoelma": { en: "Strength Collection", sv: "Styrkesamling" },
+  "Järjestä": { en: "Sort", sv: "Sortera" },
   "Ladataan…": { en: "Loading…", sv: "Laddar…" },
   "Valmis": { en: "Ready", sv: "Klar" },
   "Tallennetaan…": { en: "Saving…", sv: "Sparar…" },

@@ -25,6 +25,8 @@ import {
 import { PortfolioView } from "@/components/portfolio/PortfolioView";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
+import { StudentDetailReport } from "@/components/students/StudentDetailReport";
+
 import { useLanguage } from "@/lib/i18n";
 import {
   getSchoolAdminData,
@@ -33,9 +35,10 @@ import {
   promoteToSchoolAdmin,
   getStudentPortfolio,
   type SchoolAdminData,
+  type SchoolAdminClass,
 } from "@/lib/schooladmin.functions";
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
-import type { RangeDays } from "@/lib/report-series";
+import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
 export const Route = createFileRoute("/school-admin/dashboard")({
   head: () => ({
@@ -71,6 +74,7 @@ function SchoolAdminDashboard() {
   const [days, setDays] = useState<RangeDays>(30);
   const [openClass, setOpenClass] = useState<string | null>(null);
   const [openStudent, setOpenStudent] = useState<string | null>(null);
+  const [showPortfolio, setShowPortfolio] = useState(false);
 
   const [data, setData] = useState<SchoolAdminData | null>(null);
 
@@ -95,12 +99,12 @@ function SchoolAdminDashboard() {
     const students = data?.students ?? [];
     const rows = students.map((s) => {
       const filled = new Set(s.filledKeys);
-      const stats = computeStudentStats(filled);
+      const stats = computeStudentStats(filled, s.currentScreen ?? 1);
       return {
         ...s,
         screensFilled: stats.screensFilled,
         pct: Math.round((stats.screensFilled / TOTAL_REQUIRED) * 100),
-        worlds: worldCompletion(filled),
+        worlds: worldCompletion(filled, s.currentScreen ?? 1),
       };
     });
     const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
@@ -172,7 +176,6 @@ function SchoolAdminDashboard() {
             />
           </div>
           <SchoolTopStrengths data={data} lang={lang} />
-
         </>
       )}
 
@@ -206,74 +209,77 @@ function SchoolAdminDashboard() {
       )}
 
       {tab === "classes" && openClass && !openStudent && (
-        <StickyNote seed={`sa-cls-detail-${openClass}`} className="space-y-3 overflow-x-auto">
-          <Breadcrumbs
-            items={[
-              { label: tr("Luokat"), onClick: () => setOpenClass(null) },
-              { label: data?.classes.find((c) => c.id === openClass)?.name ?? "" },
-            ]}
-          />
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-black/10">
-                <th className="py-2 pr-3">{tr("Nimi")}</th>
-                <th className="py-2 pr-3">{tr("Viimeksi aktiivinen")}</th>
-                <th className="py-2 pr-3">{tr("Valmistuminen %")}</th>
-                <th className="py-2">{tr("Tila")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {derived.rows
-                .filter((r) => r.classId === openClass)
-                .map((s) => (
-                  <tr key={s.id} className="border-b border-black/5">
-                    <td className="py-2 pr-3 font-medium">
-                      <button
-                        type="button"
-                        className="underline-offset-2 hover:underline"
-                        onClick={() => setOpenStudent(s.id)}
-                      >
-                        {s.name ?? "—"}
-                      </button>
-                    </td>
-                    <td className="py-2 pr-3 opacity-70">
-                      {formatLastActive(s.lastActive ? new Date(s.lastActive) : null, tr)}
-                    </td>
-                    <td className="py-2 pr-3 tabular-nums">{s.pct} %</td>
-                    <td className="py-2">
-                      <StatusPill
-                        status={studentStatus({
-                          pct: s.pct,
-                          currentScreen: s.currentScreen,
-                          lastActive: s.lastActive,
-                        })}
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </StickyNote>
-      )}
-
-      {tab === "classes" && openClass && openStudent && (
-        <SchoolAdminPortfolio
-          userId={openStudent}
-          crumbs={[
-            tr("Luokat"),
-            data?.classes.find((c) => c.id === openClass)?.name ?? "",
-          ]}
-          onBack={() => setOpenStudent(null)}
+        <SchoolAdminClassReport
+          cls={data?.classes.find((c) => c.id === openClass) ?? null}
+          rows={derived.rows.filter((r) => r.classId === openClass)}
+          events={(data?.events ?? []).filter((e) => e.classId === openClass)}
+          lang={lang}
+          onBack={() => setOpenClass(null)}
+          onOpenStudent={(id) => {
+            setOpenStudent(id);
+            setShowPortfolio(false);
+          }}
         />
       )}
 
-      {tab === "students" && openStudent && (
+      {openStudent && showPortfolio && (tab === "classes" || tab === "students") && (
         <SchoolAdminPortfolio
           userId={openStudent}
-          crumbs={[tr("Opiskelijat")]}
-          onBack={() => setOpenStudent(null)}
+          crumbs={
+            tab === "classes"
+              ? [tr("Luokat"), data?.classes.find((c) => c.id === openClass)?.name ?? ""]
+              : [tr("Opiskelijat")]
+          }
+          onBack={() => setShowPortfolio(false)}
         />
       )}
+
+      {openStudent &&
+        !showPortfolio &&
+        (tab === "classes" || tab === "students") &&
+        (() => {
+          const s = derived.rows.find((r) => r.id === openStudent);
+          if (!s) return null;
+          return (
+            <StudentDetailReport
+              name={s.name}
+              className={s.className}
+              email={s.email}
+              lastActive={s.lastActive}
+              currentScreen={s.currentScreen}
+              screensFilled={s.screensFilled}
+              filledKeys={s.filledKeys}
+              strengthIds={s.strengthIds}
+              header={
+                <Breadcrumbs
+                  items={[
+                    tab === "classes"
+                      ? { label: tr("Luokat"), onClick: () => setOpenStudent(null) }
+                      : { label: tr("Opiskelijat"), onClick: () => setOpenStudent(null) },
+                    ...(tab === "classes"
+                      ? [
+                          {
+                            label: data?.classes.find((c) => c.id === openClass)?.name ?? "",
+                            onClick: () => setOpenStudent(null),
+                          },
+                        ]
+                      : []),
+                    { label: s.name ?? tr("Opiskelija") },
+                  ]}
+                />
+              }
+              onBack={() => setOpenStudent(null)}
+              portfolioAction={
+                <Button
+                  className="rounded-full bg-[color:var(--purple)] text-white hover:bg-[color:var(--purple)]/90"
+                  onClick={() => setShowPortfolio(true)}
+                >
+                  {tr("Avaa portfolio")}
+                </Button>
+              }
+            />
+          );
+        })()}
 
       {tab === "students" && !openStudent && (
         <StickyNote seed="sa-students" className="overflow-x-auto">
@@ -659,11 +665,7 @@ export function StatusPill({ status }: { status: ReturnType<typeof studentStatus
   );
 }
 
-function Breadcrumbs({
-  items,
-}: {
-  items: Array<{ label: string; onClick?: () => void }>;
-}) {
+function Breadcrumbs({ items }: { items: Array<{ label: string; onClick?: () => void }> }) {
   return (
     <nav className="flex flex-wrap items-center gap-1 text-sm opacity-80">
       {items.map((it, i) => (
@@ -749,5 +751,209 @@ function SchoolAdminPortfolio({
         </div>
       }
     />
+  );
+}
+
+/* ---------- School admin: full class report ---------- */
+
+interface ClassRow {
+  id: string;
+  name: string | null;
+  email: string | null;
+  className: string | null;
+  classId: string | null;
+  strengthIds: number[];
+  currentScreen: number;
+  lastActive: string | null;
+  filledKeys: string[];
+  screensFilled: number;
+  pct: number;
+  worlds: Array<{ id: string; done: number; total: number }>;
+}
+
+type ClassSort = "progress" | "name" | "active";
+
+function SchoolAdminClassReport({
+  cls,
+  rows,
+  events,
+  lang,
+  onBack,
+  onOpenStudent,
+}: {
+  cls: SchoolAdminClass | null;
+  rows: ClassRow[];
+  events: ReportEvent[];
+  lang: "fi" | "sv" | "en";
+  onBack: () => void;
+  onOpenStudent: (id: string) => void;
+}) {
+  const tr = useTr();
+  const [days, setDays] = useState<RangeDays>(30);
+  const [sort, setSort] = useState<ClassSort>("progress");
+
+  const top = useMemo(() => tally(rows).slice(0, 5), [rows]);
+  const avg = rows.length ? Math.round(rows.reduce((a, r) => a + r.pct, 0) / rows.length) : 0;
+
+  const levels = useMemo(
+    () =>
+      WORLDS.map((w, i) => {
+        let done = 0;
+        let total = 0;
+        for (const r of rows) {
+          const x = r.worlds[i];
+          if (!x) continue;
+          done += x.done;
+          total += x.total;
+        }
+        return { id: w.id, title: w.title, pct: total ? Math.round((done / total) * 100) : 0 };
+      }),
+    [rows],
+  );
+
+  const sorted = useMemo(() => {
+    const copy = [...rows];
+    if (sort === "name") copy.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+    else if (sort === "active")
+      copy.sort(
+        (a, b) => new Date(b.lastActive ?? 0).getTime() - new Date(a.lastActive ?? 0).getTime(),
+      );
+    else copy.sort((a, b) => b.pct - a.pct);
+    return copy;
+  }, [rows, sort]);
+
+  return (
+    <>
+      <StickyNote seed={`sa-cls-hdr-${cls?.id ?? "x"}`} className="space-y-3">
+        <Breadcrumbs
+          items={[{ label: tr("Luokat"), onClick: onBack }, { label: cls?.name ?? "" }]}
+        />
+        <h2 className="text-2xl font-bold">{cls?.name ?? "—"}</h2>
+        <p className="text-sm opacity-80">
+          {tr("Opettaja")}: {cls?.teacherName ?? "—"} · {tr("Kieli")}:{" "}
+          {(cls?.language ?? "fi").toUpperCase()} · {tr("Opiskelijoita")}: {rows.length} ·{" "}
+          {tr("Keskimääräinen valmistuminen")}: {avg} %
+        </p>
+        {cls?.joinCode && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full"
+            onClick={() => {
+              void navigator.clipboard.writeText(cls.joinCode ?? "");
+              toast.success(tr("Kopioitu!"));
+            }}
+          >
+            <Copy className="mr-1 h-3 w-3" />
+            {tr("Liittymiskoodi")}: {cls.joinCode}
+          </Button>
+        )}
+      </StickyNote>
+
+      <StickyNote seed={`sa-cls-top5-${cls?.id ?? "x"}`} className="space-y-3">
+        <h3 className="text-xl font-bold">{tr("Luokan Top 5 vahvuudet")}</h3>
+        {top.length === 0 ? (
+          <p className="opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
+        ) : (
+          <TopStrengthCards
+            items={top.map((s) => ({
+              id: s.id,
+              count: s.count,
+              caption: `${s.students} ${tr("oppilasta")}`,
+            }))}
+            lang={lang}
+          />
+        )}
+      </StickyNote>
+
+      <StickyNote seed={`sa-cls-range-${cls?.id ?? "x"}`} className="space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-xl font-bold">{tr("Raportit")}</h3>
+          <RangeSelector value={days} onChange={setDays} />
+        </div>
+      </StickyNote>
+
+      <ReportTrends
+        events={events}
+        days={days}
+        studentCount={rows.length}
+        totalRequired={TOTAL_REQUIRED}
+        seedPrefix={`sa-cls-${cls?.id ?? "x"}`}
+      />
+
+      <StickyNote seed={`sa-cls-levels-${cls?.id ?? "x"}`} className="space-y-2">
+        <h3 className="text-xl font-bold">{tr("Tasojen valmistuminen")}</h3>
+        <ul className="space-y-2">
+          {levels.map((l) => (
+            <li key={l.id} className="flex items-center gap-3 text-sm">
+              <span className="w-28 shrink-0 font-medium">{tr(l.title)}</span>
+              <span className="h-3 flex-1 overflow-hidden rounded-full bg-black/10">
+                <span
+                  className="block h-full rounded-full bg-[color:var(--purple)]"
+                  style={{ width: `${l.pct}%` }}
+                />
+              </span>
+              <span className="w-12 shrink-0 text-right tabular-nums">{l.pct} %</span>
+            </li>
+          ))}
+        </ul>
+      </StickyNote>
+
+      <StickyNote seed={`sa-cls-students-${cls?.id ?? "x"}`} className="space-y-3 overflow-x-auto">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-xl font-bold">{tr("Opiskelijat")}</h3>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as ClassSort)}
+            aria-label={tr("Järjestä")}
+            className="rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-semibold text-slate-900"
+          >
+            <option value="progress">{tr("Valmistuminen %")}</option>
+            <option value="name">{tr("Nimi")}</option>
+            <option value="active">{tr("Viimeksi aktiivinen")}</option>
+          </select>
+        </div>
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="border-b border-black/10">
+              <th className="py-2 pr-3">{tr("Nimi")}</th>
+              <th className="py-2 pr-3">{tr("Viimeksi aktiivinen")}</th>
+              <th className="py-2 pr-3">{tr("Nykyinen näyttö")}</th>
+              <th className="py-2 pr-3">{tr("Valmistuminen %")}</th>
+              <th className="py-2">{tr("Tila")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((s) => (
+              <tr key={s.id} className="border-b border-black/5 hover:bg-black/5">
+                <td className="py-2 pr-3 font-medium">
+                  <button
+                    type="button"
+                    className="underline-offset-2 hover:underline"
+                    onClick={() => onOpenStudent(s.id)}
+                  >
+                    {s.name ?? "—"}
+                  </button>
+                </td>
+                <td className="py-2 pr-3 opacity-70">
+                  {formatLastActive(s.lastActive ? new Date(s.lastActive) : null, tr)}
+                </td>
+                <td className="py-2 pr-3 tabular-nums">{s.currentScreen}</td>
+                <td className="py-2 pr-3 tabular-nums">{s.pct} %</td>
+                <td className="py-2">
+                  <StatusPill
+                    status={studentStatus({
+                      pct: s.pct,
+                      currentScreen: s.currentScreen,
+                      lastActive: s.lastActive,
+                    })}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </StickyNote>
+    </>
   );
 }

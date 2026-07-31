@@ -20,12 +20,18 @@ import {
   TOTAL_REQUIRED,
   worldCompletion,
 } from "@/lib/teacher-data";
-import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/teacher-dashboard-data";
+import {
+  useTeacherData,
+  type TeacherStudent,
+  type TeacherClass,
+} from "@/lib/teacher-dashboard-data";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
 import { WorldIcon } from "@/components/icons/AppIcons";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
+import { StudentDetailReport } from "@/components/students/StudentDetailReport";
+
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
 import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
@@ -167,7 +173,11 @@ function TeacherDashboardPage() {
       )}
 
       {tab === "students" && selectedStudent && (
-        <StudentDetail student={selectedStudent} onBack={() => setOpenStudent(null)} />
+        <StudentDetail
+          student={selectedStudent}
+          gifts={assigned}
+          onBack={() => setOpenStudent(null)}
+        />
       )}
 
       {tab === "strengths" && (
@@ -181,7 +191,7 @@ function TeacherDashboardPage() {
       )}
 
       {tab === "reports" && (
-        <TeacherReports students={students} classes={classes} events={events} />
+        <TeacherReports students={students} classes={classes} events={events} assigned={assigned} />
       )}
 
       {tab === "settings" && (
@@ -266,67 +276,45 @@ function StudentTable({
   );
 }
 
-function StudentDetail({ student, onBack }: { student: TeacherStudent; onBack: () => void }) {
+function StudentDetail({
+  student,
+  gifts,
+  onBack,
+}: {
+  student: TeacherStudent;
+  gifts: {
+    id: string;
+    student_id: string;
+    strength_id: string;
+    message: string | null;
+    created_at: string;
+  }[];
+  onBack: () => void;
+}) {
   const tr = useTr();
-  const worlds = useMemo(() => worldCompletion(new Set(student.filledKeys)), [student.filledKeys]);
-  const pct = pctOf(student);
+  const mine = gifts.filter((g) => g.student_id === student.studentId);
 
   return (
-    <StickyNote seed={`student-${student.studentId}`} className="space-y-4">
-      <Button variant="outline" className="rounded-full" onClick={onBack}>
-        {tr("Takaisin")}
-      </Button>
-      <div>
-        <h2 className="text-2xl font-bold">
-          {student.displayName?.trim() || student.studentId.slice(0, 8)}
-        </h2>
-        <p className="text-sm opacity-80">
-          {tr("Luokka")}: {student.className} · {tr("Viimeksi aktiivinen")}:{" "}
-          {formatLastActive(student.lastActive, tr)}
-        </p>
-      </div>
-
-      <div className="space-y-1">
-        <div className="flex justify-between text-xs font-semibold">
-          <span>
-            {tr("Näytöt")}: {student.screensFilled} / {TOTAL_REQUIRED}
-          </span>
-          <span>{pct} %</span>
-        </div>
-        <div className="h-4 w-full overflow-hidden rounded-full bg-black/10">
-          <div
-            className="h-full rounded-full bg-[color:var(--coral)]"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
-      </div>
-
-      <div className="space-y-1">
-        <h3 className="font-bold">{tr("Tasojen valmistuminen")}</h3>
-        {worlds.map((w, i) => {
-          const meta = WORLDS[i];
-          const state = w.done === 0 ? "Ei aloitettu" : w.done === w.total ? "Valmis" : "Kesken";
-          return (
-            <div key={w.id} className="flex justify-between border-b border-black/5 py-1 text-sm">
-              <span>
-                <><WorldIcon id={meta.id} size={18} className="inline align-[-3px]" /> {tr(meta.title)}</>
-              </span>
-              <span className="tabular-nums opacity-80">
-                {w.done}/{w.total} · {tr(state)}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
-      <Link
-        to="/opettaja/oppilas/$userId"
-        params={{ userId: student.studentId }}
-        className="inline-flex items-center gap-1 rounded-full bg-[color:var(--purple)] px-4 py-2 text-sm font-semibold text-white hover:bg-[color:var(--purple)]/90"
-      >
-        {tr("Avaa portfolio")} <ExternalLink className="h-3 w-3" />
-      </Link>
-    </StickyNote>
+    <StudentDetailReport
+      name={student.displayName?.trim() || student.studentId.slice(0, 8)}
+      className={student.className}
+      lastActive={student.lastActive}
+      currentScreen={student.currentScreen}
+      screensFilled={student.screensFilled}
+      filledKeys={student.filledKeys}
+      strengthIds={student.strengthIds}
+      gifts={mine}
+      onBack={onBack}
+      portfolioAction={
+        <Link
+          to="/opettaja/oppilas/$userId"
+          params={{ userId: student.studentId }}
+          className="inline-flex items-center gap-1 rounded-full bg-[color:var(--purple)] px-4 py-2 text-sm font-semibold text-white hover:bg-[color:var(--purple)]/90"
+        >
+          {tr("Avaa portfolio")} <ExternalLink className="h-3 w-3" />
+        </Link>
+      }
+    />
   );
 }
 
@@ -339,7 +327,13 @@ function AssignStrengths({
 }: {
   classes: TeacherClass[];
   students: TeacherStudent[];
-  assigned: { id: string; student_id: string; strength_id: string; message: string | null; created_at: string }[];
+  assigned: {
+    id: string;
+    student_id: string;
+    strength_id: string;
+    message: string | null;
+    created_at: string;
+  }[];
   teacherId: string | null;
   onDone: () => Promise<void>;
 }) {
@@ -361,8 +355,7 @@ function AssignStrengths({
   const nameOf = (id: string) =>
     unique.find((s) => s.studentId === id)?.displayName?.trim() || id.slice(0, 8);
 
-  const classNameOf = (id: string) =>
-    unique.find((s) => s.studentId === id)?.className ?? "—";
+  const classNameOf = (id: string) => unique.find((s) => s.studentId === id)?.className ?? "—";
 
   const inClass = useMemo(
     () => (classId ? unique.filter((s) => s.classId === classId) : []),
@@ -428,9 +421,7 @@ function AssignStrengths({
               onChange={(e) => setStudentId(e.target.value)}
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm disabled:opacity-50"
             >
-              <option value="">
-                {classId ? "—" : tr("Valitse ensin luokka")}
-              </option>
+              <option value="">{classId ? "—" : tr("Valitse ensin luokka")}</option>
               {inClass.map((s) => (
                 <option key={s.studentId} value={s.studentId}>
                   {s.displayName?.trim() || s.studentId.slice(0, 8)}
@@ -454,9 +445,7 @@ function AssignStrengths({
                 aria-pressed={strengthId === s.id}
                 className={cn(
                   "flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-2 text-left text-xs font-medium text-[color:var(--ink)] transition-all hover:-translate-y-0.5",
-                  strengthId === s.id
-                    ? "border-[color:var(--coral)] shadow-md"
-                    : "border-black/10",
+                  strengthId === s.id ? "border-[color:var(--coral)] shadow-md" : "border-black/10",
                 )}
               >
                 <span
@@ -523,7 +512,10 @@ function AssignStrengths({
 }
 
 /** Counts every collected strength id for a set of students (+ teacher gifts). */
-function countStrengths(students: TeacherStudent[], assigned: { student_id: string; strength_id: string }[]) {
+function countStrengths(
+  students: TeacherStudent[],
+  assigned: { student_id: string; strength_id: string }[],
+) {
   const ids = new Set(students.map((s) => s.studentId));
   const counts = new Map<number, { total: number; students: Set<string> }>();
   const add = (id: number, studentId: string) => {
@@ -626,29 +618,68 @@ function TeacherReports({
   students,
   classes,
   events,
+  assigned,
 }: {
   students: TeacherStudent[];
   classes: { id: string; name: string }[];
   events: ReportEvent[];
+  assigned: { student_id: string; strength_id: string }[];
 }) {
   const tr = useTr();
+  const { language } = useLanguage();
+  const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const [days, setDays] = useState<RangeDays>(30);
-  const atRisk = students.filter(
+  const [classFilter, setClassFilter] = useState<string>("all");
+
+  const shownClasses = useMemo(
+    () => (classFilter === "all" ? classes : classes.filter((c) => c.id === classFilter)),
+    [classes, classFilter],
+  );
+  const shownStudents = useMemo(
+    () => (classFilter === "all" ? students : students.filter((s) => s.classId === classFilter)),
+    [students, classFilter],
+  );
+  const shownEvents = useMemo(
+    () => (classFilter === "all" ? events : events.filter((e) => e.classId === classFilter)),
+    [events, classFilter],
+  );
+  const top = useMemo(
+    () => countStrengths(shownStudents, assigned).slice(0, 5),
+    [shownStudents, assigned],
+  );
+
+  const atRisk = shownStudents.filter(
     (s) => !s.lastActive || Date.now() - s.lastActive.getTime() > 14 * 24 * 3600 * 1000,
   );
+
   return (
     <>
       <StickyNote seed="t-reports" className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-2xl font-bold">{tr("Raportit")}</h2>
-          <RangeSelector value={days} onChange={setDays} />
+          <div className="flex flex-wrap items-center gap-2">
+            <select
+              value={classFilter}
+              onChange={(e) => setClassFilter(e.target.value)}
+              aria-label={tr("Luokka")}
+              className="rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-semibold text-slate-900"
+            >
+              <option value="all">{tr("Kaikki luokat")}</option>
+              {classes.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <RangeSelector value={days} onChange={setDays} />
+          </div>
         </div>
         <p className="opacity-80">
-          {tr("Opiskelijoita")}: {students.length} · {tr("Luokkia")}: {classes.length}
+          {tr("Opiskelijoita")}: {shownStudents.length} · {tr("Luokkia")}: {shownClasses.length}
         </p>
         <ul className="space-y-1 text-sm">
-          {classes.map((c) => {
-            const inClass = students.filter((s) => s.classId === c.id);
+          {shownClasses.map((c) => {
+            const inClass = shownStudents.filter((s) => s.classId === c.id);
             const avg = inClass.length
               ? Math.round(inClass.reduce((a, s) => a + pctOf(s), 0) / inClass.length)
               : 0;
@@ -660,11 +691,33 @@ function TeacherReports({
           })}
         </ul>
       </StickyNote>
+
+      <StickyNote seed="t-report-top5" className="space-y-3">
+        <h3 className="text-xl font-bold">
+          {classFilter === "all"
+            ? tr("Ryhmän suosituimmat vahvuudet")
+            : tr("Luokan Top 5 vahvuudet")}
+        </h3>
+        {top.length === 0 ? (
+          <p className="opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
+        ) : (
+          <TopStrengthCards
+            items={top.map((x) => ({
+              id: x.id,
+              count: x.total,
+              caption: `${x.students} ${tr("opiskelijaa")}`,
+            }))}
+            lang={lang}
+          />
+        )}
+      </StickyNote>
+
       <ReportTrends
-        events={events}
+        events={shownEvents}
         days={days}
-        studentCount={students.length}
+        studentCount={shownStudents.length}
         totalRequired={TOTAL_REQUIRED}
+        classes={shownClasses}
         seedPrefix="t"
       />
       <StickyNote seed="t-risk" className="space-y-2">
@@ -685,7 +738,13 @@ function TeacherReports({
   );
 }
 
-function CreateClass({ onDoneNoop, onCreated }: { onDoneNoop?: never; onCreated: () => Promise<void> }) {
+function CreateClass({
+  onDoneNoop,
+  onCreated,
+}: {
+  onDoneNoop?: never;
+  onCreated: () => Promise<void>;
+}) {
   const tr = useTr();
   const [name, setName] = useState("");
   const [language, setLanguageChoice] = useState<Language>("fi");
