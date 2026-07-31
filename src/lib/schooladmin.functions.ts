@@ -372,7 +372,7 @@ export const getStudentPortfolio = createServerFn({ method: "GET" })
     }): Promise<{
       name: string | null;
       currentScreen: number | null;
-      responses: { field_key: string; value: unknown }[];
+      responses: { field_key: string; value: string | null }[];
     }> => {
       const schoolId = await assertSchoolAdmin(context.supabase, context.userId);
       const db = await admin();
@@ -417,7 +417,10 @@ export const getStudentPortfolio = createServerFn({ method: "GET" })
       return {
         name: profile.display_name ?? null,
         currentScreen: profile.current_screen ?? null,
-        responses: ((rows ?? []) as any[]).map((r) => ({ field_key: r.field_key, value: r.value })),
+        responses: ((rows ?? []) as any[]).map((r) => ({
+          field_key: r.field_key as string,
+          value: (r.value ?? null) as string | null,
+        })),
       };
     },
   );
