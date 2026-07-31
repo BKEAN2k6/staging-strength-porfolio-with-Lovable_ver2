@@ -188,7 +188,7 @@ function TeacherDashboardPage() {
       )}
 
       {tab === "reports" && (
-        <TeacherReports students={students} classes={classes} events={events} />
+        <TeacherReports students={students} classes={classes} events={events} assigned={assigned} />
       )}
 
       {tab === "settings" && (
