@@ -129,19 +129,41 @@ export function AppSidebar() {
                 const locked = currentScreen != null && target > currentScreen && !canNavigateTo(target);
                 const title = tr(w.title);
                 const subtitle = tr(w.subtitle);
+                const stats = progress?.byWorld[w.id];
+                const pct = stats && stats.total > 0
+                  ? Math.round((stats.completed / stats.total) * 100)
+                  : 0;
                 return (
                   <SidebarMenuItem key={w.id}>
-                    <SidebarMenuButton asChild isActive={inWorld}>
+                    <SidebarMenuButton asChild isActive={inWorld} className="h-auto items-start py-2">
                       <a
                         href={`/seikkailu/${target}`}
                         onClick={go(target)}
-                        className="flex items-center gap-2"
+                        className="flex items-start gap-2 whitespace-normal"
                         aria-disabled={locked || undefined}
                         title={locked ? hint : `${title} — ${subtitle}`}
                       >
-                        <span className="text-base leading-none" aria-hidden>{w.emoji}</span>
-                        <span className="truncate flex-1">{title} — {subtitle}</span>
-                        {locked && <Lock className="h-3 w-3 opacity-60" aria-hidden />}
+                        <span className="mt-0.5 text-base leading-none" aria-hidden>{w.emoji}</span>
+                        <span className="min-w-0 flex-1 space-y-1">
+                          <span className="block break-words text-sm font-bold leading-snug">
+                            {title}
+                            {locked && <Lock className="ml-1 inline h-3 w-3 opacity-60" aria-hidden />}
+                          </span>
+                          <span className="block break-words text-xs leading-snug opacity-80">
+                            {subtitle}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="h-1 flex-1 overflow-hidden rounded-full bg-black/15">
+                              <span
+                                className="block h-full rounded-full bg-[color:var(--purple)] transition-all"
+                                style={{ width: `${pct}%` }}
+                              />
+                            </span>
+                            <span className="shrink-0 text-[10px] tabular-nums opacity-70">
+                              {pct}%{pct === 100 ? " ✓" : ""}
+                            </span>
+                          </span>
+                        </span>
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
