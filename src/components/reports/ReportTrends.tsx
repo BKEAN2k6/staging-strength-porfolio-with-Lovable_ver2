@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -13,8 +13,15 @@ import {
   YAxis,
 } from "recharts";
 import { StickyNote } from "@/components/StickyNote";
-import { useTr } from "@/lib/i18n";
-import { buildReportSeries, type RangeDays, type ReportEvent } from "@/lib/report-series";
+import { useLanguage, useTr } from "@/lib/i18n";
+import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
+import { buildLevelCompletion } from "@/lib/report-levels";
+import {
+  buildReportSeries,
+  buildStrengthSeries,
+  type RangeDays,
+  type ReportEvent,
+} from "@/lib/report-series";
 
 const RANGES: { days: RangeDays; label: string }[] = [
   { days: 7, label: "7 päivää" },
