@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StickyNote } from "@/components/StickyNote";
+import { UserIcon } from "@/components/icons/AppIcons";
 import { supabase } from "@/integrations/supabase/client";
 import { useTr } from "@/lib/i18n";
 
@@ -101,7 +102,9 @@ function StudentProfilePage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6 px-4 py-8">
-      <h1 className="font-display text-3xl">{tr("Profiili")} 👤</h1>
+      <h1 className="flex items-center gap-2 font-display text-3xl">
+        <UserIcon size={24} /> {tr("Profiili")}
+      </h1>
 
       <StickyNote seed="student-profile" className="space-y-6">
         <div className="flex items-center gap-4">

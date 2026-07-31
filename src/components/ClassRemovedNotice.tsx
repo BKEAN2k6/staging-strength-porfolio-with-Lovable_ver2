@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { StickyNote } from "@/components/StickyNote";
+import { LockIcon } from "@/components/icons/AppIcons";
 import { supabase } from "@/integrations/supabase/client";
 import { useTr } from "@/lib/i18n";
 
@@ -22,9 +23,7 @@ export function ClassRemovedNotice() {
     <div className="relative flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
       <CornerBlobs />
       <StickyNote seed="class-removed" className="relative z-10 max-w-md space-y-4 text-center">
-        <div className="text-4xl" aria-hidden>
-          🚧
-        </div>
+        <div className="flex justify-center"><LockIcon size={36} /></div>
         <h1 className="font-display text-2xl">{tr("Luokkasi on poistettu")}</h1>
         <p className="text-sm opacity-80">
           {tr(
