@@ -169,7 +169,12 @@ function TeacherDashboardPage() {
       )}
 
       {tab === "students" && selectedStudent && (
-        <StudentDetail student={selectedStudent} onBack={() => setOpenStudent(null)} />
+        <StudentDetail
+          student={selectedStudent}
+          gifts={assigned}
+          onBack={() => setOpenStudent(null)}
+        />
+
       )}
 
       {tab === "strengths" && (
