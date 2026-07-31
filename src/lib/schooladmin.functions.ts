@@ -15,7 +15,6 @@ export interface SchoolAdminStudent {
   filledKeys: string[];
 }
 
-
 export interface SchoolAdminTeacher {
   id: string;
   name: string | null;
@@ -44,7 +43,6 @@ export interface SchoolAdminClass {
   joinCode?: string | null;
   language?: string | null;
 }
-
 
 export interface SchoolAdminData {
   school: { id: string; name: string } | null;
@@ -96,7 +94,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     const [{ data: school }, { data: profiles }, { data: roles }, { data: codes }] =
       await Promise.all([
         db.from("schools").select("id, name").eq("id", schoolId).maybeSingle(),
-        db.from("profiles").select("id, display_name, current_screen, updated_at").eq("school_id", schoolId),
+        db
+          .from("profiles")
+          .select("id, display_name, current_screen, updated_at")
+          .eq("school_id", schoolId),
         db.from("user_roles").select("user_id, role"),
         db
           .from("school_codes")
@@ -162,7 +163,6 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       }
     }
 
-
     const { data: responses } = studentIds.length
       ? await db
           .from("responses")
@@ -170,13 +170,14 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
           .in("user_id", studentIds)
       : { data: [] as any[] };
 
-
     const filledPer = new Map<string, Set<string>>();
     const lastPer = new Map<string, string>();
     for (const r of (responses ?? []) as any[]) {
       const v = r.value;
       const filled =
-        v !== null && v !== undefined && !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
+        v !== null &&
+        v !== undefined &&
+        !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
       if (filled) {
         let s = filledPer.get(r.user_id);
         if (!s) {
@@ -196,7 +197,6 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
     const profById = new Map<string, any>(
       [...((profiles ?? []) as any[]), ...extraProfiles].map((p) => [p.id, p]),
     );
-
 
     const { data: assigned } = await db
       .from("teacher_assigned_strengths")
@@ -221,10 +221,10 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       if (!studentIdSet.has(r.user_id) || !r.updated_at) continue;
       const v = r.value;
       const filled =
-        v !== null && v !== undefined && !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
-      const rowStrengthIds = strengthIdsFromResponses([
-        { field_key: r.field_key, value: r.value },
-      ]);
+        v !== null &&
+        v !== undefined &&
+        !(typeof v === "string" && (!v.trim() || v === '""' || v === "null"));
+      const rowStrengthIds = strengthIdsFromResponses([{ field_key: r.field_key, value: r.value }]);
       events.push({
         userId: r.user_id,
         classId: classIdOfStudent.get(r.user_id) ?? null,
@@ -291,8 +291,6 @@ export const getSchoolAdminData = createServerFn({ method: "GET" })
       joinCode: c.join_code ?? null,
       language: c.language ?? null,
     }));
-
-
 
     return {
       school: (school as any) ?? null,
@@ -395,10 +393,7 @@ export const getStudentPortfolio = createServerFn({ method: "GET" })
 
       let allowed = profile.school_id === schoolId;
       if (!allowed) {
-        const { data: teachers } = await db
-          .from("profiles")
-          .select("id")
-          .eq("school_id", schoolId);
+        const { data: teachers } = await db.from("profiles").select("id").eq("school_id", schoolId);
         const teacherIds = ((teachers ?? []) as any[]).map((t) => t.id);
         const { data: classes } = teacherIds.length
           ? await db.from("classes").select("id").in("teacher_id", teacherIds)

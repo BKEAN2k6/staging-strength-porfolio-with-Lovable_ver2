@@ -56,7 +56,8 @@ export function StudentDetailReport({
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
 
-  const last = lastActive instanceof Date || lastActive === null ? lastActive : new Date(lastActive);
+  const last =
+    lastActive instanceof Date || lastActive === null ? lastActive : new Date(lastActive);
   const pct = Math.round((screensFilled / TOTAL_REQUIRED) * 100);
 
   const worlds = useMemo(
@@ -135,7 +136,8 @@ export function StudentDetailReport({
             <div key={w.id} className="space-y-1 border-b border-black/5 py-1 text-sm">
               <div className="flex justify-between">
                 <span>
-                  <WorldIcon id={meta.id} size={18} className="inline align-[-3px]" /> {tr(meta.title)}
+                  <WorldIcon id={meta.id} size={18} className="inline align-[-3px]" />{" "}
+                  {tr(meta.title)}
                 </span>
                 <span className="tabular-nums opacity-80">
                   {w.done}/{w.total} · {tr(state)}

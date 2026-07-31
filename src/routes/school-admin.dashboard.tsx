@@ -40,7 +40,6 @@ import {
 import { ReportTrends, RangeSelector } from "@/components/reports/ReportTrends";
 import type { RangeDays, ReportEvent } from "@/lib/report-series";
 
-
 export const Route = createFileRoute("/school-admin/dashboard")({
   head: () => ({
     meta: [
@@ -77,7 +76,6 @@ function SchoolAdminDashboard() {
   const [openStudent, setOpenStudent] = useState<string | null>(null);
   const [showPortfolio, setShowPortfolio] = useState(false);
 
-
   const [data, setData] = useState<SchoolAdminData | null>(null);
 
   const fetchData = useServerFn(getSchoolAdminData);
@@ -108,7 +106,6 @@ function SchoolAdminDashboard() {
         pct: Math.round((stats.screensFilled / TOTAL_REQUIRED) * 100),
         worlds: worldCompletion(filled, s.currentScreen ?? 1),
       };
-
     });
     const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
     const activeThisMonth = rows.filter(
@@ -179,7 +176,6 @@ function SchoolAdminDashboard() {
             />
           </div>
           <SchoolTopStrengths data={data} lang={lang} />
-
         </>
       )}
 
@@ -238,50 +234,52 @@ function SchoolAdminDashboard() {
         />
       )}
 
-      {openStudent && !showPortfolio && (tab === "classes" || tab === "students") && (() => {
-        const s = derived.rows.find((r) => r.id === openStudent);
-        if (!s) return null;
-        return (
-          <StudentDetailReport
-            name={s.name}
-            className={s.className}
-            email={s.email}
-            lastActive={s.lastActive}
-            currentScreen={s.currentScreen}
-            screensFilled={s.screensFilled}
-            filledKeys={s.filledKeys}
-            strengthIds={s.strengthIds}
-            header={
-              <Breadcrumbs
-                items={[
-                  tab === "classes"
-                    ? { label: tr("Luokat"), onClick: () => setOpenStudent(null) }
-                    : { label: tr("Opiskelijat"), onClick: () => setOpenStudent(null) },
-                  ...(tab === "classes"
-                    ? [
-                        {
-                          label: data?.classes.find((c) => c.id === openClass)?.name ?? "",
-                          onClick: () => setOpenStudent(null),
-                        },
-                      ]
-                    : []),
-                  { label: s.name ?? tr("Opiskelija") },
-                ]}
-              />
-            }
-            onBack={() => setOpenStudent(null)}
-            portfolioAction={
-              <Button
-                className="rounded-full bg-[color:var(--purple)] text-white hover:bg-[color:var(--purple)]/90"
-                onClick={() => setShowPortfolio(true)}
-              >
-                {tr("Avaa portfolio")}
-              </Button>
-            }
-          />
-        );
-      })()}
-
+      {openStudent &&
+        !showPortfolio &&
+        (tab === "classes" || tab === "students") &&
+        (() => {
+          const s = derived.rows.find((r) => r.id === openStudent);
+          if (!s) return null;
+          return (
+            <StudentDetailReport
+              name={s.name}
+              className={s.className}
+              email={s.email}
+              lastActive={s.lastActive}
+              currentScreen={s.currentScreen}
+              screensFilled={s.screensFilled}
+              filledKeys={s.filledKeys}
+              strengthIds={s.strengthIds}
+              header={
+                <Breadcrumbs
+                  items={[
+                    tab === "classes"
+                      ? { label: tr("Luokat"), onClick: () => setOpenStudent(null) }
+                      : { label: tr("Opiskelijat"), onClick: () => setOpenStudent(null) },
+                    ...(tab === "classes"
+                      ? [
+                          {
+                            label: data?.classes.find((c) => c.id === openClass)?.name ?? "",
+                            onClick: () => setOpenStudent(null),
+                          },
+                        ]
+                      : []),
+                    { label: s.name ?? tr("Opiskelija") },
+                  ]}
+                />
+              }
+              onBack={() => setOpenStudent(null)}
+              portfolioAction={
+                <Button
+                  className="rounded-full bg-[color:var(--purple)] text-white hover:bg-[color:var(--purple)]/90"
+                  onClick={() => setShowPortfolio(true)}
+                >
+                  {tr("Avaa portfolio")}
+                </Button>
+              }
+            />
+          );
+        })()}
 
       {tab === "students" && !openStudent && (
         <StickyNote seed="sa-students" className="overflow-x-auto">
@@ -667,11 +665,7 @@ export function StatusPill({ status }: { status: ReturnType<typeof studentStatus
   );
 }
 
-function Breadcrumbs({
-  items,
-}: {
-  items: Array<{ label: string; onClick?: () => void }>;
-}) {
+function Breadcrumbs({ items }: { items: Array<{ label: string; onClick?: () => void }> }) {
   return (
     <nav className="flex flex-wrap items-center gap-1 text-sm opacity-80">
       {items.map((it, i) => (
@@ -822,8 +816,7 @@ function SchoolAdminClassReport({
     if (sort === "name") copy.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
     else if (sort === "active")
       copy.sort(
-        (a, b) =>
-          new Date(b.lastActive ?? 0).getTime() - new Date(a.lastActive ?? 0).getTime(),
+        (a, b) => new Date(b.lastActive ?? 0).getTime() - new Date(a.lastActive ?? 0).getTime(),
       );
     else copy.sort((a, b) => b.pct - a.pct);
     return copy;

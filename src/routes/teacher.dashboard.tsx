@@ -20,7 +20,11 @@ import {
   TOTAL_REQUIRED,
   worldCompletion,
 } from "@/lib/teacher-data";
-import { useTeacherData, type TeacherStudent, type TeacherClass } from "@/lib/teacher-dashboard-data";
+import {
+  useTeacherData,
+  type TeacherStudent,
+  type TeacherClass,
+} from "@/lib/teacher-dashboard-data";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
 import { getStrengthName } from "@/lib/strengths-i18n";
 import { cn } from "@/lib/utils";
@@ -174,7 +178,6 @@ function TeacherDashboardPage() {
           gifts={assigned}
           onBack={() => setOpenStudent(null)}
         />
-
       )}
 
       {tab === "strengths" && (
@@ -279,7 +282,13 @@ function StudentDetail({
   onBack,
 }: {
   student: TeacherStudent;
-  gifts: { id: string; student_id: string; strength_id: string; message: string | null; created_at: string }[];
+  gifts: {
+    id: string;
+    student_id: string;
+    strength_id: string;
+    message: string | null;
+    created_at: string;
+  }[];
   onBack: () => void;
 }) {
   const tr = useTr();
@@ -309,7 +318,6 @@ function StudentDetail({
   );
 }
 
-
 function AssignStrengths({
   classes,
   students,
@@ -319,7 +327,13 @@ function AssignStrengths({
 }: {
   classes: TeacherClass[];
   students: TeacherStudent[];
-  assigned: { id: string; student_id: string; strength_id: string; message: string | null; created_at: string }[];
+  assigned: {
+    id: string;
+    student_id: string;
+    strength_id: string;
+    message: string | null;
+    created_at: string;
+  }[];
   teacherId: string | null;
   onDone: () => Promise<void>;
 }) {
@@ -341,8 +355,7 @@ function AssignStrengths({
   const nameOf = (id: string) =>
     unique.find((s) => s.studentId === id)?.displayName?.trim() || id.slice(0, 8);
 
-  const classNameOf = (id: string) =>
-    unique.find((s) => s.studentId === id)?.className ?? "—";
+  const classNameOf = (id: string) => unique.find((s) => s.studentId === id)?.className ?? "—";
 
   const inClass = useMemo(
     () => (classId ? unique.filter((s) => s.classId === classId) : []),
@@ -408,9 +421,7 @@ function AssignStrengths({
               onChange={(e) => setStudentId(e.target.value)}
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm disabled:opacity-50"
             >
-              <option value="">
-                {classId ? "—" : tr("Valitse ensin luokka")}
-              </option>
+              <option value="">{classId ? "—" : tr("Valitse ensin luokka")}</option>
               {inClass.map((s) => (
                 <option key={s.studentId} value={s.studentId}>
                   {s.displayName?.trim() || s.studentId.slice(0, 8)}
@@ -434,9 +445,7 @@ function AssignStrengths({
                 aria-pressed={strengthId === s.id}
                 className={cn(
                   "flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-2 text-left text-xs font-medium text-[color:var(--ink)] transition-all hover:-translate-y-0.5",
-                  strengthId === s.id
-                    ? "border-[color:var(--coral)] shadow-md"
-                    : "border-black/10",
+                  strengthId === s.id ? "border-[color:var(--coral)] shadow-md" : "border-black/10",
                 )}
               >
                 <span
@@ -503,7 +512,10 @@ function AssignStrengths({
 }
 
 /** Counts every collected strength id for a set of students (+ teacher gifts). */
-function countStrengths(students: TeacherStudent[], assigned: { student_id: string; strength_id: string }[]) {
+function countStrengths(
+  students: TeacherStudent[],
+  assigned: { student_id: string; strength_id: string }[],
+) {
   const ids = new Set(students.map((s) => s.studentId));
   const counts = new Map<number, { total: number; students: Set<string> }>();
   const add = (id: number, studentId: string) => {
@@ -682,7 +694,9 @@ function TeacherReports({
 
       <StickyNote seed="t-report-top5" className="space-y-3">
         <h3 className="text-xl font-bold">
-          {classFilter === "all" ? tr("Ryhmän suosituimmat vahvuudet") : tr("Luokan Top 5 vahvuudet")}
+          {classFilter === "all"
+            ? tr("Ryhmän suosituimmat vahvuudet")
+            : tr("Luokan Top 5 vahvuudet")}
         </h3>
         {top.length === 0 ? (
           <p className="opacity-70">{tr("Ei vielä vahvuuksia.")}</p>
@@ -722,10 +736,15 @@ function TeacherReports({
       </StickyNote>
     </>
   );
-
 }
 
-function CreateClass({ onDoneNoop, onCreated }: { onDoneNoop?: never; onCreated: () => Promise<void> }) {
+function CreateClass({
+  onDoneNoop,
+  onCreated,
+}: {
+  onDoneNoop?: never;
+  onCreated: () => Promise<void>;
+}) {
   const tr = useTr();
   const [name, setName] = useState("");
   const [language, setLanguageChoice] = useState<Language>("fi");

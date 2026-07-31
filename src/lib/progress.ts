@@ -20,7 +20,6 @@ function compute(filled: Set<string>, current: number): ScreenProgress {
   return { filledKeys: filled, currentScreen: current, completedScreens, byWorld };
 }
 
-
 export function useStudentProgress(userId: string | null): ScreenProgress | null {
   const [progress, setProgress] = useState<ScreenProgress | null>(null);
 
@@ -52,12 +51,16 @@ export function useStudentProgress(userId: string | null): ScreenProgress | null
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "responses", filter: `user_id=eq.${userId}` },
-        () => { loadAll(); },
+        () => {
+          loadAll();
+        },
       )
       .subscribe();
 
-    return () => { cancelled = true; supabase.removeChannel(ch); };
-
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(ch);
+    };
   }, [userId]);
 
   return progress;
@@ -70,7 +73,12 @@ function isFilled(value: unknown): boolean {
     if (!trimmed || trimmed === '""' || trimmed === "null") return false;
     // Saved JSON arrays appear as strings in some paths
     if (trimmed.startsWith("[")) {
-      try { const arr = JSON.parse(trimmed); return Array.isArray(arr) && arr.length > 0; } catch { return true; }
+      try {
+        const arr = JSON.parse(trimmed);
+        return Array.isArray(arr) && arr.length > 0;
+      } catch {
+        return true;
+      }
     }
     return true;
   }
