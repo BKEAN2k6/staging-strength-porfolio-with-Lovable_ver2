@@ -102,6 +102,20 @@ function TeacherDashboardPage() {
         setOpenStudent(null);
       }}
       schoolName={guard.schoolName}
+      /* @lovable-new */
+      links={[
+        { to: "/teacher/sprint", label: tr("Vahvuussprintti") },
+        { to: "/teacher/received-strengths", label: tr("Saamani vahvuudet") },
+      ]}
+      sections={[
+        {
+          label: tr("Opeta"),
+          links: [
+            { to: "/teacher/teach/portfolio", label: tr("Vahvuusportfolio") },
+            { to: "/teacher/teach/materials", label: tr("Opetusmateriaalit") },
+          ],
+        },
+      ]}
     >
       {tab === "classes" && !openClass && (
         <TopStrengths students={students} classes={classes} assigned={assigned} />

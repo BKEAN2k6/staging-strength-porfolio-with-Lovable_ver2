@@ -592,6 +592,77 @@ export type Database = {
         }
         Relationships: []
       }
+      teaching_presentations: {
+        Row: {
+          canva_design_id: string
+          canva_export_url: string | null
+          created_at: string
+          created_by: string | null
+          description_en: string | null
+          description_fi: string | null
+          description_sv: string | null
+          id: string
+          is_published: boolean
+          level_tag: string
+          slide_count: number
+          slide_urls: Json
+          sort_order: number
+          thumbnail_url: string | null
+          title_en: string
+          title_fi: string
+          title_sv: string
+          updated_at: string
+        }
+        Insert: {
+          canva_design_id: string
+          canva_export_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          id?: string
+          is_published?: boolean
+          level_tag?: string
+          slide_count?: number
+          slide_urls?: Json
+          sort_order?: number
+          thumbnail_url?: string | null
+          title_en: string
+          title_fi: string
+          title_sv: string
+          updated_at?: string
+        }
+        Update: {
+          canva_design_id?: string
+          canva_export_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          id?: string
+          is_published?: boolean
+          level_tag?: string
+          slide_count?: number
+          slide_urls?: Json
+          sort_order?: number
+          thumbnail_url?: string | null
+          title_en?: string
+          title_fi?: string
+          title_sv?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teaching_presentations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string

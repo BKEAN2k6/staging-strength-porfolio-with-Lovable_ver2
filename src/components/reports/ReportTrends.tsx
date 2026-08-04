@@ -214,11 +214,16 @@ function StrengthGrowthCard({
                 <XAxis dataKey="label" {...axisProps} />
                 <YAxis {...axisProps} allowDecimals={false} />
                 <Tooltip
-                  formatter={(v: number, key: string) => [
-                    v,
-                    getStrengthName(Number(String(key).slice(1)), lang),
-                  ]}
+                  // @lovable-new — Recharts passes the series `name`, not the dataKey.
+                  // Resolve the strength name from the legend map so the tooltip
+                  // never renders "Strength NaN".
+                  formatter={(v: number, name: unknown, item: unknown) => {
+                    const dataKey = (item as { dataKey?: string } | undefined)?.dataKey;
+                    const id = legend.find((l) => l.key === dataKey)?.id;
+                    return [v, id != null ? getStrengthName(id, lang) : String(name)];
+                  }}
                 />
+
                 {legend.map((l) => (
                   <Line
                     key={l.key}

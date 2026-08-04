@@ -161,6 +161,16 @@ function SchoolAdminDashboard() {
         setOpenStudent(null);
       }}
       schoolName={data?.school?.name ?? guard.schoolName}
+      /* @lovable-new */
+      links={[{ to: "/school-admin/give-strength", label: tr("Anna vahvuus opettajalle") }]}
+      sections={[
+        {
+          label: tr("Opeta"),
+          links: [
+            { to: "/school-admin/teach/materials", label: tr("Opetusmateriaalit") },
+          ],
+        },
+      ]}
     >
       {tab === "overview" && (
         <>
