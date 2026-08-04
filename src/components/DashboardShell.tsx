@@ -10,6 +10,7 @@ import {
   MapIcon,
   PencilIcon,
   PeopleIcon,
+  PlayIcon,
   SparkleIcon,
   StarIcon,
   UserIcon,
@@ -46,6 +47,7 @@ export function DashboardShell({
   schoolName,
   persistLanguage = true,
   links, // @lovable-new — route links (Strength Sprint, give strength, …)
+  sections, // @lovable-new — grouped route links (e.g. "Teach")
   children,
 }: {
   title: string;
@@ -55,6 +57,7 @@ export function DashboardShell({
   schoolName?: string | null;
   persistLanguage?: boolean;
   links?: Array<{ to: string; label: string }>;
+  sections?: Array<{ label: string; links: Array<{ to: string; label: string }> }>;
   children: ReactNode;
 }) {
 
@@ -114,6 +117,25 @@ export function DashboardShell({
                 ))}
               </nav>
             )}
+            {/* @lovable-new */}
+            {sections?.map((sec) => (
+              <nav key={sec.label} className="mt-3 space-y-1.5 border-t border-white/20 pt-3">
+                <p className="px-4 pb-1 text-xs font-bold uppercase tracking-wider text-white/60">
+                  {sec.label}
+                </p>
+                {sec.links.map((l) => (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    className="flex w-full items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold text-white/90 transition-all hover:bg-white/15"
+                    activeProps={{ className: "bg-white text-[color:var(--purple)] shadow-md" }}
+                  >
+                    <PlayIcon size={18} className="shrink-0" />
+                    <span className="min-w-0 break-words">{l.label}</span>
+                  </Link>
+                ))}
+              </nav>
+            ))}
             <button
               type="button"
               className="mt-6 px-4 text-left text-xs text-white/80 underline hover:text-white"
