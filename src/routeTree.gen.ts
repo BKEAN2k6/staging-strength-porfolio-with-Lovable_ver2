@@ -51,6 +51,7 @@ import { Route as AuthenticatedStudentProfileRouteImport } from './routes/_authe
 import { Route as AuthenticatedStudentSprintRouteImport } from './routes/_authenticated/student/sprint'
 import { Route as AuthenticatedStudentStrengthsRouteImport } from './routes/_authenticated/student/strengths'
 import { Route as SuperadminSchoolsSchoolIdRouteImport } from './routes/superadmin.schools.$schoolId'
+import { Route as TeacherTeachMaterialsRouteImport } from './routes/teacher.teach.materials'
 import { Route as TeacherTeachPortfolioRouteImport } from './routes/teacher.teach.portfolio'
 import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes/_authenticated/opettaja_.oppilas.$userId'
 
@@ -277,6 +278,11 @@ const SuperadminSchoolsSchoolIdRoute =
     path: '/superadmin/schools/$schoolId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const TeacherTeachMaterialsRoute = TeacherTeachMaterialsRouteImport.update({
+  id: '/teacher/teach/materials',
+  path: '/teacher/teach/materials',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeacherTeachPortfolioRoute = TeacherTeachPortfolioRouteImport.update({
   id: '/teacher/teach/portfolio',
   path: '/teacher/teach/portfolio',
@@ -330,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
+  '/teacher/teach/materials': typeof TeacherTeachMaterialsRoute
   '/teacher/teach/portfolio': typeof TeacherTeachPortfolioRoute
   '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
   '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
@@ -373,6 +380,7 @@ export interface FileRoutesByTo {
   '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
+  '/teacher/teach/materials': typeof TeacherTeachMaterialsRoute
   '/teacher/teach/portfolio': typeof TeacherTeachPortfolioRoute
   '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
   '/opettaja/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
@@ -420,6 +428,7 @@ export interface FileRoutesById {
   '/_authenticated/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/_authenticated/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
+  '/teacher/teach/materials': typeof TeacherTeachMaterialsRoute
   '/teacher/teach/portfolio': typeof TeacherTeachPortfolioRoute
   '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
   '/_authenticated/opettaja_/oppilas/$userId': typeof AuthenticatedOpettajaOppilasUserIdRoute
@@ -467,6 +476,7 @@ export interface FileRouteTypes {
     | '/student/sprint'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
+    | '/teacher/teach/materials'
     | '/teacher/teach/portfolio'
     | '/seikkailu/'
     | '/opettaja/oppilas/$userId'
@@ -510,6 +520,7 @@ export interface FileRouteTypes {
     | '/student/sprint'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
+    | '/teacher/teach/materials'
     | '/teacher/teach/portfolio'
     | '/seikkailu'
     | '/opettaja/oppilas/$userId'
@@ -556,6 +567,7 @@ export interface FileRouteTypes {
     | '/_authenticated/student/sprint'
     | '/_authenticated/student/strengths'
     | '/superadmin/schools/$schoolId'
+    | '/teacher/teach/materials'
     | '/teacher/teach/portfolio'
     | '/_authenticated/seikkailu/'
     | '/_authenticated/opettaja_/oppilas/$userId'
@@ -587,6 +599,7 @@ export interface RootRouteChildren {
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   SuperadminSchoolsSchoolIdRoute: typeof SuperadminSchoolsSchoolIdRoute
+  TeacherTeachMaterialsRoute: typeof TeacherTeachMaterialsRoute
   TeacherTeachPortfolioRoute: typeof TeacherTeachPortfolioRoute
 }
 
@@ -886,6 +899,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperadminSchoolsSchoolIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/teach/materials': {
+      id: '/teacher/teach/materials'
+      path: '/teacher/teach/materials'
+      fullPath: '/teacher/teach/materials'
+      preLoaderRoute: typeof TeacherTeachMaterialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teacher/teach/portfolio': {
       id: '/teacher/teach/portfolio'
       path: '/teacher/teach/portfolio'
@@ -1029,6 +1049,7 @@ const rootRouteChildren: RootRouteChildren = {
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   SuperadminSchoolsSchoolIdRoute: SuperadminSchoolsSchoolIdRoute,
+  TeacherTeachMaterialsRoute: TeacherTeachMaterialsRoute,
   TeacherTeachPortfolioRoute: TeacherTeachPortfolioRoute,
 }
 export const routeTree = rootRouteImport
