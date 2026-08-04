@@ -892,17 +892,8 @@ function SchoolAdminClassReport({
         seedPrefix={`sa-cls-${cls?.id ?? "x"}`}
       />
 
-      <StickyNote seed={`sa-cls-levels-${cls?.id ?? "x"}`} className="space-y-2">
-        <h3 className="text-xl font-bold">{tr("Tasojen valmistuminen")}</h3>
-        <ul className="space-y-2">
-          {levels.map((l) => (
-            <li key={l.id} className="flex items-center gap-3 text-sm">
-              <span className="w-28 shrink-0 font-medium">{tr(l.title)}</span>
-              <LevelProgressBar pct={l.pct} className="w-28 shrink-0" />
-            </li>
-          ))}
-        </ul>
-      </StickyNote>
+      {/* Level completion lives inside <ReportTrends /> — no duplicate card here. */}
+
 
       <StickyNote seed={`sa-cls-students-${cls?.id ?? "x"}`} className="space-y-3 overflow-x-auto">
         <div className="flex flex-wrap items-center justify-between gap-2">

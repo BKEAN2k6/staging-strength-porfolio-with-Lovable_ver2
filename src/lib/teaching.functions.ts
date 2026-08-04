@@ -99,6 +99,37 @@ export const deleteTeachingCategory = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+/** Show / hide a whole strength category (hides its descendants too). */
+export const setTeachingCategoryPublished = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string; isPublished: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    const db = await admin();
+    const { error } = await db
+      .from("teaching_categories")
+      .update({ is_published: data.isPublished })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Show / hide a sub-category (folder) and, implicitly, its articles. */
+export const setTeachingSubcategoryPublished = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string; isPublished: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.supabase, context.userId);
+    const db = await admin();
+    const { error } = await db
+      .from("teaching_subcategories")
+      .update({ is_published: data.isPublished })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+
 export const createTeachingSubcategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(
