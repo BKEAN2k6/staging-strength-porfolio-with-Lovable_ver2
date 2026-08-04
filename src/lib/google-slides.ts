@@ -14,11 +14,25 @@ export function slidesId(url: string | null | undefined): string | null {
   return null;
 }
 
-export function slidesEmbedUrl(url: string | null | undefined): string | null {
+/**
+ * Minimal-chrome embed URL. `hl` matches the app language so Google's own
+ * controls never fall back to the browser locale, and `slide` pins a single
+ * slide so the app can drive navigation itself.
+ */
+export function slidesEmbedUrl(
+  url: string | null | undefined,
+  opts?: { lang?: "fi" | "en" | "sv"; slide?: number },
+): string | null {
   const id = slidesId(url);
-  return id
-    ? `https://docs.google.com/presentation/d/${id}/embed?start=false&loop=false&delayms=3000`
-    : null;
+  if (!id) return null;
+  const params = new URLSearchParams({
+    rm: "minimal",
+    start: "false",
+    loop: "false",
+    hl: opts?.lang ?? "fi",
+  });
+  if (opts?.slide != null) params.set("slide", `id.p${opts.slide}`);
+  return `https://docs.google.com/presentation/d/${id}/embed?${params.toString()}`;
 }
 
 export function slidesPresentUrl(url: string | null | undefined): string | null {
