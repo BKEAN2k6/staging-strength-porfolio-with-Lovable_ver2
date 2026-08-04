@@ -477,6 +477,10 @@
     "en": "Judgment",
     "sv": "Omdöme"
   },
+  "Avaa dia koko näytölle kaksoisklikkaamalla": {
+    "en": "Double-click a slide to open it fullscreen",
+    "sv": "Dubbelklicka på en bild för helskärm"
+  },
   "Avausprosentti": {
     "en": "Open rate",
     "sv": "Öppningsfrekvens"
@@ -508,6 +512,10 @@
   "Diat": {
     "en": "Slides",
     "sv": "Bilder"
+  },
+  "Diojen määrä": {
+    "en": "Number of slides",
+    "sv": "Antal bilder"
   },
   "Edellinen": {
     "en": "Previous",
@@ -552,6 +560,10 @@
   "Ei sähköpostimalleja.": {
     "en": "No email templates.",
     "sv": "Inga e-postmallar."
+  },
+  "Ei vielä vahvuuksia": {
+    "en": "No strengths yet",
+    "sv": "Inga styrkor ännu"
   },
   "Ei vielä vahvuuksia.": {
     "en": "No strengths yet.",
@@ -754,10 +766,6 @@
     "en": "Published",
     "sv": "Publicerad"
   },
-  "Piilotettu": {
-    "en": "Hidden",
-    "sv": "Dold"
-  },
   "KAUNEUDEN JA ERINOMAISUUDEN ARVOSTAMINEN / UPPSKATTA SKÖNHET": {
     "sv": "section_header"
   },
@@ -957,6 +965,10 @@
   "Lisää": {
     "en": "Add",
     "sv": "Lägg till"
+  },
+  "Lisää alakategoriat itse.": {
+    "en": "Add sub-categories manually.",
+    "sv": "Lägg till underkategorier manuellt."
   },
   "Lisää artikkeli": {
     "en": "Add article",
@@ -1711,6 +1723,10 @@
     "en": "Unpublish",
     "sv": "Avpublicera"
   },
+  "Piilotettu": {
+    "en": "Hidden",
+    "sv": "Dold"
+  },
   "Pohdi ja hyödynnä palautetta – Tutustu saamaasi palautteeseen muilta.": {
     "en": "Reflect on and use the feedback – Explore the feedback you have received from others.",
     "sv": "Fundera på och använd responsen – Bekanta dig med responsen du fått av andra."
@@ -2013,6 +2029,10 @@
   "Tallenna": {
     "en": "Save",
     "sv": "Spara"
+  },
+  "Tallenna PDF:nä": {
+    "en": "Save as PDF",
+    "sv": "Spara som PDF"
   },
   "Tallennettu!": {
     "en": "Saved!",
@@ -2446,6 +2466,10 @@
     "en": "Core Strengths Roadmap",
     "sv": "Kärnstyrkornas vägkarta"
   },
+  "Yhteensä": {
+    "en": "Total",
+    "sv": "Totalt"
+  },
   "Yhteenveto – kirjoita pisteet tähän luetteloon:": {
     "en": "Summary – write the scores in this list:",
     "sv": "Sammanfattning – skriv poängen i den här listan:"
@@ -2477,6 +2501,10 @@
   "juuri nyt": {
     "en": "just now",
     "sv": "just nu"
+  },
+  "kerätty": {
+    "en": "collected",
+    "sv": "samlat"
   },
   "keskimääräinen valmistuminen": {
     "en": "avg completion",
@@ -2541,13 +2569,5 @@
   "{n} t sitten": {
     "en": "{n}h ago",
     "sv": "{n} h sedan"
-  },
-  "Diojen määrä": {
-    "en": "Number of slides",
-    "sv": "Antal bilder"
-  },
-  "Lisää alakategoriat itse.": {
-    "en": "Add sub-categories manually.",
-    "sv": "Lägg till underkategorier manuellt."
   }
 }

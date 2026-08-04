@@ -19,6 +19,7 @@ import { useNavGate } from "@/lib/screen-completion";
 import { REQUIREMENTS } from "@/lib/screen-completion";
 import { useStudentProgress } from "@/lib/progress";
 import { LevelProgressBar } from "@/components/LevelProgressBar";
+import { SidebarStrengthSummary } from "@/components/StrengthSummary";
 import { supabase } from "@/integrations/supabase/client";
 import { useT, useTr } from "@/lib/i18n";
 
@@ -111,6 +112,8 @@ export function AppSidebar() {
                     <CandyIcon size={18} /> <span>{tr("Vahvuuteni")}</span>
                   </Link>
                 </SidebarMenuButton>
+                {/* @lovable-new 2026-08-05 collection growth + top 5 */}
+                <SidebarStrengthSummary />
               </SidebarMenuItem>
               {/* @lovable-new */}
               <SidebarMenuItem>
