@@ -51,7 +51,7 @@ function SchoolAdminGiveStrengthPage() {
 
   const [teachers, setTeachers] = useState<PersonRef[]>([]);
   const [teacherId, setTeacherId] = useState("");
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number[]>([]);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -67,13 +67,19 @@ function SchoolAdminGiveStrengthPage() {
     if (guard.ready) void load();
   }, [guard.ready, load]);
 
+  function toggle(id: number) {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : prev.length >= 3 ? prev : [...prev, id],
+    );
+  }
+
   async function submit() {
-    if (selected == null || !teacherId) return;
+    if (selected.length === 0 || !teacherId) return;
     setBusy(true);
     try {
-      await send({ data: { teacherId, strengthId: selected, message } });
-      toast.success(tr("Vahvuus lähetetty opettajalle!"));
-      setSelected(null);
+      await send({ data: { teacherId, strengthIds: selected, message } });
+      toast.success(`${selected.length} ${tr("vahvuutta lähetetty!")}`);
+      setSelected([]);
       setMessage("");
     } catch (e) {
       toast.error((e as Error).message);
@@ -114,9 +120,9 @@ function SchoolAdminGiveStrengthPage() {
         </div>
         <StrengthPickerGrid
           lang={lang}
-          selected={selected}
+          selectedIds={selected}
           disabled={busy || !teacherId}
-          onSelect={setSelected}
+          onSelect={toggle}
         />
         <div className="space-y-2">
           <Label htmlFor="sa-msg">{tr("Viesti (valinnainen)")}</Label>
@@ -130,7 +136,7 @@ function SchoolAdminGiveStrengthPage() {
         </div>
         <Button
           className="rounded-full bg-[color:var(--yellow)] font-bold text-slate-900 hover:brightness-95"
-          disabled={busy || selected == null || !teacherId}
+          disabled={busy || selected.length === 0 || !teacherId}
           onClick={() => void submit()}
         >
           {tr("Lahjoita vahvuus")}
