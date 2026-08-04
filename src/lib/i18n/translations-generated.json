@@ -754,6 +754,10 @@
     "en": "Published",
     "sv": "Publicerad"
   },
+  "Piilotettu": {
+    "en": "Hidden",
+    "sv": "Dold"
+  },
   "KAUNEUDEN JA ERINOMAISUUDEN ARVOSTAMINEN / UPPSKATTA SKÖNHET": {
     "sv": "section_header"
   },
