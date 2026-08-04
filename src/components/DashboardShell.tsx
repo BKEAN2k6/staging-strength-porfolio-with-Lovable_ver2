@@ -45,6 +45,7 @@ export function DashboardShell({
   onSelect,
   schoolName,
   persistLanguage = true,
+  links, // @lovable-new — route links (Strength Sprint, give strength, …)
   children,
 }: {
   title: string;
@@ -53,8 +54,10 @@ export function DashboardShell({
   onSelect: (id: string) => void;
   schoolName?: string | null;
   persistLanguage?: boolean;
+  links?: Array<{ to: string; label: string }>;
   children: ReactNode;
 }) {
+
   const tr = useTr();
   const navigate = useNavigate();
 
