@@ -172,6 +172,9 @@ export interface ArticleInput {
   thumbnailUrl?: string;
   isPublished: boolean;
   sortOrder?: number;
+  /** @lovable-new 2026-08-05 */
+  slideCount?: number;
+
 }
 
 export const saveTeachingArticle = createServerFn({ method: "POST" })
