@@ -107,7 +107,7 @@ export function DashboardShell({
             </p>
             <nav className="space-y-1.5">
               {tabs.map((tb) => {
-                const Icon = TAB_ICONS[tb.id] ?? StarIcon;
+                const Icon = TAB_ICONS[tb.id] ?? SparkleIcon;
                 const isActive = active === tb.id;
                 return (
                   <button
@@ -137,7 +137,10 @@ export function DashboardShell({
                     className="flex w-full items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold text-white/90 transition-all hover:bg-white/15"
                     activeProps={{ className: "bg-white text-[color:var(--purple)] shadow-md" }}
                   >
-                    <StarIcon size={18} className="shrink-0" />
+                    {(() => {
+                      const Icon = iconForRoute(l.to);
+                      return <Icon size={18} className="shrink-0" />;
+                    })()}
                     <span className="min-w-0 break-words">{l.label}</span>
                   </Link>
                 ))}
@@ -156,7 +159,10 @@ export function DashboardShell({
                     className="flex w-full items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold text-white/90 transition-all hover:bg-white/15"
                     activeProps={{ className: "bg-white text-[color:var(--purple)] shadow-md" }}
                   >
-                    <PlayIcon size={18} className="shrink-0" />
+                    {(() => {
+                      const Icon = iconForRoute(l.to);
+                      return <Icon size={18} className="shrink-0" />;
+                    })()}
                     <span className="min-w-0 break-words">{l.label}</span>
                   </Link>
                 ))}
@@ -183,7 +189,7 @@ export function DashboardShell({
 
           <nav className="flex flex-wrap gap-2 md:hidden">
             {tabs.map((tb) => {
-              const Icon = TAB_ICONS[tb.id] ?? StarIcon;
+              const Icon = TAB_ICONS[tb.id] ?? SparkleIcon;
               return (
                 <button
                   key={tb.id}
