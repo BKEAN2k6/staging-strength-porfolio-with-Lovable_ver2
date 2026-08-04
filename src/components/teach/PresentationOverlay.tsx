@@ -5,6 +5,7 @@
  * Display only — it renders whatever children it is handed.
  */
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useTr } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +41,11 @@ export function PresentationOverlay({
   useEffect(() => {
     wake();
     void document.documentElement.requestFullscreen?.().catch(() => undefined);
+    // Freeze the page underneath so the presentation is the only scrollable layer.
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
+      document.body.style.overflow = prevOverflow;
       if (hideTimer.current) window.clearTimeout(hideTimer.current);
       if (document.fullscreenElement) void document.exitFullscreen?.().catch(() => undefined);
     };
@@ -72,7 +77,11 @@ export function PresentationOverlay({
     return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, [onExit]);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  // Rendered into <body> so it never nests inside (or duplicates) the page
+  // content that opened it.
+  return createPortal(
     <div
       ref={rootRef}
       className="journey-bg fixed inset-0 z-[100] flex flex-col overflow-hidden bg-[color:var(--purple-dark)]"
@@ -131,6 +140,7 @@ export function PresentationOverlay({
           {tr("Sulje esitys")}
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

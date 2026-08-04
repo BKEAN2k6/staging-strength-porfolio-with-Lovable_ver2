@@ -16,7 +16,28 @@ export function MaterialsBrowser() {
   const tr = useTr();
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
-  const { categories, subcategories, articles, loading } = useTeachingMaterials();
+  const {
+    categories: allCategories,
+    subcategories: allSubcategories,
+    articles: allArticles,
+    loading,
+  } = useTeachingMaterials();
+
+  // Hidden content never appears in the browser, and hiding a category or a
+  // folder hides everything below it.
+  const categories = useMemo(
+    () => allCategories.filter((c) => c.is_published),
+    [allCategories],
+  );
+  const subcategories = useMemo(() => {
+    const ok = new Set(categories.map((c) => c.id));
+    return allSubcategories.filter((s) => s.is_published && ok.has(s.category_id));
+  }, [allSubcategories, categories]);
+  const articles = useMemo(() => {
+    const ok = new Set(subcategories.map((s) => s.id));
+    return allArticles.filter((a) => a.is_published && ok.has(a.subcategory_id));
+  }, [allArticles, subcategories]);
+
 
   const [catId, setCatId] = useState<string | null>(null);
   const [subId, setSubId] = useState<string | null>(null);

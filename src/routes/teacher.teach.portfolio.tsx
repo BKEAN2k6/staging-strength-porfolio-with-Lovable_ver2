@@ -4,7 +4,7 @@
  * adventure screens rendered read-only, and an in-app fullscreen present mode.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { Component, useState, type ReactNode } from "react";
 import { StickyNote } from "@/components/StickyNote";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PresentationOverlay } from "@/components/teach/PresentationOverlay";
@@ -36,20 +36,38 @@ export const Route = createFileRoute("/teacher/teach/portfolio")({
   component: TeachPortfolioPage,
 });
 
+/** Keeps a single misbehaving screen from taking down the whole page. */
+class ScreenBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch(error: unknown) {
+    console.error("[teach-portfolio] screen render failed", error);
+  }
+  render() {
+    if (this.state.failed) return null;
+    return this.props.children;
+  }
+}
+
 /** Renders adventure content with every control inert. */
 function ReadOnlyScreen({ n }: { n: number }) {
   if (!hasContent(n)) return null;
   return (
-    <div
-      aria-disabled
-      className="pointer-events-none select-none opacity-95 [&_button]:pointer-events-none [&_input]:pointer-events-none [&_select]:pointer-events-none [&_textarea]:pointer-events-none"
-    >
-      <TranslateFi>
-        <ScreenContent n={n} />
-      </TranslateFi>
-    </div>
+    <ScreenBoundary>
+      <div
+        aria-disabled
+        className="pointer-events-none select-none opacity-95 [&_button]:pointer-events-none [&_input]:pointer-events-none [&_select]:pointer-events-none [&_textarea]:pointer-events-none"
+      >
+        <TranslateFi>
+          <ScreenContent n={n} />
+        </TranslateFi>
+      </div>
+    </ScreenBoundary>
   );
 }
+
 
 function TeachPortfolioPage() {
   const tr = useTr();

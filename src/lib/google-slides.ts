@@ -31,7 +31,9 @@ export function slidesEmbedUrl(
     loop: "false",
     hl: opts?.lang ?? "fi",
   });
-  if (opts?.slide != null) params.set("slide", `id.p${opts.slide}`);
+  // Numeric (1-based) slide index — works for every deck, unlike `id.pN`,
+  // which only matches decks whose slide object ids were never regenerated.
+  if (opts?.slide != null) params.set("slide", String(opts.slide));
   return `https://docs.google.com/presentation/d/${id}/embed?${params.toString()}`;
 }
 

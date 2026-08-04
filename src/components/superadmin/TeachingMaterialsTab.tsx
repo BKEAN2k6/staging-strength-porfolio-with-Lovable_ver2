@@ -23,8 +23,46 @@ import {
   deleteTeachingCategory,
   deleteTeachingSubcategory,
   saveTeachingArticle,
+  setTeachingCategoryPublished,
+  setTeachingSubcategoryPublished,
   type TeachingArticle,
 } from "@/lib/teaching.functions";
+
+/** Small "hidden from users" pill shown next to unpublished rows. */
+function HiddenBadge({ label }: { label: string }) {
+  return (
+    <span className="rounded-full bg-slate-900/10 px-2 py-0.5 text-xs font-bold text-slate-700">
+      {label}
+    </span>
+  );
+}
+
+/** Checkbox that flips the published flag for a folder or category. */
+function PublishToggle({
+  checked,
+  disabled,
+  label,
+  onChange,
+}: {
+  checked: boolean;
+  disabled: boolean;
+  label: string;
+  onChange: (next: boolean) => void;
+}) {
+  return (
+    <label className="flex items-center gap-1.5 text-xs font-semibold">
+      <input
+        type="checkbox"
+        className="h-4 w-4"
+        checked={checked}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.checked)}
+      />
+      {label}
+    </label>
+  );
+}
+
 
 export function TeachingMaterialsTab() {
   const tr = useTr();
@@ -38,6 +76,8 @@ export function TeachingMaterialsTab() {
   const delSub = useServerFn(deleteTeachingSubcategory);
   const saveArticle = useServerFn(saveTeachingArticle);
   const delArticle = useServerFn(deleteTeachingArticle);
+  const publishCategory = useServerFn(setTeachingCategoryPublished);
+  const publishSub = useServerFn(setTeachingSubcategoryPublished);
 
   const [newStrength, setNewStrength] = useState<string>("");
   const [openCat, setOpenCat] = useState<string | null>(null);
@@ -121,15 +161,27 @@ export function TeachingMaterialsTab() {
                   aria-hidden
                 />
                 {getStrengthName(Number(c.strength_id), lang)}
+                {!c.is_published && <HiddenBadge label={tr("Piilotettu")} />}
               </button>
-              <Button
-                variant="ghost"
-                disabled={busy}
-                onClick={() => void run(() => delCategory({ data: { id: c.id } }))}
-              >
-                {tr("Poista")}
-              </Button>
+              <div className="flex flex-wrap items-center gap-3">
+                <PublishToggle
+                  checked={c.is_published}
+                  disabled={busy}
+                  label={tr("Julkaistu")}
+                  onChange={(next) =>
+                    void run(() => publishCategory({ data: { id: c.id, isPublished: next } }))
+                  }
+                />
+                <Button
+                  variant="ghost"
+                  disabled={busy}
+                  onClick={() => void run(() => delCategory({ data: { id: c.id } }))}
+                >
+                  {tr("Poista")}
+                </Button>
+              </div>
             </div>
+
 
             {open && (
               <div className="space-y-3">
@@ -138,8 +190,20 @@ export function TeachingMaterialsTab() {
                   return (
                     <div key={s.id} className="rounded-2xl bg-white/70 p-3">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className="font-bold">{pickLang(s as never, "name", lang)}</span>
-                        <div className="flex gap-2">
+                        <span className="flex items-center gap-2 font-bold">
+                          {pickLang(s as never, "name", lang)}
+                          {!s.is_published && <HiddenBadge label={tr("Piilotettu")} />}
+                        </span>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <PublishToggle
+                            checked={s.is_published}
+                            disabled={busy}
+                            label={tr("Julkaistu")}
+                            onChange={(next) =>
+                              void run(() => publishSub({ data: { id: s.id, isPublished: next } }))
+                            }
+                          />
+
                           <Button
                             size="sm"
                             disabled={busy}
