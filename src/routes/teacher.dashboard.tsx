@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StickyNote } from "@/components/StickyNote";
+import { StrengthPickerGrid } from "@/components/strengths/StrengthPickerGrid";
 import { DashboardShell } from "@/components/DashboardShell";
 import { ProfileSettings } from "@/components/ProfileSettings";
 import { supabase } from "@/integrations/supabase/client";
@@ -355,7 +356,7 @@ function AssignStrengths({
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const [classId, setClassId] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [strengthId, setStrengthId] = useState<number | null>(null);
+  const [strengthIds, setStrengthIds] = useState<number[]>([]);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -375,24 +376,33 @@ function AssignStrengths({
     [unique, classId],
   );
 
+  function toggleStrength(id: number) {
+    setStrengthIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : prev.length >= 3 ? prev : [...prev, id],
+    );
+  }
+
   async function submit() {
-    if (!teacherId || !studentId || strengthId == null) return;
+    if (!teacherId || !studentId || strengthIds.length === 0) return;
+    const names = strengthIds.map((id) => getStrengthName(id, lang)).join(", ");
     const ok = window.confirm(
-      `${tr("Haluatko lahjoittaa vahvuuden")} ${getStrengthName(strengthId, lang)} ${tr("opiskelijalle")} ${nameOf(studentId)}?`,
+      `${tr("Haluatko lahjoittaa vahvuuden")} ${names} ${tr("opiskelijalle")} ${nameOf(studentId)}?`,
     );
     if (!ok) return;
     setBusy(true);
     try {
-      const { error } = await supabase.from("teacher_assigned_strengths" as never).insert({
-        teacher_id: teacherId,
-        student_id: studentId,
-        strength_id: String(strengthId),
-        message: message.trim() || null,
-      } as never);
+      const { error } = await supabase.from("teacher_assigned_strengths" as never).insert(
+        strengthIds.map((id) => ({
+          teacher_id: teacherId,
+          student_id: studentId,
+          strength_id: String(id),
+          message: message.trim() || null,
+        })) as never,
+      );
       if (error) throw error;
-      toast.success(tr("Vahvuus lahjoitettu!"));
+      toast.success(`${strengthIds.length} ${tr("vahvuutta lähetetty!")}`);
       setMessage("");
-      setStrengthId(null);
+      setStrengthIds([]);
       await onDone();
     } catch (e) {
       toast.error((e as Error).message);
@@ -449,27 +459,12 @@ function AssignStrengths({
 
         <div className="space-y-2">
           <Label>{tr("Valitse vahvuus")}</Label>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-            {ALL_STRENGTHS.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setStrengthId(s.id)}
-                aria-pressed={strengthId === s.id}
-                className={cn(
-                  "flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-2 text-left text-xs font-medium text-[color:var(--ink)] transition-all hover:-translate-y-0.5",
-                  strengthId === s.id ? "border-[color:var(--coral)] shadow-md" : "border-black/10",
-                )}
-              >
-                <span
-                  className="h-3 w-3 shrink-0 rounded-full"
-                  style={{ background: s.color }}
-                  aria-hidden
-                />
-                <span className="truncate">{getStrengthName(s.id, lang)}</span>
-              </button>
-            ))}
-          </div>
+          <StrengthPickerGrid
+            lang={lang}
+            selectedIds={strengthIds}
+            disabled={busy || !studentId}
+            onSelect={toggleStrength}
+          />
         </div>
 
         <div className="space-y-1">
@@ -483,7 +478,7 @@ function AssignStrengths({
         </div>
 
         <Button
-          disabled={busy || !studentId || strengthId == null}
+          disabled={busy || !studentId || strengthIds.length === 0}
           onClick={() => void submit()}
           className="rounded-full bg-[color:var(--purple)] font-bold text-white hover:bg-[color:var(--purple)]/90"
         >
