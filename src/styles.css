@@ -68,8 +68,8 @@
   --color-green: var(--green);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
-  --font-display: "Fredoka", "Poppins", system-ui, sans-serif;
-  --font-sans: "Poppins", system-ui, sans-serif;
+  --font-display: "Fredoka", sans-serif;
+  --font-sans: "Fredoka", sans-serif;
 }
 
 :root {
@@ -161,11 +161,20 @@
     border-color: var(--color-border);
   }
 
+  body,
+  * {
+    font-family: "Fredoka", sans-serif;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-weight: 400;
   }
+
+  h1, h2, .page-title { font-weight: 700; }
+  h3, h4, h5, h6 { font-weight: 600; }
+  small, .text-xs, .muted { font-weight: 300; }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);

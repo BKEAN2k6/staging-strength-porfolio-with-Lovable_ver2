@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { SaveState } from "@/hooks/use-autosave";
 import { TranslateFi, useT, useTr } from "@/lib/i18n";
 import { useStudentProgress } from "@/lib/progress";
+import { LevelProgressBar } from "@/components/LevelProgressBar";
 import { WorldIcon } from "@/components/icons/AppIcons";
 
 export const Route = createFileRoute("/_authenticated/seikkailu/$screen")({
@@ -64,16 +65,8 @@ function ScreenView() {
           <PencilBadge icon={<WorldIcon id={world.id} size={14} />}>{tr(world.title)}</PencilBadge>
           <span className="text-sm opacity-80">{tr(world.subtitle)}</span>
         </div>
-        <div className="mb-5 flex items-center gap-2">
-          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-black/15">
-            <span
-              className="block h-full rounded-full bg-[color:var(--purple)] transition-all"
-              style={{ width: `${pct}%` }}
-            />
-          </span>
-          <span className="shrink-0 text-xs tabular-nums opacity-70">
-            {pct}% {tr("valmis")}
-          </span>
+        <div className="mb-5 w-56 max-w-full">
+          <LevelProgressBar pct={pct} />
         </div>
         {built ? (
           <TranslateFi>

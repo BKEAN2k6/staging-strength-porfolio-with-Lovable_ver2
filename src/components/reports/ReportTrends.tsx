@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { StickyNote } from "@/components/StickyNote";
+import { LevelProgressBar } from "@/components/LevelProgressBar";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 import { buildLevelCompletion } from "@/lib/report-levels";
@@ -275,16 +276,7 @@ function LevelCompletionCard({
         {levels.map((l, i) => (
           <li key={l.id} className="flex items-center gap-3 text-sm">
             <span className="w-28 shrink-0 font-medium">{tr(l.title)}</span>
-            <span className="h-3 flex-1 overflow-hidden rounded-full bg-black/10">
-              <span
-                className="block h-full rounded-full transition-all"
-                style={{
-                  width: `${l.pct}%`,
-                  background: [PURPLE, CORAL, YELLOW][i % 3],
-                }}
-              />
-            </span>
-            <span className="w-12 shrink-0 text-right tabular-nums">{l.pct} %</span>
+            <LevelProgressBar pct={l.pct} className="w-28 shrink-0" />
           </li>
         ))}
       </ul>

@@ -1360,6 +1360,10 @@
     "en": "These resources can be your own strengths, social relationships, close people, emotional regulation, dreams for the future, your thoughts, your attitude, a self-compassionate approach to yourself, and previous experiences of success.",
     "sv": "Dessa resurser kan vara dina egna styrkor, sociala relationer, närstående personer, känslohantering, drömmar för framtiden, dina tankar, din inställning, ett självmedkännande förhållningssätt till dig själv och tidigare erfarenheter av framgång."
   },
+  "Näytöt": {
+    "en": "Screens",
+    "sv": "Skärmar"
+  },
   "OPPIMISEN ILO / LÄRANDETS GLÄDJE": {
     "sv": "section_header"
   },
@@ -2162,6 +2166,10 @@
     "en": "avg completion",
     "sv": "genomsnittligt slutförande"
   },
+  "näyttöä": {
+    "en": "screens",
+    "sv": "skärmar"
+  },
   "näyttöä tällä viikolla": {
     "en": "screens this week",
     "sv": "skärmar denna vecka"
@@ -2196,7 +2204,7 @@
   },
   "valmis": {
     "en": "complete",
-    "sv": "klar"
+    "sv": "klart"
   },
   "yhteensä": {
     "en": "total",
