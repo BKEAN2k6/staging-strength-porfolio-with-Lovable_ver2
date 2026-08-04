@@ -73,14 +73,9 @@ export const createTeachingCategory = createServerFn({ method: "POST" })
       .select("id")
       .single();
     if (error) throw new Error(error.message);
-    await db.from("teaching_subcategories").insert(
-      DEFAULT_SUBCATEGORIES.map((s, i) => ({
-        ...s,
-        category_id: row.id,
-        sort_order: i,
-      })),
-    );
+    // Sub-categories are added manually by the super admin — no presets.
     return { id: row.id as string };
+
   });
 
 export const deleteTeachingCategory = createServerFn({ method: "POST" })
