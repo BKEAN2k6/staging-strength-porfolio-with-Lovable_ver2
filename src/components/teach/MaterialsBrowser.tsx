@@ -1,7 +1,8 @@
 /**
- * @lovable-new 2026-08-04
+ * @lovable-new 2026-08-05
  * Teaching Materials browser used by teachers and school admins.
- * Four levels: strength categories → sub-categories → articles → Google Slides.
+ * Flat structure: strength categories → articles → Google Slides.
+ * (Sub-categories were removed 2026-08-05.)
  */
 import { useMemo, useState } from "react";
 import { StickyNote } from "@/components/StickyNote";
@@ -27,53 +28,49 @@ export function MaterialsBrowser({
     loading,
   } = useTeachingMaterials();
 
-  // Hidden content never appears in the browser, and hiding a category or a
-  // folder hides everything below it.
   const categories = useMemo(
     () => allCategories.filter((c) => c.is_published),
     [allCategories],
   );
-  const subcategories = useMemo(() => {
-    const ok = new Set(categories.map((c) => c.id));
-    return allSubcategories.filter((s) => s.is_published && ok.has(s.category_id));
-  }, [allSubcategories, categories]);
-  const articles = useMemo(() => {
-    const ok = new Set(subcategories.map((s) => s.id));
-    return allArticles.filter((a) => a.is_published && ok.has(a.subcategory_id));
-  }, [allArticles, subcategories]);
 
+  /** Legacy rows may still carry only a subcategory — resolve their parent. */
+  const parentOfSub = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const s of allSubcategories) m.set(s.id, s.category_id);
+    return m;
+  }, [allSubcategories]);
+
+  const articles = useMemo(() => {
+    const ok = new Set(categories.map((c) => c.id));
+    return allArticles
+      .filter((a) => a.is_published)
+      .map((a) => ({
+        ...a,
+        category_id:
+          a.category_id ?? (a.subcategory_id ? parentOfSub.get(a.subcategory_id) ?? null : null),
+      }))
+      .filter((a) => a.category_id && ok.has(a.category_id));
+  }, [allArticles, categories, parentOfSub]);
 
   const [catId, setCatId] = useState<string | null>(null);
-  const [subId, setSubId] = useState<string | null>(null);
   const [articleId, setArticleId] = useState<string | null>(null);
 
   const category = categories.find((c) => c.id === catId) ?? null;
-  const subcategory = subcategories.find((s) => s.id === subId) ?? null;
   const article = articles.find((a) => a.id === articleId) ?? null;
 
-  const subsOf = useMemo(
-    () => subcategories.filter((s) => s.category_id === catId),
-    [subcategories, catId],
-  );
   const articlesOf = useMemo(
-    () => articles.filter((a) => a.subcategory_id === subId),
-    [articles, subId],
+    () => articles.filter((a) => a.category_id === catId),
+    [articles, catId],
   );
 
   /** Categories that actually have at least one article. */
-  const visibleCategories = useMemo(() => {
-    const subByCat = new Map<string, string[]>();
-    for (const s of subcategories) {
-      subByCat.set(s.category_id, [...(subByCat.get(s.category_id) ?? []), s.id]);
-    }
-    return categories
-      .map((c) => {
-        const ids = new Set(subByCat.get(c.id) ?? []);
-        const count = articles.filter((a) => ids.has(a.subcategory_id)).length;
-        return { c, count };
-      })
-      .filter((x) => x.count > 0);
-  }, [categories, subcategories, articles]);
+  const visibleCategories = useMemo(
+    () =>
+      categories
+        .map((c) => ({ c, count: articles.filter((a) => a.category_id === c.id).length }))
+        .filter((x) => x.count > 0),
+    [categories, articles],
+  );
 
   const strengthName = category ? getStrengthName(Number(category.strength_id), lang) : "";
 
@@ -82,24 +79,12 @@ export function MaterialsBrowser({
       label: tr("Opetusmateriaalit"),
       onClick: () => {
         setCatId(null);
-        setSubId(null);
         setArticleId(null);
       },
     },
   ];
   if (category)
-    crumbs.push({
-      label: strengthName,
-      onClick: () => {
-        setSubId(null);
-        setArticleId(null);
-      },
-    });
-  if (subcategory)
-    crumbs.push({
-      label: pickLang(subcategory as never, "name", lang),
-      onClick: () => setArticleId(null),
-    });
+    crumbs.push({ label: strengthName, onClick: () => setArticleId(null) });
   if (article) crumbs.push({ label: pickLang(article as never, "title", lang) });
 
   if (loading) return <p className="opacity-70">…</p>;
@@ -164,37 +149,10 @@ export function MaterialsBrowser({
         </StickyNote>
       )}
 
-      {/* Level 2 — sub-categories */}
-      {category && !subcategory && (
-        <StickyNote seed="materials-subs" className="space-y-3">
-          <h3 className="text-xl font-bold">{strengthName}</h3>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {subsOf.map((s) => {
-              const count = articles.filter((a) => a.subcategory_id === s.id).length;
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => setSubId(s.id)}
-                  className="rounded-2xl bg-white/85 p-4 text-left text-slate-900 shadow transition-transform hover:-translate-y-0.5"
-                >
-                  <span className="block font-bold">{pickLang(s as never, "name", lang)}</span>
-                  {showCounts && (
-                    <span className="block text-sm opacity-70">
-                      {count} {tr("Artikkeleita")}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </StickyNote>
-      )}
-
-      {/* Level 3 — articles */}
-      {subcategory && !article && (
+      {/* Level 2 — articles of that strength */}
+      {category && !article && (
         <StickyNote seed="materials-articles" className="space-y-3">
-          <h3 className="text-xl font-bold">{pickLang(subcategory as never, "name", lang)}</h3>
+          <h3 className="text-xl font-bold">{strengthName}</h3>
           {articlesOf.length === 0 ? (
             <p className="opacity-70">{tr("Ei materiaaleja vielä.")}</p>
           ) : (
@@ -225,9 +183,8 @@ export function MaterialsBrowser({
         </StickyNote>
       )}
 
-      {/* Level 4 — Google Slides viewer */}
+      {/* Level 3 — Google Slides viewer */}
       {article && <ArticleView article={article} lang={lang} />}
     </div>
   );
 }
-
