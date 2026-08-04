@@ -23,8 +23,46 @@ import {
   deleteTeachingCategory,
   deleteTeachingSubcategory,
   saveTeachingArticle,
+  setTeachingCategoryPublished,
+  setTeachingSubcategoryPublished,
   type TeachingArticle,
 } from "@/lib/teaching.functions";
+
+/** Small "hidden from users" pill shown next to unpublished rows. */
+function HiddenBadge({ label }: { label: string }) {
+  return (
+    <span className="rounded-full bg-slate-900/10 px-2 py-0.5 text-xs font-bold text-slate-700">
+      {label}
+    </span>
+  );
+}
+
+/** Checkbox that flips the published flag for a folder or category. */
+function PublishToggle({
+  checked,
+  disabled,
+  label,
+  onChange,
+}: {
+  checked: boolean;
+  disabled: boolean;
+  label: string;
+  onChange: (next: boolean) => void;
+}) {
+  return (
+    <label className="flex items-center gap-1.5 text-xs font-semibold">
+      <input
+        type="checkbox"
+        className="h-4 w-4"
+        checked={checked}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.checked)}
+      />
+      {label}
+    </label>
+  );
+}
+
 
 export function TeachingMaterialsTab() {
   const tr = useTr();
