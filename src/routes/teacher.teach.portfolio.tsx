@@ -4,7 +4,7 @@
  * project any of them fullscreen, read-only, for the class.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { StickyNote } from "@/components/StickyNote";
 import { DashboardShell } from "@/components/DashboardShell";
 import { PresentationOverlay } from "@/components/teach/PresentationOverlay";
@@ -42,35 +42,6 @@ function ReadOnlyScreen({ n }: { n: number }) {
       <TranslateFi>
         <ScreenContent n={n} />
       </TranslateFi>
-    </div>
-  );
-}
-
-/** Mounts its children only once scrolled near the viewport. */
-function LazyPreview({ n }: { n: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || show) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) setShow(true);
-      },
-      { rootMargin: "200px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [show]);
-
-  return (
-    <div ref={ref} className="h-24 overflow-hidden rounded-xl bg-white/60">
-      {show && (
-        <div className="w-[400%] origin-top-left scale-[0.25]">
-          <ReadOnlyScreen n={n} />
-        </div>
-      )}
     </div>
   );
 }
@@ -114,7 +85,9 @@ function TeachPortfolioPage() {
                   <span className="block text-xs font-bold opacity-70">
                     {tr("Näyttö")} {n}
                   </span>
-                  <LazyPreview n={n} />
+                  <span className="block break-words text-sm font-bold leading-snug">
+                    {tr("Näytä luokalle")}
+                  </span>
                 </button>
               ))}
             </div>
