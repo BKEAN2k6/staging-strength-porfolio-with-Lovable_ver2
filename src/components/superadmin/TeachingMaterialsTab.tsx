@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { StickyNote } from "@/components/StickyNote";
 import { useLanguage, useTr } from "@/lib/i18n";
-import { ALL_STRENGTH_IDS, getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
+import { STRENGTHS, getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 import { pickLang, useTeachingMaterials } from "@/hooks/useTeachingMaterials";
 import { slidesId } from "@/lib/google-slides";
 import {
@@ -78,7 +78,9 @@ export function TeachingMaterialsTab() {
               onChange={(e) => setNewStrength(e.target.value)}
             >
               <option value="">{tr("Valitse")}</option>
-              {ALL_STRENGTH_IDS.filter((id) => !usedStrengths.has(String(id))).map((id) => (
+              {STRENGTHS.map((s) => s.nr)
+                .filter((id: number) => !usedStrengths.has(String(id)))
+                .map((id: number) => (
                 <option key={id} value={String(id)}>
                   {getStrengthName(id, lang)}
                 </option>
