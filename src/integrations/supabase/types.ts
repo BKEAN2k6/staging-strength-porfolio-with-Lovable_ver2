@@ -594,6 +594,7 @@ export type Database = {
       }
       teaching_articles: {
         Row: {
+          category_id: string | null
           created_at: string
           created_by: string | null
           description_en: string | null
@@ -606,7 +607,7 @@ export type Database = {
           is_published: boolean
           slide_count: number
           sort_order: number
-          subcategory_id: string
+          subcategory_id: string | null
           thumbnail_url: string | null
           title_en: string
           title_fi: string
@@ -614,6 +615,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category_id?: string | null
           created_at?: string
           created_by?: string | null
           description_en?: string | null
@@ -626,7 +628,7 @@ export type Database = {
           is_published?: boolean
           slide_count?: number
           sort_order?: number
-          subcategory_id: string
+          subcategory_id?: string | null
           thumbnail_url?: string | null
           title_en: string
           title_fi: string
@@ -634,6 +636,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category_id?: string | null
           created_at?: string
           created_by?: string | null
           description_en?: string | null
@@ -646,7 +649,7 @@ export type Database = {
           is_published?: boolean
           slide_count?: number
           sort_order?: number
-          subcategory_id?: string
+          subcategory_id?: string | null
           thumbnail_url?: string | null
           title_en?: string
           title_fi?: string
@@ -654,6 +657,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "teaching_articles_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "teaching_categories"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "teaching_articles_created_by_fkey"
             columns: ["created_by"]
