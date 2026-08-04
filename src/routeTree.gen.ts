@@ -44,6 +44,7 @@ import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
+import { Route as AuthenticatedStudentGiveStrengthRouteImport } from './routes/_authenticated/student/give-strength'
 import { Route as AuthenticatedStudentProfileRouteImport } from './routes/_authenticated/student/profile'
 import { Route as AuthenticatedStudentSprintRouteImport } from './routes/_authenticated/student/sprint'
 import { Route as AuthenticatedStudentStrengthsRouteImport } from './routes/_authenticated/student/strengths'
@@ -232,6 +233,12 @@ const AuthenticatedSeikkailuScreenRoute =
     path: '/$screen',
     getParentRoute: () => AuthenticatedSeikkailuRouteRoute,
   } as any)
+const AuthenticatedStudentGiveStrengthRoute =
+  AuthenticatedStudentGiveStrengthRouteImport.update({
+    id: '/give-strength',
+    path: '/give-strength',
+    getParentRoute: () => AuthenticatedStudentRouteRoute,
+  } as any)
 const AuthenticatedStudentProfileRoute =
   AuthenticatedStudentProfileRouteImport.update({
     id: '/profile',
@@ -297,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/student/give-strength': typeof AuthenticatedStudentGiveStrengthRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
   '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
@@ -336,6 +344,7 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/student/give-strength': typeof AuthenticatedStudentGiveStrengthRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
   '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
@@ -379,6 +388,7 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
+  '/_authenticated/student/give-strength': typeof AuthenticatedStudentGiveStrengthRoute
   '/_authenticated/student/profile': typeof AuthenticatedStudentProfileRoute
   '/_authenticated/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/_authenticated/student/strengths': typeof AuthenticatedStudentStrengthsRoute
@@ -422,6 +432,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
+    | '/student/give-strength'
     | '/student/profile'
     | '/student/sprint'
     | '/student/strengths'
@@ -461,6 +472,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
+    | '/student/give-strength'
     | '/student/profile'
     | '/student/sprint'
     | '/student/strengths'
@@ -503,6 +515,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/seikkailu/$screen'
+    | '/_authenticated/student/give-strength'
     | '/_authenticated/student/profile'
     | '/_authenticated/student/sprint'
     | '/_authenticated/student/strengths'
@@ -784,6 +797,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSeikkailuScreenRouteImport
       parentRoute: typeof AuthenticatedSeikkailuRouteRoute
     }
+    '/_authenticated/student/give-strength': {
+      id: '/_authenticated/student/give-strength'
+      path: '/give-strength'
+      fullPath: '/student/give-strength'
+      preLoaderRoute: typeof AuthenticatedStudentGiveStrengthRouteImport
+      parentRoute: typeof AuthenticatedStudentRouteRoute
+    }
     '/_authenticated/student/profile': {
       id: '/_authenticated/student/profile'
       path: '/profile'
@@ -839,6 +859,7 @@ const AuthenticatedSeikkailuRouteRouteWithChildren =
   )
 
 interface AuthenticatedStudentRouteRouteChildren {
+  AuthenticatedStudentGiveStrengthRoute: typeof AuthenticatedStudentGiveStrengthRoute
   AuthenticatedStudentProfileRoute: typeof AuthenticatedStudentProfileRoute
   AuthenticatedStudentSprintRoute: typeof AuthenticatedStudentSprintRoute
   AuthenticatedStudentStrengthsRoute: typeof AuthenticatedStudentStrengthsRoute
@@ -846,6 +867,8 @@ interface AuthenticatedStudentRouteRouteChildren {
 
 const AuthenticatedStudentRouteRouteChildren: AuthenticatedStudentRouteRouteChildren =
   {
+    AuthenticatedStudentGiveStrengthRoute:
+      AuthenticatedStudentGiveStrengthRoute,
     AuthenticatedStudentProfileRoute: AuthenticatedStudentProfileRoute,
     AuthenticatedStudentSprintRoute: AuthenticatedStudentSprintRoute,
     AuthenticatedStudentStrengthsRoute: AuthenticatedStudentStrengthsRoute,
