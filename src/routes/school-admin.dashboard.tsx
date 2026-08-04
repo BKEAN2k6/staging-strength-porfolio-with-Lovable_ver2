@@ -806,21 +806,8 @@ function SchoolAdminClassReport({
   const top = useMemo(() => tally(rows).slice(0, 5), [rows]);
   const avg = rows.length ? Math.round(rows.reduce((a, r) => a + r.pct, 0) / rows.length) : 0;
 
-  const levels = useMemo(
-    () =>
-      WORLDS.map((w, i) => {
-        let done = 0;
-        let total = 0;
-        for (const r of rows) {
-          const x = r.worlds[i];
-          if (!x) continue;
-          done += x.done;
-          total += x.total;
-        }
-        return { id: w.id, title: w.title, pct: total ? Math.round((done / total) * 100) : 0 };
-      }),
-    [rows],
-  );
+
+
 
   const sorted = useMemo(() => {
     const copy = [...rows];
