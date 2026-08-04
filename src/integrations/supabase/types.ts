@@ -592,6 +592,108 @@ export type Database = {
         }
         Relationships: []
       }
+      teaching_articles: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description_en: string | null
+          description_fi: string | null
+          description_sv: string | null
+          google_slides_url_en: string | null
+          google_slides_url_fi: string | null
+          google_slides_url_sv: string | null
+          id: string
+          is_published: boolean
+          sort_order: number
+          subcategory_id: string
+          thumbnail_url: string | null
+          title_en: string
+          title_fi: string
+          title_sv: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          google_slides_url_en?: string | null
+          google_slides_url_fi?: string | null
+          google_slides_url_sv?: string | null
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          subcategory_id: string
+          thumbnail_url?: string | null
+          title_en: string
+          title_fi: string
+          title_sv: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_fi?: string | null
+          description_sv?: string | null
+          google_slides_url_en?: string | null
+          google_slides_url_fi?: string | null
+          google_slides_url_sv?: string | null
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          subcategory_id?: string
+          thumbnail_url?: string | null
+          title_en?: string
+          title_fi?: string
+          title_sv?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teaching_articles_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teaching_articles_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "teaching_subcategories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teaching_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_published: boolean
+          sort_order: number
+          strength_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          strength_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          strength_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       teaching_presentations: {
         Row: {
           canva_design_id: string
@@ -659,6 +761,50 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teaching_subcategories: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          is_published: boolean
+          name_en: string
+          name_fi: string
+          name_sv: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          name_en: string
+          name_fi: string
+          name_sv: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          name_en?: string
+          name_fi?: string
+          name_sv?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teaching_subcategories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "teaching_categories"
             referencedColumns: ["id"]
           },
         ]
