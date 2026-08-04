@@ -140,6 +140,7 @@ export function PresentationOverlay({
           {tr("Sulje esitys")}
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
