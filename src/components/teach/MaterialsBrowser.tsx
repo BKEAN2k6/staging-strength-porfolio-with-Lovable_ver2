@@ -8,11 +8,15 @@ import { StickyNote } from "@/components/StickyNote";
 import { ArrowLeftIcon, BookIcon } from "@/components/icons/AppIcons";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
-import { SlideViewer } from "@/components/teach/SlideViewer";
+import { ArticleView } from "@/components/teach/ArticleView";
 import { pickLang, useTeachingMaterials } from "@/hooks/useTeachingMaterials";
-import type { TeachingArticle } from "@/lib/teaching.functions";
 
-export function MaterialsBrowser() {
+export function MaterialsBrowser({
+  showCounts = false,
+}: {
+  /** Article counts are super-admin only detail. */
+  showCounts?: boolean;
+} = {}) {
   const tr = useTr();
   const { language } = useLanguage();
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
@@ -148,9 +152,11 @@ export function MaterialsBrowser() {
                   <span className="block text-lg font-bold">
                     {getStrengthName(Number(c.strength_id), lang)}
                   </span>
-                  <span className="block text-sm opacity-90">
-                    {count} {tr("Artikkeleita")}
-                  </span>
+                  {showCounts && (
+                    <span className="block text-sm opacity-90">
+                      {count} {tr("Artikkeleita")}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -173,9 +179,11 @@ export function MaterialsBrowser() {
                   className="rounded-2xl bg-white/85 p-4 text-left text-slate-900 shadow transition-transform hover:-translate-y-0.5"
                 >
                   <span className="block font-bold">{pickLang(s as never, "name", lang)}</span>
-                  <span className="block text-sm opacity-70">
-                    {count} {tr("Artikkeleita")}
-                  </span>
+                  {showCounts && (
+                    <span className="block text-sm opacity-70">
+                      {count} {tr("Artikkeleita")}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -218,28 +226,8 @@ export function MaterialsBrowser() {
       )}
 
       {/* Level 4 — Google Slides viewer */}
-      {article && <ArticleViewer article={article} lang={lang} />}
+      {article && <ArticleView article={article} lang={lang} />}
     </div>
-  );
-}
-
-function ArticleViewer({
-  article,
-  lang,
-}: {
-  article: TeachingArticle;
-  lang: "fi" | "en" | "sv";
-}) {
-  const raw =
-    (article as unknown as Record<string, string | null>)[`google_slides_url_${lang}`] ||
-    article.google_slides_url_fi;
-  const title = pickLang(article as never, "title", lang);
-
-  return (
-    <StickyNote seed={`article-${article.id}`} className="space-y-3">
-      <SlideViewer url={raw} title={title} lang={lang} />
-      <p className="text-sm opacity-80">{pickLang(article as never, "description", lang)}</p>
-    </StickyNote>
   );
 }
 
