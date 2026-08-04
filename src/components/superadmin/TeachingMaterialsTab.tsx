@@ -1,8 +1,8 @@
 /**
  * @lovable-new 2026-08-04
  * Super admin "Teaching Materials" tab — manage the three-level library:
- * strength categories → sub-categories (Start / Speak / Act / Assess) →
- * articles that embed a Google Slides deck per language.
+ * @lovable-new 2026-08-05 flat structure: strength categories → articles that
+ * embed a Google Slides deck per language (sub-categories removed).
  */
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -19,13 +19,10 @@ import { slidesId } from "@/lib/google-slides";
 import { ArticleView } from "@/components/teach/ArticleView";
 import {
   createTeachingCategory,
-  createTeachingSubcategory,
   deleteTeachingArticle,
   deleteTeachingCategory,
-  deleteTeachingSubcategory,
   saveTeachingArticle,
   setTeachingCategoryPublished,
-  setTeachingSubcategoryPublished,
   type TeachingArticle,
 } from "@/lib/teaching.functions";
 
@@ -71,18 +68,22 @@ export function TeachingMaterialsTab() {
   const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
   const { categories, subcategories, articles, refresh } = useTeachingMaterials();
 
+  /** Legacy rows may still only carry a sub-category — resolve its parent. */
+  const catOfArticle = useMemo(() => {
+    const parent = new Map(subcategories.map((s) => [s.id, s.category_id]));
+    return (a: TeachingArticle) =>
+      a.category_id ?? (a.subcategory_id ? parent.get(a.subcategory_id) ?? null : null);
+  }, [subcategories]);
+
   const addCategory = useServerFn(createTeachingCategory);
   const delCategory = useServerFn(deleteTeachingCategory);
-  const addSub = useServerFn(createTeachingSubcategory);
-  const delSub = useServerFn(deleteTeachingSubcategory);
   const saveArticle = useServerFn(saveTeachingArticle);
   const delArticle = useServerFn(deleteTeachingArticle);
   const publishCategory = useServerFn(setTeachingCategoryPublished);
-  const publishSub = useServerFn(setTeachingSubcategoryPublished);
 
   const [newStrength, setNewStrength] = useState<string>("");
   const [openCat, setOpenCat] = useState<string | null>(null);
-  const [editing, setEditing] = useState<{ subId: string; article: TeachingArticle | null } | null>(
+  const [editing, setEditing] = useState<{ catId: string; article: TeachingArticle | null } | null>(
     null,
   );
   const [busy, setBusy] = useState(false);
@@ -142,11 +143,9 @@ export function TeachingMaterialsTab() {
             {tr("Lisää")}
           </Button>
         </div>
-        <p className="text-xs opacity-70">{tr("Lisää alakategoriat itse.")}</p>
       </StickyNote>
 
       {categories.map((c) => {
-        const subs = subcategories.filter((s) => s.category_id === c.id);
         const open = openCat === c.id;
         return (
           <StickyNote key={c.id} seed={`tm-${c.id}`} className="space-y-3">
@@ -186,90 +185,56 @@ export function TeachingMaterialsTab() {
 
             {open && (
               <div className="space-y-3">
-                {subs.map((s) => {
-                  const rows = articles.filter((a) => a.subcategory_id === s.id);
-                  return (
-                    <div key={s.id} className="rounded-2xl bg-white/70 p-3">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className="flex items-center gap-2 font-bold">
-                          {pickLang(s as never, "name", lang)}
-                          {!s.is_published && <HiddenBadge label={tr("Piilotettu")} />}
-                        </span>
-                        <div className="flex flex-wrap items-center gap-3">
-                          <PublishToggle
-                            checked={s.is_published}
-                            disabled={busy}
-                            label={tr("Julkaistu")}
-                            onChange={(next) =>
-                              void run(() => publishSub({ data: { id: s.id, isPublished: next } }))
-                            }
-                          />
-
-                          <Button
-                            size="sm"
-                            disabled={busy}
-                            onClick={() => setEditing({ subId: s.id, article: null })}
-                          >
-                            {tr("Lisää artikkeli")}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            disabled={busy}
-                            onClick={() => void run(() => delSub({ data: { id: s.id } }))}
-                          >
-                            {tr("Poista")}
-                          </Button>
-                        </div>
-                      </div>
-                      <ul className="mt-2 space-y-1">
-                        {rows.map((a) => (
-                          <li
-                            key={a.id}
-                            className="flex flex-wrap items-center justify-between gap-2 text-sm"
-                          >
-                            <span className="min-w-0 break-words">
-                              {pickLang(a as never, "title", lang)}
-                              {!a.is_published && (
-                                <span className="ml-2 opacity-60">({tr("Ei julkaistu")})</span>
-                              )}
-                            </span>
-                            <span className="flex gap-2">
-                              <button
-                                type="button"
-                                className="underline"
-                                onClick={() => setPreview(a)}
-                              >
-                                {tr("Esikatsele")}
-                              </button>
-                              <button
-                                type="button"
-                                className="underline"
-                                onClick={() => setEditing({ subId: s.id, article: a })}
-                              >
-                                {tr("Muokkaa")}
-                              </button>
-                              <button
-                                type="button"
-                                className="underline"
-                                onClick={() => void run(() => delArticle({ data: { id: a.id } }))}
-                              >
-                                {tr("Poista")}
-                              </button>
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                })}
-
-                <AddSubcategory
-                  disabled={busy}
-                  onAdd={(names) =>
-                    void run(() => addSub({ data: { categoryId: c.id, ...names } }))
-                  }
-                />
+                <div className="rounded-2xl bg-white/70 p-3">
+                  <ul className="space-y-1">
+                    {articles
+                      .filter((a) => catOfArticle(a) === c.id)
+                      .map((a) => (
+                        <li
+                          key={a.id}
+                          className="flex flex-wrap items-center justify-between gap-2 text-sm"
+                        >
+                          <span className="min-w-0 break-words">
+                            {pickLang(a as never, "title", lang)}
+                            {!a.is_published && (
+                              <span className="ml-2 opacity-60">({tr("Ei julkaistu")})</span>
+                            )}
+                          </span>
+                          <span className="flex gap-2">
+                            <button
+                              type="button"
+                              className="underline"
+                              onClick={() => setPreview(a)}
+                            >
+                              {tr("Esikatsele")}
+                            </button>
+                            <button
+                              type="button"
+                              className="underline"
+                              onClick={() => setEditing({ catId: c.id, article: a })}
+                            >
+                              {tr("Muokkaa")}
+                            </button>
+                            <button
+                              type="button"
+                              className="underline"
+                              onClick={() => void run(() => delArticle({ data: { id: a.id } }))}
+                            >
+                              {tr("Poista")}
+                            </button>
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                  <Button
+                    size="sm"
+                    className="mt-3"
+                    disabled={busy}
+                    onClick={() => setEditing({ catId: c.id, article: null })}
+                  >
+                    {tr("Lisää artikkeli")}
+                  </Button>
+                </div>
               </div>
             )}
           </StickyNote>
@@ -290,7 +255,7 @@ export function TeachingMaterialsTab() {
 
       {editing && (
         <ArticleForm
-          subId={editing.subId}
+          catId={editing.catId}
           article={editing.article}
           busy={busy}
           onCancel={() => setEditing(null)}
@@ -306,60 +271,20 @@ export function TeachingMaterialsTab() {
   );
 }
 
-function AddSubcategory({
-  disabled,
-  onAdd,
-}: {
-  disabled: boolean;
-  onAdd: (n: { nameFi: string; nameEn: string; nameSv: string }) => void;
-}) {
-  const tr = useTr();
-  const [fi, setFi] = useState("");
-  const [en, setEn] = useState("");
-  const [sv, setSv] = useState("");
-  return (
-    <div className="flex flex-wrap items-end gap-2">
-      <div className="space-y-1">
-        <Label>{tr("Alakategoria")} (FI)</Label>
-        <Input value={fi} onChange={(e) => setFi(e.target.value)} />
-      </div>
-      <div className="space-y-1">
-        <Label>EN</Label>
-        <Input value={en} onChange={(e) => setEn(e.target.value)} />
-      </div>
-      <div className="space-y-1">
-        <Label>SV</Label>
-        <Input value={sv} onChange={(e) => setSv(e.target.value)} />
-      </div>
-      <Button
-        disabled={disabled || !fi.trim()}
-        onClick={() => {
-          onAdd({ nameFi: fi.trim(), nameEn: (en || fi).trim(), nameSv: (sv || fi).trim() });
-          setFi("");
-          setEn("");
-          setSv("");
-        }}
-      >
-        {tr("Lisää")}
-      </Button>
-    </div>
-  );
-}
-
 function ArticleForm({
-  subId,
+  catId,
   article,
   busy,
   onCancel,
   onSave,
 }: {
-  subId: string;
+  catId: string;
   article: TeachingArticle | null;
   busy: boolean;
   onCancel: () => void;
   onSave: (input: {
     id?: string;
-    subcategoryId: string;
+    categoryId: string;
     titleFi: string;
     titleEn: string;
     titleSv: string;
@@ -442,7 +367,7 @@ function ArticleForm({
           onClick={() =>
             onSave({
               id: article?.id,
-              subcategoryId: subId,
+              categoryId: catId,
               titleFi: titleFi.trim(),
               titleEn: (titleEn || titleFi).trim(),
               titleSv: (titleSv || titleFi).trim(),
