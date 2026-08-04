@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -98,6 +98,22 @@ export function DashboardShell({
                 );
               })}
             </nav>
+            {/* @lovable-new */}
+            {links && links.length > 0 && (
+              <nav className="mt-3 space-y-1.5 border-t border-white/20 pt-3">
+                {links.map((l) => (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    className="flex w-full items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold text-white/90 transition-all hover:bg-white/15"
+                    activeProps={{ className: "bg-white text-[color:var(--purple)] shadow-md" }}
+                  >
+                    <StarIcon size={18} className="shrink-0" />
+                    <span className="min-w-0 break-words">{l.label}</span>
+                  </Link>
+                ))}
+              </nav>
+            )}
             <button
               type="button"
               className="mt-6 px-4 text-left text-xs text-white/80 underline hover:text-white"
