@@ -76,6 +76,8 @@ export function TeachingMaterialsTab() {
   const delSub = useServerFn(deleteTeachingSubcategory);
   const saveArticle = useServerFn(saveTeachingArticle);
   const delArticle = useServerFn(deleteTeachingArticle);
+  const publishCategory = useServerFn(setTeachingCategoryPublished);
+  const publishSub = useServerFn(setTeachingSubcategoryPublished);
 
   const [newStrength, setNewStrength] = useState<string>("");
   const [openCat, setOpenCat] = useState<string | null>(null);
