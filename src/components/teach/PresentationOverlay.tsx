@@ -41,7 +41,11 @@ export function PresentationOverlay({
   useEffect(() => {
     wake();
     void document.documentElement.requestFullscreen?.().catch(() => undefined);
+    // Freeze the page underneath so the presentation is the only scrollable layer.
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
+      document.body.style.overflow = prevOverflow;
       if (hideTimer.current) window.clearTimeout(hideTimer.current);
       if (document.fullscreenElement) void document.exitFullscreen?.().catch(() => undefined);
     };
