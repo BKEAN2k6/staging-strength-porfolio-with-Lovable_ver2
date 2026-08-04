@@ -16,6 +16,7 @@ import { useLanguage, useTr } from "@/lib/i18n";
 import { STRENGTHS, getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 import { pickLang, useTeachingMaterials } from "@/hooks/useTeachingMaterials";
 import { slidesId } from "@/lib/google-slides";
+import { ArticleView } from "@/components/teach/ArticleView";
 import {
   createTeachingCategory,
   createTeachingSubcategory,
@@ -85,6 +86,8 @@ export function TeachingMaterialsTab() {
     null,
   );
   const [busy, setBusy] = useState(false);
+  /** @lovable-new 2026-08-05 article shown in the teacher-eye preview panel. */
+  const [preview, setPreview] = useState<TeachingArticle | null>(null);
 
   const usedStrengths = useMemo(
     () => new Set(categories.map((c) => c.strength_id)),
@@ -139,9 +142,7 @@ export function TeachingMaterialsTab() {
             {tr("Lisää")}
           </Button>
         </div>
-        <p className="text-xs opacity-70">
-          {tr("Aloita")} · {tr("Puhu")} · {tr("Toimi")} · {tr("Arvioi")}
-        </p>
+        <p className="text-xs opacity-70">{tr("Lisää alakategoriat itse.")}</p>
       </StickyNote>
 
       {categories.map((c) => {
@@ -237,6 +238,13 @@ export function TeachingMaterialsTab() {
                               <button
                                 type="button"
                                 className="underline"
+                                onClick={() => setPreview(a)}
+                              >
+                                {tr("Esikatsele")}
+                              </button>
+                              <button
+                                type="button"
+                                className="underline"
                                 onClick={() => setEditing({ subId: s.id, article: a })}
                               >
                                 {tr("Muokkaa")}
@@ -267,6 +275,18 @@ export function TeachingMaterialsTab() {
           </StickyNote>
         );
       })}
+
+      {preview && (
+        <StickyNote seed="tm-preview" className="space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="text-xl font-bold">{tr("Esikatsele")}</h3>
+            <Button variant="ghost" onClick={() => setPreview(null)}>
+              {tr("Sulje")}
+            </Button>
+          </div>
+          <ArticleView article={preview} lang={lang} />
+        </StickyNote>
+      )}
 
       {editing && (
         <ArticleForm
@@ -351,6 +371,7 @@ function ArticleForm({
     slidesSv?: string;
     thumbnailUrl?: string;
     isPublished: boolean;
+    slideCount?: number;
   }) => void;
 }) {
   const tr = useTr();
@@ -365,6 +386,7 @@ function ArticleForm({
   const [slidesSv, setSlidesSv] = useState(article?.google_slides_url_sv ?? "");
   const [thumb, setThumb] = useState(article?.thumbnail_url ?? "");
   const [published, setPublished] = useState(article?.is_published ?? true);
+  const [slideCount, setSlideCount] = useState(String(article?.slide_count ?? 10));
 
   const badLink = [slidesFi, slidesEn, slidesSv].some((u) => u.trim() && !slidesId(u));
 
@@ -393,7 +415,19 @@ function ArticleForm({
           {tr("Tarkista Google Slides -linkki")}
         </p>
       )}
-      <Field label={tr("Kuva")} value={thumb} onChange={setThumb} />
+      <div className="grid gap-3 md:grid-cols-2">
+        <Field label={tr("Kuva")} value={thumb} onChange={setThumb} />
+        <div className="space-y-1">
+          <Label>{tr("Diojen määrä")}</Label>
+          <Input
+            type="number"
+            min={1}
+            max={200}
+            value={slideCount}
+            onChange={(e) => setSlideCount(e.target.value)}
+          />
+        </div>
+      </div>
       <label className="flex items-center gap-2 text-sm font-bold">
         <input
           type="checkbox"
@@ -420,6 +454,7 @@ function ArticleForm({
               slidesSv,
               thumbnailUrl: thumb,
               isPublished: published,
+              slideCount: Number(slideCount) || 10,
             })
           }
         >
