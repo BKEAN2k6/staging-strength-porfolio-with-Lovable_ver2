@@ -209,40 +209,16 @@ function ArticleViewer({
   article: TeachingArticle;
   lang: "fi" | "en" | "sv";
 }) {
-  const tr = useTr();
   const raw =
     (article as unknown as Record<string, string | null>)[`google_slides_url_${lang}`] ||
     article.google_slides_url_fi;
-  const embed = slidesEmbedUrl(raw);
-  const present = slidesPresentUrl(raw);
   const title = pickLang(article as never, "title", lang);
 
   return (
     <StickyNote seed={`article-${article.id}`} className="space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-xl font-bold">{title}</h3>
-        {present && (
-          <a
-            href={present}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full bg-[color:var(--purple)] px-4 py-2 text-sm font-bold text-white shadow"
-          >
-            {tr("Näytä luokalle")}
-          </a>
-        )}
-      </div>
-      {embed ? (
-        <iframe
-          src={embed}
-          title={title}
-          className="h-[600px] w-full rounded-2xl bg-white"
-          allowFullScreen
-        />
-      ) : (
-        <p className="opacity-70">{tr("Ei materiaaleja vielä.")}</p>
-      )}
+      <SlideViewer url={raw} title={title} lang={lang} />
       <p className="text-sm opacity-80">{pickLang(article as never, "description", lang)}</p>
     </StickyNote>
   );
 }
+
