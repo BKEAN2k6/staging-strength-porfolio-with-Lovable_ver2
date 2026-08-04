@@ -34,6 +34,7 @@ import { Route as AuthOpettajaRouteImport } from './routes/auth.opettaja'
 import { Route as AuthStudentRouteImport } from './routes/auth.student'
 import { Route as AventyrScreenRouteImport } from './routes/aventyr.$screen'
 import { Route as SchoolAdminDashboardRouteImport } from './routes/school-admin.dashboard'
+import { Route as SchoolAdminGiveStrengthRouteImport } from './routes/school-admin.give-strength'
 import { Route as SuperadminIndexRouteImport } from './routes/superadmin.index'
 import { Route as SuperadminDashboardRouteImport } from './routes/superadmin.dashboard'
 import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
@@ -180,6 +181,11 @@ const SchoolAdminDashboardRoute = SchoolAdminDashboardRouteImport.update({
   path: '/school-admin/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SchoolAdminGiveStrengthRoute = SchoolAdminGiveStrengthRouteImport.update({
+  id: '/school-admin/give-strength',
+  path: '/school-admin/give-strength',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuperadminIndexRoute = SuperadminIndexRouteImport.update({
   id: '/superadmin/',
   path: '/superadmin/',
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
   '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
+  '/school-admin/give-strength': typeof SchoolAdminGiveStrengthRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
@@ -333,6 +340,7 @@ export interface FileRoutesByTo {
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
   '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
+  '/school-admin/give-strength': typeof SchoolAdminGiveStrengthRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
@@ -377,6 +385,7 @@ export interface FileRoutesById {
   '/auth/student': typeof AuthStudentRoute
   '/aventyr/$screen': typeof AventyrScreenRoute
   '/school-admin/dashboard': typeof SchoolAdminDashboardRoute
+  '/school-admin/give-strength': typeof SchoolAdminGiveStrengthRoute
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
@@ -422,6 +431,7 @@ export interface FileRouteTypes {
     | '/auth/student'
     | '/aventyr/$screen'
     | '/school-admin/dashboard'
+    | '/school-admin/give-strength'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
@@ -461,6 +471,7 @@ export interface FileRouteTypes {
     | '/auth/student'
     | '/aventyr/$screen'
     | '/school-admin/dashboard'
+    | '/school-admin/give-strength'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
@@ -504,6 +515,7 @@ export interface FileRouteTypes {
     | '/auth/student'
     | '/aventyr/$screen'
     | '/school-admin/dashboard'
+    | '/school-admin/give-strength'
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
@@ -539,6 +551,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSchoolsRoute: typeof AdminSchoolsRoute
   SchoolAdminDashboardRoute: typeof SchoolAdminDashboardRoute
+  SchoolAdminGiveStrengthRoute: typeof SchoolAdminGiveStrengthRoute
   SuperadminDashboardRoute: typeof SuperadminDashboardRoute
   SuperadminLoginRoute: typeof SuperadminLoginRoute
   TeacherDashboardRoute: typeof TeacherDashboardRoute
@@ -725,6 +738,13 @@ declare module '@tanstack/react-router' {
       path: '/school-admin/dashboard'
       fullPath: '/school-admin/dashboard'
       preLoaderRoute: typeof SchoolAdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school-admin/give-strength': {
+      id: '/school-admin/give-strength'
+      path: '/school-admin/give-strength'
+      fullPath: '/school-admin/give-strength'
+      preLoaderRoute: typeof SchoolAdminGiveStrengthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/superadmin/': {
@@ -957,6 +977,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSchoolsRoute: AdminSchoolsRoute,
   SchoolAdminDashboardRoute: SchoolAdminDashboardRoute,
+  SchoolAdminGiveStrengthRoute: SchoolAdminGiveStrengthRoute,
   SuperadminDashboardRoute: SuperadminDashboardRoute,
   SuperadminLoginRoute: SuperadminLoginRoute,
   TeacherDashboardRoute: TeacherDashboardRoute,
