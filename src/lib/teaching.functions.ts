@@ -41,15 +41,10 @@ export interface TeachingArticle {
   thumbnail_url: string | null;
   sort_order: number;
   is_published: boolean;
+  /** @lovable-new 2026-08-05 how many slides the deck has (browse preview). */
+  slide_count: number | null;
 }
 
-/** The four sub-categories every new strength category starts with. */
-export const DEFAULT_SUBCATEGORIES = [
-  { name_fi: "Aloita", name_en: "Start", name_sv: "Starta" },
-  { name_fi: "Puhu", name_en: "Speak", name_sv: "Tala" },
-  { name_fi: "Toimi", name_en: "Act", name_sv: "Agera" },
-  { name_fi: "Arvioi", name_en: "Assess", name_sv: "Bedöm" },
-];
 
 async function assertSuperAdmin(supabase: any, userId: string) {
   const { data } = await supabase
