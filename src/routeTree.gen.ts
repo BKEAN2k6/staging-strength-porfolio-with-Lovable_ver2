@@ -45,6 +45,7 @@ import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
 import { Route as AuthenticatedSeikkailuScreenRouteImport } from './routes/_authenticated/seikkailu/$screen'
 import { Route as AuthenticatedStudentProfileRouteImport } from './routes/_authenticated/student/profile'
+import { Route as AuthenticatedStudentSprintRouteImport } from './routes/_authenticated/student/sprint'
 import { Route as AuthenticatedStudentStrengthsRouteImport } from './routes/_authenticated/student/strengths'
 import { Route as SuperadminSchoolsSchoolIdRouteImport } from './routes/superadmin.schools.$schoolId'
 import { Route as AuthenticatedOpettajaOppilasUserIdRouteImport } from './routes/_authenticated/opettaja_.oppilas.$userId'
@@ -237,6 +238,12 @@ const AuthenticatedStudentProfileRoute =
     path: '/profile',
     getParentRoute: () => AuthenticatedStudentRouteRoute,
   } as any)
+const AuthenticatedStudentSprintRoute =
+  AuthenticatedStudentSprintRouteImport.update({
+    id: '/sprint',
+    path: '/sprint',
+    getParentRoute: () => AuthenticatedStudentRouteRoute,
+  } as any)
 const AuthenticatedStudentStrengthsRoute =
   AuthenticatedStudentStrengthsRouteImport.update({
     id: '/strengths',
@@ -291,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
+  '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
@@ -329,6 +337,7 @@ export interface FileRoutesByTo {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/student/profile': typeof AuthenticatedStudentProfileRoute
+  '/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/seikkailu': typeof AuthenticatedSeikkailuIndexRoute
@@ -371,6 +380,7 @@ export interface FileRoutesById {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/seikkailu/$screen': typeof AuthenticatedSeikkailuScreenRoute
   '/_authenticated/student/profile': typeof AuthenticatedStudentProfileRoute
+  '/_authenticated/student/sprint': typeof AuthenticatedStudentSprintRoute
   '/_authenticated/student/strengths': typeof AuthenticatedStudentStrengthsRoute
   '/superadmin/schools/$schoolId': typeof SuperadminSchoolsSchoolIdRoute
   '/_authenticated/seikkailu/': typeof AuthenticatedSeikkailuIndexRoute
@@ -413,6 +423,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
     | '/student/profile'
+    | '/student/sprint'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
     | '/seikkailu/'
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/seikkailu/$screen'
     | '/student/profile'
+    | '/student/sprint'
     | '/student/strengths'
     | '/superadmin/schools/$schoolId'
     | '/seikkailu'
@@ -492,6 +504,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/seikkailu/$screen'
     | '/_authenticated/student/profile'
+    | '/_authenticated/student/sprint'
     | '/_authenticated/student/strengths'
     | '/superadmin/schools/$schoolId'
     | '/_authenticated/seikkailu/'
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudentProfileRouteImport
       parentRoute: typeof AuthenticatedStudentRouteRoute
     }
+    '/_authenticated/student/sprint': {
+      id: '/_authenticated/student/sprint'
+      path: '/sprint'
+      fullPath: '/student/sprint'
+      preLoaderRoute: typeof AuthenticatedStudentSprintRouteImport
+      parentRoute: typeof AuthenticatedStudentRouteRoute
+    }
     '/_authenticated/student/strengths': {
       id: '/_authenticated/student/strengths'
       path: '/strengths'
@@ -820,12 +840,14 @@ const AuthenticatedSeikkailuRouteRouteWithChildren =
 
 interface AuthenticatedStudentRouteRouteChildren {
   AuthenticatedStudentProfileRoute: typeof AuthenticatedStudentProfileRoute
+  AuthenticatedStudentSprintRoute: typeof AuthenticatedStudentSprintRoute
   AuthenticatedStudentStrengthsRoute: typeof AuthenticatedStudentStrengthsRoute
 }
 
 const AuthenticatedStudentRouteRouteChildren: AuthenticatedStudentRouteRouteChildren =
   {
     AuthenticatedStudentProfileRoute: AuthenticatedStudentProfileRoute,
+    AuthenticatedStudentSprintRoute: AuthenticatedStudentSprintRoute,
     AuthenticatedStudentStrengthsRoute: AuthenticatedStudentStrengthsRoute,
   }
 
