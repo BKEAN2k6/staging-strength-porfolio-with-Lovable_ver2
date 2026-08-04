@@ -7,6 +7,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { Button } from "@/components/ui/button";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 import { WorldIcon } from "@/components/icons/AppIcons";
+import { LevelProgressBar } from "@/components/LevelProgressBar";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { WORLDS } from "@/lib/screens";
 import { ALL_STRENGTHS } from "@/lib/strength-jar-data";
@@ -104,16 +105,10 @@ export function StudentDetailReport({
         <div className="space-y-1">
           <div className="flex justify-between text-xs font-semibold">
             <span>
-              {tr("Näytöt")}: {screensFilled} / {TOTAL_REQUIRED}
+              {tr("Näytöt")}: {screensFilled} / {TOTAL_REQUIRED} {tr("näyttöä")}
             </span>
-            <span>{pct} %</span>
           </div>
-          <div className="h-4 w-full overflow-hidden rounded-full bg-black/10">
-            <div
-              className="h-full rounded-full bg-[color:var(--coral)]"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
+          <LevelProgressBar pct={pct} className="w-64 max-w-full" />
         </div>
       </StickyNote>
 
@@ -143,12 +138,7 @@ export function StudentDetailReport({
                   {w.done}/{w.total} · {tr(state)}
                 </span>
               </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/10">
-                <div
-                  className="h-full rounded-full bg-[color:var(--purple)]"
-                  style={{ width: `${p}%` }}
-                />
-              </div>
+              <LevelProgressBar pct={p} className="w-48 max-w-full" />
             </div>
           );
         })}

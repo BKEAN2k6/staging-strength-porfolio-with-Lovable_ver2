@@ -6,6 +6,7 @@ import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LevelProgressBar } from "@/components/LevelProgressBar";
 import { StickyNote } from "@/components/StickyNote";
 import { DashboardShell } from "@/components/DashboardShell";
 import { ProfileSettings } from "@/components/ProfileSettings";
@@ -887,13 +888,7 @@ function SchoolAdminClassReport({
           {levels.map((l) => (
             <li key={l.id} className="flex items-center gap-3 text-sm">
               <span className="w-28 shrink-0 font-medium">{tr(l.title)}</span>
-              <span className="h-3 flex-1 overflow-hidden rounded-full bg-black/10">
-                <span
-                  className="block h-full rounded-full bg-[color:var(--purple)]"
-                  style={{ width: `${l.pct}%` }}
-                />
-              </span>
-              <span className="w-12 shrink-0 text-right tabular-nums">{l.pct} %</span>
+              <LevelProgressBar pct={l.pct} className="w-28 shrink-0" />
             </li>
           ))}
         </ul>
