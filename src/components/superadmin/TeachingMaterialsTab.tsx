@@ -161,15 +161,27 @@ export function TeachingMaterialsTab() {
                   aria-hidden
                 />
                 {getStrengthName(Number(c.strength_id), lang)}
+                {!c.is_published && <HiddenBadge label={tr("Piilotettu")} />}
               </button>
-              <Button
-                variant="ghost"
-                disabled={busy}
-                onClick={() => void run(() => delCategory({ data: { id: c.id } }))}
-              >
-                {tr("Poista")}
-              </Button>
+              <div className="flex flex-wrap items-center gap-3">
+                <PublishToggle
+                  checked={c.is_published}
+                  disabled={busy}
+                  label={tr("Julkaistu")}
+                  onChange={(next) =>
+                    void run(() => publishCategory({ data: { id: c.id, isPublished: next } }))
+                  }
+                />
+                <Button
+                  variant="ghost"
+                  disabled={busy}
+                  onClick={() => void run(() => delCategory({ data: { id: c.id } }))}
+                >
+                  {tr("Poista")}
+                </Button>
+              </div>
             </div>
+
 
             {open && (
               <div className="space-y-3">
