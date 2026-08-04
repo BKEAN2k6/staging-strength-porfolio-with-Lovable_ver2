@@ -8,7 +8,7 @@ import { StickyNote } from "@/components/StickyNote";
 import { ArrowLeftIcon, BookIcon } from "@/components/icons/AppIcons";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
-import { slidesEmbedUrl, slidesPresentUrl } from "@/lib/google-slides";
+import { SlideViewer } from "@/components/teach/SlideViewer";
 import { pickLang, useTeachingMaterials } from "@/hooks/useTeachingMaterials";
 import type { TeachingArticle } from "@/lib/teaching.functions";
 
