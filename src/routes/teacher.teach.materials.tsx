@@ -4,7 +4,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardShell } from "@/components/DashboardShell";
-import { MaterialsGrid } from "@/components/teach/MaterialsGrid";
+import { MaterialsBrowser } from "@/components/teach/MaterialsBrowser";
 import { useRoleGuard } from "@/lib/role-guard";
 import { useTr } from "@/lib/i18n";
 
@@ -45,7 +45,7 @@ function TeacherMaterialsPage() {
         { to: "/teacher/teach/portfolio", label: tr("Vahvuusportfolio") },
       ]}
     >
-      <MaterialsGrid />
+      <MaterialsBrowser />
     </DashboardShell>
   );
 }

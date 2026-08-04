@@ -82,7 +82,6 @@ function TeacherDashboardPage() {
     { id: "students", label: tr("Opiskelijat") },
     { id: "strengths", label: tr("Vahvuuksien antaminen") },
     { id: "reports", label: tr("Raportit") },
-    { id: "settings", label: tr("Asetukset") },
   ];
 
   function openStudentView(id: string) {
@@ -105,7 +104,7 @@ function TeacherDashboardPage() {
       /* @lovable-new */
       links={[
         { to: "/teacher/sprint", label: tr("Vahvuussprintti") },
-        { to: "/teacher/received-strengths", label: tr("Saamani vahvuudet") },
+        { to: "/teacher/profile", label: tr("Profiili") },
       ]}
       sections={[
         {

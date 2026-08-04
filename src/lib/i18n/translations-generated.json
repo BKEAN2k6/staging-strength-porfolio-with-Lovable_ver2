@@ -429,6 +429,14 @@
     "en": "Most active class",
     "sv": "Mest aktiva klass"
   },
+  "Alakategoria": {
+    "en": "Sub-category",
+    "sv": "Underkategori"
+  },
+  "Aloita": {
+    "en": "Start",
+    "sv": "Starta"
+  },
   "Aloita peli": {
     "en": "Start Game",
     "sv": "Starta spel"
@@ -456,6 +464,14 @@
   "Antoiko mittari eri vastauksia kuin valitsemasi? Mitä saivat opettaja, ystävät ja läheiset?": {
     "en": "Did the meter give different answers than what you chose? What did teachers, friends and loved ones get?",
     "sv": "Gav mätaren andra svar än vad du valde? Vad fick lärare, vänner och närstående?"
+  },
+  "Artikkeleita": {
+    "en": "articles",
+    "sv": "artiklar"
+  },
+  "Arvioi": {
+    "en": "Assess",
+    "sv": "Bedöm"
   },
   "Arviointikyky": {
     "en": "Judgment",
@@ -509,9 +525,17 @@
     "en": "No presentations yet.",
     "sv": "Inga presentationer ännu."
   },
+  "Ei julkaistu": {
+    "en": "Not published",
+    "sv": "Inte publicerad"
+  },
   "Ei lähetettyjä viestejä tällä aikavälillä.": {
     "en": "No emails sent in this period.",
     "sv": "Inga meddelanden skickade under denna period."
+  },
+  "Ei materiaaleja vielä.": {
+    "en": "No materials yet.",
+    "sv": "Inget material ännu."
   },
   "Ei opettajaa.": {
     "en": "No teacher.",
@@ -862,6 +886,10 @@
     "en": "Image",
     "sv": "Bild"
   },
+  "Kuvaus": {
+    "en": "Description",
+    "sv": "Beskrivning"
+  },
   "Kuvittele tilanne, jossa ydinvahvuutesi on kielletty seuraavaksi kuukaudeksi.": {
     "en": "Imagine a situation where your core strength is banned for the next month.",
     "sv": "Föreställ dig en situation där din kärnstyrka förbjuds för nästa månad."
@@ -913,6 +941,18 @@
   "Listaa resurssisi taulukkoon seuraavalle sivulle. Merkitse tähtistä sen mukaan, kuinka tärkeitä resurssit ovat sinulle.": {
     "en": "List your resources in the table on the next page. Rate the hearts according to how important the resources are to you.",
     "sv": "Lista dina resurser i tabellen på nästa sida. Markera hjärtan utifrån hur viktiga resurserna är för dig."
+  },
+  "Lisää": {
+    "en": "Add",
+    "sv": "Lägg till"
+  },
+  "Lisää artikkeli": {
+    "en": "Add article",
+    "sv": "Lägg till artikel"
+  },
+  "Lisää kategoria": {
+    "en": "Add category",
+    "sv": "Lägg till kategori"
   },
   "Lopeta sprintti": {
     "en": "End Sprint",
@@ -1687,9 +1727,17 @@
     "en": "Deleted classes",
     "sv": "Raderade klasser"
   },
+  "Profiili": {
+    "en": "Profile",
+    "sv": "Profil"
+  },
   "Prologi": {
     "en": "Prologue",
     "sv": "Prolog"
+  },
+  "Puhu": {
+    "en": "Speak",
+    "sv": "Tala"
   },
   "Pyrin aina hyödyntämään vahvuuksiani.": {
     "en": "I always strive to use my strengths.",
@@ -1954,6 +2002,10 @@
     "en": "Saved!",
     "sv": "Sparat!"
   },
+  "Tarkista Google Slides -linkki": {
+    "en": "Check the Google Slides link",
+    "sv": "Kontrollera Google Slides-länken"
+  },
   "Taso": {
     "en": "Level",
     "sv": "Nivå"
@@ -2029,6 +2081,10 @@
   "Tips: Det är troligt att de hobbys och aktiviteter du gillar mest är tillfredsställande just för att de ger dig möjlighet att använda dina styrkor.": {
     "en": "Tip: It is likely that the hobbies and activities you enjoy most are fulfilling precisely because they give you the opportunity to use your strengths.",
     "sv": "Tips: Det är troligt att de hobbyer och aktiviteter du gillar mest är tillfredsställande just för att de ger dig möjlighet att använda dina styrkor."
+  },
+  "Toimi": {
+    "en": "Act",
+    "sv": "Agera"
   },
   "Toiveikkuus": {
     "en": "Hope",
@@ -2211,6 +2267,10 @@
   "Vahvuuksieni hyödyntäminen on minulle tuttua.": {
     "en": "Using my strengths is familiar to me.",
     "sv": "Att använda mina styrkor är bekant för mig."
+  },
+  "Vahvuus": {
+    "en": "Strength",
+    "sv": "Styrka"
   },
   "Vahvuus lähetetty opettajalle!": {
     "en": "Strength sent to teacher!",

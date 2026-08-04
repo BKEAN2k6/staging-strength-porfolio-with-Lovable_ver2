@@ -195,7 +195,7 @@ function TeacherSprintPage() {
       schoolName={guard.schoolName}
       links={[
         { to: "/teacher/dashboard", label: tr("Takaisin") },
-        { to: "/teacher/received-strengths", label: tr("Saamani vahvuudet") },
+        { to: "/teacher/profile", label: tr("Profiili") },
       ]}
     >
       {!sprintId && (

@@ -1,13 +1,14 @@
 /**
  * @lovable-new 2026-08-04
- * Teacher "My received strengths" — Top 5 cards plus the student and
- * principal feeds.
+ * Teacher "Profile" — merges the old "My received strengths" feed and the
+ * "Settings" tab into a single page reachable from the sidebar person icon.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { StickyNote } from "@/components/StickyNote";
 import { DashboardShell } from "@/components/DashboardShell";
+import { ProfileSettings } from "@/components/ProfileSettings";
 import { TopStrengthCards } from "@/components/strengths/TopStrengthCards";
 import { useRoleGuard } from "@/lib/role-guard";
 import { useLanguage, useTr } from "@/lib/i18n";
@@ -17,24 +18,25 @@ import {
   type ReceivedStrength,
 } from "@/lib/give-strength.functions";
 
-export const Route = createFileRoute("/teacher/received-strengths")({
+export const Route = createFileRoute("/teacher/profile")({
   head: () => ({
     meta: [
-      { title: "My Received Strengths — Vahvuusseikkailu" },
+      { title: "My Profile — Vahvuusseikkailu" },
       {
         name: "description",
-        content: "See the character strengths your students and principal have given you.",
+        content:
+          "Your teacher profile: account settings and the character strengths students and your principal gave you.",
       },
-      { property: "og:title", content: "My Received Strengths — Vahvuusseikkailu" },
+      { property: "og:title", content: "My Profile — Vahvuusseikkailu" },
       {
         property: "og:description",
-        content: "Character strengths given to you by students and your principal.",
+        content: "Account settings and the strengths you have received.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: TeacherReceivedStrengthsPage,
+  component: TeacherProfilePage,
 });
 
 function Feed({
@@ -65,9 +67,7 @@ function Feed({
                 {getStrengthName(r.strengthId, lang)}
               </span>
               <span className="block text-xs opacity-70">{r.fromName}</span>
-              {r.message && (
-                <span className="mt-1 block break-words text-sm">{r.message}</span>
-              )}
+              {r.message && <span className="mt-1 block break-words text-sm">{r.message}</span>}
             </span>
           </li>
         ))}
@@ -76,7 +76,7 @@ function Feed({
   );
 }
 
-function TeacherReceivedStrengthsPage() {
+function TeacherProfilePage() {
   const tr = useTr();
   const guard = useRoleGuard(["teacher"]);
   const { language } = useLanguage();
@@ -89,7 +89,7 @@ function TeacherReceivedStrengthsPage() {
     try {
       setRows(await load());
     } catch (e) {
-      console.error("[received-strengths]", e);
+      console.error("[teacher-profile]", e);
     }
   }, [load]);
 
@@ -106,25 +106,28 @@ function TeacherReceivedStrengthsPage() {
       .slice(0, 5);
   }, [rows]);
 
+  if (!guard.ready) return null;
+
   const fromStudents = rows.filter((r) => r.fromRole === "student");
   const fromPrincipal = rows.filter((r) => r.fromRole === "school_admin");
 
-  if (!guard.ready) return null;
-
   return (
     <DashboardShell
-      title={tr("Saamani vahvuudet")}
+      title={tr("Profiili")}
       tabs={[]}
       active=""
       onSelect={() => undefined}
       schoolName={guard.schoolName}
-      links={[
-        { to: "/teacher/dashboard", label: tr("Takaisin") },
-        { to: "/teacher/sprint", label: tr("Vahvuussprintti") },
-      ]}
+      links={[{ to: "/teacher/dashboard", label: tr("Takaisin") }]}
     >
+      <ProfileSettings
+        schoolName={guard.schoolName}
+        displayName={guard.displayName}
+        email={guard.email}
+      />
+
       {top5.length > 0 && (
-        <StickyNote seed="received-top5" className="space-y-3">
+        <StickyNote seed="profile-top5" className="space-y-3">
           <h3 className="text-xl font-bold">{tr("Saamani vahvuudet")}</h3>
           <TopStrengthCards items={top5} lang={lang} />
         </StickyNote>

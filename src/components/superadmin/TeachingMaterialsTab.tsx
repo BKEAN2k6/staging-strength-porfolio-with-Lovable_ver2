@@ -1,144 +1,62 @@
 /**
  * @lovable-new 2026-08-04
- * Super admin "Teaching Materials" tab — register Canva decks, keep the
- * FI/EN/SV titles, publish/unpublish, reorder and delete.
- *
- * Canva MCP is not connected to this project, so importing works by pasting a
- * Canva design ID (or share link) plus optional exported slide image URLs.
- * The stored shape already matches a future MCP-driven auto-import.
+ * Super admin "Teaching Materials" tab — manage the three-level library:
+ * strength categories → sub-categories (Start / Speak / Act / Assess) →
+ * articles that embed a Google Slides deck per language.
  */
-import { useCallback, useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
+import { StickyNote } from "@/components/StickyNote";
 import { useLanguage, useTr } from "@/lib/i18n";
+import { STRENGTHS, getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
+import { pickLang, useTeachingMaterials } from "@/hooks/useTeachingMaterials";
+import { slidesId } from "@/lib/google-slides";
 import {
-  fetchPresentations,
-  titleOf,
-  canvaEmbedUrl,
-  LEVEL_TAGS,
-  LEVEL_TAG_LABEL,
-  type TeachingPresentation,
-} from "@/components/teach/MaterialsGrid";
-
-/** Accepts a raw design id or any canva.com/design/<id>/… link. */
-function parseDesignId(input: string): string {
-  const m = input.match(/design\/([A-Za-z0-9_-]+)/);
-  return (m?.[1] ?? input).trim();
-}
-
-function splitUrls(raw: string): string[] {
-  return raw
-    .split(/[\s,]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
+  createTeachingCategory,
+  createTeachingSubcategory,
+  deleteTeachingArticle,
+  deleteTeachingCategory,
+  deleteTeachingSubcategory,
+  saveTeachingArticle,
+  type TeachingArticle,
+} from "@/lib/teaching.functions";
 
 export function TeachingMaterialsTab() {
   const tr = useTr();
   const { language } = useLanguage();
-  const [items, setItems] = useState<TeachingPresentation[]>([]);
-  const [editing, setEditing] = useState<TeachingPresentation | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const lang = language === "sv" ? "sv" : language === "en" ? "en" : "fi";
+  const { categories, subcategories, articles, refresh } = useTeachingMaterials();
+
+  const addCategory = useServerFn(createTeachingCategory);
+  const delCategory = useServerFn(deleteTeachingCategory);
+  const addSub = useServerFn(createTeachingSubcategory);
+  const delSub = useServerFn(deleteTeachingSubcategory);
+  const saveArticle = useServerFn(saveTeachingArticle);
+  const delArticle = useServerFn(deleteTeachingArticle);
+
+  const [newStrength, setNewStrength] = useState<string>("");
+  const [openCat, setOpenCat] = useState<string | null>(null);
+  const [editing, setEditing] = useState<{ subId: string; article: TeachingArticle | null } | null>(
+    null,
+  );
   const [busy, setBusy] = useState(false);
 
-  const [designId, setDesignId] = useState("");
-  const [titleFi, setTitleFi] = useState("");
-  const [titleEn, setTitleEn] = useState("");
-  const [titleSv, setTitleSv] = useState("");
-  const [descFi, setDescFi] = useState("");
-  const [descEn, setDescEn] = useState("");
-  const [descSv, setDescSv] = useState("");
-  const [thumb, setThumb] = useState("");
-  const [slides, setSlides] = useState("");
-  const [levelTag, setLevelTag] = useState<string>("general");
-  const [published, setPublished] = useState(true);
+  const usedStrengths = useMemo(
+    () => new Set(categories.map((c) => c.strength_id)),
+    [categories],
+  );
 
-  const load = useCallback(async () => {
-    try {
-      setItems(await fetchPresentations({ includeUnpublished: true }));
-    } catch (e) {
-      toast.error((e as Error).message);
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
-
-  function resetForm() {
-    setEditing(null);
-    setDesignId("");
-    setTitleFi("");
-    setTitleEn("");
-    setTitleSv("");
-    setDescFi("");
-    setDescEn("");
-    setDescSv("");
-    setThumb("");
-    setSlides("");
-    setLevelTag("general");
-    setPublished(true);
-  }
-
-  function startEdit(p: TeachingPresentation) {
-    setEditing(p);
-    setShowForm(true);
-    setDesignId(p.canva_design_id);
-    setTitleFi(p.title_fi);
-    setTitleEn(p.title_en);
-    setTitleSv(p.title_sv);
-    setDescFi(p.description_fi ?? "");
-    setDescEn(p.description_en ?? "");
-    setDescSv(p.description_sv ?? "");
-    setThumb(p.thumbnail_url ?? "");
-    setSlides(p.slide_urls.join("\n"));
-    setLevelTag(p.level_tag);
-    setPublished(p.is_published);
-  }
-
-  async function save() {
-    const id = parseDesignId(designId);
-    if (!id || !titleFi.trim()) {
-      toast.error(tr("Täytä pakolliset kentät"));
-      return;
-    }
-    const slideUrls = splitUrls(slides);
-    const payload = {
-      canva_design_id: id,
-      title_fi: titleFi.trim(),
-      title_en: (titleEn || titleFi).trim(),
-      title_sv: (titleSv || titleFi).trim(),
-      description_fi: descFi || null,
-      description_en: descEn || null,
-      description_sv: descSv || null,
-      thumbnail_url: thumb || slideUrls[0] || null,
-      slide_urls: slideUrls,
-      slide_count: slideUrls.length,
-      level_tag: levelTag,
-      is_published: published,
-    };
+  async function run(fn: () => Promise<unknown>) {
     setBusy(true);
     try {
-      if (editing) {
-        const { error } = await supabase
-          .from("teaching_presentations")
-          .update(payload)
-          .eq("id", editing.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase
-          .from("teaching_presentations")
-          .insert({ ...payload, sort_order: items.length });
-        if (error) throw error;
-      }
+      await fn();
+      await refresh();
       toast.success(tr("Tallennettu!"));
-      resetForm();
-      setShowForm(false);
-      await load();
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -146,231 +64,341 @@ export function TeachingMaterialsTab() {
     }
   }
 
-  async function togglePublished(p: TeachingPresentation) {
-    await supabase
-      .from("teaching_presentations")
-      .update({ is_published: !p.is_published })
-      .eq("id", p.id);
-    await load();
-  }
+  return (
+    <div className="space-y-4">
+      <StickyNote seed="tm-add-cat" className="space-y-3">
+        <h3 className="text-xl font-bold">{tr("Lisää kategoria")}</h3>
+        <div className="flex flex-wrap items-end gap-2">
+          <div className="space-y-1">
+            <Label htmlFor="tm-strength">{tr("Vahvuus")}</Label>
+            <select
+              id="tm-strength"
+              className="rounded-2xl border bg-white px-3 py-2 text-slate-900"
+              value={newStrength}
+              onChange={(e) => setNewStrength(e.target.value)}
+            >
+              <option value="">{tr("Valitse")}</option>
+              {STRENGTHS.map((s) => s.nr)
+                .filter((id: number) => !usedStrengths.has(String(id)))
+                .map((id: number) => (
+                <option key={id} value={String(id)}>
+                  {getStrengthName(id, lang)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Button
+            disabled={!newStrength || busy}
+            onClick={() =>
+              void run(async () => {
+                await addCategory({ data: { strengthId: newStrength } });
+                setNewStrength("");
+              })
+            }
+          >
+            {tr("Lisää")}
+          </Button>
+        </div>
+        <p className="text-xs opacity-70">
+          {tr("Aloita")} · {tr("Puhu")} · {tr("Toimi")} · {tr("Arvioi")}
+        </p>
+      </StickyNote>
 
-  async function remove(p: TeachingPresentation) {
-    if (!window.confirm(tr("Poista"))) return;
-    await supabase.from("teaching_presentations").delete().eq("id", p.id);
-    await load();
-  }
+      {categories.map((c) => {
+        const subs = subcategories.filter((s) => s.category_id === c.id);
+        const open = openCat === c.id;
+        return (
+          <StickyNote key={c.id} seed={`tm-${c.id}`} className="space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setOpenCat(open ? null : c.id)}
+                className="flex items-center gap-2 text-xl font-bold"
+              >
+                <span
+                  className="h-5 w-5 rounded-full"
+                  style={{ background: getStrengthColor(Number(c.strength_id)) }}
+                  aria-hidden
+                />
+                {getStrengthName(Number(c.strength_id), lang)}
+              </button>
+              <Button
+                variant="ghost"
+                disabled={busy}
+                onClick={() => void run(() => delCategory({ data: { id: c.id } }))}
+              >
+                {tr("Poista")}
+              </Button>
+            </div>
 
-  async function move(p: TeachingPresentation, dir: -1 | 1) {
-    const idx = items.findIndex((i) => i.id === p.id);
-    const other = items[idx + dir];
-    if (!other) return;
-    await supabase
-      .from("teaching_presentations")
-      .update({ sort_order: other.sort_order })
-      .eq("id", p.id);
-    await supabase
-      .from("teaching_presentations")
-      .update({ sort_order: p.sort_order })
-      .eq("id", other.id);
-    await load();
-  }
+            {open && (
+              <div className="space-y-3">
+                {subs.map((s) => {
+                  const rows = articles.filter((a) => a.subcategory_id === s.id);
+                  return (
+                    <div key={s.id} className="rounded-2xl bg-white/70 p-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-bold">{pickLang(s as never, "name", lang)}</span>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            disabled={busy}
+                            onClick={() => setEditing({ subId: s.id, article: null })}
+                          >
+                            {tr("Lisää artikkeli")}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            disabled={busy}
+                            onClick={() => void run(() => delSub({ data: { id: s.id } }))}
+                          >
+                            {tr("Poista")}
+                          </Button>
+                        </div>
+                      </div>
+                      <ul className="mt-2 space-y-1">
+                        {rows.map((a) => (
+                          <li
+                            key={a.id}
+                            className="flex flex-wrap items-center justify-between gap-2 text-sm"
+                          >
+                            <span className="min-w-0 break-words">
+                              {pickLang(a as never, "title", lang)}
+                              {!a.is_published && (
+                                <span className="ml-2 opacity-60">({tr("Ei julkaistu")})</span>
+                              )}
+                            </span>
+                            <span className="flex gap-2">
+                              <button
+                                type="button"
+                                className="underline"
+                                onClick={() => setEditing({ subId: s.id, article: a })}
+                              >
+                                {tr("Muokkaa")}
+                              </button>
+                              <button
+                                type="button"
+                                className="underline"
+                                onClick={() => void run(() => delArticle({ data: { id: a.id } }))}
+                              >
+                                {tr("Poista")}
+                              </button>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+
+                <AddSubcategory
+                  disabled={busy}
+                  onAdd={(names) =>
+                    void run(() => addSub({ data: { categoryId: c.id, ...names } }))
+                  }
+                />
+              </div>
+            )}
+          </StickyNote>
+        );
+      })}
+
+      {editing && (
+        <ArticleForm
+          subId={editing.subId}
+          article={editing.article}
+          busy={busy}
+          onCancel={() => setEditing(null)}
+          onSave={(input) =>
+            void run(async () => {
+              await saveArticle({ data: input });
+              setEditing(null);
+            })
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+function AddSubcategory({
+  disabled,
+  onAdd,
+}: {
+  disabled: boolean;
+  onAdd: (n: { nameFi: string; nameEn: string; nameSv: string }) => void;
+}) {
+  const tr = useTr();
+  const [fi, setFi] = useState("");
+  const [en, setEn] = useState("");
+  const [sv, setSv] = useState("");
+  return (
+    <div className="flex flex-wrap items-end gap-2">
+      <div className="space-y-1">
+        <Label>{tr("Alakategoria")} (FI)</Label>
+        <Input value={fi} onChange={(e) => setFi(e.target.value)} />
+      </div>
+      <div className="space-y-1">
+        <Label>EN</Label>
+        <Input value={en} onChange={(e) => setEn(e.target.value)} />
+      </div>
+      <div className="space-y-1">
+        <Label>SV</Label>
+        <Input value={sv} onChange={(e) => setSv(e.target.value)} />
+      </div>
+      <Button
+        disabled={disabled || !fi.trim()}
+        onClick={() => {
+          onAdd({ nameFi: fi.trim(), nameEn: (en || fi).trim(), nameSv: (sv || fi).trim() });
+          setFi("");
+          setEn("");
+          setSv("");
+        }}
+      >
+        {tr("Lisää")}
+      </Button>
+    </div>
+  );
+}
+
+function ArticleForm({
+  subId,
+  article,
+  busy,
+  onCancel,
+  onSave,
+}: {
+  subId: string;
+  article: TeachingArticle | null;
+  busy: boolean;
+  onCancel: () => void;
+  onSave: (input: {
+    id?: string;
+    subcategoryId: string;
+    titleFi: string;
+    titleEn: string;
+    titleSv: string;
+    descriptionFi?: string;
+    descriptionEn?: string;
+    descriptionSv?: string;
+    slidesFi?: string;
+    slidesEn?: string;
+    slidesSv?: string;
+    thumbnailUrl?: string;
+    isPublished: boolean;
+  }) => void;
+}) {
+  const tr = useTr();
+  const [titleFi, setTitleFi] = useState(article?.title_fi ?? "");
+  const [titleEn, setTitleEn] = useState(article?.title_en ?? "");
+  const [titleSv, setTitleSv] = useState(article?.title_sv ?? "");
+  const [descFi, setDescFi] = useState(article?.description_fi ?? "");
+  const [descEn, setDescEn] = useState(article?.description_en ?? "");
+  const [descSv, setDescSv] = useState(article?.description_sv ?? "");
+  const [slidesFi, setSlidesFi] = useState(article?.google_slides_url_fi ?? "");
+  const [slidesEn, setSlidesEn] = useState(article?.google_slides_url_en ?? "");
+  const [slidesSv, setSlidesSv] = useState(article?.google_slides_url_sv ?? "");
+  const [thumb, setThumb] = useState(article?.thumbnail_url ?? "");
+  const [published, setPublished] = useState(article?.is_published ?? true);
+
+  const badLink = [slidesFi, slidesEn, slidesSv].some((u) => u.trim() && !slidesId(u));
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold">{tr("Opetusmateriaalit")}</h2>
+    <StickyNote seed="tm-article-form" className="space-y-3">
+      <h3 className="text-xl font-bold">
+        {article ? tr("Muokkaa") : tr("Lisää artikkeli")}
+      </h3>
+      <div className="grid gap-3 md:grid-cols-3">
+        <Field label={`${tr("Otsikko")} (FI)`} value={titleFi} onChange={setTitleFi} />
+        <Field label={`${tr("Otsikko")} (EN)`} value={titleEn} onChange={setTitleEn} />
+        <Field label={`${tr("Otsikko")} (SV)`} value={titleSv} onChange={setTitleSv} />
+      </div>
+      <div className="grid gap-3 md:grid-cols-3">
+        <Area label={`${tr("Kuvaus")} (FI)`} value={descFi} onChange={setDescFi} />
+        <Area label={`${tr("Kuvaus")} (EN)`} value={descEn} onChange={setDescEn} />
+        <Area label={`${tr("Kuvaus")} (SV)`} value={descSv} onChange={setDescSv} />
+      </div>
+      <div className="grid gap-3 md:grid-cols-3">
+        <Field label="Google Slides (FI)" value={slidesFi} onChange={setSlidesFi} />
+        <Field label="Google Slides (EN)" value={slidesEn} onChange={setSlidesEn} />
+        <Field label="Google Slides (SV)" value={slidesSv} onChange={setSlidesSv} />
+      </div>
+      {badLink && (
+        <p className="text-sm font-bold text-[color:var(--coral)]">
+          {tr("Tarkista Google Slides -linkki")}
+        </p>
+      )}
+      <Field label={tr("Kuva")} value={thumb} onChange={setThumb} />
+      <label className="flex items-center gap-2 text-sm font-bold">
+        <input
+          type="checkbox"
+          checked={published}
+          onChange={(e) => setPublished(e.target.checked)}
+        />
+        {tr("Julkaistu")}
+      </label>
+      <div className="flex gap-2">
         <Button
-          className="rounded-full bg-[color:var(--purple)] font-bold text-white"
-          onClick={() => {
-            resetForm();
-            setShowForm((v) => !v);
-          }}
+          disabled={busy || !titleFi.trim() || badLink}
+          onClick={() =>
+            onSave({
+              id: article?.id,
+              subcategoryId: subId,
+              titleFi: titleFi.trim(),
+              titleEn: (titleEn || titleFi).trim(),
+              titleSv: (titleSv || titleFi).trim(),
+              descriptionFi: descFi,
+              descriptionEn: descEn,
+              descriptionSv: descSv,
+              slidesFi,
+              slidesEn,
+              slidesSv,
+              thumbnailUrl: thumb,
+              isPublished: published,
+            })
+          }
         >
-          {tr("Tuo Canvasta")}
+          {tr("Tallenna")}
+        </Button>
+        <Button variant="ghost" onClick={onCancel}>
+          {tr("Peruuta")}
         </Button>
       </div>
+    </StickyNote>
+  );
+}
 
-      {showForm && (
-        <div className="space-y-3 rounded-3xl bg-white/85 p-4 shadow">
-          <div className="space-y-1">
-            <Label htmlFor="tp-design">{tr("Canva-esitykset")}</Label>
-            <Input
-              id="tp-design"
-              value={designId}
-              onChange={(e) => setDesignId(e.target.value)}
-              placeholder="https://www.canva.com/design/DAF…/view"
-            />
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            <div className="space-y-1">
-              <Label htmlFor="tp-fi">{tr("Esityksen nimi")} (FI)</Label>
-              <Input id="tp-fi" value={titleFi} onChange={(e) => setTitleFi(e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="tp-en">{tr("Esityksen nimi")} (EN)</Label>
-              <Input id="tp-en" value={titleEn} onChange={(e) => setTitleEn(e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="tp-sv">{tr("Esityksen nimi")} (SV)</Label>
-              <Input id="tp-sv" value={titleSv} onChange={(e) => setTitleSv(e.target.value)} />
-            </div>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            <Textarea
-              aria-label="FI"
-              rows={2}
-              value={descFi}
-              onChange={(e) => setDescFi(e.target.value)}
-              placeholder="FI"
-            />
-            <Textarea
-              aria-label="EN"
-              rows={2}
-              value={descEn}
-              onChange={(e) => setDescEn(e.target.value)}
-              placeholder="EN"
-            />
-            <Textarea
-              aria-label="SV"
-              rows={2}
-              value={descSv}
-              onChange={(e) => setDescSv(e.target.value)}
-              placeholder="SV"
-            />
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="space-y-1">
-              <Label htmlFor="tp-thumb">{tr("Kuva")}</Label>
-              <Input id="tp-thumb" value={thumb} onChange={(e) => setThumb(e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="tp-level">{tr("Taso")}</Label>
-              <select
-                id="tp-level"
-                className="w-full rounded-2xl border bg-white px-3 py-2 text-slate-900"
-                value={levelTag}
-                onChange={(e) => setLevelTag(e.target.value)}
-              >
-                {LEVEL_TAGS.map((t) => (
-                  <option key={t} value={t}>
-                    {tr(LEVEL_TAG_LABEL[t])}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="tp-slides">{tr("Diat")}</Label>
-            <Textarea
-              id="tp-slides"
-              rows={3}
-              value={slides}
-              onChange={(e) => setSlides(e.target.value)}
-              placeholder="https://…/slide-1.png"
-            />
-          </div>
-          <label className="flex items-center gap-2 text-sm font-semibold">
-            <input
-              type="checkbox"
-              checked={published}
-              onChange={(e) => setPublished(e.target.checked)}
-            />
-            {tr("Julkaistu")}
-          </label>
-          <div className="flex gap-2">
-            <Button
-              className="rounded-full bg-[color:var(--yellow)] font-bold text-slate-900"
-              disabled={busy}
-              onClick={() => void save()}
-            >
-              {tr("Tallenna")}
-            </Button>
-            <Button
-              variant="outline"
-              className="rounded-full"
-              onClick={() => {
-                resetForm();
-                setShowForm(false);
-              }}
-            >
-              {tr("Peruuta")}
-            </Button>
-          </div>
-        </div>
-      )}
+function Field({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="space-y-1">
+      <Label>{label}</Label>
+      <Input value={value} onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
 
-      {items.length === 0 ? (
-        <p className="opacity-70">{tr("Ei esityksiä vielä.")}</p>
-      ) : (
-        <div className="overflow-x-auto rounded-3xl bg-white/85 shadow">
-          <table className="w-full text-sm">
-            <thead className="text-left">
-              <tr className="border-b">
-                <th className="p-3">{tr("Kuva")}</th>
-                <th className="p-3">{tr("Esityksen nimi")}</th>
-                <th className="p-3">{tr("Taso")}</th>
-                <th className="p-3">{tr("Diat")}</th>
-                <th className="p-3">{tr("Julkaistu")}</th>
-                <th className="p-3" />
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((p) => (
-                <tr key={p.id} className="border-b last:border-0">
-                  <td className="p-3">
-                    {p.thumbnail_url ? (
-                      <img
-                        src={p.thumbnail_url}
-                        alt=""
-                        className="h-10 w-16 rounded object-cover"
-                      />
-                    ) : (
-                      <div className="h-10 w-16 rounded bg-[color:var(--purple)]/15" />
-                    )}
-                  </td>
-                  <td className="p-3 font-semibold">{titleOf(p, language)}</td>
-                  <td className="p-3">{tr(LEVEL_TAG_LABEL[p.level_tag] ?? "Yleinen")}</td>
-                  <td className="p-3 tabular-nums">{p.slide_count}</td>
-                  <td className="p-3">{p.is_published ? "✓" : "—"}</td>
-                  <td className="space-x-2 p-3 text-right whitespace-nowrap">
-                    <button type="button" className="underline" onClick={() => startEdit(p)}>
-                      {tr("Muokkaa")}
-                    </button>
-                    <a
-                      href={canvaEmbedUrl(p)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline"
-                    >
-                      Canva
-                    </a>
-                    <button
-                      type="button"
-                      className="underline"
-                      onClick={() => void togglePublished(p)}
-                    >
-                      {p.is_published ? tr("Piilota") : tr("Julkaise")}
-                    </button>
-                    <button type="button" className="underline" onClick={() => void move(p, -1)}>
-                      ↑
-                    </button>
-                    <button type="button" className="underline" onClick={() => void move(p, 1)}>
-                      ↓
-                    </button>
-                    <button
-                      type="button"
-                      className="underline text-[color:var(--coral)]"
-                      onClick={() => void remove(p)}
-                    >
-                      {tr("Poista")}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+function Area({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="space-y-1">
+      <Label>{label}</Label>
+      <Textarea value={value} onChange={(e) => onChange(e.target.value)} rows={2} />
     </div>
   );
 }
