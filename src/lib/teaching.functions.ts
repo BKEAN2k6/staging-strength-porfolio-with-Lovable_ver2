@@ -41,15 +41,10 @@ export interface TeachingArticle {
   thumbnail_url: string | null;
   sort_order: number;
   is_published: boolean;
+  /** @lovable-new 2026-08-05 how many slides the deck has (browse preview). */
+  slide_count: number | null;
 }
 
-/** The four sub-categories every new strength category starts with. */
-export const DEFAULT_SUBCATEGORIES = [
-  { name_fi: "Aloita", name_en: "Start", name_sv: "Starta" },
-  { name_fi: "Puhu", name_en: "Speak", name_sv: "Tala" },
-  { name_fi: "Toimi", name_en: "Act", name_sv: "Agera" },
-  { name_fi: "Arvioi", name_en: "Assess", name_sv: "Bedöm" },
-];
 
 async function assertSuperAdmin(supabase: any, userId: string) {
   const { data } = await supabase
@@ -78,14 +73,9 @@ export const createTeachingCategory = createServerFn({ method: "POST" })
       .select("id")
       .single();
     if (error) throw new Error(error.message);
-    await db.from("teaching_subcategories").insert(
-      DEFAULT_SUBCATEGORIES.map((s, i) => ({
-        ...s,
-        category_id: row.id,
-        sort_order: i,
-      })),
-    );
+    // Sub-categories are added manually by the super admin — no presets.
     return { id: row.id as string };
+
   });
 
 export const deleteTeachingCategory = createServerFn({ method: "POST" })
@@ -133,7 +123,13 @@ export const setTeachingSubcategoryPublished = createServerFn({ method: "POST" }
 export const createTeachingSubcategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(
-    (d: { categoryId: string; nameFi: string; nameEn: string; nameSv: string }) => d,
+    (d: {
+      categoryId: string;
+      nameFi: string;
+      nameEn: string;
+      nameSv: string;
+      sortOrder?: number;
+    }) => d,
   )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context.supabase, context.userId);
@@ -143,7 +139,8 @@ export const createTeachingSubcategory = createServerFn({ method: "POST" })
       name_fi: data.nameFi,
       name_en: data.nameEn,
       name_sv: data.nameSv,
-      sort_order: 99,
+      sort_order: data.sortOrder ?? 99,
+
     });
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -175,6 +172,9 @@ export interface ArticleInput {
   thumbnailUrl?: string;
   isPublished: boolean;
   sortOrder?: number;
+  /** @lovable-new 2026-08-05 */
+  slideCount?: number;
+
 }
 
 export const saveTeachingArticle = createServerFn({ method: "POST" })
@@ -196,7 +196,9 @@ export const saveTeachingArticle = createServerFn({ method: "POST" })
       google_slides_url_sv: data.slidesSv || null,
       thumbnail_url: data.thumbnailUrl || null,
       is_published: data.isPublished,
+      slide_count: Math.max(1, Math.min(200, Number(data.slideCount) || 10)),
       sort_order: data.sortOrder ?? 0,
+
     };
     const q = data.id
       ? db.from("teaching_articles").update(row).eq("id", data.id)

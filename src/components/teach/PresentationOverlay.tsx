@@ -31,6 +31,8 @@ export function PresentationOverlay({
   const [toolbar, setToolbar] = useState(true);
   const hideTimer = useRef<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  // Only treat "left fullscreen" as an exit when we actually entered it.
+  const enteredFullscreen = useRef(false);
 
   const wake = useCallback(() => {
     setToolbar(true);
@@ -40,7 +42,14 @@ export function PresentationOverlay({
 
   useEffect(() => {
     wake();
-    void document.documentElement.requestFullscreen?.().catch(() => undefined);
+    // Fullscreen is a nice-to-have: if the browser refuses it (no gesture,
+    // embedded preview iframe), the overlay still covers the whole viewport.
+    void document.documentElement
+      .requestFullscreen?.()
+      .then(() => {
+        enteredFullscreen.current = true;
+      })
+      .catch(() => undefined);
     // Freeze the page underneath so the presentation is the only scrollable layer.
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -71,11 +80,12 @@ export function PresentationOverlay({
   // Leaving browser fullscreen (F11, Esc on some browsers) closes the overlay.
   useEffect(() => {
     function onFsChange() {
-      if (!document.fullscreenElement) onExit();
+      if (!document.fullscreenElement && enteredFullscreen.current) onExit();
     }
     document.addEventListener("fullscreenchange", onFsChange);
     return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, [onExit]);
+
 
   if (typeof document === "undefined") return null;
 

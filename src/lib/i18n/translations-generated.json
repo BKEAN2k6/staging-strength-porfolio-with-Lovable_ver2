@@ -2541,5 +2541,13 @@
   "{n} t sitten": {
     "en": "{n}h ago",
     "sv": "{n} h sedan"
+  },
+  "Diojen määrä": {
+    "en": "Number of slides",
+    "sv": "Antal bilder"
+  },
+  "Lisää alakategoriat itse.": {
+    "en": "Add sub-categories manually.",
+    "sv": "Lägg till underkategorier manuellt."
   }
 }
