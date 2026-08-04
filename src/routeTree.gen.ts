@@ -39,6 +39,7 @@ import { Route as SuperadminDashboardRouteImport } from './routes/superadmin.das
 import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
 import { Route as TeacherIndexRouteImport } from './routes/teacher.index'
 import { Route as TeacherDashboardRouteImport } from './routes/teacher.dashboard'
+import { Route as TeacherSprintRouteImport } from './routes/teacher.sprint'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedSeikkailuIndexRouteImport } from './routes/_authenticated/seikkailu/index'
@@ -202,6 +203,11 @@ const TeacherDashboardRoute = TeacherDashboardRouteImport.update({
   path: '/teacher/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherSprintRoute = TeacherSprintRouteImport.update({
+  id: '/teacher/sprint',
+  path: '/teacher/sprint',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -277,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/sprint': typeof TeacherSprintRoute
   '/auth/': typeof AuthIndexRoute
   '/superadmin/': typeof SuperadminIndexRoute
   '/teacher/': typeof TeacherIndexRoute
@@ -313,6 +320,7 @@ export interface FileRoutesByTo {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/sprint': typeof TeacherSprintRoute
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthIndexRoute
   '/superadmin': typeof SuperadminIndexRoute
@@ -354,6 +362,7 @@ export interface FileRoutesById {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/sprint': typeof TeacherSprintRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/auth/': typeof AuthIndexRoute
   '/superadmin/': typeof SuperadminIndexRoute
@@ -396,6 +405,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/sprint'
     | '/auth/'
     | '/superadmin/'
     | '/teacher/'
@@ -432,6 +442,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/sprint'
     | '/'
     | '/auth'
     | '/superadmin'
@@ -472,6 +483,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/sprint'
     | '/_authenticated/'
     | '/auth/'
     | '/superadmin/'
@@ -504,6 +516,7 @@ export interface RootRouteChildren {
   SuperadminDashboardRoute: typeof SuperadminDashboardRoute
   SuperadminLoginRoute: typeof SuperadminLoginRoute
   TeacherDashboardRoute: typeof TeacherDashboardRoute
+  TeacherSprintRoute: typeof TeacherSprintRoute
   SuperadminIndexRoute: typeof SuperadminIndexRoute
   TeacherIndexRoute: typeof TeacherIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -723,6 +736,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/sprint': {
+      id: '/teacher/sprint'
+      path: '/teacher/sprint'
+      fullPath: '/teacher/sprint'
+      preLoaderRoute: typeof TeacherSprintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -895,6 +915,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperadminDashboardRoute: SuperadminDashboardRoute,
   SuperadminLoginRoute: SuperadminLoginRoute,
   TeacherDashboardRoute: TeacherDashboardRoute,
+  TeacherSprintRoute: TeacherSprintRoute,
   SuperadminIndexRoute: SuperadminIndexRoute,
   TeacherIndexRoute: TeacherIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
