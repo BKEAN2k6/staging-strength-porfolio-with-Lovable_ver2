@@ -40,6 +40,7 @@ import { Route as SuperadminDashboardRouteImport } from './routes/superadmin.das
 import { Route as SuperadminLoginRouteImport } from './routes/superadmin.login'
 import { Route as TeacherIndexRouteImport } from './routes/teacher.index'
 import { Route as TeacherDashboardRouteImport } from './routes/teacher.dashboard'
+import { Route as TeacherProfileRouteImport } from './routes/teacher.profile'
 import { Route as TeacherReceivedStrengthsRouteImport } from './routes/teacher.received-strengths'
 import { Route as TeacherSprintRouteImport } from './routes/teacher.sprint'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -215,6 +216,11 @@ const TeacherDashboardRoute = TeacherDashboardRouteImport.update({
   path: '/teacher/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherProfileRoute = TeacherProfileRouteImport.update({
+  id: '/teacher/profile',
+  path: '/teacher/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeacherReceivedStrengthsRoute =
   TeacherReceivedStrengthsRouteImport.update({
     id: '/teacher/received-strengths',
@@ -330,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/profile': typeof TeacherProfileRoute
   '/teacher/received-strengths': typeof TeacherReceivedStrengthsRoute
   '/teacher/sprint': typeof TeacherSprintRoute
   '/auth/': typeof AuthIndexRoute
@@ -374,6 +381,7 @@ export interface FileRoutesByTo {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/profile': typeof TeacherProfileRoute
   '/teacher/received-strengths': typeof TeacherReceivedStrengthsRoute
   '/teacher/sprint': typeof TeacherSprintRoute
   '/': typeof AuthenticatedIndexRoute
@@ -423,6 +431,7 @@ export interface FileRoutesById {
   '/superadmin/dashboard': typeof SuperadminDashboardRoute
   '/superadmin/login': typeof SuperadminLoginRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/profile': typeof TeacherProfileRoute
   '/teacher/received-strengths': typeof TeacherReceivedStrengthsRoute
   '/teacher/sprint': typeof TeacherSprintRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/profile'
     | '/teacher/received-strengths'
     | '/teacher/sprint'
     | '/auth/'
@@ -517,6 +527,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/profile'
     | '/teacher/received-strengths'
     | '/teacher/sprint'
     | '/'
@@ -565,6 +576,7 @@ export interface FileRouteTypes {
     | '/superadmin/dashboard'
     | '/superadmin/login'
     | '/teacher/dashboard'
+    | '/teacher/profile'
     | '/teacher/received-strengths'
     | '/teacher/sprint'
     | '/_authenticated/'
@@ -605,6 +617,7 @@ export interface RootRouteChildren {
   SuperadminDashboardRoute: typeof SuperadminDashboardRoute
   SuperadminLoginRoute: typeof SuperadminLoginRoute
   TeacherDashboardRoute: typeof TeacherDashboardRoute
+  TeacherProfileRoute: typeof TeacherProfileRoute
   TeacherReceivedStrengthsRoute: typeof TeacherReceivedStrengthsRoute
   TeacherSprintRoute: typeof TeacherSprintRoute
   SuperadminIndexRoute: typeof SuperadminIndexRoute
@@ -836,6 +849,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/profile': {
+      id: '/teacher/profile'
+      path: '/teacher/profile'
+      fullPath: '/teacher/profile'
+      preLoaderRoute: typeof TeacherProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teacher/received-strengths': {
       id: '/teacher/received-strengths'
       path: '/teacher/received-strengths'
@@ -1063,6 +1083,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperadminDashboardRoute: SuperadminDashboardRoute,
   SuperadminLoginRoute: SuperadminLoginRoute,
   TeacherDashboardRoute: TeacherDashboardRoute,
+  TeacherProfileRoute: TeacherProfileRoute,
   TeacherReceivedStrengthsRoute: TeacherReceivedStrengthsRoute,
   TeacherSprintRoute: TeacherSprintRoute,
   SuperadminIndexRoute: SuperadminIndexRoute,
