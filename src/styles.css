@@ -197,7 +197,11 @@
 @media print {
   .no-print { display: none !important; }
   body { background: white !important; color: black !important; }
-  .sticky-note { box-shadow: none !important; border: 1px solid #ddd; }
+  .sticky-note { box-shadow: none !important; border: 1px solid #ddd; break-inside: avoid; }
+  /* @lovable-new 2026-08-05 reports print cleanly as PDF */
+  aside, [data-sidebar="sidebar"] { display: none !important; }
+  .recharts-wrapper, .recharts-surface { max-width: 100% !important; }
+  @page { margin: 12mm; }
 }
 
 /* Pencil scribble badge */

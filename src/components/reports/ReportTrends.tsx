@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { StickyNote } from "@/components/StickyNote";
+import { PrintReportButton } from "@/components/reports/PrintReportButton";
 import { LevelProgressBar } from "@/components/LevelProgressBar";
 import { useLanguage, useTr } from "@/lib/i18n";
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
@@ -126,6 +127,11 @@ export function ReportTrends({
 
   return (
     <>
+      {/* @lovable-new 2026-08-05 every report can be saved as a PDF */}
+      <div className="flex justify-end">
+        <PrintReportButton />
+      </div>
+
       <StrengthGrowthCard events={events} days={days} seed={`${seedPrefix}-growth`} />
 
       <LevelCompletionCard events={events} studentCount={studentCount} seed={`${seedPrefix}-levels`} />
