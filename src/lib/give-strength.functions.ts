@@ -56,6 +56,13 @@ export const getMyTeacher = createServerFn({ method: "GET" })
     return { id: teacherId, name: (profile?.display_name as string) ?? "—" };
   });
 
+/** 1–3 unique strength ids per gift. */
+function pickIds(ids: number[] | undefined): number[] {
+  const list = [...new Set(ids ?? [])].filter((n) => Number.isFinite(n));
+  if (list.length === 0) throw new Error("No strengths selected");
+  return list.slice(0, 3);
+}
+
 async function insertStrength(
   db: any,
   args: {
@@ -83,7 +90,7 @@ async function insertStrength(
 /** Student gifts a strength to their own class teacher. */
 export const giveStrengthToMyTeacher = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { strengthId: number; message?: string | null }) => d)
+  .inputValidator((d: { strengthIds: number[]; message?: string | null }) => d)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
     const db = await admin();
     const { data: memberships } = await db
@@ -100,14 +107,16 @@ export const giveStrengthToMyTeacher = createServerFn({ method: "POST" })
       .limit(1);
     const teacherId = ((classes ?? []) as Array<{ teacher_id: string }>)[0]?.teacher_id;
     if (!teacherId) throw new Error("No teacher");
-    await insertStrength(db, {
-      fromId: context.userId,
-      toId: teacherId,
-      strengthId: data.strengthId,
-      message: data.message?.trim() || null,
-      fromRole: "student",
-      toRole: "teacher",
-    });
+    for (const strengthId of pickIds(data.strengthIds)) {
+      await insertStrength(db, {
+        fromId: context.userId,
+        toId: teacherId,
+        strengthId,
+        message: data.message?.trim() || null,
+        fromRole: "student",
+        toRole: "teacher",
+      });
+    }
     return { ok: true };
   });
 
@@ -154,7 +163,9 @@ export const listSchoolTeachers = createServerFn({ method: "GET" })
 /** School admin (principal) gifts a strength to a teacher of their school. */
 export const giveStrengthToTeacher = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { teacherId: string; strengthId: number; message?: string | null }) => d)
+  .inputValidator(
+    (d: { teacherId: string; strengthIds: number[]; message?: string | null }) => d,
+  )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,
@@ -173,14 +184,16 @@ export const giveStrengthToTeacher = createServerFn({ method: "POST" })
       .eq("id", data.teacherId)
       .maybeSingle();
     if (!me?.school_id || me.school_id !== target?.school_id) throw new Error("Forbidden");
-    await insertStrength(db, {
-      fromId: context.userId,
-      toId: data.teacherId,
-      strengthId: data.strengthId,
-      message: data.message?.trim() || null,
-      fromRole: "school_admin",
-      toRole: "teacher",
-    });
+    for (const strengthId of pickIds(data.strengthIds)) {
+      await insertStrength(db, {
+        fromId: context.userId,
+        toId: data.teacherId,
+        strengthId,
+        message: data.message?.trim() || null,
+        fromRole: "school_admin",
+        toRole: "teacher",
+      });
+    }
     return { ok: true };
   });
 
