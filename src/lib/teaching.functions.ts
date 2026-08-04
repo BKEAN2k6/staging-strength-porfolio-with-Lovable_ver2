@@ -28,7 +28,9 @@ export interface TeachingSubcategory {
 
 export interface TeachingArticle {
   id: string;
-  subcategory_id: string;
+  /** @lovable-new 2026-08-05 articles now hang directly off a strength category. */
+  category_id: string | null;
+  subcategory_id: string | null;
   title_fi: string;
   title_en: string;
   title_sv: string;
@@ -159,7 +161,8 @@ export const deleteTeachingSubcategory = createServerFn({ method: "POST" })
 
 export interface ArticleInput {
   id?: string;
-  subcategoryId: string;
+  /** @lovable-new 2026-08-05 */
+  categoryId: string;
   titleFi: string;
   titleEn: string;
   titleSv: string;
@@ -184,7 +187,7 @@ export const saveTeachingArticle = createServerFn({ method: "POST" })
     await assertSuperAdmin(context.supabase, context.userId);
     const db = await admin();
     const row = {
-      subcategory_id: data.subcategoryId,
+      category_id: data.categoryId,
       title_fi: data.titleFi,
       title_en: data.titleEn,
       title_sv: data.titleSv,
