@@ -196,7 +196,9 @@ export const saveTeachingArticle = createServerFn({ method: "POST" })
       google_slides_url_sv: data.slidesSv || null,
       thumbnail_url: data.thumbnailUrl || null,
       is_published: data.isPublished,
+      slide_count: Math.max(1, Math.min(200, Number(data.slideCount) || 10)),
       sort_order: data.sortOrder ?? 0,
+
     };
     const q = data.id
       ? db.from("teaching_articles").update(row).eq("id", data.id)
