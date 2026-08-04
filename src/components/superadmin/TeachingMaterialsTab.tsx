@@ -190,8 +190,20 @@ export function TeachingMaterialsTab() {
                   return (
                     <div key={s.id} className="rounded-2xl bg-white/70 p-3">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className="font-bold">{pickLang(s as never, "name", lang)}</span>
-                        <div className="flex gap-2">
+                        <span className="flex items-center gap-2 font-bold">
+                          {pickLang(s as never, "name", lang)}
+                          {!s.is_published && <HiddenBadge label={tr("Piilotettu")} />}
+                        </span>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <PublishToggle
+                            checked={s.is_published}
+                            disabled={busy}
+                            label={tr("Julkaistu")}
+                            onChange={(next) =>
+                              void run(() => publishSub({ data: { id: s.id, isPublished: next } }))
+                            }
+                          />
+
                           <Button
                             size="sm"
                             disabled={busy}
