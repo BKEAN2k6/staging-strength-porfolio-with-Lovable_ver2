@@ -48,7 +48,8 @@ function Cover() {
 
 function Modules() {
   const tr = useTr();
-  const modules = WORLDS.filter((w) => w.id.startsWith("m"));
+  // Levels 1–6 only. `m7` is the Strengths Meter and has no blurb/title here.
+  const modules = WORLDS.filter((w) => /^m[1-6]$/.test(w.id));
   const blurbs: Record<string, string> = {
     m1: "Tutustut ja opit omista luonteenvahvuuksista.",
     m2: "Tutustut henkilökohtaisiin vahvuuksiin opiskelijana. Opit kysymään palautetta opettajilta ja opiskelukavereilta.",
