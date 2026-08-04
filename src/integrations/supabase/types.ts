@@ -604,6 +604,7 @@ export type Database = {
           google_slides_url_sv: string | null
           id: string
           is_published: boolean
+          slide_count: number
           sort_order: number
           subcategory_id: string
           thumbnail_url: string | null
@@ -623,6 +624,7 @@ export type Database = {
           google_slides_url_sv?: string | null
           id?: string
           is_published?: boolean
+          slide_count?: number
           sort_order?: number
           subcategory_id: string
           thumbnail_url?: string | null
@@ -642,6 +644,7 @@ export type Database = {
           google_slides_url_sv?: string | null
           id?: string
           is_published?: boolean
+          slide_count?: number
           sort_order?: number
           subcategory_id?: string
           thumbnail_url?: string | null
