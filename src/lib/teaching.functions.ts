@@ -123,7 +123,13 @@ export const setTeachingSubcategoryPublished = createServerFn({ method: "POST" }
 export const createTeachingSubcategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(
-    (d: { categoryId: string; nameFi: string; nameEn: string; nameSv: string }) => d,
+    (d: {
+      categoryId: string;
+      nameFi: string;
+      nameEn: string;
+      nameSv: string;
+      sortOrder?: number;
+    }) => d,
   )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context.supabase, context.userId);
@@ -133,7 +139,8 @@ export const createTeachingSubcategory = createServerFn({ method: "POST" })
       name_fi: data.nameFi,
       name_en: data.nameEn,
       name_sv: data.nameSv,
-      sort_order: 99,
+      sort_order: data.sortOrder ?? 99,
+
     });
     if (error) throw new Error(error.message);
     return { ok: true };
