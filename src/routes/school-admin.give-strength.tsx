@@ -93,7 +93,6 @@ function SchoolAdminGiveStrengthPage() {
       schoolName={guard.schoolName}
       links={[
         { to: "/school-admin/dashboard", label: tr("Takaisin") },
-        { to: "/school-admin/teach/materials", label: tr("Opetusmateriaalit") },
       ]}
     >
       <StickyNote seed="sa-give" className="space-y-4">
