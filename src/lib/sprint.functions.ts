@@ -100,16 +100,20 @@ export const collectSprintResults = createServerFn({ method: "POST" })
 
     const names = await namesFor(db, [...new Set(rows.map((r) => r.from_student_id))]);
 
-    const marker = `sprint:${data.sprintId}`;
-    const { data: already } = await db
+    const { data: alreadyRows } = await db
       .from("teacher_assigned_strengths")
-      .select("id")
+      .select("from_user_id, strength_id")
       .eq("to_user_id", me)
-      .eq("message", marker)
-      .limit(1);
-    if ((already ?? []).length === 0 && rows.length > 0) {
+      .eq("from_role", "student");
+    const have = new Set(
+      ((alreadyRows ?? []) as Array<{ from_user_id: string; strength_id: string }>).map(
+        (r) => `${r.from_user_id}|${r.strength_id}`,
+      ),
+    );
+    const toInsert = rows.filter((r) => !have.has(`${r.from_student_id}|${r.strength_id}`));
+    if (toInsert.length > 0) {
       await db.from("teacher_assigned_strengths").insert(
-        rows.map((r) => ({
+        toInsert.map((r) => ({
           teacher_id: r.from_student_id,
           student_id: me,
           from_user_id: r.from_student_id,
@@ -117,7 +121,7 @@ export const collectSprintResults = createServerFn({ method: "POST" })
           from_role: "student",
           to_role: "student",
           strength_id: r.strength_id,
-          message: marker,
+          message: null,
         })),
       );
     }
