@@ -126,12 +126,15 @@ function TeacherProfilePage() {
         email={guard.email}
       />
 
-      {top5.length > 0 && (
-        <StickyNote seed="profile-top5" className="space-y-3">
-          <h3 className="text-xl font-bold">{tr("Saamani vahvuudet")}</h3>
+      <StickyNote seed="profile-top5" className="space-y-3">
+        <h3 className="text-xl font-bold">{tr("Saamani Top 5 vahvuudet")}</h3>
+        {top5.length === 0 ? (
+          <p className="text-sm opacity-70">{tr("Et ole vielä saanut vahvuuksia.")}</p>
+        ) : (
           <TopStrengthCards items={top5} lang={lang} />
-        </StickyNote>
-      )}
+        )}
+      </StickyNote>
+
 
       <Feed
         title={tr("Oppilailta saadut")}
