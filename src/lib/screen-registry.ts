@@ -14,7 +14,7 @@ import { METER_STRENGTHS, METER_STRENGTH_FIRST, fieldKeyFor } from "@/lib/meter-
 /** No screens are excluded — the adventure counts all 106 screens. */
 export const EMPTY_SCREENS = new Set<number>();
 
-/** Every screen a student can open, in order (100 screens). */
+/** Every screen a student can open, in order (106 screens). */
 export const ACTIVE_SCREENS: number[] = Array.from(
   { length: TOTAL_SCREENS },
   (_, i) => i + 1,
