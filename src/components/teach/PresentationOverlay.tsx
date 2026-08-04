@@ -77,7 +77,11 @@ export function PresentationOverlay({
     return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, [onExit]);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  // Rendered into <body> so it never nests inside (or duplicates) the page
+  // content that opened it.
+  return createPortal(
     <div
       ref={rootRef}
       className="journey-bg fixed inset-0 z-[100] flex flex-col overflow-hidden bg-[color:var(--purple-dark)]"
