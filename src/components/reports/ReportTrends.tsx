@@ -213,16 +213,8 @@ function StrengthGrowthCard({
                 <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
                 <XAxis dataKey="label" {...axisProps} />
                 <YAxis {...axisProps} allowDecimals={false} />
-                <Tooltip
-                  // @lovable-new — Recharts passes the series `name`, not the dataKey.
-                  // Resolve the strength name from the legend map so the tooltip
-                  // never renders "Strength NaN".
-                  formatter={(v: number, name: unknown, item: unknown) => {
-                    const dataKey = (item as { dataKey?: string } | undefined)?.dataKey;
-                    const id = legend.find((l) => l.key === dataKey)?.id;
-                    return [v, id != null ? getStrengthName(id, lang) : String(name)];
-                  }}
-                />
+                {/* @lovable-new 2026-08-05 — strength names + a total row. */}
+                <Tooltip content={<StrengthTooltip legend={legend} lang={lang} />} />
 
                 {legend.map((l) => (
                   <Line
@@ -254,6 +246,56 @@ function StrengthGrowthCard({
         </>
       )}
     </StickyNote>
+  );
+}
+
+/**
+ * @lovable-new 2026-08-05
+ * Tooltip that resolves each series back to its strength name and adds a
+ * translated total row at the bottom.
+ */
+function StrengthTooltip({
+  active,
+  payload,
+  label,
+  legend,
+  lang,
+}: {
+  active?: boolean;
+  payload?: Array<{ value?: number; dataKey?: string | number }>;
+  label?: string | number;
+  legend: { key: string; id: number }[];
+  lang: "fi" | "en" | "sv";
+}) {
+  const tr = useTr();
+  if (!active || !payload?.length) return null;
+  const rows = payload
+    .map((p) => ({
+      id: legend.find((l) => l.key === String(p.dataKey))?.id,
+      value: Number(p.value ?? 0),
+    }))
+    .filter((r) => r.id != null && r.value > 0);
+  const total = rows.reduce((sum, r) => sum + r.value, 0);
+  return (
+    <div className="rounded-xl border border-black/10 bg-white/95 px-3 py-2 text-xs text-slate-900 shadow-lg">
+      <p className="mb-1 font-bold">{String(label ?? "")}</p>
+      <ul className="space-y-0.5">
+        {rows.map((r) => (
+          <li key={r.id} className="flex items-center gap-1.5">
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ background: getStrengthColor(r.id as number) }}
+              aria-hidden
+            />
+            <span>{getStrengthName(r.id as number, lang)}:</span>
+            <span className="tabular-nums font-semibold">{r.value}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-1 border-t border-black/10 pt-1 font-bold">
+        {tr("Yhteensä")}: <span className="tabular-nums">{total}</span>
+      </p>
+    </div>
   );
 }
 
