@@ -407,30 +407,188 @@ export type Database = {
         }
         Relationships: []
       }
+      sprint_players: {
+        Row: {
+          id: string
+          is_completed: boolean
+          joined_at: string
+          sprint_id: string
+          student_id: string
+        }
+        Insert: {
+          id?: string
+          is_completed?: boolean
+          joined_at?: string
+          sprint_id: string
+          student_id: string
+        }
+        Update: {
+          id?: string
+          is_completed?: boolean
+          joined_at?: string
+          sprint_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sprint_players_sprint_id_fkey"
+            columns: ["sprint_id"]
+            isOneToOne: false
+            referencedRelation: "sprint_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sprint_players_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sprint_sessions: {
+        Row: {
+          class_id: string
+          created_at: string
+          ended_at: string | null
+          id: string
+          join_code: string
+          school_id: string | null
+          started_at: string | null
+          status: string
+          teacher_id: string
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          join_code: string
+          school_id?: string | null
+          started_at?: string | null
+          status?: string
+          teacher_id: string
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          join_code?: string
+          school_id?: string | null
+          started_at?: string | null
+          status?: string
+          teacher_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sprint_sessions_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sprint_sessions_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sprint_sessions_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sprint_strengths: {
+        Row: {
+          created_at: string
+          from_student_id: string
+          id: string
+          sprint_id: string
+          strength_id: string
+          to_student_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_student_id: string
+          id?: string
+          sprint_id: string
+          strength_id: string
+          to_student_id: string
+        }
+        Update: {
+          created_at?: string
+          from_student_id?: string
+          id?: string
+          sprint_id?: string
+          strength_id?: string
+          to_student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sprint_strengths_from_student_id_fkey"
+            columns: ["from_student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sprint_strengths_sprint_id_fkey"
+            columns: ["sprint_id"]
+            isOneToOne: false
+            referencedRelation: "sprint_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sprint_strengths_to_student_id_fkey"
+            columns: ["to_student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teacher_assigned_strengths: {
         Row: {
           created_at: string
+          from_role: string
+          from_user_id: string | null
           id: string
           message: string | null
           strength_id: string
           student_id: string
           teacher_id: string
+          to_role: string
+          to_user_id: string | null
         }
         Insert: {
           created_at?: string
+          from_role?: string
+          from_user_id?: string | null
           id?: string
           message?: string | null
           strength_id: string
           student_id: string
           teacher_id: string
+          to_role?: string
+          to_user_id?: string | null
         }
         Update: {
           created_at?: string
+          from_role?: string
+          from_user_id?: string | null
           id?: string
           message?: string | null
           strength_id?: string
           student_id?: string
           teacher_id?: string
+          to_role?: string
+          to_user_id?: string | null
         }
         Relationships: []
       }
@@ -460,6 +618,7 @@ export type Database = {
       check_school_expiry: { Args: never; Returns: undefined }
       claim_teacher_role: { Args: { p_code: string }; Returns: boolean }
       cleanup_deleted_classes: { Args: never; Returns: undefined }
+      generate_sprint_code: { Args: never; Returns: string }
       get_my_class_language: { Args: never; Returns: string }
       get_my_received_strengths: {
         Args: never
@@ -481,8 +640,11 @@ export type Database = {
       }
       is_class_member: { Args: { _class_id: string }; Returns: boolean }
       is_class_teacher: { Args: { _class_id: string }; Returns: boolean }
+      is_sprint_host: { Args: { _sprint_id: string }; Returns: boolean }
+      is_sprint_player: { Args: { _sprint_id: string }; Returns: boolean }
       is_teacher_of: { Args: { _student_id: string }; Returns: boolean }
       join_class: { Args: { p_join_code: string }; Returns: Json }
+      join_sprint: { Args: { p_code: string }; Returns: Json }
       my_classes_deleted: { Args: never; Returns: boolean }
       my_school_id: { Args: never; Returns: string }
       register_teacher_with_any_code: {
