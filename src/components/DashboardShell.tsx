@@ -4,15 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { CornerBlobs } from "@/components/CornerBlobs";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
+  ArrowLeftIcon,
+  BookIcon,
   CandyIcon,
   ChartIcon,
+  GamepadIcon,
+  GiftIcon,
+  GridIcon,
   HomeIcon,
   MapIcon,
   PencilIcon,
   PeopleIcon,
-  PlayIcon,
+  PresentIcon,
   SparkleIcon,
-  StarIcon,
   UserIcon,
 } from "@/components/icons/AppIcons";
 import { useTr } from "@/lib/i18n";
@@ -23,17 +27,39 @@ export interface ShellTab {
   label: string;
 }
 
-const TAB_ICONS: Record<string, (p: { size?: number; className?: string }) => ReactNode> = {
+type IconCmp = (p: { size?: number; className?: string }) => ReactNode;
+
+const TAB_ICONS: Record<string, IconCmp> = {
   overview: HomeIcon,
-  classes: MapIcon,
+  classes: GridIcon,
   students: PeopleIcon,
   teachers: UserIcon,
   codes: PencilIcon,
   strengths: CandyIcon,
   reports: ChartIcon,
-  emails: StarIcon,
-  settings: SparkleIcon,
+  emails: PencilIcon,
+  materials: BookIcon,
+  settings: UserIcon,
+  profile: UserIcon,
 };
+
+/**
+ * @lovable-new 2026-08-04 — every sidebar link gets a meaningful icon
+ * (no more generic stars). Resolved from the destination route.
+ */
+export function iconForRoute(to: string): IconCmp {
+  if (/\/(dashboard|seikkailu)$/.test(to)) return ArrowLeftIcon;
+  if (to.includes("teach/materials")) return BookIcon;
+  if (to.includes("teach/portfolio")) return PresentIcon;
+  if (to.includes("sprint")) return to.includes("student") ? GamepadIcon : MapIcon;
+  if (to.includes("give-strength")) return HeartOrGift;
+  if (to.includes("received-strengths")) return GiftIcon;
+  if (to.includes("profile")) return UserIcon;
+  if (to.includes("strengths")) return CandyIcon;
+  return SparkleIcon;
+}
+
+const HeartOrGift: IconCmp = GiftIcon;
 
 /**
  * Shared chrome for the role dashboards: playful purple sidebar, school name
