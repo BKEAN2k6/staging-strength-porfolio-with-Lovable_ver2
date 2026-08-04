@@ -501,6 +501,10 @@
     "en": "The best thing about my friends is:",
     "sv": "Det bästa med mina vänner är:"
   },
+  "Dia": {
+    "en": "Slide",
+    "sv": "Bild"
+  },
   "Diat": {
     "en": "Slides",
     "sv": "Bilder"
@@ -592,6 +596,10 @@
   "Et ole vielä kerännyt vahvuuksia.": {
     "en": "You haven't collected any strengths yet.",
     "sv": "Du har inte samlat några styrkor ännu."
+  },
+  "Et ole vielä saanut vahvuuksia.": {
+    "en": "You haven't received strengths yet.",
+    "sv": "Du har inte fått styrkor ännu."
   },
   "FINSKA TERM": {
     "sv": "SVENSKA TERM"
@@ -1851,6 +1859,10 @@
   "SOSIAALINEN ÄLYKKYYS / SOCIAL INTELLIGENS": {
     "sv": "section_header"
   },
+  "Saamani Top 5 vahvuudet": {
+    "en": "My Top 5 Received Strengths",
+    "sv": "Mina topp 5 mottagna styrkor"
+  },
   "Saamani vahvuudet": {
     "en": "My Received Strengths",
     "sv": "Mina mottagna styrkor"
@@ -2332,6 +2344,10 @@
     "en": "Select",
     "sv": "Välj"
   },
+  "Valitse 1–3 vahvuutta": {
+    "en": "Select 1–3 strengths",
+    "sv": "Välj 1–3 styrkor"
+  },
   "Valitse ensin luokka": {
     "en": "Select a class first",
     "sv": "Välj en klass först"
@@ -2347,6 +2363,10 @@
   "Valitse viisi tärkeintä 'karkkiväittämää', jotka kuvaavat sinua parhaiten.": {
     "en": "Choose the five most important 'strength candy' statements that best describe you.",
     "sv": "Välj de fem viktigaste 'styrkegodis' påståenden som stämmer bäst in på dig."
+  },
+  "Valittu": {
+    "en": "Selected",
+    "sv": "Valt"
   },
   "Valmis": {
     "en": "Completed",
@@ -2493,6 +2513,10 @@
   "vahvuuksista löydetty": {
     "en": "of strengths discovered",
     "sv": "av styrkorna upptäckta"
+  },
+  "vahvuutta lähetetty!": {
+    "en": "strengths sent!",
+    "sv": "styrkor skickade!"
   },
   "valmis": {
     "en": "complete",
