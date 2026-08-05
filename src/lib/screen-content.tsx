@@ -9,77 +9,137 @@ import { cn } from "@/lib/utils";
 import { useTr, useLanguage } from "@/lib/i18n";
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 
-
 // Screens 1–22: content sourced verbatim from the workbook PDF
 // "Vahvuusportfolio lukiolaiselle" (Huomaa hyvä!®).
 
 export const STRENGTHS_24 = [
-  "Rohkeus", "Luovuus", "Innostus", "Reiluus",
-  "Sisukkuus", "Myötätunto", "Huumorintaju", "Ystävällisyys",
-  "Kauneuden ja erinomaisuuden arvostus", "Oppimisen ilo", "Rehellisyys",
-  "Sosiaalinen älykkyys", "Sinnikkyys", "Kiitollisuus", "Henkisyys",
-  "Johtajuus", "Toiveikkuus", "Anteeksiantavuus", "Arviointikyky",
-  "Uteliaisuus", "Itsesäätely", "Rakkaus", "Näkökulmanottokyky",
-  "Harkitsevaisuus", "Vaatimattomuus", "Ryhmätyötaidot",
+  "Rohkeus",
+  "Luovuus",
+  "Innostus",
+  "Reiluus",
+  "Sisukkuus",
+  "Myötätunto",
+  "Huumorintaju",
+  "Ystävällisyys",
+  "Kauneuden ja erinomaisuuden arvostus",
+  "Oppimisen ilo",
+  "Rehellisyys",
+  "Sosiaalinen älykkyys",
+  "Sinnikkyys",
+  "Kiitollisuus",
+  "Henkisyys",
+  "Johtajuus",
+  "Toiveikkuus",
+  "Anteeksiantavuus",
+  "Arviointikyky",
+  "Uteliaisuus",
+  "Itsesäätely",
+  "Rakkaus",
+  "Näkökulmanottokyky",
+  "Harkitsevaisuus",
+  "Vaatimattomuus",
+  "Ryhmätyötaidot",
 ];
 
 type Props = { onSaveStateChange?: (s: SaveState) => void };
 
 function Cover() {
   const tr = useTr();
+
   return (
-    <div className="space-y-5">
-      <StickyNote tone="yellow" seed="s1-cover" className="text-center">
-        <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">Huomaa hyvä!®</div>
-        <h1 className="font-display text-4xl leading-tight mb-3">{tr("Vahvuusportfolio lukiolaiselle")}</h1>
-        <div className="text-4xl mb-3">🐈‍⬛ 🏀 📚 💻</div>
-        <p className="text-base leading-relaxed">
-          {tr("Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.")}
+    <div className="cover-page">
+      <div className="cover-content">
+        <h1 className="cover-title">{tr("Vahvuusportfolio lukiolaiselle")}</h1>
+
+        <p className="cover-description">
+          {tr(
+            "Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.",
+          )}
         </p>
-      </StickyNote>
-      <StickyNote seed="s1-howto" tone="white">
-        <p className="text-sm leading-relaxed">
-          {tr("Etene näytöstä toiseen alalaidan nuolilla. Vastauksesi tallentuvat automaattisesti — voit aina jatkaa siitä, mihin jäit. Aloita painamalla Seuraava →.")}
-        </p>
-      </StickyNote>
+
+        <img
+          src="/illustrations/naytto-1.png"
+          alt=""
+          aria-hidden="true"
+          className="cover-illustration"
+        />
+      </div>
     </div>
   );
 }
 
+//=============Tarot======================//
+
 function Modules() {
   const tr = useTr();
-  // Levels 1–6 only. `m7` is the Strengths Meter and has no blurb/title here.
-  const modules = WORLDS.filter((w) => /^m[1-6]$/.test(w.id));
-  const blurbs: Record<string, string> = {
-    m1: "Tutustut ja opit omista luonteenvahvuuksista.",
-    m2: "Tutustut henkilökohtaisiin vahvuuksiin opiskelijana. Opit kysymään palautetta opettajilta ja opiskelukavereilta.",
-    m3: "Tutustut henkilökohtaisiin vahvuuksiin kotona. Myös vanhemmat / läheiset kertovat sinun vahvuuksistasi.",
-    m4: "Tutustut omiin vahvuuksiin ja niiden hyödyntämiseen vapaa-ajalla.",
-    m5: "Tutustut omiin vahvuuksiin ystävyyssuhteissa. Opit kysymään ja antamaan palautetta.",
-    m6: "Reflektoi oppimaasi ja hyödynnä omia vahvuuksiasi esimerkiksi kesätyönhaussa.",
-  };
-  const titles: Record<string, string> = {
-    m1: "Omat ydinvahvuudet",
-    m2: "Omat vahvuudet lukiossa",
-    m3: "Omat vahvuudet kotona",
-    m4: "Omat vahvuudet vapaa-ajalla ja harrastuksissa",
-    m5: "Omat vahvuudet ystävyyssuhteissa",
-    m6: "Vahvuusportfolion kokoaminen",
-  };
+
+  const moduleKeys = [
+    {
+      id: "m1",
+      translationKey:
+        "1 – Omat ydinvahvuudet | Tutustut ja opit omista luonteenvahvuuksista. | sivut 16–33",
+    },
+    {
+      id: "m2",
+      translationKey:
+        "2 – Omat vahvuudet lukiossa | Tutustut henkilökohtaisiin vahvuuksiin opiskelijana. Opit kysymään palautetta opettajilta ja opiskelukavereilta. | sivut 34–46",
+    },
+    {
+      id: "m3",
+      translationKey:
+        "3 – Omat vahvuudet kotona | Tutustut henkilökohtaisiin vahvuuksiin kotona. Myös vanhemmat / läheiset kertovat sinun vahvuuksistasi. | sivut 47–52",
+    },
+    {
+      id: "m4",
+      translationKey:
+        "4 – Omat vahvuudet vapaa-ajalla ja harrastuksissa | Tutustut omiin vahvuuksiin ja niiden hyödyntämiseen vapaa-ajalla. | sivut 53–60",
+    },
+    {
+      id: "m5",
+      translationKey:
+        "5 – Omat vahvuudet ystävyyssuhteissa | Tutustut omiin vahvuuksiin ystävyyssuhteissa. Opit kysymään ja antamaan palautetta. | sivut 61–64",
+    },
+    {
+      id: "m6",
+      translationKey:
+        "6 – Vahvuusportfolion kokoaminen | Reflektoi oppimaasi ja hyödynnä omia vahvuuksiasi – esimerkiksi kesätyönhaussa. | sivut 65–76",
+    },
+  ] as const;
+
+  const modules = WORLDS.filter((world) => moduleKeys.some((item) => item.id === world.id));
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s2-intro">
-        <h1 className="font-display text-3xl mb-1">{tr("Tasot")}</h1>
-        <p className="text-sm opacity-90">{tr("Seikkailu kulkee kuuden moduulin läpi. Tässä on yleiskuva siitä, mitä edessä on.")}</p>
-      </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {modules.map((w, i) => (
-          <StickyNote key={w.id} seed={`mod-${w.id}`} tone={mapTone(w.tone)}>
-            <div className="text-xs font-bold opacity-70">{tr(`Taso ${i + 1}`)}</div>
-            <div className="font-display text-lg leading-tight mb-1">{tr(titles[w.id])}</div>
-            <p className="text-xs leading-snug opacity-90">{tr(blurbs[w.id])}</p>
-          </StickyNote>
-        ))}
+    <div className="relative min-h-[620px] w-full overflow-hidden px-5 pb-8 pt-12">
+      <h1 className="mb-12 font-display text-[36px] font-[500] leading-[10px] text-white">
+        {tr("Taso")}
+      </h1>
+
+      <div className="grid grid-cols-6 gap-4">
+        {modules.map((module, index) => {
+          const moduleKey = moduleKeys.find((item) => item.id === module.id);
+          const translated = moduleKey ? tr(moduleKey.translationKey) : "";
+          const [rawTitle = "", description = ""] = translated.split(" | ");
+          const title = rawTitle.replace(/^\d+\s*–\s*/, "");
+
+          return (
+            <div
+              key={module.id}
+              className="relative flex min-h-[400px] min-w-0 flex-col rounded-[10px] border-2 border-white bg-white px-3 pb-5 pt-12 text-center text-white"
+            >
+              <div className="absolute left-1/2 top-0 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#7755c9] text-[22px] font-bold text-white">
+                {index + 1}
+              </div>
+
+              <h2 className="mb-4 break-words font-display text-[clamp(16px,1.35vw,22px)] font-bold leading-[1.15] text-[#7654ad]">
+                {title}
+              </h2>
+
+              <p className="break-words text-[clamp(15px,1vw,18px)] leading-[1.3] text-[#7654ad]">
+                {description}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -92,86 +152,398 @@ function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
 
 function Quote() {
   const tr = useTr();
+
   return (
-    <div className="space-y-5">
-      <StickyNote tone="coral" seed="s3-q" className="text-center">
-        <div className="text-sm italic mb-2 opacity-90">{tr("Panosta vahvuuksiisi.")}</div>
-        <h1 className="font-display text-3xl leading-tight">
-          {tr("Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
+    <div className="grid min-h-[600px] w-full min-w-0 grid-cols-[60%_40%] overflow-hidden">
+      <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-left text-white">
+        <h1 className="m-0 text-center font-display text-[clamp(40px,4.5vw,70px)] font-bold leading-[1.08] tracking-[-1px]">
+          {tr("Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
         </h1>
-        <div className="mt-4 inline-block rounded-full bg-white/20 px-4 py-1 text-sm">
-          {tr("MYÖTÄTUNTO 1000 kg")} 💛
-        </div>
-      </StickyNote>
-      <p className="text-center text-xs opacity-70">Huomaa hyvä!®</p>
+      </div>
+
+      <div className="flex min-w-0 items-center justify-end pr-0">
+        <img
+          src="/illustrations/naytto-2.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none block h-auto max-h-full w-auto max-w-full object-contain"
+        />
+      </div>
     </div>
   );
 }
 
 function Definition() {
   const tr = useTr();
-  return (
-    <StickyNote tone="mint" seed="s4-def">
-      <h1 className="font-display text-2xl mb-3">{tr("Mitä vahvuudet ovat?")}</h1>
-      <p className="text-base leading-relaxed mb-3">
-        {tr("Vahvuudet eivät ole asioita tai ominaisuuksia, joissa olet hyvä — eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi.")}
-      </p>
-      <p className="text-base leading-relaxed">
-        {tr("Sen sijaan vahvuudet tekevät kantajastaan vahvan, ja heikkoudet toimivat päinvastoin.")}
-      </p>
-    </StickyNote>
-  );
-}
 
-function Tieto({ onSaveStateChange }: Props) {
-  const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s5-info">
-        <h1 className="font-display text-2xl mb-2">{tr("Tietoa vahvuuksista")}</h1>
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja yhteisösi voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia.")}
-        </p>
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Vahvuudet auttavat haasteiden kohtaamisessa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.")}
-        </p>
-        <p className="text-sm leading-relaxed">
-          {tr("Jokaisella on omat ydinvahvuutensa, joihin kannattaa keskittyä ja joita on järkevää vahvistaa. Omien vahvuuksien tunteminen lisää tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.")}
-        </p>
-        <p className="mt-3 font-display text-lg">{tr("Tervetuloa mukaan, lukiolainen!")}</p>
-      </StickyNote>
-      <StickyNote seed="s5-reflect" tone="white">
-        <ReflectionTextarea
-          fieldKey="screen_5_first_impression"
-          label={tr("Mikä tästä jäi mieleen? (vapaaehtoinen)")}
-          placeholder={tr("Kirjoita muutama ajatus…")}
-          onSaveStateChange={onSaveStateChange}
-        />
-      </StickyNote>
+    <div className="relative flex min-h-[600px] w-full items-center justify-center overflow-hidden px-6 text-white">
+      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(36px,4.1vw,60px)] font-bold leading-[1.15]">
+        {tr(
+          "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
+        )}
+      </h1>
     </div>
   );
 }
 
-function StrengthsList({ onSaveStateChange }: Props) {
+function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
   const tr = useTr();
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s6-h">
-        <h1 className="font-display text-2xl mb-1">
-          {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa")}
-        </h1>
-        <p className="text-sm opacity-90">
-          {tr("Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.")}
+    <div className="relative min-h-[600px] w-full overflow-hidden pb-14 pl-[1%] pt-1 text-white">
+      <h1 className="mb-10 font-display text-[42px] font-bold leading-[0.8] text-white">
+        {tr("Tietoa vahvuuksista")}
+      </h1>
+
+      <div className="max-w-[1080px] space-y-4 text-[21px] leading-[1.35]">
+        <p>
+          {tr(
+            "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.",
+          )}
         </p>
-      </StickyNote>
-      <div className="rounded-3xl bg-white/10 p-4">
-        <SelectableChips
-          fieldKey="screen_6_known_strengths"
-          options={STRENGTHS_24}
-          labelFor={(o) => tr(o)}
-          onSaveStateChange={onSaveStateChange}
-          min={1}
-        />
+
+        <p>
+          {tr(
+            "Vahvuudet auttavat haasteiden kohtaamisessa ja edistävät niistä ylipääsemisessä eli selviytymisessä. Taidoilla ja vahvuuksilla on eroa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.",
+          )}
+        </p>
+
+        <p>
+          {tr(
+            "Jokaisella on omat ydinvahvuutensa, joihin kannattaa keskittyä ja joita on järkevää vahvistaa! Omien vahvuuksien tunteminen ja niiden hyödyntäminen opiskelussa ja vapaa-ajalla lisää tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.",
+          )}
+        </p>
+
+        <p className="pt-1">{tr("Tervetuloa mukaan lukiolainen!")}</p>
+      </div>
+    </div>
+  );
+}
+
+function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
+  const tr = useTr();
+
+  const strengths = [
+    {
+      id: 1,
+      text: "Rohkeus",
+      color: "#bfe9f7",
+      border: "#48a9d0",
+    },
+    {
+      id: 2,
+      text: "Ystävällisyys",
+      color: "#ffd9ad",
+      border: "#ed8a32",
+    },
+    {
+      id: 3,
+      text: "Kiitollisuus",
+      color: "#ffe7a1",
+      border: "#e7ab1b",
+    },
+    {
+      id: 4,
+      text: "Itsesäätely",
+      color: "#ccecf7",
+      border: "#48a9d0",
+    },
+
+    {
+      id: 5,
+      text: "Luovuus",
+      color: "#ccebcf",
+      border: "#55a667",
+    },
+    {
+      id: 6,
+      text: "Henkisyys",
+      color: "#bfe9f7",
+      border: "#48a9d0",
+    },
+    {
+      id: 7,
+      text: "Rakkaus",
+      color: "#ffd1d1",
+      border: "#e36c6c",
+    },
+    {
+      id: 8,
+      text: "Innostus",
+      color: "#ffd1d1",
+      border: "#e36c6c",
+    },
+
+    {
+      id: 9,
+      text: "Johtajuus",
+      color: "#ccebcf",
+      border: "#55a667",
+    },
+    {
+      id: 10,
+      text: "Toiveikkuus",
+      color: "#ffd1d1",
+      border: "#e36c6c",
+    },
+    {
+      id: 11,
+      text: "Reiluus",
+      color: "#ffd9ad",
+      border: "#ed8a32",
+    },
+    {
+      id: 12,
+      text: "Oppimisen ilo",
+      color: "#ffe7a1",
+      border: "#e7ab1b",
+    },
+
+    {
+      id: 13,
+      text: "Anteeksiantavuus",
+      color: "#ffe7a1",
+      border: "#e7ab1b",
+    },
+    {
+      id: 14,
+      text: "Sisukkuus",
+      color: "#ffe7a1",
+      border: "#e7ab1b",
+    },
+    {
+      id: 15,
+      text: "Rehellisyys",
+      color: "#bfe9f7",
+      border: "#48a9d0",
+    },
+    {
+      id: 16,
+      text: "Arviointikyky",
+      color: "#ffd9ad",
+      border: "#ed8a32",
+    },
+
+    {
+      id: 17,
+      text: "Myötätunto",
+      color: "#ccebcf",
+      border: "#55a667",
+    },
+    {
+      id: 18,
+      text: "Sosiaalinen älykkyys",
+      color: "#ded2f2",
+      border: "#7654ad",
+    },
+    {
+      id: 19,
+      text: "Uteliaisuus",
+      color: "#ffd1d1",
+      border: "#e36c6c",
+    },
+    {
+      id: 20,
+      text: "Ryhmätyötaidot",
+      color: "#bfe9f7",
+      border: "#48a9d0",
+    },
+  ];
+
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  function toggleStrength(id: number) {
+    setSelectedIds((currentIds) => {
+      const alreadySelected = currentIds.includes(id);
+
+      // Nhấn lại viên đã chọn để bỏ chọn.
+      if (alreadySelected) {
+        return currentIds.filter((selectedId) => selectedId !== id);
+      }
+
+      // Chỉ cho phép chọn tối đa 3 viên.
+      if (currentIds.length >= 3) {
+        return currentIds;
+      }
+
+      return [...currentIds, id];
+    });
+  }
+
+  const selectedStrengths = strengths.filter((strength) => selectedIds.includes(strength.id));
+
+  const selectionIsFull = selectedIds.length >= 3;
+
+  return (
+    <div className="relative min-h-[620px] w-full overflow-hidden px-6 pb-5 pt-5 text-white">
+      {/* Bố cục gồm cột lọ bên trái và danh sách kẹo bên phải */}
+      <div className="grid min-h-[570px] grid-cols-[0.58fr_2fr] items-center gap-6">
+        {/* =====================================================
+            CỘT TRÁI: CHIẾC LỌ
+        ====================================================== */}
+        <div className="relative flex min-w-0 flex-col items-center justify-center">
+          <div className="relative h-[210px] w-full max-w-[190px]">
+            <img
+              src="/illustrations/naytto-3.png"
+              alt={tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+
+            {/* Các sức mạnh đã chọn trong lọ */}
+            <div className="absolute bottom-[30px] left-1/2 z-20 flex w-[180px] -translate-x-1/2 flex-col items-center gap-2">
+              {selectedStrengths.map((strength, index) => (
+                <button
+                  key={strength.id}
+                  type="button"
+                  onClick={() => toggleStrength(strength.id)}
+                  className={`
+                    max-w-[165px]
+                    rounded-full
+                    border-2
+                    px-4
+                    py-2
+                    text-center
+                    text-[12px]
+                    font-semibold
+                    leading-[1.1]
+                    shadow-sm
+                    transition-transform
+                    hover:scale-105
+                    ${index === 0 ? "-rotate-3" : ""}
+                    ${index === 1 ? "rotate-2" : ""}
+                    ${index === 2 ? "-rotate-1" : ""}
+                  `}
+                  style={{
+                    backgroundColor: strength.color,
+                    borderColor: strength.border,
+                  }}
+                >
+                  {tr(strength.text)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Hướng dẫn chọn */}
+          <div className="-mt-3 flex items-center justify-center gap-2 text-[white]">
+            <span className="rotate-[-30deg] text-[40px] leading-none">↗</span>
+
+            <p className="text-center text-[14px] font-bold leading-[1.2]">
+              {tr(
+                "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
+              )}
+            </p>
+          </div>
+
+          <p className="mt-2 text-[13px] font-semibold text-[white]">
+            {tr("Valittu {n} / {max}", {
+              n: selectedIds.length,
+              max: 3,
+            })}
+          </p>
+        </div>
+
+        {/* =====================================================
+            CỘT PHẢI: TIÊU ĐỀ VÀ DANH SÁCH KẸO
+        ====================================================== */}
+        <div className="min-w-0 pl-2">
+          <h1 className="max-w-[950px] font-display text-[32px] font-bold leading-[1.12]">
+            {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
+          </h1>
+
+          <p className="mb-5 mt-2 text-[19px]">{tr("Keksitkö lisää?")}</p>
+
+          {/* Danh sách 20 viên kẹo, chia thành 4 cột */}
+          <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-5">
+            {strengths.map((strength) => {
+              const isSelected = selectedIds.includes(strength.id);
+
+              const selectionDisabled = selectionIsFull && !isSelected;
+
+              return (
+                <button
+                  key={strength.id}
+                  type="button"
+                  disabled={selectionDisabled}
+                  onClick={() => toggleStrength(strength.id)}
+                  className={`
+                    group
+                    flex
+                    w-full
+                    min-w-0
+                    items-center
+                    justify-center
+                    transition-all
+                    duration-150
+                    ${isSelected ? "scale-105" : ""}
+                    ${selectionDisabled ? "cursor-not-allowed opacity-35" : "hover:scale-105"}
+                  `}
+                >
+                  {/* Đầu giấy gói bên trái */}
+                  <span
+                    aria-hidden="true"
+                    className="
+                      h-[40px]
+                      w-[18px]
+                      shrink-0
+                      [clip-path:polygon(100%_0,100%_100%,0_78%,30%_50%,0_22%)]
+                    "
+                    style={{
+                      backgroundColor: strength.color,
+                      border: `2px solid ${strength.border}`,
+                    }}
+                  />
+
+                  {/* Thân viên kẹo */}
+                  <span
+                    className={`
+                      -mx-[2px]
+                      flex
+                      min-h-[48px]
+                      w-[155px]
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-[50%]
+                      border-2
+                      px-2
+                      py-1
+                      text-center
+                      text-[11px]
+                      font-semibold
+                      leading-none
+                      whitespace-nowrap
+                      shadow-[0_4px_0_rgba(0,0,0,0.08)]
+                      ${isSelected ? "ring-4 ring-[#7755c9]/30" : ""}
+                    `}
+                    style={{
+                      backgroundColor: strength.color,
+                      borderColor: strength.border,
+                    }}
+                  >
+                    <span>{tr(strength.text)}</span>
+                  </span>
+
+                  {/* Đầu giấy gói bên phải */}
+                  <span
+                    aria-hidden="true"
+                    className="
+                      h-[40px]
+                      w-[18px]
+                      shrink-0
+                      [clip-path:polygon(0_0,0_100%,100%_78%,70%_50%,100%_22%)]
+                    "
+                    style={{
+                      backgroundColor: strength.color,
+                      border: `2px solid ${strength.border}`,
+                    }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -180,47 +552,128 @@ function StrengthsList({ onSaveStateChange }: Props) {
 // S7 (PDF p7): only three short phrases on the page. No invented blurbs.
 function ThreeSteps() {
   const tr = useTr();
-  const steps = [
-    { t: "Tunnista omia vahvuuksia", tone: "yellow" as const },
-    { t: "Kehitä omia vahvuuksia",   tone: "mint" as const },
-    { t: "Hyödynnä omia vahvuuksia", tone: "coral" as const },
-  ];
+
   return (
-    <div className="grid gap-3 sm:grid-cols-3">
-      {steps.map((s) => (
-        <StickyNote key={s.t} tone={s.tone} seed={`s7-${s.t}`} className="text-center">
-          <div className="font-display text-xl">{tr(s.t)}</div>
-        </StickyNote>
-      ))}
+    <div className="relative min-h-[620px] w-full overflow-hidden">
+      <div className="absolute left-[7%] top-[15%] flex w-[31%] flex-col items-center">
+        <img
+          src="/illustrations/illustration-left-transparent.png"
+          alt={tr("Tunnista omia vahvuuksia")}
+          className="h-[360px] w-full object-contain"
+        />
+
+        <p className="mt-4 text-center font-display text-[24px] font-bold text-white">
+          {tr("Tunnista omia vahvuuksia")}
+        </p>
+      </div>
+
+      <div className="absolute left-1/2 top-[-2%] z-20 flex w-[35%] -translate-x-1/2 flex-col items-center">
+        <div className="h-[570px] w-full overflow-hidden">
+          <img
+            src="/illustrations/illustration-center-transparent.png"
+            alt={tr("Hyödynnä omia vahvuuksia")}
+            className="h-[590px] w-full object-contain object-top"
+          />
+        </div>
+
+        <p className="-mt-7 whitespace-nowrap text-center font-display text-[24px] font-bold text-white">
+          {tr("Hyödynnä omia vahvuuksia")}
+        </p>
+      </div>
+
+      <div className="absolute right-[7%] top-[15%] flex w-[31%] flex-col items-center">
+        <img
+          src="/illustrations/illustration-right-transparent.png"
+          alt={tr("Kehitä omia vahvuuksia")}
+          className="h-[360px] w-full object-contain"
+        />
+
+        <p className="mt-4 text-center font-display text-[24px] font-bold text-white">
+          {tr("Kehitä omia vahvuuksia")}
+        </p>
+      </div>
     </div>
   );
 }
 
 function JokoTunnet({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const qs = [
-    { k: "s8_love", q: "Tiedätkö, mitä rakastat tehdä?" },
-    { k: "s8_motivate", q: "Minkä alkamista odotat? Mistä koulutehtävistä motivoidut eniten?" },
-    { k: "s8_freetime", q: "Mitkä ovat kiinnostuksen kohteesi vapaa-ajalla?" },
-    { k: "s8_authentic", q: "Milloin koet olevasi aidoimmillasi ja onnistut sinulle tärkeissä asioissa?" },
-    { k: "s8_persist", q: "Mitä tehdessä jaksat ponnistella sinnikkäästi ja ylittää haasteita?" },
-  ];
+
+  const questions = [
+    {
+      fieldKey: "screen_8_s8_love",
+      text: "Tiedätkö, mitä rakastat tehdä?",
+    },
+    {
+      fieldKey: "screen_8_s8_freetime",
+      text: "Mitkä ovat kiinnostuksen kohteesi vapaa-ajalla?",
+    },
+    {
+      fieldKey: "screen_8_s8_motivate",
+      text: "Minkä alkamista odotat, entä mistä koulutehtävistä motivoidut eniten?",
+    },
+    {
+      fieldKey: "screen_8_s8_authentic",
+      text: "Milloin ja mitä tehdessä koet, että olet aidoimmillasi, eniten oma itsesi ja onnistut sinulle tärkeissä asioissa?",
+    },
+    {
+      fieldKey: "screen_8_s8_persist",
+      text: "Mitä tehdessä jaksat ponnistella sinnikkäästi ja ylittää haasteita, sekä kestät epämiellyttäviä tunteita?",
+    },
+  ] as const;
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s8-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Lukiolainen — joko tunnet omat vahvuutesi?")}</h1>
-        <p className="text-sm opacity-90">{tr("Pohdi alla olevia kysymyksiä. Vastaa omin sanoin.")}</p>
-      </StickyNote>
-      <div className="grid gap-3">
-        {qs.map((q) => (
-          <ReflectionTextarea
-            key={q.k}
-            fieldKey={`screen_8_${q.k}`}
-            label={tr(q.q)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[5%] py-7 text-black">
+      <div className="mx-auto w-full max-w-[1180px] rounded-[28px] px-8 py-7 pb-12">
+        <div className="flex items-start justify-between gap-8">
+          <div className="min-w-0">
+            <h1 className="font-display text-[36px] font-bold leading-[1.08] text-white">
+              {tr("Lukiolainen – joko tunnet omat vahvuutesi?")}
+            </h1>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2">
+          {questions.map((item, index) => {
+            const isLast = index === questions.length - 1;
+
+            return (
+              <div
+                key={item.fieldKey}
+                className={`
+                  rounded-[20px]
+                  border-2
+                  border-[#e6ddf4]
+                  bg-[#faf8ff]
+                  px-5
+                  py-4
+                  shadow-[0_5px_0_#d9c9ef]
+                  transition-transform
+                  duration-200
+                  hover:-translate-y-1
+                  ${isLast ? "md:col-span-2" : ""}
+                `}
+              >
+                <div className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-3">
+                  <span className="mt-[8px] h-[8px] w-[8px] rounded-full" />
+
+                  <p className="font-display text-[18px] font-semibold leading-[1.28]">
+                    {tr(item.text)}
+                  </p>
+                </div>
+
+                <div className="mt-3">
+                  <ReflectionTextarea
+                    fieldKey={item.fieldKey}
+                    label=""
+                    rows={isLast ? 3 : 2}
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -228,19 +681,78 @@ function JokoTunnet({ onSaveStateChange }: Props) {
 
 function KysyPalautetta({ onSaveStateChange }: Props) {
   const tr = useTr();
+
+  const questions = [
+    {
+      fieldKey: "screen_9_best_sides",
+      text: "Mitä uutta opin palautteista?",
+    },
+    {
+      fieldKey: "screen_9_strengths",
+      text: "Mikä palautteessa on minulle tärkeää?",
+    },
+    {
+      fieldKey: "screen_9_learned",
+      text: "Millaisista asioista minut muistetaan / tunnistetaan parhaiten?",
+    },
+    {
+      fieldKey: "screen_9_spotted",
+      text: "Mitä hyvää vahvuuteni ystävänä ja läheisenä tuovat yhteisööni?",
+    },
+  ] as const;
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s9-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Kysy palautetta")}</h1>
-        <p className="text-sm opacity-90">
-          {tr("Valitse 2–4 sinulle tärkeää henkilöä — läheinen, opettaja tai ystävä — jonka palautetta arvostat. Pyydä viestillä palautetta seuraavista lauseista ja täydennä saamasi vastaukset tähän.")}
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-10 pt-9 text-black">
+      <div className="mx-auto w-full max-w-[1150px] rounded-[30px] px-10 py-8 pb-12">
+        <h1 className="font-display text-[38px] font-bold leading-[1.1] text-[#f1f1ef]">
+          {tr("Kysy palautetta ja opi lisää itsestäsi")}
+        </h1>
+
+        <p className="mt-6 max-w-[980px] text-[19px] font-medium leading-[1.4] text-[#f1f1ef]">
+          {tr(
+            "Kysy 2–4 läheiseltä, opettajalta ja ystävältä palautetta vahvuuksistasi. Käytä sivua 10 pohjana. Pyydä heitä nimeämään vahvuutesi, joita he sinussa eniten arvostavat. Kysy myös, missä ja miten vahvuutesi näkyvät.",
+          )}
         </p>
-      </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_9_best_sides" label={tr("Parhaita puoliani ovat:")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_strengths" label={tr("Vahvuuksiani ovat mielestäni:")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_learned" label={tr("Olen oppinut sinulta seuraavia asioita:")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_9_spotted" label={tr("Olen bongannut niitä erityisesti kun:")} rows={3} onSaveStateChange={onSaveStateChange} />
+
+        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+          {questions.map((item, index) => (
+            <div
+              key={item.fieldKey}
+              className={`
+                relative
+                rounded-[20px]
+                border-2
+                border-[#e6ddf3]
+                bg-[#faf8ff]
+                px-5
+                pb-4
+                pt-4
+                shadow-[0_5px_0_#d8c8ee]
+                transition-transform
+                duration-200
+                hover:-translate-y-1
+                ${index % 2 === 0 ? "-rotate-[0.3deg]" : "rotate-[0.3deg]"}
+              `}
+            >
+              <div className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-3">
+                <span className="mt-[9px] h-[8px] w-[8px] rounded-full" />
+
+                <p className="font-display text-[18px] font-semibold leading-[1.3]">
+                  {tr(item.text)}
+                </p>
+              </div>
+
+              <div className="mt-3">
+                <ReflectionTextarea
+                  fieldKey={item.fieldKey}
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -248,38 +760,643 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
 
 function MinaOlen({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const notes = [
+    {
+      id: 1,
+      position: "left-[0%] top-[3%] h-[205px] w-[29%] -rotate-[2deg]",
+    },
+    {
+      id: 2,
+      position: "left-[35.5%] top-[0%] h-[205px] w-[29%] rotate-[1deg]",
+    },
+    {
+      id: 3,
+      position: "right-[0%] top-[3%] h-[205px] w-[29%] rotate-[2deg]",
+    },
+    {
+      id: 4,
+      position: "left-[2%] top-[34%] h-[195px] w-[29%] rotate-[1deg]",
+    },
+    {
+      id: 5,
+      position: "left-[36%] top-[32%] h-[195px] w-[29%] -rotate-[1deg]",
+    },
+    {
+      id: 6,
+      position: "right-[0%] top-[34%] h-[195px] w-[29%] -rotate-[2deg]",
+    },
+    {
+      id: 7,
+      position: "left-[35.5%] top-[64%] h-[190px] w-[29%] rotate-[1deg]",
+    },
+  ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s10-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Minä olen")}</h1>
-        <p className="text-sm opacity-90">
-          {tr("Muuta muilta saamasi palaute lauseiksi minä-muotoon. “Olet sinnikäs.” → “Minä olen sinnikäs.”")}
-        </p>
-      </StickyNote>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <ReflectionInput
-            key={i}
-            fieldKey={`screen_10_mina_olen_${i + 1}`}
-            prefix={tr("Minä olen")}
-            placeholder="…"
-            onSaveStateChange={onSaveStateChange}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[3%]
+        pb-16
+        pt-6
+        text-white
+      "
+    >
+      <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
+        {/* ================= BÊN TRÁI ================= */}
+        <div className="relative min-w-0">
+          <h1 className="font-display text-[42px] font-bold leading-none">
+            {tr("Minä olen –övning")}
+          </h1>
+
+          <p className="mt-8 max-w-[290px] font-display text-[22px] font-semibold leading-[1.35]">
+            {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
+          </p>
+
+          <div className="mt-7 max-w-[290px] text-[21px] leading-[1.4]">
+            {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}
+          </div>
+
+          <img
+            src="/illustrations/mina-olen-character.png"
+            alt={tr("Minä olen –övning")}
+            className="
+              pointer-events-none
+              absolute
+              bottom-[20px]
+              left-[-20px]
+              h-[290px]
+              w-auto
+              object-contain
+            "
           />
-        ))}
+        </div>
+
+        {/* ================= BÊN PHẢI ================= */}
+        <div className="relative min-h-[760px] min-w-0">
+          {notes.map((note) => (
+            <div
+              key={note.id}
+              className={`
+                absolute
+                flex
+                flex-col
+                overflow-hidden
+                rounded-[18px_14px_24px_16px]
+                bg-[#fffefa]
+                px-5
+                pb-4
+                pt-4
+                text-black
+                shadow-[0_10px_0_#4b326c]
+                transition-all
+                duration-200
+
+                hover:z-30
+                hover:-translate-y-1
+                hover:scale-[1.02]
+
+                focus-within:ring-2
+                focus-within:ring-[#d5c2ef]
+
+                [&_label]:hidden
+
+                [&_div]:min-h-0
+                [&_div]:border-0
+                [&_div]:bg-transparent
+                [&_div]:p-0
+                [&_div]:shadow-none
+
+                [&_textarea]:relative
+                [&_textarea]:z-10
+                [&_textarea]:h-full
+                [&_textarea]:min-h-[125px]
+                [&_textarea]:w-full
+                [&_textarea]:resize-none
+                [&_textarea]:border-0
+                [&_textarea]:bg-transparent
+                [&_textarea]:px-2
+                [&_textarea]:py-1
+                [&_textarea]:text-[16px]
+                [&_textarea]:leading-[29px]
+                [&_textarea]:text-[#241b3f]
+                [&_textarea]:outline-none
+                [&_textarea]:shadow-none
+                [&_textarea]:ring-0
+                [&_textarea]:placeholder:text-[#9b93a8]
+
+                [&_textarea:focus]:outline-none
+                [&_textarea:focus]:ring-0
+
+                ${note.position}
+              `}
+            >
+              <p className="mb-2 shrink-0 text-center font-display text-[15px] font-bold uppercase tracking-[0.3px]">
+                {tr("Minä olen –övning")}
+              </p>
+
+              <div className="relative min-h-0 flex-1 overflow-hidden rounded-[12px]">
+                {/* Đường kẻ giống giấy */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    opacity-30
+                    [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_28px,#b7a8cc_29px)]
+                  "
+                />
+
+                <div className="relative z-10 h-full [&>div]:h-full">
+                  <ReflectionTextarea
+                    fieldKey={`screen_10_mina_olen_${note.id}`}
+                    label=""
+                    rows={5}
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+function S11KehuJaKannusta() {
+  const tr = useTr();
+  const items = [
+    {
+      title: "1. Huomaa hyvää!",
+      description: (
+        <>
+          Harjoittele tunnistamaan myönteistä toimintaa ihmisissä ympärilläsi.
+          <br />
+          Tee hyvän huomaamisesta tapa ja tottumus.
+        </>
+      ),
+    },
+    {
+      title: "2. Nimeä käytetty vahvuus ja sano palaute ääneen tai liitä viestiin somessa.",
+      description: (
+        <>“Olit todella rohkea.” “Kiitos ystävällisyydestä”. “Sinussa on myötätuntoa”.</>
+      ),
+    },
+    {
+      title: "3. Syvennä ja kuvaile, miten käytetty vahvuus näkyy toisessa. Sanallista tunne.",
+      description: <>“Olit rohkea. Huomasin, että uskalsit nostaa esille vaikeita asioita.”</>,
+    },
+    {
+      title: "4. Arvosta ja kerro, miten käytetty vahvuus vaikuttaa. Liitä mukaan tunnesana.",
+      description: (
+        <>
+          “Kiitos rohkeudestasi tänään. Tapasi toimia vaikuttaa myönteisesti koko ryhmään.
+          <br />
+          Olen susta ylpeä.”
+        </>
+      ),
+    },
+    {
+      title: "5. Huomaa, miten positiivinen palaute ja vahvuuksista puhuminen vaikuttaa toiseen.",
+      description: (
+        <>Miltä sinusta tuntui antaa kehuja ja kiitosta? Mikä oli tärkein oivalluksesi?</>
+      ),
+    },
+  ];
+
+  return (
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+       
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[720px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[8%]
+          pb-20
+          pt-14
+        "
+      >
+        <div className="relative z-20 grid grid-cols-[72px_minmax(0,1fr)] gap-x-8">
+          {/* Tab VINKKI */}
+          <div
+            className="
+              mt-1
+              flex
+              h-[150px]
+              w-[66px]
+              items-center
+              justify-center
+              rounded-[9px]
+              bg-[#7654ad]
+              text-white
+            "
+          >
+            <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl] font-display text-[22px] font-bold">
+              VINKKI!
+            </span>
+          </div>
+
+          <div className="min-w-0">
+            <h1
+              className="
+                max-w-[980px]
+                font-display
+                text-[clamp(38px,3.4vw,56px)]
+                font-bold
+                leading-[1.08]
+                text-[#FFD700]
+              "
+            >
+              Näin voit antaa toiselle kehuja ja
+              <br />
+              kannustusta vahvuuksista:
+            </h1>
+
+            <div className="mt-7 max-w-[1160px] space-y-7">
+              {items.map((item) => (
+                <div key={tr(item.title)}>
+                  <h2 className="text-[clamp(19px,1.55vw,26px)] font-bold leading-[1.35]">
+                    {tr(item.title)}
+                  </h2>
+
+                  <div className="text-[clamp(18px,1.45vw,25px)] leading-[1.42]">
+                    {tr(item.description)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
+function S12VahvuuksiaEnemman() {
+  const tr = useTr();
+  return (
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-hidden
+        
+        text-white
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          flex
+          h-full
+          min-h-0
+          w-full
+          max-w-[1500px]
+          flex-col
+          overflow-hidden
+          px-[7%]
+          pb-0
+          pt-10
+        "
+      >
+        <div
+          className="
+            relative
+            z-20
+            mx-auto
+            flex
+            h-full
+            min-h-0
+            w-full
+            max-w-[1240px]
+            flex-col
+            items-center
+          "
+        >
+          <h1
+            className="
+              mx-auto
+              max-w-[1120px]
+              shrink-0
+              text-center
+              font-display
+              text-[clamp(28px,2.45vw,42px)]
+              font-bold
+              leading-[1.12]
+              text-[white]
+            "
+          >
+            {tr(
+              "Meissä kaikissa on paljon enemmän vahvuuksia kuin päällepäin näkyy. Omien vahvuuksien pohtiminen ja hyödyntäminen tukee itsetuntoa, antaa itsevarmuutta ja auttaa tekemään valintoja – esimerkiksi opiskeluun tai työpaikkaan liittyen.",
+            )}
+          </h1>
+
+          <div className="mt- flex min-h-0 flex-1 items-end justify-center">
+            <img
+              src="/illustrations/s12-raised-hands.png"
+              alt="Erilaisia käsiä nostettuna ilmaan"
+              className="
+                pointer-events-none
+                block
+                h-full
+                max-h-[390px]
+                w-auto
+                max-w-[82%]
+                object-contain
+                object-bottom
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function S13HyvatKysymykset({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  const questions = [
+    {
+      fieldKey: "screen_13_hyva_tanaan",
+      text: "Mikä tänään meni hyvin?",
+    },
+    {
+      fieldKey: "screen_13_kolme_hyvaa",
+      text: "Mieti kolme hyvää asiaa, jotka olet saanut kokea tänään.",
+    },
+    {
+      fieldKey: "screen_13_vahvuudet_opinnoissa",
+      text: "Mitä vahvuuksia hyödynsin opinnoissani?",
+    },
+    {
+      fieldKey: "screen_13_osaan",
+      text: "Mitä huomasin jo osaavani?",
+    },
+    {
+      fieldKey: "screen_13_autoin",
+      text: "Ketä autoin tänään? Miltä se tuntui?",
+    },
+    {
+      fieldKey: "screen_13_hyvaa_toisissa",
+      text: "Mitä hyvää huomasin toisissa?",
+    },
+    {
+      fieldKey: "screen_13_auttoi_minua",
+      text: "Kuka auttoi minua onnistumaan?",
+    },
+  ];
+
+  return (
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+      
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* ================= NỘI DUNG CHÍNH ================= */}
+      <div
+        className="
+          relative
+          z-20
+          mx-auto
+          grid
+          min-h-[1650px]
+          w-full
+          grid-cols-[70px_minmax(0,1fr)]
+          gap-x-8
+          px-[7.5%]
+          pb-28
+          pt-12
+        "
+      >
+        {/* ================= TAB VINKKI ================= */}
+        <div
+          className="
+            mt-1
+            flex
+            h-[148px]
+            w-[66px]
+            items-center
+            justify-center
+            rounded-[9px]
+            bg-[#7654ad]
+            text-white
+          "
+        >
+          <span
+            className="
+              rotate-180
+              whitespace-nowrap
+              [writing-mode:vertical-rl]
+              font-display
+              text-[22px]
+              font-bold
+            "
+          >
+            VINKKI!
+          </span>
+        </div>
+
+        {/* ================= PHẦN CÂU HỎI ================= */}
+        <div className="relative min-w-0">
+          <div className="max-w-[940px]">
+            <h1
+              className="
+                font-display
+                text-[clamp(32px,3vw,50px)]
+                font-bold
+                leading-[1.08]
+                text-yellow	
+              "
+            >
+              Nämä kysymykset auttavat sinua
+              <br />
+              näkemään hyviä puolia elämästäsi
+            </h1>
+
+            <p
+              className="
+                mt-7
+                text-[clamp(18px,1.45vw,25px)]
+                leading-[1.4]
+              "
+            >
+              Kysy itseltäsi päivän aikana ja päätteeksi:
+            </p>
+
+            {/* ================= DANH SÁCH 7 CÂU HỎI ================= */}
+            <div className="mt-8 space-y-8">
+              {questions.map((question) => (
+                <section
+                  key={question.fieldKey}
+                  className="
+                    grid
+                    grid-cols-[10px_minmax(0,1fr)]
+                    items-start
+                    gap-x-5
+                  "
+                >
+                  {/* Chấm vàng */}
+                  <span
+                    aria-hidden="true"
+                    className="
+                      mt-[12px]
+                      h-[8px]
+                      w-[8px]
+                      rounded-full
+                      bg-[#ffc936]
+                    "
+                  />
+
+                  <div className="min-w-0">
+                    {/* Câu hỏi */}
+                    <h2
+                      className="
+                        text-[clamp(18px,1.42vw,24px)]
+                        font-medium
+                        leading-[1.35]
+                        text-white
+                      "
+                    >
+                      {tr(question.text)}
+                    </h2>
+
+                    {/* Ô trả lời khoảng 5 dòng */}
+                    <div
+                      className="
+                        relative
+                        mt-4
+                        min-h-[165px]
+                        w-full
+                        max-w-[900px]
+                        overflow-hidden
+                        rounded-[18px]
+                        border-2
+                        border-[#ddd4ea]
+                        bg-[#fffefa]
+                        shadow-[0_5px_0_rgba(68,42,105,0.12)]
+
+                        focus-within:border-[#bda8d8]
+                        focus-within:bg-white
+
+                        [&_label]:hidden
+
+                        [&>div]:h-full
+                        [&>div]:min-h-0
+
+                        [&_div]:border-0
+                        [&_div]:bg-transparent
+                        [&_div]:p-0
+                        [&_div]:shadow-none
+
+                        [&_textarea]:h-full
+                        [&_textarea]:min-h-[165px]
+                        [&_textarea]:w-full
+                        [&_textarea]:resize-none
+                        [&_textarea]:rounded-[16px]
+                        [&_textarea]:border-0
+                        [&_textarea]:bg-transparent
+                        [&_textarea]:px-5
+                        [&_textarea]:py-4
+                        [&_textarea]:text-[17px]
+                        [&_textarea]:leading-[30px]
+                        [&_textarea]:text-[#241b3f]
+                        [&_textarea]:outline-none
+                        [&_textarea]:shadow-none
+                        [&_textarea]:ring-0
+                        [&_textarea]:placeholder:text-[#aaa1b5]
+
+                        [&_textarea:focus]:outline-none
+                        [&_textarea:focus]:ring-0
+                      "
+                    >
+                      {/* Các dòng kẻ */}
+                      <div
+                        aria-hidden="true"
+                        className="
+                          pointer-events-none
+                          absolute
+                          inset-x-5
+                          inset-y-4
+                          opacity-70
+                          [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                        "
+                      />
+
+                      <div className="relative z-10 h-full">
+                        <ReflectionTextarea
+                          fieldKey={question.fieldKey}
+                          label=""
+                          rows={5}
+                          onSaveStateChange={onSaveStateChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              ))}
+            </div>
+          </div>
+
+          {/* ================= ILLUSTRATION KẸO ================= */}
+          <img
+            src="/illustrations/s13-good-candy.png"
+            alt="See the Good Candy"
+            className="
+              pointer-events-none
+              absolute
+              right-[-3%]
+              top-[-10px]
+              z-20
+              h-[285px]
+              w-auto
+              max-w-[31%]
+              object-contain
+            "
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // S11 (PDF p15): pure title card.
 function M1Intro() {
   const tr = useTr();
   return (
-    <StickyNote tone="coral" seed="s11-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 1")}</div>
-      <h1 className="font-display text-4xl leading-tight">1. {tr("Omat ydinvahvuudet")}</h1>
-    </StickyNote>
+    <div className="relative min-h-[620px] w-full overflow-hidden text-white">
+      {tr("Omat ydinvahvuudet")}
+    </div>
   );
 }
 
@@ -287,205 +1404,849 @@ function M1Intro() {
 
 // 26 statements verbatim from PDF p16 (preserves capitalisation and the
 // "VAIKKA VAIKKA" repetition that appears in the source).
-const KARKKIKAUPPA_STATEMENTS: string[] = [
-  "SAAN USEIN KUULLA TOISILTA, ETTÄ KEKSIN OMAPERÄISIÄ IDEOITA",
-  "HALUAN JATKUVASTI OPPIA UUTTA JA OLEN LAAJALTI KIINNOSTUNUT ASIOISTA, IHMISISTÄ, ILMIOISTÄ.",
-  "PUOLUSTAN MIELIPIDETTÄNI JA USKALLAN KERTOA, MITÄ AJATTELEN, VAIKKA KOHTAISIN JYRKKÄÄKIN VASTUSTUSTA.",
-  "JOS PÄÄTÄN JOTAIN, TEEN SEN, VAIKKA HAASTEITA JA VASTOINKÄYMISIÄ ILMENISI.",
-  "OSOITAN LÄHEISILLENI VÄLITTÄMISTÄNI SANOIN, TEOIN JA VIETTÄMÄLLÄ PALJON AIKAA HEIDÄN KANSSAAN.",
-  "MINULLE ON TÄRKEÄÄ KOHDELLA KAIKKIA TASAPUOLISESTI.",
-  "TEEN AINA HARKITTUJA PÄÄTÖKSIÄ.",
-  "PYSTYN SÄÄTELEMÄÄN TUNTEITANI JA KÄYTÖSTÄNI TILANTEISIIN SOPIVAKSI.",
-  "HUOMAAN KAUNIITA YKSITYISKOHTIA JA PYSÄHDYN USEIN NIIDEN ÄÄRELLÄ.",
-  "TEEN PÄÄTÖKSIÄ VASTA KUN TIEDÄN ASIASTA KAIKEN",
-  "OLEN KIINNOSTUNUT LUKUISISTA ASIOISTA JA HALUAN JATKUVASTI OPPIA UUTTA.",
-  "MINULTA PYYDETÄÄN USEIN NEUVOJA JA KOEN ETTÄ MIELIPITEITÄNI ARVOSTETAAN.",
-  "PUHUN KAUNISTELEMATTA SEN PUOLESTA, MIKÄ ON MIELESTÄNI OIKEIN JA TOTTA.",
-  "YSTÄVÄNI KUVAILISIVAT MINUA ENERGISEKSI, TARMOKKAAKSI JA HYVÄNTUULISEKSI.",
-  "TEEN MITÄ TEHDÄ PITÄÄ, VAIKKA VAIKKA VASTOINKÄYMISIÄ ILMENISI.",
-  "YKSI ELÄMÄÄNI ENITEN MERKITYSTÄ TUOVISTA ASIOISTA ON MUIDEN IHMISTEN AUTTAMINEN.",
-  "OLEN MIELELLÄNI AVUKSI TAI HYÖDYKSI.",
-  "PÄRJÄÄN HYVIN ERILAISISSA SOSIAALISISSA TILANTEISSA JA UUSIEN IHMISTEN PARISSA.",
-  "PARHAAT PUOLENI PÄÄSEVÄT KÄYTTÖÖN RYHMÄSSÄ, JA MINUA MOTIVOI RYHMÄN ONNISTUMINEN.",
-  "MINUA VOISI KUVAILLA VAHVAKSI JA REILUKSI JOHTAJAKSI.",
-  "EN KAIVELE MENNEITÄ VAAN MINUN ON HELPPO IRROTTAUTUA NIISTÄ JA MENNÄ ELÄMÄSSÄ ETEENPÄIN.",
-  "EN TEE ITSESTÄNI NUMEROA MISSÄÄN TILANTEISSA JA PITÄYDYN MIELELLÄNI TAUSTALLA.",
-  "PERHEENI KERTOISI, ETTÄ KIITÄN USEIN JA OLEN VILPITTÖMÄSTI KIITOLLINEN.",
-  "MINUN ON HELPPOA NÄHDÄ ASIOISSA NIIDEN HYVÄT PUOLET JA NÄEN TULEVAISUUDEN MYÖNTEISENÄ.",
-  "LÖYDÄN VAIKEISTAKIN ELÄMÄNTILANTEISTA HUUMORIA JA PIENIÄ ILON PILKAHDUKSIA.",
-  "AJATTELEN, ETTÄ ELÄMÄLLÄ ON JOKIN SYVEMPI TARKOITUS.",
+const PICK = 5;
+
+const DATA = [
+  [
+    "luovuus",
+    "Saan usein kuulla toisilta, että keksin omaperäisiä ideoita.",
+    "Luovuus",
+    "Viisaus ja tieto",
+  ],
+  [
+    "uteliaisuus",
+    "Haluan jatkuvasti oppia uutta ja olen laajalti kiinnostunut asioista, ihmisistä, ilmiöistä.",
+    "Uteliaisuus",
+    "Viisaus ja tieto",
+  ],
+  [
+    "arviointikyky",
+    "Teen päätöksiä vasta kun tiedän asiasta kaiken.",
+    "Arviointikyky",
+    "Viisaus ja tieto",
+  ],
+  [
+    "oppimisen_ilo",
+    "Olen kiinnostunut lukuisista asioista ja haluan jatkuvasti oppia uutta.",
+    "Oppimisen ilo",
+    "Viisaus ja tieto",
+  ],
+  [
+    "nakokulmanottokyky",
+    "Minulta pyydetään usein neuvoja ja koen, että mielipiteitäni arvostetaan.",
+    "Näkökulmanottokyky",
+    "Viisaus ja tieto",
+  ],
+  [
+    "rohkeus",
+    "Puolustan mielipidettäni ja uskallan kertoa, mitä ajattelen, vaikka kohtaisin jyrkkääkin vastustusta.",
+    "Rohkeus",
+    "Rohkeus",
+  ],
+  [
+    "sinnikkyys",
+    "Jos päätän jotain, teen sen, vaikka haasteita ja vastoinkäymisiä ilmenisi.",
+    "Sinnikkyys",
+    "Rohkeus",
+  ],
+  [
+    "rehellisyys",
+    "Puhun kaunistelematta sen puolesta, mikä on mielestäni oikein ja totta.",
+    "Rehellisyys",
+    "Rohkeus",
+  ],
+  [
+    "innokkuus",
+    "Ystäväni kuvailisivat minua energiseksi, tarmokkaaksi ja hyväntuuliseksi.",
+    "Innokkuus",
+    "Rohkeus",
+  ],
+  ["sisukkuus", "Teen mitä tehdä pitää, vaikka vastoinkäymisiä ilmenisi.", "Sisukkuus", "Rohkeus"],
+  [
+    "myotatunto",
+    "Yksi elämääni eniten merkitystä tuovista asioista on muiden ihmisten auttaminen.",
+    "Myötätunto",
+    "Inhimillisyys",
+  ],
+  [
+    "rakkaus",
+    "Osoitan läheisilleni välittämistäni sanoin, teoin ja viettämällä paljon aikaa heidän kanssaan.",
+    "Rakkaus",
+    "Inhimillisyys",
+  ],
+  ["ystavallisyys", "Olen mielelläni avuksi tai hyödyksi.", "Ystävällisyys", "Inhimillisyys"],
+  [
+    "sosiaalinen_alykkyys",
+    "Pärjään hyvin erilaisissa sosiaalisissa tilanteissa ja uusien ihmisten parissa.",
+    "Sosiaalinen älykkyys",
+    "Inhimillisyys",
+  ],
+  [
+    "ryhmatyotaito",
+    "Parhaat puoleni pääsevät käyttöön ryhmässä, ja minua motivoi ryhmän onnistuminen.",
+    "Ryhmätyötaito",
+    "Oikeudenmukaisuus",
+  ],
+  [
+    "reiluus",
+    "Minulle on tärkeää kohdella kaikkia tasapuolisesti.",
+    "Reiluus",
+    "Oikeudenmukaisuus",
+  ],
+  [
+    "johtajuus",
+    "Minua voisi kuvailla vahvaksi ja reiluksi johtajaksi.",
+    "Johtajuus",
+    "Oikeudenmukaisuus",
+  ],
+  [
+    "anteeksiantavuus",
+    "En kaivele menneitä, vaan minun on helppo irrottautua niistä ja mennä elämässä eteenpäin.",
+    "Anteeksiantavuus",
+    "Kohtuullisuus",
+  ],
+  [
+    "vaatimattomuus",
+    "En tee itsestäni numeroa missään tilanteissa ja pitäydyn mielelläni taustalla.",
+    "Vaatimattomuus",
+    "Kohtuullisuus",
+  ],
+  ["harkitsevuus", "Teen aina harkittuja päätöksiä.", "Harkitsevuus", "Kohtuullisuus"],
+  [
+    "itsesaately",
+    "Pystyn säätelemään tunteitani ja käytöstäni tilanteisiin sopivaksi.",
+    "Itsesäätely",
+    "Kohtuullisuus",
+  ],
+  [
+    "kauneuden_arvostaminen",
+    "Huomaan kauniita yksityiskohtia ja pysähdyn usein niiden äärelle.",
+    "Kauneuden ja erinomaisuuden arvostaminen",
+    "Henkisyys",
+  ],
+  [
+    "kiitollisuus",
+    "Perheeni kertoisi, että kiitän usein ja olen vilpittömästi kiitollinen.",
+    "Kiitollisuus",
+    "Henkisyys",
+  ],
+  [
+    "toiveikkuus",
+    "Minun on helppoa nähdä asioissa niiden hyvät puolet ja näen tulevaisuuden myönteisenä.",
+    "Toiveikkuus",
+    "Henkisyys",
+  ],
+  [
+    "huumorintaju",
+    "Löydän vaikeistakin elämäntilanteista huumoria ja pieniä ilon pilkahduksia.",
+    "Huumorintaju",
+    "Henkisyys",
+  ],
+  [
+    "hengellisyys",
+    "Ajattelen, että elämällä on jokin syvempi tarkoitus.",
+    "Hengellisyys",
+    "Henkisyys",
+  ],
+].map(([id, statement, strength, virtue], i) => ({
+  id,
+  statement,
+  strength,
+  virtue,
+  kind: i % 12,
+  hue: i % 9,
+  tall: statement.length > 88 ? 2 : statement.length > 54 ? 1 : 0,
+}));
+
+const HUES = [
+  ["#F49BB0", "#D9718C"],
+  ["#E8736B", "#C4544D"],
+  ["#F0954E", "#CE7434"],
+  ["#F4C84A", "#D3A527"],
+  ["#A9D9D2", "#7FB8B0"],
+  ["#7FC9C0", "#57A79D"],
+  ["#B58BD6", "#8F66B2"],
+  ["#7A5442", "#5A3B2D"],
+  ["#FFF3E6", "#DCC9B4"],
 ];
 
-// 26 strength names from PDF p17, in the same order. Hyphenated OCR
-// line-wraps de-hyphenated (e.g. "ARVIOIN-TIKYKY" -> "ARVIOINTIKYKY").
-const KARKKIKAUPPA_STRENGTHS: string[] = [
-  "LUOVUUS", "UTELIAISUUS", "ARVIOINTIKYKY", "OPPIMISEN ILO",
-  "NÄKÖKULMANOTTOKYKY", "ROHKEUS", "SINNIKKYYS", "REHELLISYYS",
-  "INNOKKUUS", "SISUKKUUS", "MYÖTÄTUNTO", "RAKKAUS", "YSTÄVÄLLISYYS",
-  "SOSIAALINEN ÄLYKKYYS", "RYHMÄTYÖTAITO", "REILUUS", "JOHTAJUUS",
-  "ANTEEKSIANTAVUUS", "VAATIMATTOMUUS", "HARKITSEVUUS", "ITSESÄÄTELY",
-  "KAUNEUDEN JA ERINOMAISUUDEN ARVOSTAMINEN", "KIITOLLISUUS",
-  "TOIVEIKKUUS", "HUUMORINTAJU", "HENGELLISYYS",
+const PROMPTS = [
+  "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki.",
+  "Missä onnistuit omia vahvuuksia hyödyntämällä?",
+  "Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?",
 ];
 
-const KARKKIKAUPPA_KEY = "screen_12_karkkikauppa_picks";
-
-function Karkkikauppa({ onSaveStateChange }: Props) {
-  const tr = useTr();
-  const [picks, setPicks] = useState<number[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const report = useReportCompletion();
-
-  useEffect(() => {
-    (async () => {
-      const v = await loadResponse<number[]>(KARKKIKAUPPA_KEY);
-      if (Array.isArray(v)) setPicks(v.filter((x) => Number.isInteger(x) && x >= 0 && x < KARKKIKAUPPA_STATEMENTS.length));
-      setLoaded(true);
-    })();
-  }, []);
-
-  const { language: lang } = useLanguage();
-  const state = useAutosave(KARKKIKAUPPA_KEY, picks, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
-
-  useEffect(() => {
-    if (!loaded) return;
-    report(KARKKIKAUPPA_KEY, picks.length === 5);
-  }, [picks, loaded, report]);
-
-  function toggle(i: number) {
-    setPicks((cur) => {
-      if (cur.includes(i)) return cur.filter((x) => x !== i);
-      if (cur.length >= 5) return cur;
-      return [...cur, i];
-    });
+/* ── karkit ────────────────────────────────────────────────── */
+function Candy({ kind, hue, size = 30 }) {
+  const [a, b] = HUES[((hue % 9) + 9) % 9];
+  const p = { fill: a, stroke: b, strokeWidth: 1.6, strokeLinejoin: "round" };
+  const S = (c) => (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      style={{ display: "block", overflow: "visible" }}
+    >
+      {c}
+    </svg>
+  );
+  switch (((kind % 12) + 12) % 12) {
+    case 0:
+      return S(
+        <g {...p}>
+          <circle cx="12" cy="11" r="6" />
+          <circle cx="28" cy="11" r="6" />
+          <rect x="7" y="13" width="26" height="24" rx="12" />
+          <circle cx="15" cy="22" r="1.7" fill={b} stroke="none" />
+          <circle cx="25" cy="22" r="1.7" fill={b} stroke="none" />
+        </g>,
+      );
+    case 1:
+      return S(
+        <g fill="none" stroke={a} strokeWidth="5.5" strokeLinecap="round">
+          <path d="M20 20 m-13 0 a13 13 0 1 1 26 0 a9 9 0 1 1 -18 0 a5 5 0 1 1 10 0" />
+        </g>,
+      );
+    case 2:
+      return S(
+        <g {...p}>
+          <ellipse cx="20" cy="20" rx="15" ry="11" />
+          <ellipse cx="14" cy="16" rx="4" ry="2.6" fill="#fff" opacity=".45" stroke="none" />
+        </g>,
+      );
+    case 3:
+      return S(
+        <g {...p}>
+          <path d="M6 12 q14 24 28 12 q-6 12 -20 10 Q4 30 6 12Z" />
+        </g>,
+      );
+    case 4:
+      return S(
+        <g>
+          <rect
+            x="5"
+            y="12"
+            width="30"
+            height="16"
+            rx="8"
+            fill="#FFF3E6"
+            stroke={b}
+            strokeWidth="1.6"
+          />
+          <path
+            d="M11 12 q5 8 0 16M20 12 q5 8 0 16M29 12 q5 8 0 16"
+            fill="none"
+            stroke={a}
+            strokeWidth="3.4"
+            strokeLinecap="round"
+          />
+        </g>,
+      );
+    case 5:
+      return S(
+        <g {...p}>
+          <circle cx="20" cy="20" r="14" />
+          <ellipse cx="14" cy="14" rx="4.5" ry="3" fill="#fff" opacity=".5" stroke="none" />
+        </g>,
+      );
+    case 6:
+      return S(
+        <g fill="none" stroke={a} strokeWidth="7" strokeLinecap="round">
+          <path d="M5 26 q7 -14 14 0 t 16 -2" />
+        </g>,
+      );
+    case 7:
+      return S(
+        <g {...p}>
+          <path d="M4 20 q10 -12 22 0 q-12 12 -22 0Z" />
+          <path d="M26 20 l10 -7 v14Z" />
+        </g>,
+      );
+    case 8:
+      return S(
+        <g {...p}>
+          <rect x="9" y="13" width="22" height="14" rx="4" />
+          <path d="M9 20 l-7 -6 v12Z" />
+          <path d="M31 20 l7 -6 v12Z" />
+        </g>,
+      );
+    case 9:
+      return S(
+        <g>
+          <path
+            d="M20 34 C6 24 6 12 13 10 c4-1.4 7 1 7 4 0-3 3-5.4 7-4 7 2 7 14-7 24Z"
+            fill={a}
+            stroke={b}
+            strokeWidth="1.6"
+          />
+        </g>,
+      );
+    case 10:
+      return S(
+        <g {...p}>
+          <circle cx="20" cy="20" r="13" />
+          <circle cx="20" cy="20" r="7" fill={b} stroke="none" opacity=".35" />
+        </g>,
+      );
+    default:
+      return S(
+        <g {...p}>
+          <rect x="4" y="14" width="32" height="13" rx="6.5" />
+          <path d="M13 14v13M22 14v13M31 14v13" stroke={b} strokeWidth="1.2" opacity=".55" />
+        </g>,
+      );
   }
+}
 
-  const remaining = 5 - picks.length;
-  const done = picks.length === 5;
+function Tongs() {
+  return (
+    <svg className="tongs" viewBox="0 0 34 104" fill="none" aria-hidden="true">
+      <path
+        d="M11 100 C11 62 6 44 6 26 A5 5 0 0 1 16 26 C16 46 17 64 17 100"
+        stroke="#E9E4F2"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M23 100 C23 62 28 44 28 26 A5 5 0 0 0 18 26 C18 46 17 64 17 100"
+        stroke="#E9E4F2"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <circle cx="17" cy="22" r="5" fill="#2FA86A" />
+    </svg>
+  );
+}
+
+function BagArt({ items, size = 1 }) {
+  return (
+    <>
+      <div className="heldrow">
+        {items.map((d, i) => (
+          <span key={d.id} style={{ transform: `rotate(${i * 16 - 32}deg)` }}>
+            <Candy kind={d.kind} hue={d.hue} size={26 * size} />
+          </span>
+        ))}
+      </div>
+      <div className="bagbody" />
+      <div className="bagfold" />
+    </>
+  );
+}
+
+function Fly({ x0, y0, x1, y1, kind, hue }) {
+  const [go, setGo] = useState(false);
+  useEffect(() => {
+    const r = requestAnimationFrame(() => requestAnimationFrame(() => setGo(true)));
+    return () => cancelAnimationFrame(r);
+  }, []);
+  return (
+    <div
+      className="fly"
+      style={{
+        left: x0 - 17,
+        top: y0 - 17,
+        opacity: go ? 0.2 : 1,
+        transform: go
+          ? `translate(${x1 - x0}px, ${y1 - y0}px) rotate(540deg) scale(.65)`
+          : "translate(0,0) rotate(0deg) scale(1.3)",
+      }}
+    >
+      <Candy kind={kind} hue={hue} size={34} />
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════ */
+export default function Karkkikauppa() {
+  const tr = useTr();
+  const [phase, setPhase] = useState("kauppa"); // kauppa | kaanto | kuitti
+  const [picked, setPicked] = useState([]);
+  const [turned, setTurned] = useState(false);
+  const [settled, setSettled] = useState(false);
+  const [flying, setFlying] = useState([]);
+  const [bump, setBump] = useState(0);
+  const [answers, setAnswers] = useState(["", "", ""]);
+  const bagRef = useRef(null);
+  const flyId = useRef(0);
+
+  const full = picked.length === PICK;
+  const chosen = picked.map((id) => DATA.find((d) => d.id === id));
+  const tilt = useMemo(() => DATA.map((_, i) => ((i * 53) % 7) - 3), []);
+
+  /* the wall turns around: stagger the 26 bins, then settle */
+  useEffect(() => {
+    if (phase !== "kaanto") return;
+    const t1 = setTimeout(() => setTurned(true), 420);
+    const t2 = setTimeout(() => setSettled(true), 420 + 26 * 42 + 700);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [phase]);
+
+  const toggle = useCallback(
+    (d, el) => {
+      if (picked.includes(d.id)) {
+        setPicked((p) => p.filter((x) => x !== d.id));
+        return;
+      }
+      if (picked.length >= PICK) return;
+      const a = el.getBoundingClientRect();
+      const b = bagRef.current?.getBoundingClientRect();
+      if (b) {
+        const fid = ++flyId.current;
+        setFlying((f) => [
+          ...f,
+          {
+            fid,
+            kind: d.kind,
+            hue: d.hue,
+            x0: a.left + a.width / 2,
+            y0: a.top + a.height - 30,
+            x1: b.left + b.width / 2,
+            y1: b.top + 20,
+          },
+        ]);
+        setTimeout(() => setFlying((f) => f.filter((x) => x.fid !== fid)), 640);
+        setTimeout(() => setBump((n) => n + 1), 470);
+      }
+      setPicked((p) => [...p, d.id]);
+    },
+    [picked],
+  );
+
+  const restart = () => {
+    setPicked([]);
+    setTurned(false);
+    setSettled(false);
+    setAnswers(["", "", ""]);
+    setPhase("kauppa");
+  };
+
+  const rows = [DATA.slice(0, 7), DATA.slice(7, 14), DATA.slice(14, 20), DATA.slice(20, 26)];
+  const shopping = phase === "kauppa";
+  const revealing = phase === "kaanto";
 
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s12-h" className="text-center">
-        <h1 className="font-display text-3xl leading-tight mb-2">{tr("YDINVAHVUUKSIEN KARKKIKAUPPA")}</h1>
-        <p className="text-sm leading-relaxed">
-          {tr("Valitse itsellesi viisi tärkeintä väittämäkarkkia. Kun olet ruksinut ne, katso seuraavalta sivulta väittämiä vastaavat luonteenvahvuudet.")}
-        </p>
-      </StickyNote>
+    <div className="ns">
+      <style>{`
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap');
 
-      <div className="sticky top-[5.5rem] z-[5] rounded-full bg-[color:var(--purple-dark)]/80 px-4 py-2 text-center text-xs font-medium backdrop-blur">
-        {done
-          ? tr("Valmista! Olet valinnut viisi väittämäkarkkia.")
-          : tr("Valittu {n} / 5 — valitse vielä {remaining}.", { n: picks.length, remaining })}
-      </div>
+.ns{--pu:#6C4F9C;--pud:#4E3A78;--ye:#F4C84A;--co:#E8736B;--ink:#2B2342;--wood:#B99444;
+ position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;
+ padding:18px 20px 0;font-family:'Poppins',system-ui,sans-serif;background:var(--pu);color:#fff}
+.shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
+.ns *{box-sizing:border-box}
+.fd{font-family:'Fredoka',system-ui,sans-serif;font-weight:600}
 
+.deco{position:absolute;pointer-events:none;z-index:0}
+.d1{top:-100px;left:-76px;width:272px;height:272px;border-radius:50%;background:#EE8C93}
+.d2{top:88px;right:-56px;width:0;height:0;border-left:96px solid transparent;border-right:96px solid transparent;border-bottom:132px solid var(--ye);transform:rotate(20deg)}
+.d3{bottom:170px;left:-58px;width:190px;height:190px;border-radius:50%;background:#8FB6D9;opacity:.55}
+.counter{display:none}
 
-      <ul className="grid gap-2 sm:grid-cols-2">
-        {KARKKIKAUPPA_STATEMENTS.map((stmt, i) => {
-          const active = picks.includes(i);
-          const atMax = !active && picks.length >= 5;
-          return (
-            <li key={i}>
-              <button
-                type="button"
-                onClick={() => toggle(i)}
-                disabled={atMax}
-                className={cn(
-                  "w-full rounded-2xl border-2 px-3 py-2 text-left text-xs leading-snug transition-all",
-                  active
-                    ? "bg-[color:var(--coral)] border-[color:var(--coral)] text-white shadow-md"
-                    : "bg-white/90 text-slate-900 border-white/40 hover:bg-white",
-                  atMax && "opacity-40 cursor-not-allowed hover:bg-white/90",
-                )}
-                aria-pressed={active}
-              >
-                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full border border-current align-middle text-[10px]">
-                  {active ? "✓" : ""}
-                </span>
-                {tr(stmt)}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+.hd{position:relative;z-index:2;max-width:1310px;margin:0 auto 14px;display:flex;
+ justify-content:space-between;align-items:flex-start;gap:26px;flex-wrap:wrap}
+.h1{font-size:clamp(24px,2.9vw,36px);line-height:1.03;letter-spacing:-.4px;max-width:15ch;margin:0}
+.h1 small{display:block;font-family:'Poppins';font-weight:400;font-size:13px;line-height:1.55;
+ opacity:.9;margin-top:11px;max-width:40ch;letter-spacing:0}
+.namu{position:relative;flex:0 0 auto;padding:13px 38px;border:3px solid var(--ye);border-radius:11px;
+ font-family:'Fredoka';font-size:25px;color:var(--ye);letter-spacing:1px;transform:rotate(-3deg);white-space:nowrap}
+.namu::before,.namu::after{content:"";position:absolute;top:50%;margin-top:-18px;width:0;height:0;
+ border-top:18px solid transparent;border-bottom:18px solid transparent}
+.namu::before{left:-24px;border-right:21px solid var(--ye)}
+.namu::after{right:-24px;border-left:21px solid var(--ye)}
 
-      {done && (
-        <StickyNote tone="mint" seed="s12-reveal">
-          <h2 className="font-display text-xl mb-2">{tr("Väittämiä vastaavat luonteenvahvuudet")}</h2>
-          <p className="text-xs opacity-80 mb-3">
-            {tr("Numerot vastaavat väittämien järjestystä. Tunnistatko valitsemasi viisi?")}
-          </p>
-          <ol className="grid gap-1 text-sm sm:grid-cols-2">
-            {KARKKIKAUPPA_STRENGTHS.map((_s, i) => {
-              const chosen = picks.includes(i);
-              return (
-                <li
-                  key={i}
-                  className={cn(
-                    "flex items-baseline gap-2 rounded-lg border-l-4 px-2 py-1 text-slate-900",
-                    chosen && "font-bold",
-                  )}
-                  style={{
-                    borderLeftColor: getStrengthColor(i + 1),
-                    background: chosen
-                      ? `color-mix(in srgb, ${getStrengthColor(i + 1)} 45%, white)`
-                      : undefined,
-                  }}
+/* ── hylly ────────────────────────────────── */
+.wall{position:relative;z-index:2;max-width:1310px;margin:0 auto}
+.shelf{position:relative;margin-bottom:30px}
+.bins{display:flex;gap:10px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+.plank{height:11px;border-radius:3px;background:#3D2E60;margin-top:-2px;
+ box-shadow:0 8px 15px rgba(0,0,0,.32),inset 0 2px 0 rgba(255,255,255,.1)}
+.tongs{width:32px;height:104px;align-self:flex-end;margin:0 2px 4px;opacity:.9;flex:0 0 auto}
+
+/* ── purkki ───────────────────────────────── */
+.bin{position:relative;width:170px;border:0;padding:0;background:none;
+ transition:transform .18s cubic-bezier(.34,1.56,.64,1),filter .3s,opacity .3s}
+.shop .bin{cursor:pointer}
+.shop .bin:hover:not(:disabled){transform:translateY(-10px) rotate(0deg) scale(1.04)!important;z-index:9}
+.shop .bin:active:not(:disabled){transform:translateY(-2px) scale(.985)!important}
+.bin:focus-visible{outline:none}
+.bin:focus-visible .tub{box-shadow:0 0 0 3px #fff,0 0 0 8px rgba(244,200,74,.55),inset 0 -14px 20px rgba(0,0,0,.14)}
+.bin:disabled{cursor:not-allowed}
+.shop .bin:disabled{filter:grayscale(.6) brightness(.68);opacity:.45}
+
+.flipper{position:relative;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.55,-0.28,.3,1.25)}
+.turn .flipper{transform:rotateY(180deg)}
+.side{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.side.back{position:absolute;inset:0;transform:rotateY(180deg)}
+.lid{height:13px;border-radius:10px 10px 3px 3px;background:rgba(255,255,255,.30);
+ border:1.5px solid rgba(255,255,255,.44);margin:0 -2px;box-shadow:0 3px 6px rgba(0,0,0,.2)}
+.tub{position:relative;border-radius:12px 12px 8px 8px;overflow:hidden;display:flex;flex-direction:column;
+ background:linear-gradient(180deg,rgba(255,255,255,.21),rgba(255,255,255,.085) 44%,rgba(255,255,255,.15));
+ border:1.5px solid rgba(255,255,255,.34);border-top:0;transition:box-shadow .2s,background .3s;
+ box-shadow:inset 0 -16px 22px rgba(0,0,0,.15),0 5px 0 rgba(43,35,66,.3)}
+.h0 .tub{height:146px}.h1 .tub{height:170px}.h2 .tub{height:194px}
+.txt{flex:1 1 auto;padding:11px 10px 2px;font-size:9.3px;line-height:1.36;letter-spacing:.5px;
+ text-transform:uppercase;font-weight:500;text-align:center;text-shadow:0 1px 2px rgba(43,35,66,.55)}
+.pile{flex:0 0 auto;height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px}
+.pile>span{margin:0 -5px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.sticker{position:absolute;left:8px;bottom:8px;width:22px;height:15px;border-radius:2px;
+ background:#fff;opacity:.9;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.chk{position:absolute;top:-10px;right:-8px;width:30px;height:30px;border-radius:50%;background:var(--ye);
+ color:var(--ink);display:grid;place-items:center;font-family:'Fredoka';font-size:16px;border:3px solid var(--pu);
+ box-shadow:0 2px 0 rgba(43,35,66,.45);animation:pop .3s cubic-bezier(.34,1.8,.64,1);z-index:6}
+@keyframes pop{0%{transform:scale(0) rotate(-45deg)}100%{transform:scale(1) rotate(0)}}
+
+/* takapuoli: vahvuus + sitä vastaava karkki */
+.rev{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:8px;padding:12px 9px;text-align:center}
+.rev .nm{font-family:'Fredoka';line-height:1.12;font-size:15px}
+.rev .nm.long{font-size:11.5px}
+.rev .vt{font-size:7.6px;letter-spacing:1.3px;text-transform:uppercase;opacity:.6}
+.rev .cd{filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+
+/* voittajapurkit vs. muut */
+.reveal .bin{opacity:.34;filter:saturate(.35)}
+.reveal .bin.won{opacity:1;filter:none;z-index:8}
+.settled .bin.won{transform:translateY(-14px) scale(1.07)!important;animation:hover 3s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(-14px) scale(1.07)}50%{transform:translateY(-20px) scale(1.07)}}
+.reveal .bin.won .tub{background:linear-gradient(180deg,#FFF6E2,#FFE8B8);
+ border-color:var(--ye);box-shadow:0 0 0 3px var(--ye),0 0 34px rgba(244,200,74,.6),0 6px 0 #B98F1C}
+.reveal .bin.won .lid{background:var(--ye);border-color:#FFF0C4}
+.reveal .bin.won .rev{color:var(--ink)}
+.reveal .bin.won .vt{opacity:.5}
+
+.fly{position:fixed;z-index:60;pointer-events:none;
+ transition:transform .62s cubic-bezier(.38,-0.25,.5,1),opacity .62s ease-in}
+
+/* ── pussi + palkki ───────────────────────── */
+.bar{position:relative;z-index:30;display:flex;flex:0 0 100px;height:100px;
+ align-items:center;justify-content:center;gap:24px;flex-wrap:nowrap;margin:0 -20px;padding:0 22px;
+ background:linear-gradient(180deg,var(--wood),#9A7A33);
+ box-shadow:inset 0 7px 0 rgba(255,255,255,.18),0 -3px 16px rgba(0,0,0,.3)}
+.bag{position:relative;width:104px;height:86px;flex:0 0 auto}
+.bagbody{position:absolute;inset:14px 0 0;border-radius:5px 5px 10px 10px;
+ background:linear-gradient(180deg,#F7E6C8,#E0C89E);
+ box-shadow:inset -13px 0 18px rgba(0,0,0,.11),0 4px 0 rgba(43,35,66,.32)}
+.bagfold{position:absolute;top:8px;left:-4px;right:-4px;height:15px;border-radius:4px;background:#FFF3DE;
+ box-shadow:0 2px 3px rgba(0,0,0,.18)}
+.heldrow{position:absolute;top:-8px;left:0;right:0;display:flex;justify-content:center;z-index:2}
+.heldrow>span{margin:0 -6px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.32))}
+.bag.bump{animation:bb .36s cubic-bezier(.34,1.7,.64,1)}
+@keyframes bb{0%{transform:scale(1)}32%{transform:scale(1.15,.86)}66%{transform:scale(.95,1.07)}100%{transform:scale(1)}}
+
+.cnt{font-family:'Fredoka';font-size:14px;color:#3B2C10;line-height:1.2;flex:0 0 auto}
+.cnt b{display:block;font-size:38px;line-height:.95;color:#241A06}
+.slots{display:flex;gap:6px;margin-top:8px}
+.slot{width:13px;height:13px;border-radius:50%;background:rgba(59,44,16,.25);
+ transition:.24s cubic-bezier(.34,1.6,.64,1)}
+.slot.on{background:var(--ye);box-shadow:0 0 0 2px rgba(255,255,255,.65);transform:scale(1.2)}
+
+.won5{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;min-width:0}
+.pill{display:flex;align-items:center;gap:7px;background:#FFF6E8;color:var(--ink);
+ border-radius:999px;padding:6px 15px 6px 7px;font-family:'Fredoka';font-size:13px;white-space:nowrap;
+ box-shadow:0 3px 0 rgba(43,35,66,.32);animation:rise .4s backwards cubic-bezier(.34,1.6,.64,1)}
+@keyframes rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+
+.btn{font-family:'Fredoka';font-size:17px;border:0;border-radius:999px;padding:15px 30px;cursor:pointer;
+ background:var(--co);color:#fff;box-shadow:0 5px 0 #A8463F;transition:.12s;white-space:nowrap;flex:0 0 auto}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 7px 0 #A8463F}
+.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 #A8463F}
+.btn:disabled{background:#6F5D3B;color:#CBBA95;box-shadow:0 5px 0 #4E4126;cursor:not-allowed}
+.btn.go{background:var(--ye);color:var(--ink);box-shadow:0 5px 0 #C39C22;animation:br 1.5s ease-in-out infinite}
+.btn.go:hover{box-shadow:0 7px 0 #C39C22}
+@keyframes br{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.link{background:none;border:0;color:inherit;opacity:.72;text-decoration:underline;cursor:pointer;
+ font-size:13px;font-family:'Poppins';padding:6px}
+
+/* ── kuitti ───────────────────────────────── */
+.receipt{position:relative;z-index:2;max-width:740px;margin:24px auto 0;background:#FFF9EF;color:var(--ink);
+ padding:32px 34px 28px;box-shadow:0 10px 0 rgba(43,35,66,.38)}
+.receipt::before,.receipt::after{content:"";position:absolute;left:0;right:0;height:12px;
+ background:repeating-linear-gradient(135deg,#FFF9EF 0 9px,transparent 9px 18px)}
+.receipt::before{top:-11px;transform:scaleY(-1)}
+.receipt::after{bottom:-11px}
+.rhead{text-align:center;border-bottom:2px dashed #D8C9AE;padding-bottom:15px;margin-bottom:8px}
+.rhead .fd{font-size:23px}
+.rhead p{font-size:10px;letter-spacing:2.6px;text-transform:uppercase;opacity:.5;margin:7px 0 0}
+.line{display:flex;align-items:center;gap:13px;padding:9px 2px;border-bottom:1px dotted #DCCEB6}
+.line .fd{flex:1;font-size:16px;text-align:left}
+.line em{font-style:normal;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.48}
+.q{font-weight:600;font-size:13px;margin:20px 0 8px;line-height:1.5}
+.ta{width:100%;min-height:80px;border:2px solid #E6DAC2;border-radius:12px;padding:11px 13px;background:#fff;
+ font-family:'Poppins';font-size:13px;color:var(--ink);resize:vertical}
+.ta:focus{outline:0;border-color:var(--pu)}
+.acts{display:flex;gap:16px;align-items:center;margin-top:22px;flex-wrap:wrap}
+
+@media (max-width:820px){.bin{width:150px}.h0 .tub{height:150px}.h1 .tub{height:176px}.h2 .tub{height:202px}}
+@media (prefers-reduced-motion:reduce){.ns *{animation:none!important;transition:none!important}}
+      `}</style>
+
+      <div className="deco d1" />
+      <div className="deco d2" />
+      <div className="deco d3" />
+
+      {/* ═════ HYLLY (kauppa + kääntö jakavat saman seinän) ═════ */}
+      {(shopping || revealing) && (
+        <>
+          <div className="shopscroll">
+            <div className="hd">
+              <h1 className="fd h1">
+                {shopping
+                  ? "Ydinvahvuuksien karkkikauppa"
+                  : settled
+                    ? "Nämä ovat ydinvahvuutesi"
+                    : "Hylly kääntyy…"}
+                <small>
+                  {shopping
+                    ? "Poimi hyllystä viisi väittämäkarkkia, jotka kuulostavat sinulta. Älä mieti liikaa — mene fiiliksellä."
+                    : settled
+                      ? "Jokaisen purkin takana oli luonteenvahvuus ja sitä vastaava karkki. Sinun viisi loistavat."
+                      : "Katso, mitkä vahvuudet väittämien takaa paljastuvat."}
+                </small>
+              </h1>
+              <div className="namu fd">{settled ? "OOT NAMU!" : "OOT NAMU"}</div>
+            </div>
+
+            <div className={`wall ${shopping ? "shop" : "reveal"}${settled ? " settled" : ""}`}>
+              {rows.map((row, ri) => (
+                <div className="shelf" key={ri}>
+                  <div className="bins">
+                    {ri % 2 === 1 && <Tongs />}
+                    {row.map((d) => {
+                      const i = DATA.indexOf(d);
+                      const on = picked.includes(d.id);
+                      const longName = d.strength.length > 22;
+                      return (
+                        <button
+                          key={d.id}
+                          className={`bin h${d.tall}${turned ? " turn" : ""}${on ? " won" : ""}`}
+                          style={{
+                            transform: `rotate(${tilt[i]}deg)`,
+                            transitionDelay: revealing && !settled ? `${i * 42}ms` : "0ms",
+                          }}
+                          disabled={revealing || (full && !on)}
+                          onClick={(e) => shopping && toggle(d, e.currentTarget)}
+                          aria-pressed={on}
+                          aria-label={
+                            revealing
+                              ? `${d.strength} — ${d.virtue}${on ? ", sinun vahvuutesi" : ""}`
+                              : `${d.statement}${on ? " — pussissa" : ""}`
+                          }
+                        >
+                          <div
+                            className="flipper"
+                            style={{ transitionDelay: revealing ? `${i * 42}ms` : "0ms" }}
+                          >
+                            {/* etupuoli — väittämä */}
+                            <div className="side front">
+                              <div className="lid" />
+                              <div className="tub">
+                                <div className="txt">{tr(d.statement)}</div>
+                                <div className="pile">
+                                  {!on &&
+                                    [0, 1, 2, 3].map((k) => (
+                                      <span
+                                        key={k}
+                                        style={{
+                                          transform: `rotate(${((k * 37) % 50) - 25}deg) translateY(${k % 2 ? 3 : 0}px)`,
+                                        }}
+                                      >
+                                        <Candy kind={d.kind + k} hue={d.hue + (k % 2)} size={27} />
+                                      </span>
+                                    ))}
+                                </div>
+                                <span className="sticker" />
+                              </div>
+                            </div>
+
+                            {/* takapuoli — vahvuus + vastaava karkki */}
+                            <div className="side back">
+                              <div className="lid" />
+                              <div className="tub">
+                                <div className="rev">
+                                  <span className="cd">
+                                    <Candy kind={d.kind} hue={d.hue} size={on ? 52 : 38} />
+                                  </span>
+                                  <span className={`nm${longName ? " nm long" : ""}`}>
+                                    {tr(d.strength)}
+                                  </span>
+                                  <span className="vt">{tr(d.virtue)}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {on && shopping && <span className="chk">✓</span>}
+                        </button>
+                      );
+                    })}
+                    {ri % 2 === 0 && <Tongs />}
+                  </div>
+                  <div className="plank" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bar">
+            {shopping ? (
+              <>
+                <div ref={bagRef} className={`bag${bump ? " bump" : ""}`} key={bump}>
+                  <BagArt items={chosen} />
+                </div>
+                <div className="cnt">
+                  <b>{picked.length}/5</b>
+                  karkkia pussissa
+                  <div className="slots">
+                    {Array.from({ length: PICK }).map((_, i) => (
+                      <span key={i} className={`slot${picked[i] ? " on" : ""}`} />
+                    ))}
+                  </div>
+                </div>
+                <button
+                  className={`btn${full ? " go" : ""}`}
+                  disabled={!full}
+                  onClick={() => setPhase("kaanto")}
                 >
-                  <span className="font-mono text-xs opacity-60 w-6">{i + 1}.</span>
-                  <span className="break-words">{getStrengthName(i + 1, lang)}</span>
-                </li>
-              );
-            })}
-          </ol>
-        </StickyNote>
+                  {full ? "Käännä hylly →" : `Valitse vielä ${PICK - picked.length}`}
+                </button>
+              </>
+            ) : settled ? (
+              <>
+                <div className="won5">
+                  {chosen.map((d, i) => (
+                    <span className="pill" key={d.id} style={{ animationDelay: `${i * 90}ms` }}>
+                      <Candy kind={d.kind} hue={d.hue} size={24} />
+                      {tr(d.strength)}
+                    </span>
+                  ))}
+                </div>
+                <button className="btn go" onClick={() => setPhase("kuitti")}>
+                  Ota kuitti →
+                </button>
+              </>
+            ) : (
+              <div className="cnt" style={{ textAlign: "center" }}>
+                <b>26</b>
+                purkkia kääntyy…
+              </div>
+            )}
+          </div>
+
+          {flying.map((f) => (
+            <Fly key={f.fid} {...f} />
+          ))}
+        </>
+      )}
+
+      {/* ═════ KUITTI (s. 19) ═════ */}
+      {phase === "kuitti" && (
+        <div className="shopscroll">
+          <div className="receipt">
+            <div className="rhead">
+              <div className="fd">{tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}</div>
+              <p>{tr("YDINVAHVUUKSIEN KARKKIKAUPPA")}</p>
+            </div>
+            {chosen.map((d) => (
+              <div className="line" key={d.id}>
+                <Candy kind={d.kind} hue={d.hue} size={30} />
+                <span className="fd">{tr(d.strength)}</span>
+                <em>{tr(d.virtue)}</em>
+              </div>
+            ))}
+            {PROMPTS.map((q, i) => (
+              <div key={i}>
+                <p className="q">{tr(q)}</p>
+                <textarea
+                  className="ta"
+                  value={answers[i]}
+                  placeholder="Kirjoita tähän…"
+                  onChange={(e) =>
+                    setAnswers((a) => a.map((v, j) => (j === i ? e.target.value : v)))
+                  }
+                />
+              </div>
+            ))}
+            <div className="acts">
+              <button className="btn">Tallenna ja jatka</button>
+              <button className="link" onClick={restart}>
+                Valitse karkit uudelleen
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
 }
 
-// ----- S13 (PDF p18): Vahvuuskarkkini -----
+// ----- S13: Vahvuuskarkkini -----
 function S13({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s13-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuskarkkini")}</h1>
-        <p className="text-sm opacity-90">{tr("Pohdi omia vahvuuksia ja vastaa:")}</p>
-      </StickyNote>
+    <div
+      className="
+        h-full
+        min-h-0
+        w-full
+        overflow-y-auto
+        overflow-x-hidden
+        px-[6%]
+        pb-16
+        pt-8
+        text-white
+      "
+    >
+      <div className="mx-auto w-full max-w-[1100px]">
+        <h1 className="font-display text-[38px] font-bold leading-[1.1]">
+          {tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
+        </h1>
 
-      <StickyNote tone="white" seed="s13-jar">
-        <div className="mb-2 text-sm font-medium">{tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}</div>
-        <div className="grid gap-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <ReflectionInput
-              key={i}
-              fieldKey={`screen_13_karkki_${i + 1}`}
-              placeholder={tr("Vahvuuskarkki…")}
-              onSaveStateChange={onSaveStateChange}
-            />
-          ))}
+        <p className="mt-3 text-[17px] opacity-90">Pohdi omia vahvuuksia ja vastaa:</p>
+
+        <div className="mt-7 rounded-[24px] bg-white/10 p-6">
+          <h2 className="font-display text-[20px] font-semibold">
+            Merkkaa tähän 5 vahvuuskarkkiasi!
+          </h2>
+
+          <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <ReflectionInput
+                key={index}
+                fieldKey={`screen_13_karkki_${index + 1}`}
+                prefix={`${index + 1}.`}
+                placeholder="Vahvuuskarkki…"
+                onSaveStateChange={onSaveStateChange}
+              />
+            ))}
+          </div>
         </div>
-      </StickyNote>
 
-      <ReflectionTextarea
-        fieldKey="screen_13_examples"
-        label={tr("Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_13_success"
-        label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
-        rows={3}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_13_effect"
-        label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
-        rows={3}
-        onSaveStateChange={onSaveStateChange}
-      />
+        <div className="mt-6 grid gap-5 pb-8">
+          <ReflectionTextarea
+            fieldKey="screen_13_examples"
+            label="Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista."
+            rows={4}
+            onSaveStateChange={onSaveStateChange}
+          />
+
+          <ReflectionTextarea
+            fieldKey="screen_13_success"
+            label="Missä onnistuit omia vahvuuksia hyödyntämällä?"
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+
+          <ReflectionTextarea
+            fieldKey="screen_13_effect"
+            label="Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?"
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -493,31 +2254,246 @@ function S13({ onSaveStateChange }: Props) {
 // ----- S14 (PDF p19): Ydinvahvuuksien tiekartta -----
 function S14({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const qs = [
-    "Mistä innostut?",
-    "Minkä tekeminen tuntuu kevyeltä?",
-    "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
-    "Mitä rakastat tehdä vapaa-ajalla?",
-    "Minkä alkamista odotat eniten päivässäsi?",
-    "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
-    "Mitkä vahvuudet vahvistavat sinua vapaa-ajalla?",
-    "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
-    "Mitä vahvuuksia arvostat eniten itsessäsi?",
+  const questions = [
+    {
+      id: 1,
+      text: "Mistä innostut?",
+      position: "left-[1%] top-[25%] h-[180px] w-[22%]",
+    },
+    {
+      id: 2,
+      text: "Minkä tekeminen tuntuu kevyeltä?",
+      position: "left-[3%] bottom-[1%] h-[170px] w-[22%]",
+    },
+    {
+      id: 3,
+      text: "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
+      position: "left-[28%] bottom-[4%] h-[175px] w-[23%]",
+    },
+    {
+      id: 4,
+      text: "Mitä rakastat tehdä vapaa-ajalla?",
+      position: "left-[31%] top-[39%] h-[180px] w-[23%]",
+    },
+    {
+      id: 5,
+      text: "Minkä alkamista odotat eniten päivässäsi?",
+      position: "left-[48%] top-[0%] h-[175px] w-[23%]",
+    },
+    {
+      id: 6,
+      text: "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
+      position: "left-[55%] bottom-[1%] h-[175px] w-[23%]",
+    },
+    {
+      id: 7,
+      text: "Mitkä vahvuudet vahvistavat sinua vapaa-ajalla?",
+      position: "right-[6%] top-[41%] h-[180px] w-[22%]",
+    },
+    {
+      id: 8,
+      text: "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
+      position: "right-[3%] top-[2%] h-[175px] w-[22%]",
+    },
+    {
+      id: 9,
+      text: "Mitä vahvuuksia arvostat eniten itsessäsi?",
+      position: "right-[0%] bottom-[4%] h-[175px] w-[21%]",
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s14-h">
-        <h1 className="font-display text-2xl">{tr("Ydinvahvuuksien tiekartta")}</h1>
-      </StickyNote>
-      <div className="grid gap-3">
-        {qs.map((q, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_14_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${tr(q)}`}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[2%]
+        pb-12
+        pt-5
+        text-black
+      "
+    >
+      <div className="relative mx-auto h-[610px] w-full max-w-[1280px]">
+        <div className="absolute left-[1%] top-[3%] z-30">{tr("Ydinvahvuuksien tiekartta")}</div>
+
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1280 610"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+        >
+          <path
+            d="
+              M -30 390
+              C 100 455, 225 470, 330 390
+              C 425 315, 430 175, 575 170
+              C 740 165, 805 280, 985 275
+              C 1125 270, 1190 225, 1225 135
+              C 1260 45, 1250 5, 1285 -45
+            "
+            fill="none"
+            stroke="white"
+            strokeWidth="18"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
+
+          <path
+            d="M 140 430 C 110 505, 130 555, 195 585"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 320 405 C 405 395, 455 430, 455 565"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 470 275 C 445 345, 480 390, 545 410"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 640 175 L 640 85 C 640 55, 660 45, 685 45"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 790 260 C 755 350, 850 380, 805 570"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 1000 275 L 1000 430"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 1100 270 L 1100 90"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M 1220 255 C 1270 350, 1205 410, 1205 565"
+            fill="none"
+            stroke="white"
+            strokeWidth="15"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {questions.map((question) => (
+          <div
+            key={question.id}
+            className={`
+              absolute
+              z-20
+              flex
+              flex-col
+              overflow-hidden
+              rounded-[26px]
+              bg-[#fffefa]
+              px-5
+              pb-4
+              pt-4
+              shadow-[0_7px_0_rgba(68,42,105,0.22)]
+              transition-all
+              duration-200
+
+              hover:-translate-y-1
+              hover:shadow-[0_9px_0_rgba(68,42,105,0.22)]
+
+              focus-within:ring-[3px]
+              focus-within:ring-[#ffd143]/70
+
+              [&_label]:hidden
+
+              [&_div]:min-h-0
+              [&_div]:border-0
+              [&_div]:bg-transparent
+              [&_div]:p-0
+              [&_div]:shadow-none
+
+              [&_textarea]:h-full
+              [&_textarea]:min-h-0
+              [&_textarea]:w-full
+              [&_textarea]:resize-none
+              [&_textarea]:rounded-none
+              [&_textarea]:border-0
+              [&_textarea]:bg-transparent
+              [&_textarea]:px-2
+              [&_textarea]:py-2
+              [&_textarea]:text-[15px]
+              [&_textarea]:font-normal
+              [&_textarea]:leading-[30px]
+              [&_textarea]:text-[#241b3f]
+              [&_textarea]:outline-none
+              [&_textarea]:shadow-none
+              [&_textarea]:ring-0
+
+              [&_textarea:focus]:border-0
+              [&_textarea:focus]:outline-none
+              [&_textarea:focus]:ring-0
+
+              [&_textarea]:placeholder:text-[#aaa1b5]
+
+              ${question.position}
+            `}
+          >
+            {/* Câu hỏi */}
+            <p className="relative z-10 shrink-0 text-center font-display text-[16px] font-bold leading-[1.18] text-[#7654ad]">
+              {question.id}. {tr(question.text)}
+            </p>
+
+            {/* Vùng nhập */}
+            <div className="relative mt-3 min-h-0 flex-1 [&>div]:h-full">
+              {/* Các dòng kẻ */}
+              <div
+                aria-hidden="true"
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  opacity-60
+                  [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                "
+              />
+
+              <div className="relative z-10 h-full">
+                <ReflectionTextarea
+                  fieldKey={`screen_14_tiekartta_${question.id}`}
+                  label=""
+                  rows={4}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -526,87 +2502,660 @@ function S14({ onSaveStateChange }: Props) {
 
 // ----- S15 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
 function S15() {
-  const tr = useTr();
+  const bulletItems = [
+    <>
+      Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa
+      elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.
+    </>,
+    <>
+      Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset,
+      tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi, myötätuntoinen
+      suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.
+    </>,
+    <>
+      Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin, miten tärkeiksi voimavarasi
+      koet.
+    </>,
+  ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s15-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Voimavarani opiskelijana 1/2")}</h1>
-        <p className="text-sm opacity-90">{tr("Pohdi ja täydennä omien voimavarojesi sydämet")}</p>
-      </StickyNote>
-      <StickyNote tone="white" seed="s15-b">
-        <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed">
-          <li>
-            {tr("Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.")}
-          </li>
-          <li>
-            {tr("Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset, tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi, myötätuntoinen suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.")}
-          </li>
-          <li>
-            {tr("Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin miten tärkeiksi voimarasi koet.")}
-          </li>
-        </ul>
-      </StickyNote>
+    <div className="relative min-h-[620px] w-full overflow-hidden  px-[8%] pb-10 pt-14 text-white">
+      {/* =====================================================
+          KHỐI NỘI DUNG BÊN TRÁI
+      ====================================================== */}
+      <div className="relative z-20 max-w-[920px]">
+        {/* Tiêu đề */}
+        <h1 className="font-display text-[42px] font-bold leading-[1.08]">
+          Voimavarani opiskelijana <span className="text-white">1/2</span>
+        </h1>
+
+        {/* Tiêu đề phụ */}
+        <h2 className="mt-9 font-display text-[24px] font-bold leading-[1.2] text-white">
+          Pohdi ja täydennä omien voimavarojesi sydämet
+        </h2>
+
+        {/* Danh sách nội dung */}
+        <div className="mt-3 flex max-w-[900px] flex-col gap-7">
+          {bulletItems.map((item, index) => (
+            <div key={index} className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-5">
+              {/* Dấu chấm vàng */}
+              <span className="mt-[12px] h-[8px] w-[8px] rounded-full " />
+
+              <p className="font-display text-[23px] font-medium leading-[1.42]">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* =====================================================
+          KHU VỰC ILLUSTRATION BÊN PHẢI
+          BỎ COMMENT KHI BẠN ĐÃ CÓ ẢNH
+      ====================================================== */}
+
+      <img
+        src="/illustrations/voimavarani-hand.png"
+        alt=""
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+           right-[-1%]
+          top-[1%]
+          z-10
+          h-[430px]
+          w-auto
+          object-contain
+        "
+      />
     </div>
   );
 }
 
 // ----- S16 (PDF p21): Voimavarani opiskelijana 2/2 -----
-function S16({ onSaveStateChange }: Props) {
+
+export function S16({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const groups: Array<{ label: string; key: string }> = [
-    { label: "KOULUSSA",       key: "screen_16_koulussa" },
-    { label: "VAPAA-AJALLA",   key: "screen_16_vapaa_ajalla" },
-    { label: "KOTONA",         key: "screen_16_kotona" },
-    { label: "KAVERISUHTEISSA", key: "screen_16_kaverisuhteissa" },
+  const [scores, setScores] = useState<Record<string, number | null>>({});
+
+  const groups = [
+    {
+      label: "KOULUSSA",
+      fieldKey: "screen_16_koulussa",
+      frameClass: "bg-[#ef706e]",
+      tabClass: "bg-[#acd8b1] text-black",
+      rotateClass: "-rotate-[0.6deg]",
+    },
+    {
+      label: "VAPAA-AJALLA",
+      fieldKey: "screen_16_vapaa_ajalla",
+      frameClass: "bg-[#f5c8ce]",
+      tabClass: "bg-[#ffd95d] text-black",
+      rotateClass: "rotate-[0.6deg]",
+    },
+    {
+      label: "KOTONA",
+      fieldKey: "screen_16_kotona",
+      frameClass: "bg-[#ffd75b]",
+      tabClass: "bg-[#ef706e] text-white",
+      rotateClass: "rotate-[-0.4deg]",
+    },
+    {
+      label: "KAVERISUHTEISSA",
+      fieldKey: "screen_16_kaverisuhteissa",
+      frameClass: "bg-[#afd9b4]",
+      tabClass: "bg-[#f3cbd1] text-black",
+      rotateClass: "rotate-[0.5deg]",
+    },
   ];
+
+  const selectScore = (fieldKey: string, score: number) => {
+    setScores((current) => ({
+      ...current,
+      [fieldKey]: current[fieldKey] === score ? null : score,
+    }));
+  };
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s16-h">
-        <h1 className="font-display text-2xl">{tr("Voimavarani opiskelijana 2/2")}</h1>
-      </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {groups.map((g) => (
-          <StickyNote key={g.key} tone="white" seed={g.key}>
-            <ReflectionTextarea
-              fieldKey={g.key}
-              label={tr(g.label)}
-              rows={4}
-              onSaveStateChange={onSaveStateChange}
-            />
-          </StickyNote>
-        ))}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-8
+        pb-16
+        pr-6
+        pt-8
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div className="mx-auto w-full max-w-[1280px]">
+        {/* ================= TIÊU ĐỀ ================= */}
+        <h1 className="font-display text-[42px] font-bold leading-[1.08] text-white">
+          Voimavarani opiskelijana <span className="text-[#f1f1ef]">2/2</span>
+        </h1>
+
+        {/* ================= 4 KHUNG LỚN ================= */}
+        <div className="mt-8 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
+          {groups.map((group) => {
+            const selectedScore = scores[group.fieldKey] ?? null;
+
+            return (
+              <div
+                key={group.fieldKey}
+                className={`
+                  relative
+                  min-h-[245px]
+                  w-full
+                  transition-transform
+                  duration-200
+                  hover:-translate-y-1
+                  ${group.rotateClass}
+                `}
+              >
+                {/* ================= NHÃN DỌC ================= */}
+                <div
+                  className={`
+                    absolute
+                    left-[-31px]
+                    top-1/2
+                    z-20
+                    flex
+                    h-[126px]
+                    w-[34px]
+                    -translate-y-1/2
+                    items-center
+                    justify-center
+                    rounded-l-[12px]
+                    text-[11px]
+                    font-bold
+                    shadow-[0_4px_10px_rgba(0,0,0,0.12)]
+                    ${group.tabClass}
+                  `}
+                >
+                  <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl] tracking-[0.5px]">
+                    {tr(group.label)}
+                  </span>
+                </div>
+
+                {/* ================= VIỀN MÀU ================= */}
+                <div
+                  className={`
+                    h-full
+                    w-full
+                    rounded-[26px]
+                    p-[10px]
+                    shadow-[0_8px_0_rgba(62,36,112,0.28)]
+                    ${group.frameClass}
+                  `}
+                >
+                  <div
+                    className="
+                      grid
+                      h-full
+                      min-h-[225px]
+                      w-full
+                      grid-cols-[minmax(0,1fr)_150px]
+                      gap-3
+                    "
+                  >
+                    {/* ================= Ô NHẬP TEXT ================= */}
+                    <div
+                      className="
+                        min-h-[225px]
+                        overflow-hidden
+                        rounded-[18px]
+                        bg-white
+
+                        [&_label]:hidden
+                        [&>div]:h-full
+                        [&>div]:min-h-0
+
+                        [&_div]:border-0
+                        [&_div]:bg-transparent
+                        [&_div]:p-0
+                        [&_div]:shadow-none
+
+                        [&_textarea]:h-full
+                        [&_textarea]:min-h-[225px]
+                        [&_textarea]:w-full
+                        [&_textarea]:resize-none
+                        [&_textarea]:rounded-[18px]
+                        [&_textarea]:border-0
+                        [&_textarea]:bg-transparent
+                        [&_textarea]:px-4
+                        [&_textarea]:py-4
+                        [&_textarea]:text-[15px]
+                        [&_textarea]:leading-[1.55]
+                        [&_textarea]:text-[#241b3f]
+                        [&_textarea]:outline-none
+                        [&_textarea]:shadow-none
+                        [&_textarea]:ring-0
+                        [&_textarea]:placeholder:text-[#9b93a8]
+
+                        [&_textarea:focus]:outline-none
+                        [&_textarea:focus]:ring-0
+                      "
+                    >
+                      <ReflectionTextarea
+                        fieldKey={group.fieldKey}
+                        label=""
+                        rows={7}
+                        onSaveStateChange={onSaveStateChange}
+                      />
+                    </div>
+
+                    {/* ================= KHU VỰC CHỌN ĐIỂM ================= */}
+                    <div
+                      className="
+                        flex
+                        min-h-[225px]
+                        flex-col
+                        items-center
+                        justify-center
+                        rounded-[18px]
+                        bg-white
+                        px-4
+                        py-5
+                      "
+                    >
+                      <p
+                        className="
+                          mb-4
+                          text-center
+                          text-[12px]
+                          font-bold
+                          leading-[1.25]
+                          text-[#4b3a66]
+                        "
+                      >
+                        Merkitse
+                        <br />
+                        vahvuutesi
+                      </p>
+
+                      {/* 4 ô vuông */}
+                      <div
+                        className="
+                          grid
+                          grid-cols-2
+                          gap-4
+                        "
+                      >
+                        {[1, 2, 3, 4].map((score) => {
+                          const isSelected = selectedScore === score;
+
+                          return (
+                            <button
+                              key={score}
+                              type="button"
+                              aria-label={`${group.label}: valitse taso ${score}`}
+                              aria-pressed={isSelected}
+                              onClick={() => selectScore(group.fieldKey, score)}
+                              className={`
+                                flex
+                                h-[48px]
+                                w-[48px]
+                                cursor-pointer
+                                items-center
+                                justify-center
+                                rounded-[8px]
+                                border-[3px]
+                                text-[31px]
+                                font-bold
+                                leading-none
+                                transition-all
+                                duration-150
+
+                                ${
+                                  isSelected
+                                    ? "border-[#7654ad] bg-[#eee8f8] text-[#241b3f] shadow-[0_3px_0_rgba(68,42,105,0.18)]"
+                                    : "border-[#7654ad] bg-white text-transparent hover:bg-[#f7f3fb]"
+                                }
+
+                                focus-visible:outline-none
+                                focus-visible:ring-4
+                                focus-visible:ring-[#d9ccec]
+                              `}
+                            >
+                              {isSelected ? "✓" : ""}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Số điểm dưới từng ô */}
+                      <div
+                        className="
+                          mt-2
+                          grid
+                          grid-cols-4
+                          gap-[25px]
+                          text-center
+                          text-[11px]
+                          font-bold
+                          text-[#7654ad]
+                        "
+                      >
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S17 (PDF p22): Haasteet ja vahvuudet -----
 function S17({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s17-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Haasteet ja vahvuudet")}</h1>
-        <p className="text-sm font-medium">{tr("Pohdi ja kirjoita vastaukset")}</p>
-      </StickyNote>
-      <ReflectionTextarea
-        fieldKey="screen_17_opetukset"
-        label={tr("Mitä vaikeudet ovat opettaneet vahvuuksistasi?")}
-        rows={3}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_17_kasvu"
-        label={tr("Miten olet kasvanut ja muuttunut ihmisenä vaikeuksien seurauksena?")}
-        rows={3}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_17_laheinen"
-        label={tr("Mitä sellainen läheinen ihminen, joka tuntee sinut hyvin, kertoisi olevan vahvuuksiasi ja voimavaroja, joiden avulla selviydyt tulevista haasteista?")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          KHUNG NỘI DUNG CHÍNH
+      ====================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[760px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[9%]
+          pb-20
+          pt-16
+        "
+      >
+        {/* =====================================================
+            ILLUSTRATION DÂY XÍCH
+        ====================================================== */}
+        <img
+          src="/illustrations/s17-chain.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            right-[-12px]
+            top-[-15px]
+            z-10
+            h-[310px]
+            w-auto
+            max-w-[32%]
+            object-contain
+          "
+        />
+
+        {/* =====================================================
+            NỘI DUNG PHÍA TRÊN
+        ====================================================== */}
+        <div className="relative z-20 max-w-[1050px]">
+          {tr("Haasteet ja vahvuudet – Pohdi ja kirjoita vastaukset.")}
+        </div>
+
+        {/* =====================================================
+            HAI CÂU HỎI PHÍA TRÊN
+        ====================================================== */}
+        <div
+          className="
+            relative
+            z-20
+            mt-6
+            grid
+            grid-cols-1
+            gap-x-20
+            gap-y-10
+            pr-[16%]
+            md:grid-cols-2
+          "
+        >
+          {/* ================= CÂU HỎI 1 ================= */}
+          <div className="flex min-h-[245px] min-w-0 flex-col">
+            <h2
+              className="
+                min-h-[72px]
+                font-display
+                text-[clamp(20px,1.8vw,27px)]
+                font-bold
+                leading-[1.28]
+                text-[white]
+              "
+            >
+              {tr("Mitä vaikeudet ovat opettaneet sinulle vahvuuksistasi?")}
+            </h2>
+
+            <div
+              className="
+                relative
+                mt-4
+                min-h-[155px]
+                flex-1
+                overflow-hidden
+                rounded-[18px]
+                border-2
+                border-[#e8e0f1]
+                bg-[#fcfbfe]
+                shadow-[0_5px_0_#e2d8ed]
+
+                focus-within:border-[#cdbce3]
+                focus-within:bg-white
+
+                [&_label]:hidden
+
+                [&>div]:h-full
+                [&>div]:min-h-0
+
+                [&_div]:border-0
+                [&_div]:bg-transparent
+                [&_div]:p-0
+                [&_div]:shadow-none
+
+                [&_textarea]:h-full
+                [&_textarea]:min-h-[155px]
+                [&_textarea]:w-full
+                [&_textarea]:resize-none
+                [&_textarea]:rounded-[18px]
+                [&_textarea]:border-0
+                [&_textarea]:bg-transparent
+                [&_textarea]:px-5
+                [&_textarea]:py-4
+                [&_textarea]:text-[17px]
+                [&_textarea]:leading-[1.55]
+                [&_textarea]:text-[#241b3f]
+                [&_textarea]:outline-none
+                [&_textarea]:shadow-none
+                [&_textarea]:ring-0
+                [&_textarea]:placeholder:text-[#aaa1b5]
+
+                [&_textarea:focus]:outline-none
+                [&_textarea:focus]:ring-0
+              "
+            >
+              <ReflectionTextarea
+                fieldKey="screen_17_opetukset"
+                label=""
+                rows={6}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </div>
+
+          {/* ================= CÂU HỎI 2 ================= */}
+          <div className="flex min-h-[245px] min-w-0 flex-col">
+            <h2
+              className="
+                min-h-[72px]
+                font-display
+                text-[clamp(20px,1.8vw,27px)]
+                font-bold
+                leading-[1.28]
+                text-[white]
+              "
+            >
+              {tr("Miten olet kasvanut ja muuttunut ihmisenä vastoinkäymisten seurauksena?")}
+            </h2>
+
+            <div
+              className="
+                relative
+                mt-4
+                min-h-[155px]
+                flex-1
+                overflow-hidden
+                rounded-[18px]
+                border-2
+                border-[#e8e0f1]
+                bg-[#fcfbfe]
+                shadow-[0_5px_0_#e2d8ed]
+
+                focus-within:border-[#cdbce3]
+                focus-within:bg-white
+
+                [&_label]:hidden
+
+                [&>div]:h-full
+                [&>div]:min-h-0
+
+                [&_div]:border-0
+                [&_div]:bg-transparent
+                [&_div]:p-0
+                [&_div]:shadow-none
+
+                [&_textarea]:h-full
+                [&_textarea]:min-h-[155px]
+                [&_textarea]:w-full
+                [&_textarea]:resize-none
+                [&_textarea]:rounded-[18px]
+                [&_textarea]:border-0
+                [&_textarea]:bg-transparent
+                [&_textarea]:px-5
+                [&_textarea]:py-4
+                [&_textarea]:text-[17px]
+                [&_textarea]:leading-[1.55]
+                [&_textarea]:text-[#241b3f]
+                [&_textarea]:outline-none
+                [&_textarea]:shadow-none
+                [&_textarea]:ring-0
+                [&_textarea]:placeholder:text-[#aaa1b5]
+
+                [&_textarea:focus]:outline-none
+                [&_textarea:focus]:ring-0
+              "
+            >
+              <ReflectionTextarea
+                fieldKey="screen_17_kasvu"
+                label=""
+                rows={6}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* =====================================================
+            CÂU HỎI PHÍA DƯỚI
+        ====================================================== */}
+        <div
+          className="
+            relative
+            z-20
+            mt-14
+            max-w-[1120px]
+          "
+        >
+          <h2
+            className="
+              font-display
+              text-[clamp(20px,1.8vw,27px)]
+              font-bold
+              leading-[1.38]
+              text-[white]
+            "
+          >
+            {tr(
+              "Mitä sinulle läheinen ihminen, joka tuntee sinut hyvin, sanoisi vahvuuksistasi ja resursseistasi, joilla pärjäät tulevissa haasteissa?",
+            )}
+          </h2>
+
+          <div
+            className="
+              relative
+              mt-5
+              min-h-[150px]
+              w-full
+              overflow-hidden
+              rounded-[18px]
+              border-2
+              border-[#e8e0f1]
+              bg-[#fcfbfe]
+              shadow-[0_5px_0_#e2d8ed]
+
+              focus-within:border-[#cdbce3]
+              focus-within:bg-white
+
+              [&_label]:hidden
+
+              [&>div]:h-full
+              [&>div]:min-h-0
+
+              [&_div]:border-0
+              [&_div]:bg-transparent
+              [&_div]:p-0
+              [&_div]:shadow-none
+
+              [&_textarea]:h-full
+              [&_textarea]:min-h-[150px]
+              [&_textarea]:w-full
+              [&_textarea]:resize-none
+              [&_textarea]:rounded-[18px]
+              [&_textarea]:border-0
+              [&_textarea]:bg-transparent
+              [&_textarea]:px-5
+              [&_textarea]:py-4
+              [&_textarea]:text-[17px]
+              [&_textarea]:leading-[1.55]
+              [&_textarea]:text-[#241b3f]
+              [&_textarea]:outline-none
+              [&_textarea]:shadow-none
+              [&_textarea]:ring-0
+              [&_textarea]:placeholder:text-[#aaa1b5]
+
+              [&_textarea:focus]:outline-none
+              [&_textarea:focus]:ring-0
+            "
+          >
+            <ReflectionTextarea
+              fieldKey="screen_17_laheinen"
+              label=""
+              rows={5}
+              onSaveStateChange={onSaveStateChange}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -615,25 +3164,237 @@ function S17({ onSaveStateChange }: Props) {
 function S18({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s18-h">
-        <h1 className="font-display text-2xl mb-2">{tr("Vahvuuksien käyttökielto")}</h1>
-        <p className="text-sm">
-          {tr("Mieti tilannetta, jossa ydinvahvuutesi laitetaan seuraavaksi kuukaudeksi käyttökieltoon.")}
-        </p>
-      </StickyNote>
-      <ReflectionTextarea
-        fieldKey="screen_18_tunne"
-        label={tr("Miltä tämä tuntuisi?")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_18_vaikutus"
-        label={tr("Miten tämä vaikuttaisi arkeesi, entä opintoihin?")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[760px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[9%]
+          pb-20
+          pt-16
+        "
+      >
+        {/* ================= ILLUSTRATION LON NƯỚC ================= */}
+        <img
+          src="/illustrations/s18-can.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            right-[2%]
+            top-[28px]
+            z-10
+            h-[305px]
+            w-auto
+            max-w-[23%]
+            object-contain
+          "
+        />
+
+        {/* ================= PHẦN TIÊU ĐỀ ================= */}
+        <div className="relative z-20 max-w-[1100px]">
+          <h1
+            className="
+              font-display
+              text-[clamp(38px,3.4vw,54px)]
+              font-bold
+              leading-[1.08]
+              text-white
+            "
+          >
+            Vahvuuksien käyttökielto
+          </h1>
+
+          <p
+            className="
+              mt-12
+              max-w-[1050px]
+              font-display
+              text-[clamp(20px,1.65vw,27px)]
+              font-bold
+              leading-[1.35]
+              text-white
+            "
+          >
+            {tr("Kuvittele tilanne, jossa ydinvahvuutesi on kielletty seuraavaksi kuukaudeksi.")}
+          </p>
+        </div>
+
+        {/* ================= HAI CÂU HỎI ================= */}
+        <div
+          className="
+            relative
+            z-20
+            mt-7
+            grid
+            grid-cols-1
+            gap-x-12
+            gap-y-12
+            pr-[6%]
+            md:grid-cols-2
+          "
+        >
+          {/* ================= CÂU HỎI 1 ================= */}
+          <div className="flex min-h-[450px] min-w-0 flex-col">
+            <h2
+              className="
+                min-h-[52px]
+                font-display
+                text-[clamp(21px,1.8vw,28px)]
+                font-bold
+                leading-[1.3]
+                text-[white]
+              "
+            >
+              {tr("Miltä se tuntuisi? Miten se vaikuttaisi arkeesi – ja opiskeluusi?")}
+            </h2>
+
+            <div
+              className="
+                relative
+                mt-5
+                min-h-[350px]
+                flex-1
+                overflow-hidden
+                rounded-[18px]
+                border-2
+                border-[#e7def1]
+                bg-[#fcfbfe]
+                shadow-[0_5px_0_#e2d8ed]
+
+                focus-within:border-[#cdbce3]
+                focus-within:bg-white
+
+                [&_label]:hidden
+
+                [&>div]:h-full
+                [&>div]:min-h-0
+
+                [&_div]:border-0
+                [&_div]:bg-transparent
+                [&_div]:p-0
+                [&_div]:shadow-none
+
+                [&_textarea]:h-full
+                [&_textarea]:min-h-[350px]
+                [&_textarea]:w-full
+                [&_textarea]:resize-none
+                [&_textarea]:rounded-[18px]
+                [&_textarea]:border-0
+                [&_textarea]:bg-transparent
+                [&_textarea]:px-5
+                [&_textarea]:py-4
+                [&_textarea]:text-[17px]
+                [&_textarea]:leading-[1.55]
+                [&_textarea]:text-[#241b3f]
+                [&_textarea]:outline-none
+                [&_textarea]:shadow-none
+                [&_textarea]:ring-0
+                [&_textarea]:placeholder:text-[#aaa1b5]
+
+                [&_textarea:focus]:outline-none
+                [&_textarea:focus]:ring-0
+              "
+            >
+              <ReflectionTextarea
+                fieldKey="screen_18_tunne"
+                label=""
+                rows={12}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </div>
+
+          {/* ================= CÂU HỎI 2 ================= */}
+          <div className="flex min-h-[300px] min-w-0 flex-col">
+            <h2
+              className="
+                min-h-[72px]
+                font-display
+                text-[clamp(21px,1.8vw,28px)]
+                font-bold
+                leading-[1.3]
+                text-[white]
+              "
+            >
+              Miten tämä vaikuttaisi arkeesi,
+              <br />
+              entä opintoihin?
+            </h2>
+
+            <div
+              className="
+                relative
+                mt-5
+                min-h-[350px]
+                flex-1
+                overflow-hidden
+                rounded-[18px]
+                border-2
+                border-[#e7def1]
+                bg-[#fcfbfe]
+                shadow-[0_5px_0_#e2d8ed]
+
+                focus-within:border-[#cdbce3]
+                focus-within:bg-white
+
+                [&_label]:hidden
+
+                [&>div]:h-full
+                [&>div]:min-h-0
+
+                [&_div]:border-0
+                [&_div]:bg-transparent
+                [&_div]:p-0
+                [&_div]:shadow-none
+
+                [&_textarea]:h-full
+                [&_textarea]:min-h-[350px]
+                [&_textarea]:w-full
+                [&_textarea]:resize-none
+                [&_textarea]:rounded-[18px]
+                [&_textarea]:border-0
+                [&_textarea]:bg-transparent
+                [&_textarea]:px-5
+                [&_textarea]:py-4
+                [&_textarea]:text-[17px]
+                [&_textarea]:leading-[1.55]
+                [&_textarea]:text-[#241b3f]
+                [&_textarea]:outline-none
+                [&_textarea]:shadow-none
+                [&_textarea]:ring-0
+                [&_textarea]:placeholder:text-[#aaa1b5]
+
+                [&_textarea:focus]:outline-none
+                [&_textarea:focus]:ring-0
+              "
+            >
+              <ReflectionTextarea
+                fieldKey="screen_18_vaikutus"
+                label=""
+                rows={12}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -642,266 +3403,1917 @@ function S18({ onSaveStateChange }: Props) {
 function S19() {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s19-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Idea: Vahvuusjulisteet")}</h1>
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.")}
-        </p>
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?")}
-        </p>
-        <p className="text-sm leading-relaxed">
-          {tr("Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat mukanasi päivittäin lukioon.")}
-        </p>
-      </StickyNote>
-      <StickyNote tone="white" seed="s19-karin">
-        <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">
-          {tr("Esimerkki")} — KARIN
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-hidden
+        text-white
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          h-full
+          min-h-0
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[7.5%]
+          pb-8
+          pt-8
+        "
+      >
+        <div
+          className="
+            relative
+            z-20
+            grid
+            h-full
+            min-h-0
+            grid-cols-1
+            gap-x-10
+            gap-y-10
+            lg:grid-cols-[46%_54%]
+          "
+        >
+          {/* CỘT TRÁI */}
+          <div className="min-w-0 pt-10 lg:pr-6">
+            <h1
+              className="
+                max-w-[600px]
+                font-display
+                text-[clamp(36px,2.8vw,48px)]
+                font-medium
+                leading-[1.08]
+                tracking-[-0.5px]
+                text-white
+              "
+            >
+              {tr(
+                "Idé: Vahvuusjulisteet – Jokainen opiskelija tekee julisteen itsestään ja ydinvahvuuksistaan – omalla valokuvalla ja viidellä ydinvahvuudella.",
+              )}
+            </h1>
+
+            <div
+              className="
+                mt-9
+                max-w-[565px]
+                space-y-8
+                font-display
+                text-[clamp(18px,1.35vw,23px)]
+                font-semibold
+                leading-[1.42]
+                text-white
+              "
+            >
+              <p>
+                Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma
+                kuva ja viisi ydinvahvuutta.
+              </p>
+
+              <p>
+                Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla
+                tavalla?
+              </p>
+
+              <p>
+                Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat
+                mukanasi päivittäin lukioon.
+              </p>
+            </div>
+          </div>
+
+          {/* CỘT PHẢI */}
+          <div
+            className="
+              relative
+              min-h-0
+              min-w-0
+              overflow-hidden
+            "
+          >
+            <img
+              src="/illustrations/s19-karin-poster.png"
+              alt="Esimerkki Karin vahvuusjulisteesta"
+              className="
+    pointer-events-none
+    absolute
+    bottom-[12px]
+    right-[3%]
+    z-20
+    block
+    h-[560px]
+    w-auto
+    max-w-[88%]
+    object-contain
+    object-bottom
+  "
+            />
+          </div>
         </div>
-        <ul className="space-y-2 text-sm leading-snug">
-          <li>
-            <strong>{tr("SINNIKKYYS")}</strong>
-            <ul className="ml-5 list-disc opacity-90">
-              <li>{tr("säästämisessä")}</li>
-              <li>{tr("kokeisiin lukemisessa")}</li>
-              <li>{tr("treeneissä")}</li>
-            </ul>
-          </li>
-          <li>
-            <strong>{tr("YSTÄVÄLLISYYS")}</strong>
-            <ul className="ml-5 list-disc opacity-90">
-              <li>{tr("ystävällisyys tuntuu hyvältä")}</li>
-              <li>{tr("sanon jos jonkun (Sannin) naamassa on räkää.")}</li>
-            </ul>
-          </li>
-          <li>
-            <strong>{tr("REILUUS")}</strong>
-            <ul className="ml-5 list-disc opacity-90">
-              <li>{tr("tiimipeluri")}</li>
-              <li>{tr("tasa-arvo")}</li>
-              <li>{tr("lojaali")}</li>
-            </ul>
-          </li>
-          <li>
-            <strong>{tr("HUUMORINTAJU")}</strong>
-            <ul className="ml-5 list-disc opacity-90">
-              <li>{tr("nauru pidentää ikää!")}</li>
-              <li>{tr("asiat ei oo aina niin vakavia")}</li>
-            </ul>
-          </li>
-          <li>
-            <strong>{tr("MYÖTÄTUNTO")}</strong>
-            <ul className="ml-5 list-disc opacity-90">
-              <li>{tr("eläinsuojelutyö")}</li>
-              <li>{tr("oikeuksien puolustaja")}</li>
-            </ul>
-          </li>
-        </ul>
-      </StickyNote>
+      </div>
     </div>
   );
 }
 
 // ----- S20 (PDF p25): Muistele onnistumista -----
 function S20({ onSaveStateChange }: Props) {
-  const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s20-h">
-        <h1 className="font-display text-2xl">{tr("Muistele onnistumista")}</h1>
-      </StickyNote>
-      <ReflectionTextarea
-        fieldKey="screen_20_onnistuminen"
-        label={tr("Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa. Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait toisilta? Mikä siinä oli sinulle tärkeää?")}
-        rows={5}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_20_ydinvahvuudet"
-        label={tr("Mitä tämä onnistuminen kertoo ydinvahvuuksistasi: mitä omia ydinvahvuuksia käyttämällä onnistuit?")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_20_tuki"
-        label={tr("Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki.")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_20_yhteinen"
-        label={tr("Mitä yhteistä hyvää vahvuutesi edistivät, miten?")}
-        rows={3}
-        onSaveStateChange={onSaveStateChange}
-      />
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[5.5%]
+        pb-16
+        pt-10
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          KHUNG TRẮNG CHÍNH
+      ====================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[720px]
+          w-full
+          max-w-[1420px]
+          rounded-[54px]
+          bg-[white]
+          px-[6%]
+          pb-16
+          pt-12
+          text-white
+          shadow-[0_8px_24px_rgba(44,27,78,0.08)]
+        "
+      >
+        {/* =====================================================
+            TIÊU ĐỀ
+        ====================================================== */}
+        <h1
+          className="
+            font-display
+            text-[clamp(36px,3vw,52px)]
+            font-bold
+            leading-[1.08]
+            text-black
+          "
+        >
+          Muistele onnistumista
+        </h1>
+
+        {/* =====================================================
+            DANH SÁCH CÂU HỎI
+        ====================================================== */}
+        <div className="mt-10 space-y-8">
+          {/* =================================================
+              CÂU HỎI 1
+          ================================================== */}
+          <section className="grid grid-cols-[16px_1fr] gap-x-4">
+            {/* Chấm vàng */}
+            <span
+              aria-hidden="true"
+              className="
+                mt-[12px]
+                h-[9px]
+                w-[9px]
+                rounded-full
+                bg-[#ffc936]
+              "
+            />
+
+            <div className="min-w-0">
+              <p
+                className="
+                  max-w-[1200px]
+                  text-[clamp(18px,1.45vw,25px)]
+                  font-normal
+                  leading-[1.4]
+                  text-[white]
+                "
+              >
+                Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet
+                ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa.{" "}
+                <strong className="font-bold">
+                  Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait
+                  toisilta? Mikä siinä oli sinulle tärkeää?
+                </strong>
+              </p>
+
+              {/* Vùng nhập câu trả lời */}
+              <div
+                className="
+                  mt-3
+                  min-h-[88px]
+                  w-full
+                  overflow-hidden
+                  rounded-[14px]
+                  border-2
+                  border-transparent
+                  bg-transparent
+
+                  focus-within:border-[#ddd2ec]
+                  focus-within:bg-[#fbf9fe]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[88px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[12px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[17px]
+                  [&_textarea]:leading-[1.55]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea]:placeholder:text-[#aaa1b5]
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey="screen_20_onnistuminen"
+                  label=""
+                  rows={4}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              CÂU HỎI 2
+          ================================================== */}
+          <section className="grid grid-cols-[16px_1fr] gap-x-4">
+            <span
+              aria-hidden="true"
+              className="
+                mt-[12px]
+                h-[9px]
+                w-[9px]
+                rounded-full
+                bg-[#ffc936]
+              "
+            />
+
+            <div className="min-w-0">
+              <p
+                className="
+                  max-w-[1180px]
+                  text-[clamp(18px,1.45vw,25px)]
+                  font-normal
+                  leading-[1.4]
+                  text-[#171717]
+                "
+              >
+                Mitä tämä onnistuminen kertoo{" "}
+                <strong className="font-bold">ydinvahvuuksistasi:</strong> mitä omia ydinvahvuuksia
+                käyttämällä onnistuit?
+              </p>
+
+              <div
+                className="
+                  mt-3
+                  min-h-[78px]
+                  w-full
+                  overflow-hidden
+                  rounded-[14px]
+                  border-2
+                  border-transparent
+                  bg-transparent
+
+                  focus-within:border-[#ddd2ec]
+                  focus-within:bg-[#fbf9fe]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[78px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[12px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[17px]
+                  [&_textarea]:leading-[1.55]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey="screen_20_ydinvahvuudet"
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              CÂU HỎI 3
+          ================================================== */}
+          <section className="grid grid-cols-[16px_1fr] gap-x-4">
+            <span
+              aria-hidden="true"
+              className="
+                mt-[12px]
+                h-[9px]
+                w-[9px]
+                rounded-full
+                bg-[#ffc936]
+              "
+            />
+
+            <div className="min-w-0">
+              <p
+                className="
+                  max-w-[1200px]
+                  text-[clamp(18px,1.45vw,25px)]
+                  font-normal
+                  leading-[1.4]
+                  text-[#171717]
+                "
+              >
+                Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi
+                hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki.
+              </p>
+
+              <div
+                className="
+                  mt-3
+                  min-h-[78px]
+                  w-full
+                  overflow-hidden
+                  rounded-[14px]
+                  border-2
+                  border-transparent
+                  bg-transparent
+
+                  focus-within:border-[#ddd2ec]
+                  focus-within:bg-[#fbf9fe]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[78px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[12px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[17px]
+                  [&_textarea]:leading-[1.55]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey="screen_20_tuki"
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              CÂU HỎI 4
+          ================================================== */}
+          <section className="grid grid-cols-[16px_1fr] gap-x-4">
+            <span
+              aria-hidden="true"
+              className="
+                mt-[12px]
+                h-[9px]
+                w-[9px]
+                rounded-full
+                bg-[#ffc936]
+              "
+            />
+
+            <div className="min-w-0">
+              <p
+                className="
+                  max-w-[1100px]
+                  text-[clamp(18px,1.45vw,25px)]
+                  font-normal
+                  leading-[1.4]
+                  text-[#171717]
+                "
+              >
+                Mitä yhteistä hyvää vahvuutesi edistivät, miten?
+              </p>
+
+              <div
+                className="
+                  mt-3
+                  min-h-[68px]
+                  w-full
+                  overflow-hidden
+                  rounded-[14px]
+                  border-2
+                  border-transparent
+                  bg-transparent
+
+                  focus-within:border-[#ddd2ec]
+                  focus-within:bg-[#fbf9fe]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[68px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[12px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[17px]
+                  [&_textarea]:leading-[1.55]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey="screen_20_yhteinen"
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
 
 // ----- S21 (PDF p26): Pohdi onnistumisia ja täydennä! -----
+const PAGE_PURPLE = "#7654ad";
+const PAGE_CORAL = "#ef6f70";
+const PAGE_YELLOW = "#ffd85d";
+const PAGE_MINT = "#acd9dc";
+const PAPER_SHADOW = "rgba(48, 27, 74, 0.55)";
+
+function WorkbookLogo({ dark = true }: { dark?: boolean }) {
+  return (
+    <img
+      src="/illustrations/huomaa-hyva-logo.png"
+      alt="Huomaa hyvä"
+      className={cn(
+        "pointer-events-none absolute bottom-[24px] right-[28px] z-40 h-auto w-[118px] object-contain",
+        !dark && "brightness-0 invert",
+      )}
+    />
+  );
+}
+
+function WorkbookCornerShapes({
+  top = "coral",
+  right = "yellow",
+  bottomLeft = "mint",
+  bottomRight = "mint",
+}: {
+  top?: "coral" | "mint" | "none";
+  right?: "yellow" | "mint" | "none";
+  bottomLeft?: "mint" | "yellow" | "none";
+  bottomRight?: "mint" | "yellow" | "none";
+}) {
+  const color = {
+    coral: PAGE_CORAL,
+    yellow: PAGE_YELLOW,
+    mint: PAGE_MINT,
+    none: "transparent",
+  } as const;
+
+  return (
+    <>
+      {top !== "none" && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[5%] top-[-92px] z-0 h-[142px] w-[190px] rounded-b-full"
+          style={{ backgroundColor: color[top] }}
+        />
+      )}
+
+      {right !== "none" && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[-72px] top-[145px] z-0 h-[185px] w-[170px] rotate-[14deg] rounded-[28px]"
+          style={{ backgroundColor: color[right] }}
+        />
+      )}
+
+      {bottomLeft !== "none" && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[-96px] left-[-62px] z-0 h-[185px] w-[290px] rotate-[15deg] rounded-[38px]"
+          style={{ backgroundColor: color[bottomLeft] }}
+        />
+      )}
+
+      {bottomRight !== "none" && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[-104px] right-[-48px] z-0 h-[195px] w-[270px] -rotate-[8deg] rounded-[38px]"
+          style={{ backgroundColor: color[bottomRight] }}
+        />
+      )}
+    </>
+  );
+}
+
+function FlatReflectionTextarea({
+  fieldKey,
+  rows = 4,
+  onSaveStateChange,
+  minHeight = 130,
+  textClass = "text-[16px]",
+}: {
+  fieldKey: string;
+  rows?: number;
+  onSaveStateChange?: (s: SaveState) => void;
+  minHeight?: number;
+  textClass?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "h-full min-h-0 w-full",
+        "[&_label]:hidden [&>div]:h-full [&>div]:min-h-0",
+        "[&_div]:border-0 [&_div]:bg-transparent [&_div]:p-0 [&_div]:shadow-none",
+        "[&_textarea]:h-full [&_textarea]:w-full [&_textarea]:resize-none",
+        "[&_textarea]:rounded-none [&_textarea]:border-0 [&_textarea]:bg-transparent",
+        "[&_textarea]:px-4 [&_textarea]:py-3 [&_textarea]:leading-[1.45]",
+        "[&_textarea]:text-[#241b3f] [&_textarea]:outline-none [&_textarea]:shadow-none [&_textarea]:ring-0",
+        "[&_textarea:focus]:outline-none [&_textarea:focus]:ring-0",
+        textClass,
+      )}
+      style={{ minHeight }}
+    >
+      <ReflectionTextarea
+        fieldKey={fieldKey}
+        label=""
+        rows={rows}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
+function IrregularPaper({
+  children,
+  className,
+  rotate = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  rotate?: number;
+}) {
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden bg-[#fffefe]",
+        "shadow-[0_10px_0_var(--paper-shadow)]",
+        className,
+      )}
+      style={
+        {
+          "--paper-shadow": PAPER_SHADOW,
+          transform: `rotate(${rotate}deg)`,
+          borderRadius: "12% 4% 11% 5% / 8% 6% 10% 6%",
+        } as CSSProperties
+      }
+    >
+      {children}
+    </div>
+  );
+}
+
+// ============================================================
+// S21 — PDF page 27: Pohdi onnistumisia ja täydennä!
+// ============================================================
 function S21({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const stems: Array<{ k: string; label: string }> = [
-    { k: "screen_21_ylpea",     label: "Tästä onnistumisesta olen ylpeä" },
-    { k: "screen_21_sinnikas",  label: "Olin sinnikäs kun" },
-    { k: "screen_21_kehut",     label: "Sain kehuja ja kannustusta seuraavista asioista" },
-    { k: "screen_21_rohkea",    label: "Olin rohkea kohdatessani tämän uuden haasteen" },
-    { k: "screen_21_tavoite",   label: "Saavutin tämän tärkeän tavoitteen" },
-    { k: "screen_21_tunne",     label: "Minusta tuntuu tällä hetkellä tältä, kun muistelen kokemaani" },
-    { k: "screen_21_vahvuudet", label: "Tunnistin nämä vahvuudet jotka mahdollistivat onnistumisen" },
-    { k: "screen_21_uudet",     label: "Löysin itsestäni tilanteessa uusia tai yllättäviä puolia" },
+  const notes = [
+    {
+      fieldKey: "screen_21_ylpea",
+      label: "Tästä onnistumisesta olen ylpeä",
+      rotate: -2.2,
+      gridClass: "lg:col-start-2 lg:row-start-1",
+    },
+    {
+      fieldKey: "screen_21_sinnikas",
+      label: "Olin sinnikäs kun",
+      rotate: -0.8,
+      gridClass: "lg:col-start-3 lg:row-start-1",
+    },
+    {
+      fieldKey: "screen_21_kehut",
+      label: "Sain kehuja ja kannustusta seuraavista asioista",
+      rotate: 1.2,
+      gridClass: "lg:col-start-4 lg:row-start-1",
+    },
+    {
+      fieldKey: "screen_21_rohkea",
+      label: "Olin rohkea kohdatessani tämän uuden haasteen",
+      rotate: -1.3,
+      gridClass: "lg:col-start-2 lg:row-start-2",
+    },
+    {
+      fieldKey: "screen_21_tavoite",
+      label: "Saavutin tämän tärkeän tavoitteen",
+      rotate: 0.8,
+      gridClass: "lg:col-start-3 lg:row-start-2",
+    },
+    {
+      fieldKey: "screen_21_tunne",
+      label: "Minusta tuntuu tällä hetkellä tältä, kun muistelen kokemaani",
+      rotate: -1.1,
+      gridClass: "lg:col-start-4 lg:row-start-2",
+    },
+    {
+      fieldKey: "screen_21_vahvuudet",
+      label: "Tunnistin nämä vahvuudet, jotka mahdollistivat onnistumisen",
+      rotate: -0.5,
+      gridClass: "lg:col-start-2 lg:row-start-3",
+    },
+    {
+      fieldKey: "screen_21_uudet",
+      label: "Löysin itsestäni tilanteessa uusia tai yllättäviä puolia",
+      rotate: 0.9,
+      gridClass: "lg:col-start-3 lg:row-start-3",
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s21-h">
-        <h1 className="font-display text-2xl">{tr("Pohdi onnistumisia ja täydennä!")}</h1>
-      </StickyNote>
-      <div className="grid gap-3">
-        {stems.map((s) => (
-          <ReflectionTextarea
-            key={s.k}
-            fieldKey={s.k}
-            label={tr(s.label)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* Nội dung cao hơn màn hình để scrollbar hoạt động */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[1180px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[5%]
+          pb-28
+          pt-16
+        "
+      >
+        {/* =====================================================
+            GRID CHÍNH
+
+            Desktop:
+            - Cột 1: tiêu đề
+            - Cột 2–4: các box
+            - gap-x: khoảng cách ngang
+            - gap-y: khoảng cách dọc
+        ====================================================== */}
+        <div
+          className="
+            relative
+            z-20
+            grid
+            grid-cols-1
+            gap-x-12
+            gap-y-16
+
+            md:grid-cols-2
+
+            lg:grid-cols-[25%_1fr_1fr_1fr]
+            lg:grid-rows-[270px_270px_270px]
+            lg:gap-x-10
+            lg:gap-y-20
+          "
+        >
+          {/* =================================================
+              TIÊU ĐỀ
+          ================================================== */}
+          <div
+            className="
+              relative
+              z-30
+              min-w-0
+              pt-8
+
+              md:col-span-2
+
+              lg:col-span-1
+              lg:col-start-1
+              lg:row-span-2
+              lg:row-start-1
+              lg:pr-8
+              lg:pt-12
+            "
+          >
+            {tr("Pohdi onnistumisia ja täytä!")}
+          </div>
+
+          {/* =================================================
+              8 BOX NHẬP LIỆU
+          ================================================== */}
+          {notes.map((note) => (
+            <IrregularPaper
+              key={note.fieldKey}
+              rotate={note.rotate}
+              className={cn(
+                `
+                  relative
+                  z-20
+                  flex
+                  h-[250px]
+                  min-w-0
+                  flex-col
+                  overflow-hidden
+                  px-4
+                  pb-4
+                  pt-3
+                  text-black
+                  shadow-[0_10px_0_rgba(59,35,82,0.72)]
+
+                  md:h-[260px]
+
+                  lg:h-full
+                  lg:min-h-[270px]
+                `,
+                note.gridClass,
+              )}
+            >
+              {/* Tiêu đề của box */}
+              <p
+                className="
+                  relative
+                  z-20
+                  mx-auto
+                  flex
+                  min-h-[44px]
+                  max-w-[95%]
+                  shrink-0
+                  items-start
+                  justify-center
+                  text-center
+                  font-display
+                  text-[14px]
+                  font-bold
+                  leading-[1.25]
+                  text-black
+                "
+              >
+                {tr(note.label)}
+              </p>
+
+              {/* Khu vực nhập câu trả lời */}
+              <div
+                className="
+                  relative
+                  z-10
+                  mt-2
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[16px]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-0
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[16px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-3
+                  [&_textarea]:py-2
+                  [&_textarea]:text-[15px]
+                  [&_textarea]:leading-[30px]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea]:placeholder:text-[#aaa1b5]
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                {/* Dòng kẻ trong vùng nhập */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-x-3
+                    inset-y-2
+                    opacity-65
+                    [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                  "
+                />
+
+                <div className="relative z-10 h-full">
+                  <FlatReflectionTextarea
+                    fieldKey={note.fieldKey}
+                    rows={6}
+                    minHeight={155}
+                    textClass="text-[15px]"
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            </IrregularPaper>
+          ))}
+
+          {/* Khoảng trống hàng cuối bên phải để giống bố cục design */}
+          <div
+            aria-hidden="true"
+            className="
+              hidden
+              lg:col-start-4
+              lg:row-start-3
+              lg:block
+            "
           />
-        ))}
+        </div>
+
+        {/* Logo góc dưới phải */}
       </div>
     </div>
   );
 }
 
-// ----- S22 (PDF p27): Tulevaisuuden muistelu -----
+// ============================================================
+// S22 — PDF page 28: Tulevaisuuden muistelu
+// ============================================================
 function S22({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s22-h">
-        <h1 className="font-display text-2xl">{tr("Tulevaisuuden muistelu")}</h1>
-      </StickyNote>
-      <ReflectionTextarea
-        fieldKey="screen_22_tulevaisuus"
-        label={tr("Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit lähitulevaisuudessa hyödyntää vahvuuksiasi? Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt vahvuuksiasi tietoisemmin?")}
-        rows={5}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <ReflectionTextarea
-        fieldKey="screen_22_oppi"
-        label={tr("Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit niitä liikaa? Mitä tämä tilanne opetti sinulle?")}
-        rows={4}
-        onSaveStateChange={onSaveStateChange}
-      />
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+     
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          KHUNG TOÀN TRANG
+      ====================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[900px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[5.5%]
+          pb-20
+          pt-16
+        "
+      >
+        {/* =====================================================
+            KHUNG TRẮNG CHÍNH
+        ====================================================== */}
+        <div
+          className="
+            relative
+            z-10
+            min-h-[790px]
+            rounded-[62px]
+            
+            px-[5.5%]
+            pb-16
+            pt-12
+            text-white
+          "
+        >
+          {/* =================================================
+              TIÊU ĐỀ
+          ================================================== */}
+          <h1
+            className="
+              max-w-[800px]
+              font-display
+              text-[clamp(34px,2.6vw,48px)]
+              font-bold
+              leading-[1.05]
+              text-yellow
+            "
+          >
+            {tr(
+              "Tulevaisuusmuisto – Mieti opiskelussasi tai vapaa-ajalla tilannetta, jossa voit lähitulevaisuudessa käyttää vahvuuksiasi.",
+            )}
+          </h1>
+
+          {/* =================================================
+              CÁC CÂU HỎI
+          ================================================== */}
+          <div className="mt-10 space-y-16">
+            {/* =================================================
+                CÂU HỎI 1
+            ================================================== */}
+            <section
+              className="
+                grid
+                grid-cols-[12px_minmax(0,1fr)]
+                items-start
+                gap-x-4
+              "
+            >
+              {/* Chấm vàng */}
+              <span
+                aria-hidden="true"
+                className="
+                  mt-[10px]
+                  h-[8px]
+                  w-[8px]
+                  rounded-full
+                  bg-[#ffc936]
+                "
+              />
+
+              <div className="min-w-0">
+                {/* Chừa không gian bên phải cho illustration */}
+                <div className="pr-[28%]">
+                  <p
+                    className="
+                      max-w-[820px]
+                      text-[clamp(17px,1.25vw,22px)]
+                      leading-[1.42]
+                      text-white
+                    "
+                  >
+                    Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit
+                    lähitulevaisuudessa hyödyntää vahvuuksiasi?{" "}
+                    <strong>
+                      Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt
+                      vahvuuksiasi tietoisemmin?
+                    </strong>
+                  </p>
+                </div>
+
+                {/* =============================================
+                    TEXTBOX 1
+                ============================================== */}
+                <div
+                  className="
+                    relative
+                    mt-6
+                    min-h-[190px]
+                    w-full
+                    overflow-hidden
+                    rounded-[18px]
+                    border-2
+                    border-[#cfc2df]
+                    bg-[#fffefa]
+                    shadow-[0_6px_0_#4f267d]
+
+                    focus-within:border-[#ac98ca]
+                    focus-within:bg-white
+                  "
+                >
+                  {/* Dòng kẻ chỉ nằm trong textbox */}
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-x-5
+                      inset-y-4
+                      z-0
+                      opacity-65
+                      [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                    "
+                  />
+
+                  {/* FlatReflectionTextarea */}
+                  <div
+                    className="
+                      relative
+                      z-10
+                      h-full
+                      min-h-[190px]
+
+                      [&_label]:hidden
+
+                      [&>div]:h-full
+                      [&>div]:min-h-0
+                      [&>div]:border-0
+                      [&>div]:bg-transparent
+                      [&>div]:p-0
+                      [&>div]:shadow-none
+
+                      [&_textarea]:h-full
+                      [&_textarea]:min-h-[190px]
+                      [&_textarea]:w-full
+                      [&_textarea]:resize-none
+                      [&_textarea]:rounded-[16px]
+                      [&_textarea]:border-0
+                      [&_textarea]:bg-transparent
+                      [&_textarea]:px-5
+                      [&_textarea]:py-4
+                      [&_textarea]:text-[16px]
+                      [&_textarea]:leading-[30px]
+                      [&_textarea]:text-[#241b3f]
+                      [&_textarea]:outline-none
+                      [&_textarea]:shadow-none
+                      [&_textarea]:ring-0
+                      [&_textarea]:placeholder:text-[#aaa1b5]
+
+                      [&_textarea:focus]:outline-none
+                      [&_textarea:focus]:ring-0
+                    "
+                  >
+                    <FlatReflectionTextarea
+                      fieldKey="screen_22_tulevaisuus"
+                      rows={6}
+                      minHeight={190}
+                      onSaveStateChange={onSaveStateChange}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* =================================================
+                CÂU HỎI 2
+            ================================================== */}
+            <section
+              className="
+                grid
+                grid-cols-[12px_minmax(0,1fr)]
+                items-start
+                gap-x-4
+              "
+            >
+              {/* Chấm vàng */}
+              <span
+                aria-hidden="true"
+                className="
+                  mt-[10px]
+                  h-[8px]
+                  w-[8px]
+                  rounded-full
+                  bg-[#ffc936]
+                "
+              />
+
+              <div className="min-w-0">
+                <p
+                  className="
+                    max-w-[980px]
+                    text-[clamp(17px,1.25vw,22px)]
+                    leading-[1.42]
+                    text-white
+                  "
+                >
+                  Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit
+                  niitä liikaa? <strong>Mitä tämä tilanne opetti sinulle?</strong>
+                </p>
+
+                {/* =============================================
+                    TEXTBOX 2
+                ============================================== */}
+                <div
+                  className="
+                    relative
+                    mt-6
+                    min-h-[170px]
+                    w-full
+                    overflow-hidden
+                    rounded-[18px]
+                    border-2
+                    border-[#cfc2df]
+                    bg-[#fffefa]
+                    shadow-[0_6px_0_#4f267d]
+
+                    focus-within:border-[#ac98ca]
+                    focus-within:bg-white
+                  "
+                >
+                  {/* Dòng kẻ chỉ nằm trong textbox */}
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-x-5
+                      inset-y-4
+                      z-0
+                      opacity-65
+                      [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                    "
+                  />
+
+                  {/* FlatReflectionTextarea */}
+                  <div
+                    className="
+                      relative
+                      z-10
+                      h-full
+                      min-h-[170px]
+
+                      [&_label]:hidden
+
+                      [&>div]:h-full
+                      [&>div]:min-h-0
+                      [&>div]:border-0
+                      [&>div]:bg-transparent
+                      [&>div]:p-0
+                      [&>div]:shadow-none
+
+                      [&_textarea]:h-full
+                      [&_textarea]:min-h-[170px]
+                      [&_textarea]:w-full
+                      [&_textarea]:resize-none
+                      [&_textarea]:rounded-[16px]
+                      [&_textarea]:border-0
+                      [&_textarea]:bg-transparent
+                      [&_textarea]:px-5
+                      [&_textarea]:py-4
+                      [&_textarea]:text-[16px]
+                      [&_textarea]:leading-[30px]
+                      [&_textarea]:text-[#241b3f]
+                      [&_textarea]:outline-none
+                      [&_textarea]:shadow-none
+                      [&_textarea]:ring-0
+                      [&_textarea]:placeholder:text-[#aaa1b5]
+
+                      [&_textarea:focus]:outline-none
+                      [&_textarea:focus]:ring-0
+                    "
+                  >
+                    <FlatReflectionTextarea
+                      fieldKey="screen_22_oppi"
+                      rows={5}
+                      minHeight={170}
+                      onSaveStateChange={onSaveStateChange}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* =====================================================
+            ILLUSTRATION
+        ====================================================== */}
+        <img
+          src="/illustrations/s22-future-book.png"
+          alt="Back to the Future -kirja"
+          className="
+            pointer-events-none
+            absolute
+            right-[2.5%]
+            top-[18px]
+            z-20
+            h-[305px]
+            w-auto
+            max-w-[23%]
+            object-contain
+          "
+        />
+      </div>
     </div>
   );
 }
 
-// ----- S23 (PDF p28): Ydinvahvuudet parin kanssa -----
+// ============================================================
+// S23 — PDF page 29: Ydinvahvuudet parin kanssa
+// ============================================================
 function S23({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const qs = [
-    "Mistä innostut?",
-    "Minkä tekeminen tuntuu kevyeltä?",
-    "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
-    "Mikä on parasta opinnoissa?",
-    "Mitkä asiat päätyvät love-to-do -listalle?",
-    "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
-    "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
-    "Mitä vahvuuksia arvostat eniten itsessäsi?",
-    "Mitä samoja vahvuuksia sinussa oli jo lapsena?",
-    "Mitä luonteenvahvuuksia hyödynnät eniten vapaalla?",
+  const questions = [
+    {
+      fieldKey: "screen_23_innostus",
+      text: "Mistä innostut?",
+    },
+    {
+      fieldKey: "screen_23_kevyelta",
+      text: "Minkä tekeminen tuntuu kevyeltä?",
+    },
+    {
+      fieldKey: "screen_23_palaute",
+      text: "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
+    },
+    {
+      fieldKey: "screen_23_parasta_opinnoissa",
+      text: "Mikä on parasta opinnoissa?",
+    },
+    {
+      fieldKey: "screen_23_love_to_do",
+      text: "Mitkä asiat päätyvät love-to-do -listalle?",
+    },
+    {
+      fieldKey: "screen_23_flow",
+      text: "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
+    },
+    {
+      fieldKey: "screen_23_lukioon",
+      text: "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
+    },
+    {
+      fieldKey: "screen_23_arvostat",
+      text: "Mitä vahvuuksia arvostat eniten itsessäsi?",
+    },
+    {
+      fieldKey: "screen_23_lapsena",
+      text: "Mitä samoja vahvuuksia sinussa oli jo lapsena?",
+    },
+    {
+      fieldKey: "screen_23_vapaalla",
+      text: "Mitä luonteenvahvuuksia hyödynnät eniten vapaalla?",
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s23-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Ydinvahvuudet parin kanssa")}</h1>
-        <p className="text-sm opacity-90">
-          {tr("Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja apuna keskustelussa.")}
-        </p>
-      </StickyNote>
-      <div className="grid gap-3">
-        {qs.map((q, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_23_pair_${i + 1}`}
-            label={tr(q)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+      
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          KHUNG NỘI DUNG DÀI ĐỂ CÓ SCROLLBAR
+      ====================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[2350px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[8%]
+          pb-28
+          pt-16
+        "
+      >
+        {/* =====================================================
+            TIÊU ĐỀ VÀ MÔ TẢ
+        ====================================================== */}
+        <div className="relative z-20">
+          <div className="pr-[18%]">
+            <h1
+              className="
+                font-display
+                text-[clamp(36px,3vw,52px)]
+                font-bold
+                leading-[1.05]
+                text-yellow
+              "
+            >
+              {tr(
+                "Ydinvahvuudet pareittain – Keskustele parin kanssa. Vastatkaa kysymyksiin. Käyttäkää vahvuuskarkkejanne tukena.",
+              )}
+            </h1>
+
+            <p
+              className="
+                mt-7
+                max-w-[1050px]
+                text-[clamp(17px,1.35vw,23px)]
+                font-semibold
+                leading-[1.45]
+                text-white
+              "
+            >
+              Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja apuna
+              keskustelussa.
+            </p>
+          </div>
+
+          {/* =================================================
+              ILLUSTRATION
+          ================================================== */}
+          <img
+            src="/illustrations/s23-candy-banana-shoe.png"
+            alt=""
+            aria-hidden="true"
+            className="
+    pointer-events-none
+    absolute
+    right-[1%]
+    top-[-30px]
+    z-20
+    h-[230px]
+    w-auto
+    max-w-none
+    object-contain
+  "
           />
-        ))}
+
+          {/* =================================================
+              10 CÂU HỎI
+          ================================================== */}
+          <div
+            className="
+              mt-12
+              grid
+              grid-cols-1
+              gap-x-12
+              gap-y-10
+              lg:grid-cols-2
+            "
+          >
+            {questions.map((question, index) => (
+              <section
+                key={question.fieldKey}
+                className="
+                  min-w-0
+                "
+              >
+                {/* =============================================
+                    CÂU HỎI
+                ============================================== */}
+                <div
+                  className="
+                    grid
+                    min-h-[64px]
+                    grid-cols-[10px_minmax(0,1fr)]
+                    items-start
+                    gap-x-5
+                  "
+                >
+                  <span
+                    aria-hidden="true"
+                    className="
+                      mt-[11px]
+                      h-[8px]
+                      w-[8px]
+                      rounded-full
+                      bg-[#ffc936]
+                    "
+                  />
+
+                  <h2
+                    className="
+                      text-[clamp(18px,1.4vw,24px)]
+                      font-medium
+                      leading-[1.35]
+                      text-white
+                    "
+                  >
+                    {index + 1}. {tr(question.text)}
+                  </h2>
+                </div>
+
+                {/* =============================================
+                    Ô TRẢ LỜI 6 DÒNG
+                ============================================== */}
+                <div
+                  className="
+                    relative
+                    mt-4
+                    min-h-[205px]
+                    w-full
+                    overflow-hidden
+                    rounded-[18px]
+                    border-2
+                    border-[#d7cbe7]
+                    bg-[#fffefa]
+                    shadow-[0_6px_0_rgba(68,42,105,0.18)]
+
+                    focus-within:border-[#b9a4d2]
+                    focus-within:bg-white
+                  "
+                >
+                  {/* Dòng kẻ chỉ nằm trong textbox */}
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-x-5
+                      inset-y-4
+                      z-0
+                      opacity-65
+                      [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                    "
+                  />
+
+                  {/* ReflectionTextarea */}
+                  <div
+                    className="
+                      relative
+                      z-10
+                      h-full
+                      min-h-[205px]
+
+                      [&_label]:hidden
+
+                      [&>div]:h-full
+                      [&>div]:min-h-0
+
+                      [&_div]:border-0
+                      [&_div]:bg-transparent
+                      [&_div]:p-0
+                      [&_div]:shadow-none
+
+                      [&_textarea]:h-full
+                      [&_textarea]:min-h-[205px]
+                      [&_textarea]:w-full
+                      [&_textarea]:resize-none
+                      [&_textarea]:rounded-[16px]
+                      [&_textarea]:border-0
+                      [&_textarea]:bg-transparent
+                      [&_textarea]:px-5
+                      [&_textarea]:py-4
+                      [&_textarea]:text-[16px]
+                      [&_textarea]:leading-[30px]
+                      [&_textarea]:text-[#241b3f]
+                      [&_textarea]:outline-none
+                      [&_textarea]:shadow-none
+                      [&_textarea]:ring-0
+                      [&_textarea]:placeholder:text-[#aaa1b5]
+
+                      [&_textarea:focus]:outline-none
+                      [&_textarea:focus]:ring-0
+                    "
+                  >
+                    <ReflectionTextarea
+                      fieldKey={question.fieldKey}
+                      label=""
+                      rows={6}
+                      onSaveStateChange={onSaveStateChange}
+                    />
+                  </div>
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+
+        {/* =====================================================
+            LOGO
+        ====================================================== */}
       </div>
     </div>
   );
 }
 
-// ----- S24 (PDF p29–30): Anna palautetta ja kehuja -----
+// ============================================================
+// S24 — PDF page 30: Anna palautetta ja kehuja
+// ============================================================
 function S24({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const stems = [
-    "Sinun vahvuuksiasi ovat ainakin…",
-    "Tämä oli tärkeää kuulla, koska…",
-    "WAU, OPIN ETTÄ…",
+  const bubbles = [
+    {
+      key: "screen_24_palaute_1",
+      label: "KERRO LISÄÄ!",
+      rotateClass: "-rotate-[2deg]",
+    },
+    {
+      key: "screen_24_palaute_2",
+      label: "TARKOITATKO ETTÄ…",
+      rotateClass: "rotate-[1.5deg]",
+    },
+    {
+      key: "screen_24_palaute_3",
+      label: "OLEN YLPEÄ SINUSTA, KOSKA…",
+      rotateClass: "-rotate-[1deg]",
+    },
+    {
+      key: "screen_24_palaute_4",
+      label: "SINUN VAHVUUKSIASI OVAT AINAKIN…",
+      rotateClass: "rotate-[1.5deg]",
+    },
+    {
+      key: "screen_24_palaute_5",
+      label: "WAU, OPIN ETTÄ…",
+      rotateClass: "-rotate-[1.5deg]",
+    },
+    {
+      key: "screen_24_palaute_6",
+      label: "TÄMÄ OLI TÄRKEÄÄ KUULLA, KOSKA…",
+      rotateClass: "rotate-[1deg]",
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s24-h">
-        <h1 className="font-display text-2xl">
-          {tr("Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:")}
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+       
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          KHUNG NỘI DUNG DÀI ĐỂ SCROLLBAR HOẠT ĐỘNG
+      ====================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[1120px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          px-[7%]
+          pb-28
+          pt-14
+        "
+      >
+        {/* =====================================================
+            SHAPE TRANG TRÍ
+        ====================================================== */}
+
+        {/* =====================================================
+            TIÊU ĐỀ
+        ====================================================== */}
+        <h1
+          className="
+            relative
+            z-20
+            max-w-[1050px]
+            font-display
+            text-[clamp(36px,3vw,52px)]
+            font-bold
+            leading-[1.12]
+            text-yellow
+          "
+        >
+          Anna palautetta ja kehuja täydentämällä
+          <br />
+          seuraavia lauseenalkuja:
         </h1>
-      </StickyNote>
-      <div className="grid gap-3">
-        {stems.map((s, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_24_palaute_${i + 1}`}
-            label={tr(s)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+
+        {/* =====================================================
+            6 Ô BONG BÓNG
+        ====================================================== */}
+        <div
+          className="
+            relative
+            z-20
+            mt-14
+            grid
+            grid-cols-1
+            gap-x-14
+            gap-y-20
+
+            md:grid-cols-2
+
+            xl:grid-cols-3
+            xl:gap-x-16
+            xl:gap-y-24
+          "
+        >
+          {bubbles.map((bubble) => (
+            <div
+              key={bubble.key}
+              className={`
+                relative
+                flex
+                min-h-[320px]
+                min-w-0
+                flex-col
+                overflow-hidden
+                border-[3px]
+                border-black
+                bg-white
+                px-5
+                pb-5
+                pt-5
+                shadow-[0_9px_0_rgba(68,42,105,0.22)]
+                transition-transform
+                duration-200
+                hover:-translate-y-1
+
+                ${bubble.rotateClass}
+              `}
+              style={{
+                borderRadius: "48% 52% 46% 54% / 48% 44% 56% 52%",
+              }}
+            >
+              {/* =================================================
+                  TIÊU ĐỀ BONG BÓNG
+              ================================================== */}
+              <p
+                className="
+                  relative
+                  z-20
+                  mx-auto
+                  flex
+                  min-h-[52px]
+                  max-w-[92%]
+                  shrink-0
+                  items-start
+                  justify-center
+                  text-center
+                  font-display
+                  text-[17px]
+                  font-bold
+                  leading-[1.2]
+                  text-white
+                "
+              >
+                {tr(bubble.label)}
+              </p>
+
+              {/* =================================================
+                  Ô TRẢ LỜI — TỐI THIỂU 6 DÒNG
+              ================================================== */}
+              <div
+                className="
+                  relative
+                  z-10
+                  mt-3
+                  min-h-[210px]
+                  flex-1
+                  overflow-hidden
+                  rounded-[22px]
+                  border-2
+                  border-[#d7cbe7]
+                  bg-[#fffefa]
+
+                  focus-within:border-[#a992ca]
+                  focus-within:bg-white
+                "
+              >
+                {/* Các dòng kẻ chỉ nằm trong ô trả lời */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-x-5
+                    inset-y-4
+                    z-0
+                    opacity-70
+                    [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                  "
+                />
+
+                {/* FlatReflectionTextarea */}
+                <div
+                  className="
+                    relative
+                    z-10
+                    h-full
+                    min-h-[210px]
+
+                    [&_label]:hidden
+
+                    [&>div]:h-full
+                    [&>div]:min-h-0
+                    [&>div]:border-0
+                    [&>div]:bg-transparent
+                    [&>div]:p-0
+                    [&>div]:shadow-none
+
+                    [&_textarea]:h-full
+                    [&_textarea]:min-h-[210px]
+                    [&_textarea]:w-full
+                    [&_textarea]:resize-none
+                    [&_textarea]:rounded-[20px]
+                    [&_textarea]:border-0
+                    [&_textarea]:bg-transparent
+                    [&_textarea]:px-5
+                    [&_textarea]:py-4
+                    [&_textarea]:text-[15px]
+                    [&_textarea]:leading-[30px]
+                    [&_textarea]:text-[#241b3f]
+                    [&_textarea]:outline-none
+                    [&_textarea]:shadow-none
+                    [&_textarea]:ring-0
+                    [&_textarea]:placeholder:text-[#aaa1b5]
+
+                    [&_textarea:focus]:outline-none
+                    [&_textarea:focus]:ring-0
+                  "
+                >
+                  <FlatReflectionTextarea
+                    fieldKey={bubble.key}
+                    rows={6}
+                    minHeight={210}
+                    textClass="text-[15px]"
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S25 (PDF p31): Tässä olen minä -----
+// ============================================================
+// S25 — PDF page 32: Tässä olen minä
+// ============================================================
 function S25({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const stems = [
-    "Minulle tärkeää on",
-    "Tulen iloiseksi, kun",
-    "Läheisissäni parasta on",
-    "Osaan hyvin ja tykkään tehdä",
-    "Parasta ryhmässäni on",
-    "Opinnoissa lempiaineita ovat",
-    "Minulle on vaikeaa",
-    "Lempitekemistä",
-    "Vapaa-ajalla tykkään",
-    "Lukiossa haluaisin oppia",
-    "Lukiossa minua innostaa",
+  const notes = [
+    {
+      key: "screen_25_tassa_1",
+      label: "Minulle tärkeää on",
+      className: "left-[28%] top-[5%] h-[195px] w-[18%]",
+      rotate: -1,
+    },
+    {
+      key: "screen_25_tassa_2",
+      label: "Tulen iloiseksi, kun",
+      className: "left-[47%] top-[7%] h-[205px] w-[19%]",
+      rotate: 1,
+    },
+    {
+      key: "screen_25_tassa_3",
+      label: "Läheisissäni parasta on",
+      className: "right-[4%] top-[7%] h-[200px] w-[19%]",
+      rotate: 2,
+    },
+    {
+      key: "screen_25_tassa_4",
+      label: "Osaan hyvin ja tykkään tehdä",
+      className: "left-[6%] top-[27%] h-[205px] w-[19%]",
+      rotate: -4,
+    },
+    {
+      key: "screen_25_tassa_5",
+      label: "Parasta ryhmässäni on",
+      className: "left-[29%] top-[31%] h-[190px] w-[18%]",
+      rotate: 2,
+    },
+    {
+      key: "screen_25_tassa_6",
+      label: "Opinnoissa lempiaineita ovat",
+      className: "left-[49%] top-[34%] h-[195px] w-[20%]",
+      rotate: -2,
+    },
+    {
+      key: "screen_25_tassa_7",
+      label: "Minulle on vaikeaa",
+      className: "right-[3%] top-[35%] h-[200px] w-[19%]",
+      rotate: 2,
+    },
+    {
+      key: "screen_25_tassa_8",
+      label: "Lempitekemistä",
+      className: "left-[8%] top-[57%] h-[185px] w-[19%]",
+      rotate: 1,
+    },
+    {
+      key: "screen_25_tassa_9",
+      label: "Vapaa-ajalla tykkään",
+      className: "left-[31%] top-[67%] h-[190px] w-[19%]",
+      rotate: -1,
+    },
+    {
+      key: "screen_25_tassa_10",
+      label: "Lukiossa haluaisin oppia",
+      className: "left-[51%] top-[64%] h-[190px] w-[19%]",
+      rotate: 1,
+    },
+    {
+      key: "screen_25_tassa_11",
+      label: "Lukiossa minua innostaa",
+      className: "right-[2%] top-[67%] h-[190px] w-[19%]",
+      rotate: -1,
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s25-h">
-        <h1 className="font-display text-2xl">{tr("Tässä olen minä:")}</h1>
-      </StickyNote>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {stems.map((s, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_25_tassa_${i + 1}`}
-            label={tr(s)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
-          />
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-white [scrollbar-gutter:stable]">
+      <div className="relative mx-auto min-h-[850px] w-full max-w-[1500px] overflow-hidden px-[7%] pb-20 pt-12">
+        <h1 className="absolute left-[7%] top-[8%] z-20 w-[17%] font-display text-[clamp(40px,3.5vw,58px)] font-medium leading-[1.08]">
+          {tr("Täällä olen minä:")}
+        </h1>
+
+        {notes.map((note) => (
+          <IrregularPaper
+            key={note.key}
+            rotate={note.rotate}
+            className={cn("absolute z-20 p-3 text-black", note.className)}
+          >
+            <p className="min-h-[34px] text-center font-display text-[14px] font-bold leading-[1.2]">
+              {tr(note.label)}
+            </p>
+            <div className="h-[calc(100%-36px)]">
+              <FlatReflectionTextarea
+                fieldKey={note.key}
+                rows={4}
+                minHeight={100}
+                textClass="text-[14px]"
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </IrregularPaper>
         ))}
       </div>
     </div>
   );
 }
 
-
-// ----- S26 (PDF p32): Omien vahvuuksien käyttö (Govindji & Linley, 2007) -----
 const LIKERT_STATEMENTS = [
   "Pystyn yleensä tekemään sitä, mitä teen parhaiten",
   "Hyödynnän aina vahvuuksiani",
@@ -917,8 +5329,11 @@ const LIKERT_STATEMENTS = [
   "Suurimman osan ajastani teen asioita, joissa olen hyvä",
   "Vahvuuksien käyttäminen on minulle tuttua",
   "Pystyn käyttämään vahvuuksiani monin eri tavoin",
-];
+] as const;
 
+// ============================================================
+// Likert helper restyled for S26
+// ============================================================
 function LikertRow({
   fieldKey,
   index,
@@ -932,43 +5347,89 @@ function LikertRow({
   onSaveStateChange?: (s: SaveState) => void;
   onValue?: (n: number) => void;
 }) {
+  const tr = useTr();
   const [value, setValue] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
   const report = useReportCompletion();
 
   useEffect(() => {
     (async () => {
-      const v = await loadResponse<number>(fieldKey);
-      if (typeof v === "number") setValue(v);
+      const savedValue = await loadResponse<number>(fieldKey);
+
+      if (typeof savedValue === "number") {
+        setValue(savedValue);
+      }
+
       setLoaded(true);
     })();
   }, [fieldKey]);
 
-  const state = useAutosave(fieldKey, value, { enabled: loaded && value !== null });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  const state = useAutosave(fieldKey, value, {
+    enabled: loaded && value !== null,
+  });
+
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
 
   useEffect(() => {
     if (!loaded) return;
+
     report(fieldKey, value !== null);
-    if (value !== null) onValue?.(value);
+
+    if (value !== null) {
+      onValue?.(value);
+    }
   }, [value, loaded, fieldKey, report, onValue]);
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2">
-      <div className="flex-1 text-sm">
-        <span className="font-mono opacity-60 mr-2">{index + 1}.</span>{label}
+    <div
+      className="
+        grid
+        min-h-[52px]
+        grid-cols-[minmax(0,1fr)_auto]
+        items-center
+        gap-x-8
+        rounded-[14px]
+        px-3
+        py-2
+        text-[clamp(15px,1.15vw,19px)]
+        leading-[1.35]
+        transition-colors
+        hover:bg-white/5
+      "
+    >
+      {/* Nội dung câu hỏi */}
+      <div className="min-w-0 pr-4 text-white">
+        <span className="mr-1 font-medium">{index + 1}.</span>
+        <span>{tr(label)}</span>
       </div>
-      <div className="flex gap-1">
+
+      {/* Các lựa chọn 1–5 */}
+      <div className="flex shrink-0 items-center gap-2">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}
             type="button"
             onClick={() => setValue(n)}
             className={cn(
-              "h-8 w-8 rounded-full border text-xs font-bold transition-all",
+              `
+                flex
+                h-9
+                w-9
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                border-2
+                text-[13px]
+                font-bold
+                transition
+                duration-150
+              `,
               value === n
-                ? "bg-[color:var(--coral)] border-[color:var(--coral)] text-white scale-110"
-                : "bg-white/80 text-slate-900 border-white/40 hover:bg-white",
+                ? "border-white bg-white text-[#7654ad] shadow-[0_3px_0_rgba(42,24,74,0.32)]"
+                : "border-white/75 bg-transparent text-white hover:border-white hover:bg-white/15",
             )}
             aria-label={`${n}/5`}
             aria-pressed={value === n}
@@ -981,82 +5442,285 @@ function LikertRow({
   );
 }
 
+// ============================================================
+// S26 — PDF page 33: Omien vahvuuksien käyttö
+// ============================================================
 function S26({ onSaveStateChange }: Props) {
   const tr = useTr();
   const [scores, setScores] = useState<Record<number, number>>({});
-  const sum = Object.values(scores).reduce((a, b) => a + b, 0);
-  return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed="s26-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Omien vahvuuksien käyttö")}</h1>
-        <p className="text-xs opacity-70 mb-2">Govindji and Linley (2007)</p>
-        <p className="text-sm opacity-90">
-          {tr(
-            "Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan mittariin vahvuuksien käytöstä.",
-          )}
-        </p>
-      </StickyNote>
-      <div className="grid gap-2">
-        {LIKERT_STATEMENTS.map((s, i) => (
-          <LikertRow
-            key={i}
-            fieldKey={`screen_26_likert_${i + 1}`}
-            index={i}
-            label={tr(s)}
-            onSaveStateChange={onSaveStateChange}
-            onValue={(v) => setScores((cur) => ({ ...cur, [i]: v }))}
-          />
-        ))}
-      </div>
-      <StickyNote tone="mint" seed="s26-sum" className="text-center">
-        <div className="text-sm opacity-80">{tr("Vastaa kyselyyn. Laske yhteen pisteesi:")}</div>
-        <div className="font-display text-4xl mt-1">{sum}</div>
-        <div className="text-xs opacity-60 mt-1">
-          {tr("{n} / {total} vastattu", { n: Object.keys(scores).length, total: LIKERT_STATEMENTS.length })}
-        </div>
-      </StickyNote>
 
+  const sum = Object.values(scores).reduce((total, currentValue) => total + currentValue, 0);
+
+  return (
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* Nội dung dài hơn màn hình để scrollbar hoạt động */}
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[1220px]
+          w-full
+          max-w-[1500px]
+          px-[7%]
+          pb-28
+          pt-14
+        "
+      >
+        <div
+          className="
+            relative
+            z-10
+            mx-auto
+            w-full
+            max-w-[1320px]
+            pb-12
+          "
+        >
+          {/* =================================================
+              TIÊU ĐỀ
+          ================================================== */}
+          <h1
+            className="
+              font-display
+              text-[clamp(38px,3vw,54px)]
+              font-bold
+              leading-[1.05]
+              text-[#ffd95d]
+            "
+          >
+            {tr(
+              "Omien vahvuuksien käyttäminen – asteikko (Govindji & Linley, 2007) – Vastaa seuraavaan asteikolla 1 (täysin eri mieltä) – 5 (täysin samaa mieltä).",
+            )}
+          </h1>
+
+          <p className="mt-3 text-[16px] text-white/85">Govindji and Linley (2007)</p>
+
+          <p
+            className="
+              mt-6
+              max-w-[1120px]
+              text-[clamp(16px,1.3vw,21px)]
+              leading-[1.45]
+              text-white
+            "
+          >
+            Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan
+            mittariin vahvuuksien käytöstä.
+          </p>
+
+          {/* =================================================
+              GIẢI THÍCH THANG ĐIỂM
+          ================================================== */}
+          <div
+            className="
+              mt-7
+              flex
+              flex-wrap
+              items-center
+              gap-x-8
+              gap-y-3
+              rounded-[16px]
+              border
+              border-white/20
+              bg-white/10
+              px-5
+              py-4
+              text-[14px]
+              text-white
+            "
+          >
+            <span>
+              <strong>1</strong> = täysin eri mieltä
+            </span>
+
+            <span>
+              <strong>2</strong> = eri mieltä
+            </span>
+
+            <span>
+              <strong>3</strong> = ei samaa eikä eri mieltä
+            </span>
+
+            <span>
+              <strong>4</strong> = samaa mieltä
+            </span>
+
+            <span>
+              <strong>5</strong> = täysin samaa mieltä
+            </span>
+          </div>
+
+          {/* =================================================
+              DANH SÁCH LIKERT
+          ================================================== */}
+          <div
+            className="
+              mt-8
+              grid
+              gap-y-3
+            "
+          >
+            {LIKERT_STATEMENTS.map((statement, index) => (
+              <LikertRow
+                key={tr(statement)}
+                fieldKey={`screen_26_likert_${index + 1}`}
+                index={index}
+                label={tr(statement)}
+                onSaveStateChange={onSaveStateChange}
+                onValue={(value) =>
+                  setScores((current) => ({
+                    ...current,
+                    [index]: value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+
+          {/* =================================================
+              TỔNG ĐIỂM
+              Không dùng absolute để tránh đè lên câu hỏi cuối
+          ================================================== */}
+          <div
+            className="
+              mt-12
+              ml-auto
+              flex
+              w-fit
+              max-w-full
+              items-center
+              gap-5
+              rounded-[20px]
+              border-2
+              border-white/30
+              bg-white/10
+              px-7
+              py-5
+              text-white
+            "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                font-display
+                text-[64px]
+                font-bold
+                leading-none
+                text-[#ffd95d]
+              "
+            >
+              ›
+            </span>
+
+            <div
+              className="
+                text-[clamp(18px,1.4vw,24px)]
+                font-bold
+                leading-[1.4]
+              "
+            >
+              <p>Vastaa kyselyyn.</p>
+
+              <p className="mt-1">
+                Laske yhteen pisteesi:{" "}
+                <span
+                  className="
+                    ml-2
+                    inline-flex
+                    min-w-[88px]
+                    items-center
+                    justify-center
+                    border-b-2
+                    border-[#ffd95d]
+                    px-3
+                    text-[#ffd95d]
+                  "
+                >
+                  {sum || ""}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-// ----- S27 (PDF p33): Moduuli 2 title card -----
+// ============================================================
+// M2Intro — Module 2 title card
+// ============================================================
 function M2Intro() {
-  const tr = useTr();
   return (
-    <StickyNote tone="mint" seed="s27-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 2")}</div>
-      <h1 className="font-display text-4xl leading-tight">{tr("2. Omat vahvuudet lukiossa")}</h1>
-    </StickyNote>
+    <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
+      <div className="absolute right-[4%] top-0 rounded-b-[12px] bg-[#7654ad] px-5 py-3 text-white">
+        <span className="font-display text-[20px] font-bold">Tasot&nbsp; 2</span>
+      </div>
+
+      <div className="absolute inset-0 flex items-center justify-center px-8">
+        <h1 className="text-center font-display text-[clamp(48px,5vw,78px)] font-bold leading-[1.08] tracking-[-1px]">
+          2. Omat vahvuudet
+          <br />
+          lukiossa
+        </h1>
+      </div>
+    </div>
   );
 }
 
-// ----- S28 (PDF p34): Omat vahvuuteni lukiossa — informational -----
+// ============================================================
+// S28 — Omat vahvuuteni lukiossa
+// ============================================================
 function S28() {
   const tr = useTr();
   return (
-    <div className="space-y-4">
-      <StickyNote tone="coral" seed="s28-h">
-        <h1 className="font-display text-2xl mb-2">{tr("Omat vahvuuteni lukiossa")}</h1>
-      </StickyNote>
-      <StickyNote tone="white" seed="s28-b">
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.")}
-        </p>
-        <p className="text-sm leading-relaxed mb-2">
-          {tr("Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää ja oppia.")}
-        </p>
-        <p className="text-sm leading-relaxed">
-          {tr("Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää niitä osana opintoja.")}
-        </p>
-      </StickyNote>
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
+      <div className="relative mx-auto min-h-[720px] w-full max-w-[1500px] overflow-hidden px-[8%] pb-20 pt-16">
+        <div className="relative z-20 max-w-[1150px]">
+          <h1 className="font-display text-[clamp(38px,3vw,54px)] font-bold leading-none text-yellow">
+            {tr("Mina styrkor i gymnasiet")}
+          </h1>
+
+          <div className="mt-10 space-y-8 text-[clamp(18px,1.5vw,25px)] leading-[1.42]">
+            <p>
+              Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.
+            </p>
+
+            <p>
+              Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin
+              itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti
+              pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä
+              kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi
+              vielä kehittää ja oppia.
+            </p>
+
+            <p>
+              Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että
+              luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi
+              tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi
+              opiskelijana jotta voit hyödyntää niitä osana opintoja.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-
-// ----- Reusable: "Vahvuuskarkkini" worksheet (S29 lukiossa, S42 kotona,
-// S48 vapaa-ajalla, S56 ystävyyssuhteissa) -----
+// ============================================================
+// Reusable Vahvuuskarkkini worksheet — design used by S29
+// ============================================================
 function VahvuuskarkkiSheet({
   title,
   context,
@@ -1064,44 +5728,117 @@ function VahvuuskarkkiSheet({
   onSaveStateChange,
 }: {
   title: string;
-  context: string; // "lukiossa", "kotona", "vapaa-ajalla", "ystävyyssuhteissa"
+  context: string;
   fieldPrefix: string;
   onSaveStateChange?: (s: SaveState) => void;
 }) {
   const tr = useTr();
-  return (
-    <div className="space-y-4">
-      <StickyNote tone="yellow" seed={`${fieldPrefix}-h`}>
-        <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">
-          {tr(context).toUpperCase()}
-        </div>
-        <h1 className="font-display text-2xl mb-1">{tr(title)}</h1>
-        <p className="text-sm opacity-90">
-          {tr("Valitse 1–2 vahvuuskarkkia ja hyödynnä niitä {context}. Kirjoita vahvuudet tähän. Pohdi, mitä teit, koit ja opit.", { context: tr(context) })}
-        </p>
-      </StickyNote>
-      <ReflectionInput
-        fieldKey={`${fieldPrefix}_karkit`}
-        prefix={tr("Vahvuudet")}
-        placeholder={tr("Merkkaa tähän mitä vahvuutta käytit!")}
-        onSaveStateChange={onSaveStateChange}
-      />
-      <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_teit`}        label={tr("1. Mitä teit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_seuraavaksi`} label={tr("2. Mitä tapahtui seuraavaksi?")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_opit`}        label={tr("3. Mitä opit?")}             rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey={`${fieldPrefix}_hyodynnat`}   label={tr("4. Miten hyödynnät oppimaasi?")} rows={3} onSaveStateChange={onSaveStateChange} />
-      </div>
+  const fields = [
+    {
+      key: `${fieldPrefix}_opit`,
+      label: "3. Mitä opit?",
+      className: "left-[50%] top-[9%] h-[145px] w-[30%]",
+    },
+    {
+      key: `${fieldPrefix}_seuraavaksi`,
+      label: "2. Mitä tapahtui seuraavaksi?",
+      className: "left-[44%] top-[38%] h-[145px] w-[22%]",
+    },
+    {
+      key: `${fieldPrefix}_hyodynnat`,
+      label: "4. Miten hyödynnät oppimaasi?",
+      className: "left-[68%] top-[38%] h-[145px] w-[22%]",
+    },
+    {
+      key: `${fieldPrefix}_teit`,
+      label: "1. Mitä teit?",
+      className: "left-[50%] top-[69%] h-[145px] w-[30%]",
+    },
+  ];
 
+  return (
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
+      <div className="relative mx-auto min-h-[760px] w-full max-w-[1500px] overflow-hidden px-[8%] pb-20 pt-14">
+        <div className="relative z-20 w-[34%] pt-8">
+          <h1 className="font-display text-[clamp(38px,3.1vw,54px)] font-bold leading-none">
+            {tr(title)}
+          </h1>
+          <p className="mt-10 max-w-[420px] text-[clamp(21px,1.8vw,30px)] font-semibold leading-[1.28] text-[white]">
+            Valitse 1–2 vahvuuskarkkia ja <span className="bg-[#c9e2ff] px-1">hyödynnä</span> niitä{" "}
+            {tr(context)}.
+            <br />
+            Kirjoita vahvuudet tähän
+          </p>
+
+          <div className="mt-7 max-w-[390px] [&_label]:hidden [&_input]:border-0 [&_input]:border-b-2 [&_input]:border-[#7654ad] [&_input]:bg-transparent [&_input]:text-[18px] [&_input]:outline-none">
+            <ReflectionInput
+              fieldKey={`${fieldPrefix}_karkit`}
+              prefix=""
+              placeholder=""
+              onSaveStateChange={onSaveStateChange}
+            />
+          </div>
+
+          <p className="mt-24 text-[clamp(19px,1.6vw,26px)] font-semibold leading-[1.35] text-[white]">
+            Pohdi, mitä teit, koit ja opit.
+          </p>
+          <div className="mt-8 grid grid-cols-[10px_minmax(0,1fr)] gap-x-4">
+            <span className="mt-[10px] h-[8px] w-[8px] rounded-full bg-[#ffc936]" />
+            <p className="text-[clamp(18px,1.45vw,24px)]">Täydennä oheinen tehtävä.</p>
+          </div>
+
+          <img
+            src="/illustrations/s29-candy-collage.png"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-40px] left-[-10%] h-[250px] w-auto object-contain"
+          />
+        </div>
+
+        <div className="absolute right-[8%] top-[11%] z-20 h-[650px] w-[47%] rounded-[34px] bg-[#ef6f70] shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
+          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-bold uppercase text-black">
+            {tr(context)}
+          </div>
+
+          {fields.map((field) => (
+            <div key={field.key} className={cn("absolute", field.className)}>
+              <div className="h-full overflow-hidden rounded-[18px] bg-white">
+                <FlatReflectionTextarea
+                  fieldKey={field.key}
+                  rows={4}
+                  minHeight={115}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+              <p className="mt-2 text-center font-display text-[18px] font-bold leading-[1.2] text-white">
+                {tr(field.label)}
+              </p>
+            </div>
+          ))}
+
+          <div className="pointer-events-none absolute inset-0 text-white">
+            <span className="absolute bottom-[13%] left-[8%] text-[70px]">↖</span>
+            <span className="absolute right-[7%] top-[27%] text-[70px]">↘</span>
+            <span className="absolute bottom-[15%] right-[8%] text-[70px]">↙</span>
+          </div>
+        </div>
+
+        <img
+          src="/illustrations/s29-side-candies.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[48px] right-[1%] z-10 h-[210px] w-auto object-contain"
+        />
+      </div>
     </div>
   );
 }
 
-// ----- S29 (PDF p35): Vahvuuskarkkini lukiossa -----
 function S29(p: Props) {
+  const tr = useTr();
   return (
     <VahvuuskarkkiSheet
-      title="Vahvuuskarkkini"
+      title={tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
       context="lukiossa"
       fieldPrefix="screen_29"
       onSaveStateChange={p.onSaveStateChange}
@@ -1109,45 +5846,102 @@ function S29(p: Props) {
   );
 }
 
-// ----- S30 (PDF p36): Osaamisen osa-alueiden palapeli -----
+// ============================================================
+// S30 — Osaamisen osa-alueiden palapeli
+// ============================================================
 function S30({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const quadrants: Array<{ k: string; title: string; q: string }> = [
-    { k: "screen_30_lahjakkuudet",   title: "LAHJAKKUUDET",            q: "Missä olet hyvä?" },
-    { k: "screen_30_taidot",         title: "TAIDOT",                  q: "Mitä taitoja sinulla jo on, joita hyödynnät opinnoissa?" },
-    { k: "screen_30_kiinnostukset",  title: "KIINNOSTUKSEN KOHTEET",   q: "Mitä harrastat? Mitkä ovat innostuksen ja intohimon kohteita vapaa-ajallasi?" },
-    { k: "screen_30_resurssit",      title: "RESURSSIT",               q: "Mitkä asiat tai henkilöt ovat voimavarojasi? Mikä auttaa sinua pysymään vahvana vaikeina aikoina? Mikä tuo elämääsi merkitystä?" },
+  const pieces = [
+    {
+      key: "screen_30_lahjakkuudet",
+      tab: "LAHJAKKUUDET",
+      question: "MISSÄ OLET HYVÄ?",
+      className: "left-[35%] top-[4%] h-[315px] w-[31%]",
+      clip: "polygon(0 3%, 100% 0, 92% 42%, 100% 58%, 92% 100%, 55% 96%, 48% 100%, 0 96%)",
+    },
+    {
+      key: "screen_30_taidot",
+      tab: "TAIDOT",
+      question: "MITÄ TAITOJA SINULLA JO ON, JOITA HYÖDYNNÄT OPINNOISSA?",
+      className: "right-[3%] top-[1%] h-[325px] w-[31%]",
+      clip: "polygon(5% 0, 100% 0, 100% 100%, 55% 96%, 47% 100%, 0 96%, 8% 58%, 0 43%)",
+    },
+    {
+      key: "screen_30_kiinnostukset",
+      tab: "KIINNOSTUKSEN KOHTEET",
+      question: "MITÄ HARRASTAT? MITKÄ OVAT INNOSTUKSEN JA INTOHIMON KOHTEITA VAPAA-AJALLASI?",
+      className: "left-[36%] top-[50%] h-[315px] w-[31%]",
+      clip: "polygon(0 3%, 48% 0, 55% 5%, 100% 2%, 92% 43%, 100% 58%, 92% 100%, 0 96%, 8% 58%, 0 42%)",
+    },
+    {
+      key: "screen_30_resurssit",
+      tab: "RESURSSIT",
+      question:
+        "MITKÄ ASIAT TAI HENKILÖT OVAT VOIMAVAROJASI? MIKÄ AUTTAA SINUA PYSYMÄÄN VAHVANA VAIKEINA AIKOINA? MIKÄ TUO ELÄMÄÄSI MERKITYSTÄ?",
+      className: "right-[4%] top-[49%] h-[315px] w-[31%]",
+      clip: "polygon(5% 0, 100% 3%, 100% 96%, 55% 100%, 48% 95%, 0 100%, 8% 58%, 0 42%)",
+    },
   ];
+
   return (
-    <div className="space-y-4">
-      <StickyNote tone="mint" seed="s30-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Osaamisen osa-alueiden palapeli")}</h1>
-        <p className="text-sm opacity-90">
-          {tr("Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään osa-alueeseen: lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.")}
-        </p>
-        <p className="text-xs opacity-60 mt-1">(Niemiec, 2018)</p>
-      </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {quadrants.map((q) => (
-          <StickyNote key={q.k} tone="white" seed={q.k}>
-            <div className="font-display text-sm mb-1">{tr(q.title)}</div>
-            <ReflectionTextarea
-              fieldKey={q.k}
-              label={tr(q.q)}
-              rows={4}
-              onSaveStateChange={onSaveStateChange}
-            />
-          </StickyNote>
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-[#7654ad] text-white [scrollbar-gutter:stable]">
+      <div className="relative mx-auto min-h-[820px] w-full max-w-[1500px] overflow-hidden px-[7%] pb-20 pt-12">
+        <WorkbookCornerShapes top="coral" right="yellow" bottomLeft="mint" bottomRight="mint" />
+
+        <div className="absolute left-[7%] top-[8%] z-20 w-[24%]">
+          <h1 className="font-display text-[clamp(38px,3.4vw,56px)] font-medium leading-[1.08]">
+            {tr(
+              "Osaamispalojen palapeli: Meillä kaikilla on osaamista ja voimavaroja elämässämme. Ne voidaan jakaa neljään alueeseen: lahjakkuuteen, taitoihin, kiinnostuksenkohteisiin ja resursseihin.",
+            )}
+          </h1>
+          <p className="mt-8 text-[clamp(19px,1.55vw,26px)] leading-[1.35]">
+            Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään
+            osa-alueeseen:{" "}
+            <strong>lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.</strong>
+          </p>
+          <p className="mt-16 text-[17px]">(Niemiec, 2018)</p>
+
+          <img
+            src="/illustrations/s30-puzzle-person.png"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-330px] left-[-45%] h-[470px] w-auto object-contain"
+          />
+        </div>
+
+        {pieces.map((piece) => (
+          <div key={piece.key} className={cn("absolute z-20", piece.className)}>
+            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-bold">
+              {tr(piece.tab)}
+            </div>
+            <div
+              className="h-full bg-white p-5 text-black shadow-[0_9px_0_rgba(48,27,74,0.55)]"
+              style={{ clipPath: piece.clip }}
+            >
+              <p className="mx-auto max-w-[85%] text-center font-display text-[13px] font-bold leading-[1.2]">
+                {tr(piece.question)}
+              </p>
+              <div className="mt-3 h-[calc(100%-50px)]">
+                <FlatReflectionTextarea
+                  fieldKey={piece.key}
+                  rows={8}
+                  minHeight={210}
+                  textClass="text-[15px]"
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </div>
+          </div>
         ))}
+
+        <WorkbookLogo />
       </div>
     </div>
   );
 }
 
-
 // ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
 function S31({ onSaveStateChange }: Props) {
-  const tr = useTr();
   const qs = [
     "Keneltä saan tukea ja opastusta?",
     "Mitä vahvuuksiani voin hyödyntää?",
@@ -1158,14 +5952,14 @@ function S31({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s31-h">
-        <h1 className="font-display text-2xl">{tr("Unelmien tiekartta opinnoissa")}</h1>
+        <h1 className="font-display text-2xl">Unelmien tiekartta opinnoissa</h1>
       </StickyNote>
       <div className="grid gap-3">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_31_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${tr(q)}`}
+            label={`${i + 1}. ${q}`}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -1189,12 +5983,20 @@ function S32({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s32-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Minä opiskelijana")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr(
+            "Minä opiskelijana – Listaa seuraavalle sivulle kaikki vahvuutesi opiskelijana – myös sellaiset, jotka voivat tuntua sinusta itsestäänselvyyksiltä.",
+          )}
+        </h1>
         <p className="text-sm opacity-90">
-          {tr("Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?")}
+          Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka
+          saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia
+          ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia,
+          oletko ryhmähengen luoja?
         </p>
         <p className="text-sm opacity-90 mt-2">
-          {tr("Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.")}
+          Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet
+          erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.
         </p>
       </StickyNote>
       <div className="grid gap-3">
@@ -1218,9 +6020,7 @@ function S33({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s33-h">
-        <h1 className="font-display text-2xl">
-          {tr("Täydennä kaikki erityistaitosi tähän listaan.")}
-        </h1>
+        {tr("Täytä kaikki erityisosaamisesi tähän listaan. (Täytettävät kohdat 1–10)")}
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
         {Array.from({ length: 10 }).map((_, i) => (
@@ -1228,7 +6028,7 @@ function S33({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_33_erityistaito_${i + 1}`}
             prefix={`${i + 1}.`}
-            placeholder={tr("Erityistaito…")}
+            placeholder="Erityistaito…"
             onSaveStateChange={onSaveStateChange}
           />
         ))}
@@ -1241,17 +6041,28 @@ function S33({ onSaveStateChange }: Props) {
 function S34({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs: Array<{ k: string; q: string }> = [
-    { k: "screen_34_oppi",         q: "Minkälaisia asioita opit nopeasti ja helposti?" },
-    { k: "screen_34_palaute",      q: "Mistä sait rohkaisevaa palautetta peruskoulussa opettajilta entä luokkakavereilta?" },
-    { k: "screen_34_aiheet",       q: "Mistä tykkäsit koulussa ala-asteella, entä yläasteella?" },
-    { k: "screen_34_onnistuminen", q: "Mikä onnistuminen sinulle on jäänyt mieleen peruskoulusta?" },
+    { k: "screen_34_oppi", q: "Minkälaisia asioita opit nopeasti ja helposti?" },
+    {
+      k: "screen_34_palaute",
+      q: "Mistä sait rohkaisevaa palautetta peruskoulussa opettajilta entä luokkakavereilta?",
+    },
+    { k: "screen_34_aiheet", q: "Mistä tykkäsit koulussa ala-asteella, entä yläasteella?" },
+    {
+      k: "screen_34_onnistuminen",
+      q: "Mikä onnistuminen sinulle on jäänyt mieleen peruskoulusta?",
+    },
   ];
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s34-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Koulu-kokemuksia")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr(
+            "Koulumuistot – Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.",
+          )}
+        </h1>
         <p className="text-sm opacity-90">
-          {tr("Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.")}
+          Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla
+          on.
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1275,22 +6086,35 @@ function S35() {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s35-h">
-        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 1/2")}</h1>
+        {tr(
+          "Tavoitteeni opiskelijana 1/2 – Tässä tehtävässä selkiytät tavoitteesi opiskelijana – tavoitteen, jonka haluat saavuttaa.",
+        )}
       </StickyNote>
       <StickyNote tone="white" seed="s35-b">
         <p className="text-sm leading-relaxed mb-2">
-          {tr("Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.")}
+          Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit
+          saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä,
+          mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.
         </p>
         <p className="text-sm font-medium">
-          {tr("Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?")}
+          Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
-          <li>{tr("Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.")}</li>
-          <li>{tr("Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.")}</li>
-          <li>{tr("Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.")}</li>
-          <li>{tr("Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.")}</li>
+          <li>Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.</li>
+          <li>
+            Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja
+            kehittäminen tukee tavoitteen saavuttamista.
+          </li>
+          <li>
+            Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen
+            saavuttamisessa.
+          </li>
+          <li>
+            Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen
+            saavuttamisessa.
+          </li>
         </ol>
-        <p className="text-xs italic opacity-70 mt-2">→ {tr("Jäävuori seuraavalla sivulla.")}</p>
+        <p className="text-xs italic opacity-70 mt-2">→ Jäävuori seuraavalla sivulla.</p>
       </StickyNote>
     </div>
   );
@@ -1300,15 +6124,15 @@ function S35() {
 function S36({ onSaveStateChange }: Props) {
   const tr = useTr();
   const boxes: Array<{ k: string; label: string }> = [
-    { k: "screen_36_tavoite",     label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
-    { k: "screen_36_vahvuudet",   label: "2. Vaaditut vahvuudet" },
-    { k: "screen_36_hyodynnan",   label: "3. Miten hyödynnän vahvuuksia" },
-    { k: "screen_36_taidot",      label: "4. Mitä muita taitoja tarvitsen" },
+    { k: "screen_36_tavoite", label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
+    { k: "screen_36_vahvuudet", label: "2. Vaaditut vahvuudet" },
+    { k: "screen_36_hyodynnan", label: "3. Miten hyödynnän vahvuuksia" },
+    { k: "screen_36_taidot", label: "4. Mitä muita taitoja tarvitsen" },
   ];
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s36-h">
-        <h1 className="font-display text-2xl">{tr("Tavoitteeni opiskelijana 2/2")}</h1>
+        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 2/2</h1>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         {boxes.map((b) => (
@@ -1323,7 +6147,8 @@ function S36({ onSaveStateChange }: Props) {
         ))}
       </div>
       <p className="text-center text-xs opacity-60">
-        {tr("Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan käyttöön.")}
+        Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan
+        käyttöön.
       </p>
     </div>
   );
@@ -1335,27 +6160,32 @@ function S37({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s37-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuteni opiskelijana")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr(
+            "Vahvuuteni opiskelijana – Tunnista vahvuutesi. Arvosta ja ole ylpeä vahvuuksistasi. Kirjoita parhaat puolesi opiskelijana!",
+          )}
+        </h1>
         <p className="text-sm opacity-90">
-          {tr("Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!")}
+          Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi
+          muistiin omia parhaita puoliasi opiskelijana!
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-3">
         <ReflectionTextarea
           fieldKey="screen_37_arvostan"
-          label={tr("Mukavia asioita — Arvostan itsessäni")}
+          label="Mukavia asioita — Arvostan itsessäni"
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_vahvuuksiani"
-          label={tr("Omia vahvuuksia — Vahvuuksiani ovat mielestäni")}
+          label="Omia vahvuuksia — Vahvuuksiani ovat mielestäni"
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_paikkoja"
-          label={tr("Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani")}
+          label="Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani"
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
@@ -1370,16 +6200,42 @@ function S38({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s38-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Vahvuuspalaute opiskelukavereilta")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr(
+            "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.",
+          )}
+        </h1>
         <p className="text-sm opacity-90">
-          {tr("Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat kanssaihmisiin.")}
+          Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana.
+          Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet
+          näkyvät ja miten ne vaikuttavat kanssaihmisiin.
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_38_uutta"       label={tr("Mitä uutta opin palautteista?")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_tarkeaa"     label={tr("Mikä palautteessa on minulle tärkeää?")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_muistetaan"  label={tr("Millaisista asioista minut muistetaan / tunnistetaan parhaiten?")} rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_38_yhteisoon"   label={tr("Mitä hyvää vahvuuteni tuovat yhteisööni?")} rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea
+          fieldKey="screen_38_uutta"
+          label={tr("Mitä uutta opin palautteista?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_38_tarkeaa"
+          label={tr("Mikä palautteessa on minulle tärkeää?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_38_muistetaan"
+          label={tr("Millaisista asioista minut muistetaan / tunnistetaan parhaiten?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_38_yhteisoon"
+          label="Mitä hyvää vahvuuteni tuovat yhteisööni?"
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
       </div>
     </div>
   );
@@ -1391,10 +6247,10 @@ function S39({ onSaveStateChange }: Props) {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s39-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Minä olen")}</h1>
+        <h1 className="font-display text-2xl mb-1">{tr("Minä olen –övning")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Muuta muilta saamasi palaute lauseiksi minä-muotoon.")}
-          <em> {tr("“Olet sinnikäs.”")}</em> → <strong>{tr("“Minä olen sinnikäs.”")}</strong>
+          {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
+          <em> “Olet sinnikäs.”</em> → <strong>“Minä olen sinnikäs.”</strong>
         </p>
       </StickyNote>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -1402,7 +6258,7 @@ function S39({ onSaveStateChange }: Props) {
           <ReflectionInput
             key={i}
             fieldKey={`screen_39_mina_olen_${i + 1}`}
-            prefix={tr("Minä olen")}
+            prefix={tr("Minä olen –övning")}
             placeholder="…"
             onSaveStateChange={onSaveStateChange}
           />
@@ -1412,18 +6268,15 @@ function S39({ onSaveStateChange }: Props) {
   );
 }
 
-
 // ----- S40 (PDF p46): Moduuli 3 title card -----
 function M3Intro() {
-  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 3")}</div>
-      <h1 className="font-display text-4xl leading-tight">{tr("3. Omat vahvuudet kotona")}</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 3</div>
+      <h1 className="font-display text-4xl leading-tight">3. Omat vahvuudet kotona</h1>
     </StickyNote>
   );
 }
-
 // ----- S41 (PDF p47): Vahvuuskarkkini kotona -----
 function S41(p: Props) {
   return (
@@ -1452,10 +6305,30 @@ function S42_perhe({ onSaveStateChange }: Props) {
         <p className="text-sm opacity-90">{tr("Täydennä laput.")}</p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_43_vahvuudet"   label={tr("Minkälaisia vahvuuksia sinulla on perheenjäsenenä? Miten ne näkyvät?")} rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_parasta"     label={tr("Mikä on parasta perheessäsi? Miten erilaiset vahvuudet näkyvät perheessänne?")} rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_kiitollinen" label={tr("Mistä olet kiitollinen perheessäsi?")} rows={4} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_43_yhdessa"     label={tr("Mitä tykkäätte tehdä yhdessä?")} rows={4} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea
+          fieldKey="screen_43_vahvuudet"
+          label={tr("Minkälaisia vahvuuksia sinulla on perheenjäsenenä? Miten ne näkyvät?")}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_43_parasta"
+          label={tr("Mikä on parasta perheessäsi? Miten erilaiset vahvuudet näkyvät perheessänne?")}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_43_kiitollinen"
+          label={tr("Mistä olet kiitollinen perheessäsi?")}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_43_yhdessa"
+          label={tr("Mitä tykkäätte tehdä yhdessä?")}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
       </div>
     </div>
   );
@@ -1471,12 +6344,16 @@ function S43_perheenjasen({ onSaveStateChange }: Props) {
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_44_perheenjasenena"
-        label={tr("Kirjoita itsellesi muistiin, millainen olet perheenjäsenenä ja millaisia vahvuuksia tuot perheeseesi.")}
+        label={tr(
+          "Kirjoita itsellesi muistiin, millainen olet perheenjäsenenä ja millaisia vahvuuksia tuot perheeseesi.",
+        )}
         rows={8}
         onSaveStateChange={onSaveStateChange}
       />
       <p className="text-center text-xs opacity-60">
-        {tr("Alkuperäisen sivun kahta saraketta ei ollut mahdollista poimia PDF:stä; kenttä on tilapäisesti yhtenä laajana tekstialueena.")}
+        {tr(
+          "Alkuperäisen sivun kahta saraketta ei ollut mahdollista poimia PDF:stä; kenttä on tilapäisesti yhtenä laajana tekstialueena.",
+        )}
       </p>
     </div>
   );
@@ -1515,7 +6392,9 @@ function S44_kysy({ onSaveStateChange }: Props) {
         ))}
       </div>
       <p className="text-center text-xs opacity-60">
-        {tr("Kysymykset ovat osittain rekonstruoitu PDF-sivun rakenteesta — alkuperäinen sivu on käsinkirjoitusta varten varattu, ja muutamat kysymyssanat eivät olleet poimittavissa OCR:llä.")}
+        {tr(
+          "Kysymykset ovat osittain rekonstruoitu PDF-sivun rakenteesta — alkuperäinen sivu on käsinkirjoitusta varten varattu, ja muutamat kysymyssanat eivät olleet poimittavissa OCR:llä.",
+        )}
       </p>
     </div>
   );
@@ -1529,13 +6408,15 @@ function S45_kirje() {
       <StickyNote tone="coral" seed="s45-h">
         <h1 className="font-display text-2xl mb-1">{tr("Pyydä vanhempaasi täydentämään!")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen. Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.")}
+          {tr(
+            "Tämä sivu on vahvuuskirjeen pohja, jonka vanhempi voi täydentää nuorelleen. Voitte tulostaa sen tai kirjoittaa puhtaaksi yhdessä.",
+          )}
         </p>
       </StickyNote>
       <StickyNote tone="white" seed="s45-letter">
         <h2 className="font-display text-lg mb-2">{tr("Kirjoita vahvuuskirje nuorellesi")}</h2>
         <p className="text-sm leading-relaxed whitespace-pre-line">
-{tr(`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+          {tr(`Hän kun . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 Sinun vahvuuksiasi ovat . . . . . . . . , . . . . . . . . ja . . . . . . . .
 
@@ -1566,7 +6447,9 @@ function M4Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s46-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 4")}</div>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">
+        {tr("Taso 4")}
+      </div>
       <h1 className="font-display text-4xl leading-tight">
         {tr("4. Omat vahvuudet vapaa-ajalla ja harrastuksissa")}
       </h1>
@@ -1590,17 +6473,22 @@ function S47(p: Props) {
 function S48_vapaa({ onSaveStateChange }: Props) {
   const tr = useTr();
   const cols = [
-    { k: "screen_49_tykkaat",      q: "Mitä tykkäät tehdä vapaa-ajalla?" },
+    { k: "screen_49_tykkaat", q: "Mitä tykkäät tehdä vapaa-ajalla?" },
     { k: "screen_49_harrastukset", q: "Mitä harrastuksia sinulla on?" },
-    { k: "screen_49_vahvuudet",    q: "Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa?" },
-    { k: "screen_49_enemman",      q: "Mitä vahvuuksiasi haluaisit hyödyntää enemmän vapaa-ajallasi?" },
+    {
+      k: "screen_49_vahvuudet",
+      q: "Mitä vahvuuksia tunnistat itsessäsi vapaa-ajalla ja harrastuksissa?",
+    },
+    { k: "screen_49_enemman", q: "Mitä vahvuuksiasi haluaisit hyödyntää enemmän vapaa-ajallasi?" },
   ];
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s48-h">
         <h1 className="font-display text-2xl mb-1">{tr("Minä vapaa-ajalla")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Kirjoita itsellesi muistiin mitä teet vapaa-ajallasi ja millaisia vahvuuksia hyödynnät.")}
+          {tr(
+            "Kirjoita itsellesi muistiin mitä teet vapaa-ajallasi ja millaisia vahvuuksia hyödynnät.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1628,15 +6516,21 @@ function S49_loveinfo() {
       </StickyNote>
       <StickyNote tone="white" seed="s49-b">
         <p className="text-sm leading-relaxed mb-2">
-          {tr("Mitkä asiat päätyvät sinun love-to-do listalle? Tee lista viidestä asiasta, joita rakastat tehdä vapaa-ajalla.")}
+          {tr(
+            "Mitkä asiat päätyvät sinun love-to-do listalle? Tee lista viidestä asiasta, joita rakastat tehdä vapaa-ajalla.",
+          )}
         </p>
         <p className="text-sm leading-relaxed">
           {tr("Mieti seuraavaksi, kuinka vahvuutesi liittyvät näihin tekemisiin.")}
         </p>
         <p className="text-xs italic opacity-70 mt-2">
-          {tr("Ps. Todennäköisesti harrastukset ja tekemiset, joista pidät eniten, ovat myös tyydyttäviä, koska ne tarjoavat sinulle mahdollisuuden hyödyntää vahvuuksiasi.")}
+          {tr(
+            "Ps. Todennäköisesti harrastukset ja tekemiset, joista pidät eniten, ovat myös tyydyttäviä, koska ne tarjoavat sinulle mahdollisuuden hyödyntää vahvuuksiasi.",
+          )}
         </p>
-        <p className="text-xs italic opacity-70 mt-2">{tr("→ Love to-do -lista seuraavalla sivulla.")}</p>
+        <p className="text-xs italic opacity-70 mt-2">
+          {tr("→ Love to-do -lista seuraavalla sivulla.")}
+        </p>
       </StickyNote>
     </div>
   );
@@ -1650,7 +6544,9 @@ function S50_love({ onSaveStateChange }: Props) {
       <StickyNote tone="coral" seed="s50-h">
         <h1 className="font-display text-2xl mb-1">{tr("Love to-do -lista")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Kirjoita viisi asiaa, joita rakastat tehdä vapaa-ajallasi. Merkkaa sydämiin miten paljon teet kyseistä asiaa.")}
+          {tr(
+            "Kirjoita viisi asiaa, joita rakastat tehdä vapaa-ajallasi. Merkkaa sydämiin miten paljon teet kyseistä asiaa.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-2">
@@ -1678,13 +6574,17 @@ function S51_loveB({ onSaveStateChange }: Props) {
       </StickyNote>
       <ReflectionTextarea
         fieldKey="screen_52_konkreettisesti"
-        label={tr("Kuvittele, että voisit tehdä eniten rakastamaasi asiaa enemmän — miltä se konkreettisesti tuntuisi? Mihin haluaisit käyttää enemmän aikaa?")}
+        label={tr(
+          "Kuvittele, että voisit tehdä eniten rakastamaasi asiaa enemmän — miltä se konkreettisesti tuntuisi? Mihin haluaisit käyttää enemmän aikaa?",
+        )}
         rows={5}
         onSaveStateChange={onSaveStateChange}
       />
       <ReflectionTextarea
         fieldKey="screen_52_vahvuudet"
-        label={tr("Kirjoita mitä vahvuuksiasi hyödynnät tehdessäsi rakastamiasi asioita vapaa-ajalla!")}
+        label={tr(
+          "Kirjoita mitä vahvuuksiasi hyödynnät tehdessäsi rakastamiasi asioita vapaa-ajalla!",
+        )}
         rows={4}
         onSaveStateChange={onSaveStateChange}
       />
@@ -1708,7 +6608,9 @@ function S52_kollaasiInfo() {
     <div className="space-y-4">
       <StickyNote tone="yellow" seed="s52-h">
         <h1 className="font-display text-2xl mb-1">{tr("Kuvakollaasi 1/2")}</h1>
-        <p className="text-sm font-medium">{tr("Mitkä asiat sinua kiinnostavat vapaa-ajalla? Miksi?")}</p>
+        <p className="text-sm font-medium">
+          {tr("Mitkä asiat sinua kiinnostavat vapaa-ajalla? Miksi?")}
+        </p>
       </StickyNote>
       <StickyNote tone="white" seed="s52-b">
         <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed">
@@ -1732,9 +6634,24 @@ function S53_kollaasi({ onSaveStateChange }: Props) {
           {tr("Jutelkaa ystävien kanssa vahvuuksistanne ja kiinnostuksen kohteistanne!")}
         </p>
       </StickyNote>
-      <ReflectionTextarea fieldKey="screen_54_valitsin"     label={tr("Mitä valitsin")}                                                              rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_54_kehittaneet"  label={tr("Mitä vahvuuksia kiinnostuksen kohteeni ovat kehittäneet?")}                  rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_54_uudet"        label={tr("Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?")}          rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea
+        fieldKey="screen_54_valitsin"
+        label={tr("Mitä valitsin")}
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_54_kehittaneet"
+        label={tr("Mitä vahvuuksia kiinnostuksen kohteeni ovat kehittäneet?")}
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_54_uudet"
+        label={tr("Mitä uusia taitoja olet oppinut kiinnostuksen kohteiden parissa?")}
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
     </div>
   );
 }
@@ -1744,8 +6661,12 @@ function M5Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s54-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 5")}</div>
-      <h1 className="font-display text-4xl leading-tight">{tr("5. Omat vahvuudet ystävyyssuhteissa")}</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">
+        {tr("Taso 5")}
+      </div>
+      <h1 className="font-display text-4xl leading-tight">
+        {tr("5. Omat vahvuudet ystävyyssuhteissa")}
+      </h1>
     </StickyNote>
   );
 }
@@ -1770,11 +6691,23 @@ function S56_ystava({ onSaveStateChange }: Props) {
       <StickyNote tone="mint" seed="s56-h">
         <h1 className="font-display text-2xl mb-1">{tr("Minä ystävänä")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Haastattele ystäviäsi. Pyydä heitä kertomaan tai lähettämään viesti. Täydennä lauseet:")}
+          {tr(
+            "Haastattele ystäviäsi. Pyydä heitä kertomaan tai lähettämään viesti. Täydennä lauseet:",
+          )}
         </p>
       </StickyNote>
-      <ReflectionTextarea fieldKey="screen_57_ystavien" label={tr("Ystävieni mielestä vahvuuksiani ovat")}   rows={4} onSaveStateChange={onSaveStateChange} />
-      <ReflectionTextarea fieldKey="screen_57_parasta"  label={tr("Parasta ystävissäni on")}                  rows={4} onSaveStateChange={onSaveStateChange} />
+      <ReflectionTextarea
+        fieldKey="screen_57_ystavien"
+        label={tr("Ystävieni mielestä vahvuuksiani ovat")}
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
+      <ReflectionTextarea
+        fieldKey="screen_57_parasta"
+        label={tr("Parasta ystävissäni on")}
+        rows={4}
+        onSaveStateChange={onSaveStateChange}
+      />
     </div>
   );
 }
@@ -1787,14 +6720,36 @@ function S57_palaute({ onSaveStateChange }: Props) {
       <StickyNote tone="yellow" seed="s57-h">
         <h1 className="font-display text-2xl mb-1">{tr("Vahvuuspalaute ystäviltä")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Kirjoita palautetta ja kehuja ystäviesi kesken. Kerätkää yhdessä 2–4 ystävältä palautetta vahvuuksistanne. Käytä sivua 11 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä toisen vahvuudet erityisesti näkyvät ja miten positiivisesti ne vaikuttavat ystävyyssuhteissa.")}
+          {tr(
+            "Kirjoita palautetta ja kehuja ystäviesi kesken. Kerätkää yhdessä 2–4 ystävältä palautetta vahvuuksistanne. Käytä sivua 11 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä toisen vahvuudet erityisesti näkyvät ja miten positiivisesti ne vaikuttavat ystävyyssuhteissa.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
-        <ReflectionTextarea fieldKey="screen_58_uutta"     label={tr("Mitä uutta opin palautteista?")}                              rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_tarkeaa"   label={tr("Mikä palautteessa on minulle tärkeää?")}                      rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_muistavat" label={tr("Millaisista asioista ystäväni muistavat minut parhaiten?")}   rows={3} onSaveStateChange={onSaveStateChange} />
-        <ReflectionTextarea fieldKey="screen_58_parasta"   label={tr("Mikä on parasta ystävissäni?")}                                rows={3} onSaveStateChange={onSaveStateChange} />
+        <ReflectionTextarea
+          fieldKey="screen_58_uutta"
+          label={tr("Mitä uutta opin palautteista?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_58_tarkeaa"
+          label={tr("Mikä palautteessa on minulle tärkeää?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_58_muistavat"
+          label={tr("Millaisista asioista ystäväni muistavat minut parhaiten?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
+        <ReflectionTextarea
+          fieldKey="screen_58_parasta"
+          label={tr("Mikä on parasta ystävissäni?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
       </div>
     </div>
   );
@@ -1805,8 +6760,12 @@ function M6Intro() {
   const tr = useTr();
   return (
     <StickyNote tone="yellow" seed="s58-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">{tr("Taso 6")}</div>
-      <h1 className="font-display text-4xl leading-tight">{tr("6. Vahvuusportfolion kokoaminen")}</h1>
+      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">
+        {tr("Taso 6")}
+      </div>
+      <h1 className="font-display text-4xl leading-tight">
+        {tr("6. Vahvuusportfolion kokoaminen")}
+      </h1>
     </StickyNote>
   );
 }
@@ -1815,17 +6774,19 @@ function M6Intro() {
 function S59_yhteenveto({ onSaveStateChange }: Props) {
   const tr = useTr();
   const cols = [
-    { k: "screen_60_koulusta",     label: "Koulusta" },
-    { k: "screen_60_perheelta",    label: "Perheeltä" },
+    { k: "screen_60_koulusta", label: "Koulusta" },
+    { k: "screen_60_perheelta", label: "Perheeltä" },
     { k: "screen_60_vapaa_ajalta", label: "Vapaa-ajalta" },
-    { k: "screen_60_ystavilta",    label: "Ystäviltä" },
+    { k: "screen_60_ystavilta", label: "Ystäviltä" },
   ];
   return (
     <div className="space-y-4">
       <StickyNote tone="coral" seed="s59-h">
         <h1 className="font-display text-2xl mb-1">{tr("Vahvuuksien yhteenveto")}</h1>
         <p className="text-sm opacity-90">
-          {tr("Kokoa saamasi palautteet. Kirjoita ylös vahvuudet joita sinussa on huomattu eri ympäristöissä.")}
+          {tr(
+            "Kokoa saamasi palautteet. Kirjoita ylös vahvuudet joita sinussa on huomattu eri ympäristöissä.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -1847,16 +6808,18 @@ function S59_yhteenveto({ onSaveStateChange }: Props) {
 function S60_pohdi({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
-    { k: "screen_61_samaa",      q: "Mitä samaa niissä on?" },
-    { k: "screen_61_eroavat",    q: "Miten ne eroavat?" },
-    { k: "screen_61_huomataan",  q: "Mitä vahvuuksia sinussa huomataan?" },
-    { k: "screen_61_yllatti",    q: "Mikä palautteissa yllätti?" },
-    { k: "screen_61_muistaa",    q: "Mitä haluat muistaa palautteista?" },
+    { k: "screen_61_samaa", q: "Mitä samaa niissä on?" },
+    { k: "screen_61_eroavat", q: "Miten ne eroavat?" },
+    { k: "screen_61_huomataan", q: "Mitä vahvuuksia sinussa huomataan?" },
+    { k: "screen_61_yllatti", q: "Mikä palautteissa yllätti?" },
+    { k: "screen_61_muistaa", q: "Mitä haluat muistaa palautteista?" },
   ];
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s60-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Pohdi ja hyödynnä saamaasi palautetta")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr("Pohdi ja hyödynnä saamaasi palautetta")}
+        </h1>
         <p className="text-sm opacity-90">{tr("Tutustu muilta saamiisi palautteisiin.")}</p>
       </StickyNote>
       <div className="grid gap-3">
@@ -1944,8 +6907,8 @@ function S63_notes({ onSaveStateChange }: Props) {
   const tr = useTr();
   const stems = [
     { k: "screen_64_havainnot", q: "Omat havainnot vahvuuksistani…" },
-    { k: "screen_64_muistaa",   q: "Tämän haluan muistaa ainakin…" },
-    { k: "screen_64_tarkeaa",   q: "Minulle on tärkeää…" },
+    { k: "screen_64_muistaa", q: "Tämän haluan muistaa ainakin…" },
+    { k: "screen_64_tarkeaa", q: "Minulle on tärkeää…" },
   ];
   return (
     <div className="space-y-4">
@@ -2007,24 +6970,32 @@ function S66_palauteInfo() {
   return (
     <div className="space-y-4">
       <StickyNote tone="mint" seed="s66-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Anna itsellesi ja toisille palautetta!")}</h1>
+        <h1 className="font-display text-2xl mb-1">
+          {tr("Anna itsellesi ja toisille palautetta!")}
+        </h1>
       </StickyNote>
       <div className="grid gap-3 sm:grid-cols-2">
         <StickyNote tone="white" seed="s66-a">
           <div className="font-display text-sm mb-1">{tr("MITÄ VAHVUUKSIA SINUSSA NÄHTIIN")}</div>
           <p className="text-xs opacity-80">
-            {tr("Tämä sivu kannustaa kokoamaan toisilta saadut vahvuushavainnot näkyväksi — esimerkiksi luokassa, perheessä tai ystäväpiirissä.")}
+            {tr(
+              "Tämä sivu kannustaa kokoamaan toisilta saadut vahvuushavainnot näkyväksi — esimerkiksi luokassa, perheessä tai ystäväpiirissä.",
+            )}
           </p>
         </StickyNote>
         <StickyNote tone="white" seed="s66-b">
           <div className="font-display text-sm mb-1">{tr("SINUN VAHVUUKSIASI")}</div>
           <p className="text-xs opacity-80">
-            {tr("Anna itse itsellesi vahvuuspalautetta. Mitä vahvuuksia olet bongannut itsestäsi erityisesti?")}
+            {tr(
+              "Anna itse itsellesi vahvuuspalautetta. Mitä vahvuuksia olet bongannut itsestäsi erityisesti?",
+            )}
           </p>
         </StickyNote>
       </div>
       <p className="text-center text-xs opacity-60">
-        {tr("Alkuperäisen sivun käsinkirjoitettua ulkoasua ei voitu poimia PDF:stä; sivu on tilapäisesti esitetty kahtena ohjeistuslappuna.")}
+        {tr(
+          "Alkuperäisen sivun käsinkirjoitettua ulkoasua ei voitu poimia PDF:stä; sivu on tilapäisesti esitetty kahtena ohjeistuslappuna.",
+        )}
       </p>
     </div>
   );
@@ -2087,7 +7058,9 @@ function S68_reflekto({ onSaveStateChange }: Props) {
       />
       <ReflectionTextarea
         fieldKey="screen_69_toimia"
-        label={tr("Miten sinun kannattaisi toimia, jos haluaisit hyödyntää vahvuuksiasi enemmän — opinnoissa, vapaa-ajalla ja ystävyyssuhteissa?")}
+        label={tr(
+          "Miten sinun kannattaisi toimia, jos haluaisit hyödyntää vahvuuksiasi enemmän — opinnoissa, vapaa-ajalla ja ystävyyssuhteissa?",
+        )}
         rows={5}
         onSaveStateChange={onSaveStateChange}
       />
@@ -2111,13 +7084,17 @@ function S69_finale() {
       </StickyNote>
       <StickyNote tone="white" seed="s69-b">
         <p className="text-sm leading-relaxed">
-          {tr("Suurin osa meistä ihmisistä pystyy tunnistamaan helposti ainakin osan omista ydinvahvuuksistaan. Tämä on osa itsetuntemusta, joka on yhteydessä hyvinvointiin.")}
+          {tr(
+            "Suurin osa meistä ihmisistä pystyy tunnistamaan helposti ainakin osan omista ydinvahvuuksistaan. Tämä on osa itsetuntemusta, joka on yhteydessä hyvinvointiin.",
+          )}
         </p>
       </StickyNote>
       <StickyNote tone="coral" seed="s69-end" className="text-center">
         <div className="font-display text-2xl mb-1">{tr("Onneksi olkoon! 🎉")}</div>
         <p className="text-sm">
-          {tr("Olet käynyt läpi koko Vahvuusportfolion. Voit aina palata aiempiin sivuihin ja täydentää vastauksiasi — tallennukset säilyvät.")}
+          {tr(
+            "Olet käynyt läpi koko Vahvuusportfolion. Voit aina palata aiempiin sivuihin ja täydentää vastauksiasi — tallennukset säilyvät.",
+          )}
         </p>
       </StickyNote>
     </div>
@@ -2132,7 +7109,9 @@ function S70_end() {
       <StickyNote tone="mint" seed="s70-h" className="text-center">
         <h1 className="font-display text-3xl mb-2">{tr("Kiitos seikkailusta! 🌟")}</h1>
         <p className="text-sm leading-relaxed">
-          {tr("Vahvuusportfoliosi on nyt koossa. Käytä sitä esimerkiksi kesätyönhaussa, jatko-opintoihin hakeutuessa tai aina kun haluat muistuttaa itseäsi siitä, millainen olet parhaimmillasi.")}
+          {tr(
+            "Vahvuusportfoliosi on nyt koossa. Käytä sitä esimerkiksi kesätyönhaussa, jatko-opintoihin hakeutuessa tai aina kun haluat muistuttaa itseäsi siitä, millainen olet parhaimmillasi.",
+          )}
         </p>
       </StickyNote>
     </div>
@@ -2242,4 +7221,3 @@ export function ScreenContent({ n, onSaveStateChange }: { n: number } & Props): 
   if (!Comp) return null;
   return Comp({ onSaveStateChange });
 }
-
