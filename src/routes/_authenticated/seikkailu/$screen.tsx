@@ -29,7 +29,6 @@ function ScreenView() {
   const world = worldForScreen(n);
 
   const [saveState, setSaveState] = useState<SaveState>("idle");
-
   const [userId, setUserId] = useState<string | null>(null);
 
   const { setScreen, isComplete } = useNavGate();
@@ -46,7 +45,12 @@ function ScreenView() {
 
   const stats = progress?.byWorld[world.id];
 
-  const pct = stats && stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+  const rawPct = stats && stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+
+  /*
+   * Giới hạn phần trăm trong khoảng từ 0 đến 100.
+   */
+  const pct = Math.max(0, Math.min(100, rawPct));
 
   /*
    * Lấy người dùng hiện tại.
@@ -140,25 +144,11 @@ function ScreenView() {
 
       {/* =====================================================
           KHOẢNG CÁCH AN TOÀN DƯỚI SCREEN CHROME
-
-          Bản trước:
-          h-14 = khoảng 56px
-
-          Bản mới:
-          h-3 = khoảng 12px
-
-          Nhờ vậy toàn bộ nội dung được kéo lên khoảng 44px.
       ====================================================== */}
       <div aria-hidden="true" className="h-3 w-full shrink-0" />
 
       {/* =====================================================
           NỘI DUNG CHÍNH
-
-          Không dùng:
-          mx-auto
-          max-w-3xl
-
-          Vì chúng giới hạn chiều rộng của page.
       ====================================================== */}
       <main
         className="
@@ -184,7 +174,7 @@ function ScreenView() {
             Prologue + Welcome
 
             Bên phải:
-            thanh tiến độ + phần trăm
+            thanh tiến độ màu vàng + phần trăm
         ====================================================== */}
         <div
           className="
@@ -201,7 +191,7 @@ function ScreenView() {
             gap-8
           "
         >
-          {/* Bên trái */}
+          {/* BÊN TRÁI */}
           <div
             className="
               flex
@@ -227,71 +217,81 @@ function ScreenView() {
             </span>
           </div>
 
-          {/* Bên phải */}
+          {/* BÊN PHẢI: THANH TIẾN ĐỘ CĂN GIỮA */}
           <div
             className="
               ml-auto
               flex
-              min-w-[280px]
-              max-w-[620px]
+              min-w-[360px]
+              max-w-[700px]
               flex-1
               items-center
-              justify-end
-              gap-3
+              justify-center
             "
           >
-            {/* Nền thanh tiến độ */}
             <div
               className="
-                h-1.5
-                min-w-0
-                flex-1
-                overflow-hidden
-                rounded-full
-                bg-black/15
+                flex
+                w-full
+                max-w-[620px]
+                items-center
+                justify-center
+                gap-3
               "
             >
-              {/* Phần tiến độ đã hoàn thành */}
+              {/* NỀN THANH TIẾN ĐỘ */}
               <div
                 className="
-                  h-full
+                  h-[7px]
+                  min-w-0
+                  flex-1
+                  overflow-hidden
                   rounded-full
-                  bg-[color:var(--purple)]
-                  transition-[width]
-                  duration-300
+                  bg-black/20
                 "
-                style={{
-                  width: `${pct}%`,
-                }}
-              />
-            </div>
+                role="progressbar"
+                aria-label={tr("valmis")}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={pct}
+              >
+                {/* PHẦN ĐÃ HOÀN THÀNH MÀU VÀNG */}
+                <div
+                  className="
+                    h-full
+                    rounded-full
+                    bg-[#ffd12f]
+                    transition-[width]
+                    duration-500
+                    ease-out
+                  "
+                  style={{
+                    width: `${pct}%`,
+                  }}
+                />
+              </div>
 
-            {/* Phần trăm hoàn thành */}
-            <span
-              className="
-                shrink-0
-                whitespace-nowrap
-                text-xs
-                tabular-nums
-                opacity-70
-              "
-            >
-              {pct}% {tr("valmis")}
-            </span>
+              {/* PHẦN TRĂM HOÀN THÀNH */}
+              <span
+                className="
+                  min-w-[96px]
+                  shrink-0
+                  whitespace-nowrap
+                  text-right
+                  text-sm
+                  font-medium
+                  tabular-nums
+                  text-white/90
+                "
+              >
+                {pct}% {tr("valmis")}
+              </span>
+            </div>
           </div>
         </div>
 
         {/* =====================================================
             NỘI DUNG CỦA SCREEN
-
-            flex-1:
-            sử dụng toàn bộ chiều cao còn lại.
-
-            min-h-0:
-            cho phép nội dung co lại bên trong flex layout.
-
-            overflow-hidden:
-            tránh thanh cuộn ngang ngoài ý muốn.
         ====================================================== */}
         <div
           className="

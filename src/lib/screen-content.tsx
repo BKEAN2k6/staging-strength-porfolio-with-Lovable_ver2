@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { StickyNote } from "@/components/StickyNote";
 import { WORLDS } from "@/lib/screens";
 import { ReflectionTextarea, ReflectionInput } from "@/components/ReflectionTextarea";
@@ -47,21 +47,35 @@ function Cover() {
   const tr = useTr();
 
   return (
-    <div className="cover-page">
-      <div className="cover-content">
-        <h1 className="cover-title">{tr("Vahvuusportfolio lukiolaiselle")}</h1>
+    <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden text-white">
+      <div className="mx-auto w-full max-w-[1400px] shrink-0 px-5 pt-1">
+        <h1 className="font-display text-[clamp(17px,1.35vw,23px)] font-bold leading-[1.2]">
+          {tr("Vahvuusportfolio lukiolaiselle")}
+        </h1>
 
-        <p className="cover-description">
+        <p className="mt-1 max-w-[1200px] text-[clamp(15px,1.15vw,20px)] leading-[1.4]">
           {tr(
             "Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.",
           )}
         </p>
+      </div>
 
+      <div className="flex min-h-0 flex-1 items-end justify-center px-5 pb-0 pt-4">
         <img
           src="/illustrations/naytto-1.png"
           alt=""
           aria-hidden="true"
-          className="cover-illustration"
+          className="
+            block
+            h-auto
+            w-auto
+            max-h-[420px]
+            max-w-[520px]
+            object-contain
+            object-center
+            pointer-events-none
+            select-none
+          "
         />
       </div>
     </div>
@@ -178,7 +192,7 @@ function Definition() {
 
   return (
     <div className="relative flex min-h-[600px] w-full items-center justify-center overflow-hidden px-6 text-white">
-      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(36px,4.1vw,60px)] font-bold leading-[1.15]">
+      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(60px,1.6vw,30px)] font-bold leading-[1.15]">
         {tr(
           "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
         )}
@@ -7119,6 +7133,10 @@ function S70_end() {
 }
 
 const REGISTRY: Record<number, (p: Props) => ReactNode> = {
+  // =========================================================
+  // Prologue
+  // =========================================================
+
   1: () => <Cover />,
   2: () => <Modules />,
   3: () => <Quote />,
@@ -7129,95 +7147,153 @@ const REGISTRY: Record<number, (p: Props) => ReactNode> = {
   8: (p) => <JokoTunnet {...p} />,
   9: (p) => <KysyPalautetta {...p} />,
   10: (p) => <MinaOlen {...p} />,
-  11: () => <M1Intro />,
-  12: (p) => <Karkkikauppa {...p} />,
-  13: (p) => <S13 {...p} />,
-  14: (p) => <S14 {...p} />,
-  15: () => <S15 />,
-  16: (p) => <S16 {...p} />,
-  17: (p) => <S17 {...p} />,
-  18: (p) => <S18 {...p} />,
-  19: () => <S19 />,
-  20: (p) => <S20 {...p} />,
-  21: (p) => <S21 {...p} />,
-  22: (p) => <S22 {...p} />,
-  23: (p) => <S23 {...p} />,
-  24: (p) => <S24 {...p} />,
-  25: (p) => <S25 {...p} />,
-  26: (p) => <S26 {...p} />,
-  27: () => <M2Intro />,
-  28: () => <S28 />,
-  29: (p) => <S29 {...p} />,
-  30: (p) => <S30 {...p} />,
-  31: (p) => <S31 {...p} />,
-  32: (p) => <S32 {...p} />,
-  33: (p) => <S33 {...p} />,
-  34: (p) => <S34 {...p} />,
-  35: () => <S35 />,
-  36: (p) => <S36 {...p} />,
-  37: (p) => <S37 {...p} />,
-  38: (p) => <S38 {...p} />,
-  39: (p) => <S39 {...p} />,
-  40: () => <M3Intro />,
-  41: () => <M3Intro />, // module 3 title shown again? Actually S41=p47 karkki.
-  42: (p) => <S42_perhe {...p} />,
-  43: (p) => <S43_perheenjasen {...p} />,
-  44: (p) => <S44_kysy {...p} />,
-  45: () => <S45_kirje />,
-  46: () => <M4Intro />,
-  47: (p) => <S47 {...p} />,
-  48: (p) => <S48_vapaa {...p} />,
-  49: () => <S49_loveinfo />,
-  50: (p) => <S50_love {...p} />,
-  51: (p) => <S51_loveB {...p} />,
-  52: () => <S52_kollaasiInfo />,
-  53: (p) => <S53_kollaasi {...p} />,
-  54: () => <M5Intro />,
-  55: (p) => <S55 {...p} />,
-  56: (p) => <S56_ystava {...p} />,
-  57: (p) => <S57_palaute {...p} />,
-  58: () => <M6Intro />,
-  59: (p) => <S59_yhteenveto {...p} />,
-  60: (p) => <S60_pohdi {...p} />,
-  61: (p) => <S61_visio {...p} />,
-  62: (p) => <S62_video {...p} />,
-  63: (p) => <S63_notes {...p} />,
-  64: (p) => <S64_notesB {...p} />,
-  65: (p) => <S65_notesC {...p} />,
-  66: () => <S66_palauteInfo />,
-  67: () => <S67_vinkit />,
-  68: (p) => <S68_reflekto {...p} />,
-  69: () => <S69_finale />,
-  70: () => <S70_end />,
+
+  // =========================================================
+  // Newly restored screens 11–13
+  // =========================================================
+
+  11: () => <S11KehuJaKannusta />,
+  12: () => <S12VahvuuksiaEnemman />,
+  13: (p) => <S13HyvatKysymykset {...p} />,
+
+  // =========================================================
+  // Module 1
+  // Old screens 11–26 are shifted forward by 3
+  // =========================================================
+
+  14: () => <M1Intro />,
+  15: (p) => <Karkkikauppa {...p} />,
+  16: (p) => <S13 {...p} />,
+  17: (p) => <S14 {...p} />,
+  18: () => <S15 />,
+  19: (p) => <S16 {...p} />,
+  20: (p) => <S17 {...p} />,
+  21: (p) => <S18 {...p} />,
+  22: () => <S19 />,
+  23: (p) => <S20 {...p} />,
+  24: (p) => <S21 {...p} />,
+  25: (p) => <S22 {...p} />,
+  26: (p) => <S23 {...p} />,
+  27: (p) => <S24 {...p} />,
+  28: (p) => <S25 {...p} />,
+  29: (p) => <S26 {...p} />,
+
+  // =========================================================
+  // Module 2
+  // =========================================================
+
+  30: () => <M2Intro />,
+  31: () => <S28 />,
+  32: (p) => <S29 {...p} />,
+  33: (p) => <S30 {...p} />,
+  34: (p) => <S31 {...p} />,
+  35: (p) => <S32 {...p} />,
+  36: (p) => <S33 {...p} />,
+  37: (p) => <S34 {...p} />,
+  38: () => <S35 />,
+  39: (p) => <S36 {...p} />,
+  40: (p) => <S37 {...p} />,
+  41: (p) => <S38 {...p} />,
+  42: (p) => <S39 {...p} />,
+
+  // =========================================================
+  // Module 3
+  // =========================================================
+
+  43: () => <M3Intro />,
+
+  44: (p) => (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="kotona"
+      fieldPrefix="screen_42"
+      onSaveStateChange={p.onSaveStateChange}
+    />
+  ),
+
+  45: (p) => <S42_perhe {...p} />,
+  46: (p) => <S43_perheenjasen {...p} />,
+  47: (p) => <S44_kysy {...p} />,
+  48: () => <S45_kirje />,
+
+  // =========================================================
+  // Module 4
+  // =========================================================
+
+  49: () => <M4Intro />,
+  50: (p) => <S47 {...p} />,
+  51: (p) => <S48_vapaa {...p} />,
+  52: () => <S49_loveinfo />,
+  53: (p) => <S50_love {...p} />,
+  54: (p) => <S51_loveB {...p} />,
+  55: () => <S52_kollaasiInfo />,
+  56: (p) => <S53_kollaasi {...p} />,
+
+  // =========================================================
+  // Module 5
+  // =========================================================
+
+  57: () => <M5Intro />,
+  58: (p) => <S55 {...p} />,
+  59: (p) => <S56_ystava {...p} />,
+  60: (p) => <S57_palaute {...p} />,
+
+  // =========================================================
+  // Module 6
+  // =========================================================
+
+  61: () => <M6Intro />,
+  62: (p) => <S59_yhteenveto {...p} />,
+  63: (p) => <S60_pohdi {...p} />,
+  64: (p) => <S61_visio {...p} />,
+  65: (p) => <S62_video {...p} />,
+  66: (p) => <S63_notes {...p} />,
+  67: (p) => <S64_notesB {...p} />,
+  68: (p) => <S65_notesC {...p} />,
+  69: () => <S66_palauteInfo />,
+  70: () => <S67_vinkit />,
+  71: (p) => <S68_reflekto {...p} />,
+  72: () => <S69_finale />,
+  73: () => <S70_end />,
 };
 
-// Correct M3 mapping: per the workbook table M3 = PDF p46 (title) and content
-// p47–p51. After M2 ends at S39 (PDF p45 "Minä olen"), S40 is M3 title (PDF
-// p46). S41 = PDF p47 (Vahvuuskarkkini kotona).
-REGISTRY[40] = () => <M3Intro />;
-REGISTRY[41] = (p) => (
-  <VahvuuskarkkiSheet
-    title="Vahvuuskarkkini"
-    context="kotona"
-    fieldPrefix="screen_42"
-    onSaveStateChange={p.onSaveStateChange}
-  />
-);
-
-import { meterContentFor } from "./meter-content";
-import { METER_FIRST_SCREEN, METER_TOP } from "./meter-data";
-
 export function hasContent(n: number): boolean {
-  if (n in REGISTRY) return true;
-  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) return true;
+  if (REGISTRY[n]) {
+    return true;
+  }
+
+  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) {
+    return true;
+  }
+
   return false;
 }
 
-export function ScreenContent({ n, onSaveStateChange }: { n: number } & Props): ReactNode {
-  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) {
-    return meterContentFor(n, { onSaveStateChange });
+export function ScreenContent({
+  n,
+  onSaveStateChange,
+}: {
+  n: number;
+} & Props): ReactNode {
+  /*
+   * REGISTRY phải được kiểm tra trước.
+   *
+   * Điều này bảo đảm screen 71–73 vẫn hiển thị nội dung portfolio
+   * nếu cấu hình Strength Meter cũ chưa được cập nhật.
+   */
+  const screenComponent = REGISTRY[n];
+
+  if (screenComponent) {
+    return screenComponent({
+      onSaveStateChange,
+    });
   }
-  const Comp = REGISTRY[n];
-  if (!Comp) return null;
-  return Comp({ onSaveStateChange });
+
+  if (n >= METER_FIRST_SCREEN && n <= METER_TOP) {
+    return meterContentFor(n, {
+      onSaveStateChange,
+    });
+  }
+
+  return null;
 }
