@@ -49,7 +49,7 @@ function Cover() {
   return (
     <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden text-white">
       <div className="mx-auto w-full max-w-[1400px] shrink-0 px-5 pt-1">
-        <h1 className="font-display text-[clamp(17px,1.35vw,23px)] font-bold leading-[1.2]">
+        <h1 className="font-display text-[clamp(18px,1.5vw,25px)] font-medium leading-[1.2]">
           {tr("Vahvuusportfolio lukiolaiselle")}
         </h1>
 
@@ -123,12 +123,12 @@ function Modules() {
   const modules = WORLDS.filter((world) => moduleKeys.some((item) => item.id === world.id));
 
   return (
-    <div className="relative min-h-[620px] w-full overflow-hidden px-5 pb-8 pt-12">
-      <h1 className="mb-12 font-display text-[36px] font-[500] leading-[10px] text-white">
+    <div className="relative min-h-[620px] w-full overflow-x-hidden overflow-y-auto px-[4%] pb-10 pt-8">
+      <h1 className="mb-10 text-center font-display text-[clamp(28px,2.6vw,40px)] font-semibold leading-[1.15] tracking-[-0.02em] text-white">
         {tr("Taso")}
       </h1>
 
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {modules.map((module, index) => {
           const moduleKey = moduleKeys.find((item) => item.id === module.id);
           const translated = moduleKey ? tr(moduleKey.translationKey) : "";
@@ -138,13 +138,13 @@ function Modules() {
           return (
             <div
               key={module.id}
-              className="relative flex min-h-[400px] min-w-0 flex-col rounded-[10px] border-2 border-white bg-white px-3 pb-5 pt-12 text-center text-white"
+              className="relative flex min-h-[330px] min-w-0 flex-col rounded-[22px] border-2 border-white bg-white px-4 pb-6 pt-11 text-center text-white"
             >
-              <div className="absolute left-1/2 top-0 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#7755c9] text-[22px] font-bold text-white">
+              <div className="absolute left-1/2 top-0 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#7755c9] text-[22px] font-semibold text-white">
                 {index + 1}
               </div>
 
-              <h2 className="mb-4 break-words font-display text-[clamp(16px,1.35vw,22px)] font-bold leading-[1.15] text-[#7654ad]">
+              <h2 className="mb-4 break-words font-display text-[clamp(16px,1.35vw,22px)] font-semibold leading-[1.15] text-[#7654ad]">
                 {title}
               </h2>
 
@@ -170,7 +170,7 @@ function Quote() {
   return (
     <div className="grid min-h-[600px] w-full min-w-0 grid-cols-[60%_40%] overflow-hidden">
       <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-left text-white">
-        <h1 className="m-0 text-center font-display text-[clamp(40px,4.5vw,70px)] font-bold leading-[1.08] tracking-[-1px]">
+        <h1 className="m-0 text-center font-display text-[clamp(34px,4vw,60px)] font-medium leading-[1.12] tracking-[-0.02em]">
           {tr("Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
         </h1>
       </div>
@@ -192,7 +192,7 @@ function Definition() {
 
   return (
     <div className="relative flex min-h-[600px] w-full items-center justify-center overflow-hidden px-6 text-white">
-      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(60px,1.6vw,30px)] font-bold leading-[1.15]">
+      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(30px,3.4vw,52px)] font-semibold leading-[1.15]">
         {tr(
           "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
         )}
@@ -205,12 +205,12 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
   const tr = useTr();
 
   return (
-    <div className="relative min-h-[600px] w-full overflow-hidden pb-14 pl-[1%] pt-1 text-white">
-      <h1 className="mb-10 font-display text-[42px] font-bold leading-[0.8] text-white">
+    <div className="relative min-h-[600px] w-full overflow-hidden px-[6%] pb-14 pt-8 text-white">
+      <h1 className="mb-7 font-display text-[clamp(32px,3vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-white">
         {tr("Tietoa vahvuuksista")}
       </h1>
 
-      <div className="max-w-[1080px] space-y-4 text-[21px] leading-[1.35]">
+      <div className="max-w-[1120px] space-y-5 text-[clamp(17px,1.35vw,21px)] font-normal leading-[1.55]">
         <p>
           {tr(
             "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.",
@@ -440,17 +440,17 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
           </div>
 
           {/* Hướng dẫn chọn */}
-          <div className="-mt-3 flex items-center justify-center gap-2 text-[white]">
-            <span className="rotate-[-30deg] text-[40px] leading-none">↗</span>
+          <div className="-mt-3 flex items-center justify-center gap-2 text-white">
+            <span className="rotate-[-30deg] text-[40px] leading-[1.12]">↗</span>
 
-            <p className="text-center text-[14px] font-bold leading-[1.2]">
+            <p className="text-center text-[14px] font-semibold leading-[1.2]">
               {tr(
                 "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
               )}
             </p>
           </div>
 
-          <p className="mt-2 text-[13px] font-semibold text-[white]">
+          <p className="mt-2 text-[13px] font-semibold text-white">
             {tr("Valittu {n} / {max}", {
               n: selectedIds.length,
               max: 3,
@@ -462,7 +462,7 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
             CỘT PHẢI: TIÊU ĐỀ VÀ DANH SÁCH KẸO
         ====================================================== */}
         <div className="min-w-0 pl-2">
-          <h1 className="max-w-[950px] font-display text-[32px] font-bold leading-[1.12]">
+          <h1 className="max-w-[950px] font-display text-[32px] font-semibold leading-[1.12]">
             {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
           </h1>
 
@@ -526,7 +526,7 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
                       text-center
                       text-[11px]
                       font-semibold
-                      leading-none
+                      leading-[1.12]
                       whitespace-nowrap
                       shadow-[0_4px_0_rgba(0,0,0,0.08)]
                       ${isSelected ? "ring-4 ring-[#7755c9]/30" : ""}
@@ -576,7 +576,7 @@ function ThreeSteps() {
           className="h-[360px] w-full object-contain"
         />
 
-        <p className="mt-4 text-center font-display text-[24px] font-bold text-white">
+        <p className="mt-4 text-center font-display text-[24px] font-semibold text-white">
           {tr("Tunnista omia vahvuuksia")}
         </p>
       </div>
@@ -590,7 +590,7 @@ function ThreeSteps() {
           />
         </div>
 
-        <p className="-mt-7 whitespace-nowrap text-center font-display text-[24px] font-bold text-white">
+        <p className="-mt-7 whitespace-nowrap text-center font-display text-[24px] font-semibold text-white">
           {tr("Hyödynnä omia vahvuuksia")}
         </p>
       </div>
@@ -602,7 +602,7 @@ function ThreeSteps() {
           className="h-[360px] w-full object-contain"
         />
 
-        <p className="mt-4 text-center font-display text-[24px] font-bold text-white">
+        <p className="mt-4 text-center font-display text-[24px] font-semibold text-white">
           {tr("Kehitä omia vahvuuksia")}
         </p>
       </div>
@@ -641,7 +641,7 @@ function JokoTunnet({ onSaveStateChange }: Props) {
       <div className="mx-auto w-full max-w-[1180px] rounded-[28px] px-8 py-7 pb-12">
         <div className="flex items-start justify-between gap-8">
           <div className="min-w-0">
-            <h1 className="font-display text-[36px] font-bold leading-[1.08] text-white">
+            <h1 className="font-display text-[36px] font-semibold leading-[1.08] text-white">
               {tr("Lukiolainen – joko tunnet omat vahvuutesi?")}
             </h1>
           </div>
@@ -718,7 +718,7 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
   return (
     <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-10 pt-9 text-black">
       <div className="mx-auto w-full max-w-[1150px] rounded-[30px] px-10 py-8 pb-12">
-        <h1 className="font-display text-[38px] font-bold leading-[1.1] text-[#f1f1ef]">
+        <h1 className="font-display text-[38px] font-semibold leading-[1.1] text-[#f1f1ef]">
           {tr("Kysy palautetta ja opi lisää itsestäsi")}
         </h1>
 
@@ -823,7 +823,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
         {/* ================= BÊN TRÁI ================= */}
         <div className="relative min-w-0">
-          <h1 className="font-display text-[42px] font-bold leading-none">
+          <h1 className="font-display text-[42px] font-semibold leading-[1.12]">
             {tr("Minä olen –övning")}
           </h1>
 
@@ -909,7 +909,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 ${note.position}
               `}
             >
-              <p className="mb-2 shrink-0 text-center font-display text-[15px] font-bold uppercase tracking-[0.3px]">
+              <p className="mb-2 shrink-0 text-center font-display text-[15px] font-semibold uppercase tracking-[0.3px]">
                 {tr("Minä olen –övning")}
               </p>
 
@@ -1025,7 +1025,7 @@ function S11KehuJaKannusta() {
               text-white
             "
           >
-            <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl] font-display text-[22px] font-bold">
+            <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl] font-display text-[22px] font-semibold">
               VINKKI!
             </span>
           </div>
@@ -1036,7 +1036,7 @@ function S11KehuJaKannusta() {
                 max-w-[980px]
                 font-display
                 text-[clamp(38px,3.4vw,56px)]
-                font-bold
+                font-semibold
                 leading-[1.08]
                 text-[#FFD700]
               "
@@ -1049,12 +1049,12 @@ function S11KehuJaKannusta() {
             <div className="mt-7 max-w-[1160px] space-y-7">
               {items.map((item) => (
                 <div key={tr(item.title)}>
-                  <h2 className="text-[clamp(19px,1.55vw,26px)] font-bold leading-[1.35]">
+                  <h2 className="text-[clamp(19px,1.55vw,26px)] font-semibold leading-[1.35]">
                     {tr(item.title)}
                   </h2>
 
                   <div className="text-[clamp(18px,1.45vw,25px)] leading-[1.42]">
-                    {tr(item.description)}
+                    {item.description}
                   </div>
                 </div>
               ))}
@@ -1118,9 +1118,9 @@ function S12VahvuuksiaEnemman() {
               text-center
               font-display
               text-[clamp(28px,2.45vw,42px)]
-              font-bold
+              font-semibold
               leading-[1.12]
-              text-[white]
+              text-white
             "
           >
             {tr(
@@ -1128,7 +1128,7 @@ function S12VahvuuksiaEnemman() {
             )}
           </h1>
 
-          <div className="mt- flex min-h-0 flex-1 items-end justify-center">
+          <div className="mt-6 flex min-h-0 flex-1 items-end justify-center">
             <img
               src="/illustrations/s12-raised-hands.png"
               alt="Erilaisia käsiä nostettuna ilmaan"
@@ -1234,7 +1234,7 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
               [writing-mode:vertical-rl]
               font-display
               text-[22px]
-              font-bold
+              font-semibold
             "
           >
             VINKKI!
@@ -1248,9 +1248,9 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
               className="
                 font-display
                 text-[clamp(32px,3vw,50px)]
-                font-bold
+                font-semibold
                 leading-[1.08]
-                text-yellow	
+                text-[#ffd95d]
               "
             >
               Nämä kysymykset auttavat sinua
@@ -1852,7 +1852,7 @@ export default function Karkkikauppa() {
  padding:18px 20px 0;font-family:'Poppins',system-ui,sans-serif;background:var(--pu);color:#fff}
 .shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
 .ns *{box-sizing:border-box}
-.fd{font-family:'Fredoka',system-ui,sans-serif;font-weight:600}
+.fd{font-family:'Fredoka',system-ui,sans-serif;font-weight:500}
 
 .deco{position:absolute;pointer-events:none;z-index:0}
 .d1{top:-100px;left:-76px;width:272px;height:272px;border-radius:50%;background:#EE8C93}
@@ -1952,7 +1952,7 @@ export default function Karkkikauppa() {
 @keyframes bb{0%{transform:scale(1)}32%{transform:scale(1.15,.86)}66%{transform:scale(.95,1.07)}100%{transform:scale(1)}}
 
 .cnt{font-family:'Fredoka';font-size:14px;color:#3B2C10;line-height:1.2;flex:0 0 auto}
-.cnt b{display:block;font-size:38px;line-height:.95;color:#241A06}
+.cnt b{display:block;font-size:34px;line-height:1;color:#241A06}
 .slots{display:flex;gap:6px;margin-top:8px}
 .slot{width:13px;height:13px;border-radius:50%;background:rgba(59,44,16,.25);
  transition:.24s cubic-bezier(.34,1.6,.64,1)}
@@ -1988,7 +1988,7 @@ export default function Karkkikauppa() {
 .line{display:flex;align-items:center;gap:13px;padding:9px 2px;border-bottom:1px dotted #DCCEB6}
 .line .fd{flex:1;font-size:16px;text-align:left}
 .line em{font-style:normal;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.48}
-.q{font-weight:600;font-size:13px;margin:20px 0 8px;line-height:1.5}
+.q{font-weight:500;font-size:13px;margin:20px 0 8px;line-height:1.5}
 .ta{width:100%;min-height:80px;border:2px solid #E6DAC2;border-radius:12px;padding:11px 13px;background:#fff;
  font-family:'Poppins';font-size:13px;color:var(--ink);resize:vertical}
 .ta:focus{outline:0;border-color:var(--pu)}
@@ -2214,7 +2214,7 @@ function S13({ onSaveStateChange }: Props) {
       "
     >
       <div className="mx-auto w-full max-w-[1100px]">
-        <h1 className="font-display text-[38px] font-bold leading-[1.1]">
+        <h1 className="font-display text-[38px] font-semibold leading-[1.1]">
           {tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
         </h1>
 
@@ -2480,7 +2480,7 @@ function S14({ onSaveStateChange }: Props) {
             `}
           >
             {/* Câu hỏi */}
-            <p className="relative z-10 shrink-0 text-center font-display text-[16px] font-bold leading-[1.18] text-[#7654ad]">
+            <p className="relative z-10 shrink-0 text-center font-display text-[16px] font-semibold leading-[1.18] text-[#7654ad]">
               {question.id}. {tr(question.text)}
             </p>
 
@@ -2539,12 +2539,12 @@ function S15() {
       ====================================================== */}
       <div className="relative z-20 max-w-[920px]">
         {/* Tiêu đề */}
-        <h1 className="font-display text-[42px] font-bold leading-[1.08]">
+        <h1 className="font-display text-[42px] font-semibold leading-[1.08]">
           Voimavarani opiskelijana <span className="text-white">1/2</span>
         </h1>
 
         {/* Tiêu đề phụ */}
-        <h2 className="mt-9 font-display text-[24px] font-bold leading-[1.2] text-white">
+        <h2 className="mt-9 font-display text-[24px] font-semibold leading-[1.2] text-white">
           Pohdi ja täydennä omien voimavarojesi sydämet
         </h2>
 
@@ -2648,7 +2648,7 @@ export function S16({ onSaveStateChange }: Props) {
     >
       <div className="mx-auto w-full max-w-[1280px]">
         {/* ================= TIÊU ĐỀ ================= */}
-        <h1 className="font-display text-[42px] font-bold leading-[1.08] text-white">
+        <h1 className="font-display text-[42px] font-semibold leading-[1.08] text-white">
           Voimavarani opiskelijana <span className="text-[#f1f1ef]">2/2</span>
         </h1>
 
@@ -2685,7 +2685,7 @@ export function S16({ onSaveStateChange }: Props) {
                     justify-center
                     rounded-l-[12px]
                     text-[11px]
-                    font-bold
+                    font-semibold
                     shadow-[0_4px_10px_rgba(0,0,0,0.12)]
                     ${group.tabClass}
                   `}
@@ -2781,7 +2781,7 @@ export function S16({ onSaveStateChange }: Props) {
                           mb-4
                           text-center
                           text-[12px]
-                          font-bold
+                          font-semibold
                           leading-[1.25]
                           text-[#4b3a66]
                         "
@@ -2819,8 +2819,8 @@ export function S16({ onSaveStateChange }: Props) {
                                 rounded-[8px]
                                 border-[3px]
                                 text-[31px]
-                                font-bold
-                                leading-none
+                                font-semibold
+                                leading-[1.12]
                                 transition-all
                                 duration-150
 
@@ -2850,7 +2850,7 @@ export function S16({ onSaveStateChange }: Props) {
                           gap-[25px]
                           text-center
                           text-[11px]
-                          font-bold
+                          font-semibold
                           text-[#7654ad]
                         "
                       >
@@ -2953,9 +2953,9 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[72px]
                 font-display
                 text-[clamp(20px,1.8vw,27px)]
-                font-bold
+                font-semibold
                 leading-[1.28]
-                text-[white]
+                text-white
               "
             >
               {tr("Mitä vaikeudet ovat opettaneet sinulle vahvuuksistasi?")}
@@ -3024,9 +3024,9 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[72px]
                 font-display
                 text-[clamp(20px,1.8vw,27px)]
-                font-bold
+                font-semibold
                 leading-[1.28]
-                text-[white]
+                text-white
               "
             >
               {tr("Miten olet kasvanut ja muuttunut ihmisenä vastoinkäymisten seurauksena?")}
@@ -3104,9 +3104,9 @@ function S17({ onSaveStateChange }: Props) {
             className="
               font-display
               text-[clamp(20px,1.8vw,27px)]
-              font-bold
+              font-semibold
               leading-[1.38]
-              text-[white]
+              text-white
             "
           >
             {tr(
@@ -3227,7 +3227,7 @@ function S18({ onSaveStateChange }: Props) {
             className="
               font-display
               text-[clamp(38px,3.4vw,54px)]
-              font-bold
+              font-semibold
               leading-[1.08]
               text-white
             "
@@ -3241,7 +3241,7 @@ function S18({ onSaveStateChange }: Props) {
               max-w-[1050px]
               font-display
               text-[clamp(20px,1.65vw,27px)]
-              font-bold
+              font-semibold
               leading-[1.35]
               text-white
             "
@@ -3271,9 +3271,9 @@ function S18({ onSaveStateChange }: Props) {
                 min-h-[52px]
                 font-display
                 text-[clamp(21px,1.8vw,28px)]
-                font-bold
+                font-semibold
                 leading-[1.3]
-                text-[white]
+                text-white
               "
             >
               {tr("Miltä se tuntuisi? Miten se vaikuttaisi arkeesi – ja opiskeluusi?")}
@@ -3342,9 +3342,9 @@ function S18({ onSaveStateChange }: Props) {
                 min-h-[72px]
                 font-display
                 text-[clamp(21px,1.8vw,28px)]
-                font-bold
+                font-semibold
                 leading-[1.3]
-                text-[white]
+                text-white
               "
             >
               Miten tämä vaikuttaisi arkeesi,
@@ -3463,7 +3463,7 @@ function S19() {
                 text-[clamp(36px,2.8vw,48px)]
                 font-medium
                 leading-[1.08]
-                tracking-[-0.5px]
+                tracking-[-0.015em]
                 text-white
               "
             >
@@ -3561,12 +3561,12 @@ function S20({ onSaveStateChange }: Props) {
           min-h-[720px]
           w-full
           max-w-[1420px]
-          rounded-[54px]
-          bg-[white]
+          rounded-[36px]
+          bg-white
           px-[6%]
           pb-16
           pt-12
-          text-white
+          text-[#241b3f]
           shadow-[0_8px_24px_rgba(44,27,78,0.08)]
         "
       >
@@ -3577,7 +3577,7 @@ function S20({ onSaveStateChange }: Props) {
           className="
             font-display
             text-[clamp(36px,3vw,52px)]
-            font-bold
+            font-semibold
             leading-[1.08]
             text-black
           "
@@ -3611,13 +3611,13 @@ function S20({ onSaveStateChange }: Props) {
                   max-w-[1200px]
                   text-[clamp(18px,1.45vw,25px)]
                   font-normal
-                  leading-[1.4]
-                  text-[white]
+                  leading-[1.5]
+                  text-[#241b3f]
                 "
               >
                 Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet
                 ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa.{" "}
-                <strong className="font-bold">
+                <strong className="font-semibold">
                   Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait
                   toisilta? Mikä siinä oli sinulle tärkeää?
                 </strong>
@@ -3705,8 +3705,8 @@ function S20({ onSaveStateChange }: Props) {
                 "
               >
                 Mitä tämä onnistuminen kertoo{" "}
-                <strong className="font-bold">ydinvahvuuksistasi:</strong> mitä omia ydinvahvuuksia
-                käyttämällä onnistuit?
+                <strong className="font-semibold">ydinvahvuuksistasi:</strong> mitä omia
+                ydinvahvuuksia käyttämällä onnistuit?
               </p>
 
               <div
@@ -4252,7 +4252,7 @@ function S21({ onSaveStateChange }: Props) {
                   text-center
                   font-display
                   text-[14px]
-                  font-bold
+                  font-semibold
                   leading-[1.25]
                   text-black
                 "
@@ -4404,9 +4404,9 @@ function S22({ onSaveStateChange }: Props) {
               max-w-[800px]
               font-display
               text-[clamp(34px,2.6vw,48px)]
-              font-bold
+              font-semibold
               leading-[1.05]
-              text-yellow
+              text-[#ffd95d]
             "
           >
             {tr(
@@ -4775,9 +4775,9 @@ function S23({ onSaveStateChange }: Props) {
               className="
                 font-display
                 text-[clamp(36px,3vw,52px)]
-                font-bold
+                font-semibold
                 leading-[1.05]
-                text-yellow
+                text-[#ffd95d]
               "
             >
               {tr(
@@ -5051,9 +5051,9 @@ function S24({ onSaveStateChange }: Props) {
             max-w-[1050px]
             font-display
             text-[clamp(36px,3vw,52px)]
-            font-bold
+            font-semibold
             leading-[1.12]
-            text-yellow
+            text-[#ffd95d]
           "
         >
           Anna palautetta ja kehuja täydentämällä
@@ -5125,9 +5125,9 @@ function S24({ onSaveStateChange }: Props) {
                   text-center
                   font-display
                   text-[17px]
-                  font-bold
-                  leading-[1.2]
-                  text-white
+                  font-semibold
+                  leading-[1.25]
+                  text-[#241b3f]
                 "
               >
                 {tr(bubble.label)}
@@ -5309,7 +5309,7 @@ function S25({ onSaveStateChange }: Props) {
             rotate={note.rotate}
             className={cn("absolute z-20 p-3 text-black", note.className)}
           >
-            <p className="min-h-[34px] text-center font-display text-[14px] font-bold leading-[1.2]">
+            <p className="min-h-[34px] text-center font-display text-[14px] font-semibold leading-[1.2]">
               {tr(note.label)}
             </p>
             <div className="h-[calc(100%-36px)]">
@@ -5437,7 +5437,7 @@ function LikertRow({
                 rounded-full
                 border-2
                 text-[13px]
-                font-bold
+                font-semibold
                 transition
                 duration-150
               `,
@@ -5508,7 +5508,7 @@ function S26({ onSaveStateChange }: Props) {
             className="
               font-display
               text-[clamp(38px,3vw,54px)]
-              font-bold
+              font-semibold
               leading-[1.05]
               text-[#ffd95d]
             "
@@ -5629,8 +5629,8 @@ function S26({ onSaveStateChange }: Props) {
               className="
                 font-display
                 text-[64px]
-                font-bold
-                leading-none
+                font-semibold
+                leading-[1.12]
                 text-[#ffd95d]
               "
             >
@@ -5640,7 +5640,7 @@ function S26({ onSaveStateChange }: Props) {
             <div
               className="
                 text-[clamp(18px,1.4vw,24px)]
-                font-bold
+                font-semibold
                 leading-[1.4]
               "
             >
@@ -5679,11 +5679,11 @@ function M2Intro() {
   return (
     <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
       <div className="absolute right-[4%] top-0 rounded-b-[12px] bg-[#7654ad] px-5 py-3 text-white">
-        <span className="font-display text-[20px] font-bold">Tasot&nbsp; 2</span>
+        <span className="font-display text-[20px] font-semibold">Tasot&nbsp; 2</span>
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center px-8">
-        <h1 className="text-center font-display text-[clamp(48px,5vw,78px)] font-bold leading-[1.08] tracking-[-1px]">
+        <h1 className="text-center font-display text-[clamp(48px,5vw,78px)] font-semibold leading-[1.08] tracking-[-0.02em]">
           2. Omat vahvuudet
           <br />
           lukiossa
@@ -5702,7 +5702,7 @@ function S28() {
     <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
       <div className="relative mx-auto min-h-[720px] w-full max-w-[1500px] overflow-hidden px-[8%] pb-20 pt-16">
         <div className="relative z-20 max-w-[1150px]">
-          <h1 className="font-display text-[clamp(38px,3vw,54px)] font-bold leading-none text-yellow">
+          <h1 className="font-display text-[clamp(38px,3vw,54px)] font-semibold leading-[1.12] text-[#ffd95d]">
             {tr("Mina styrkor i gymnasiet")}
           </h1>
 
@@ -5774,10 +5774,10 @@ function VahvuuskarkkiSheet({
     <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
       <div className="relative mx-auto min-h-[760px] w-full max-w-[1500px] overflow-hidden px-[8%] pb-20 pt-14">
         <div className="relative z-20 w-[34%] pt-8">
-          <h1 className="font-display text-[clamp(38px,3.1vw,54px)] font-bold leading-none">
+          <h1 className="font-display text-[clamp(38px,3.1vw,54px)] font-semibold leading-[1.12]">
             {tr(title)}
           </h1>
-          <p className="mt-10 max-w-[420px] text-[clamp(21px,1.8vw,30px)] font-semibold leading-[1.28] text-[white]">
+          <p className="mt-10 max-w-[420px] text-[clamp(21px,1.8vw,30px)] font-semibold leading-[1.28] text-white">
             Valitse 1–2 vahvuuskarkkia ja <span className="bg-[#c9e2ff] px-1">hyödynnä</span> niitä{" "}
             {tr(context)}.
             <br />
@@ -5793,7 +5793,7 @@ function VahvuuskarkkiSheet({
             />
           </div>
 
-          <p className="mt-24 text-[clamp(19px,1.6vw,26px)] font-semibold leading-[1.35] text-[white]">
+          <p className="mt-24 text-[clamp(19px,1.6vw,26px)] font-semibold leading-[1.35] text-white">
             Pohdi, mitä teit, koit ja opit.
           </p>
           <div className="mt-8 grid grid-cols-[10px_minmax(0,1fr)] gap-x-4">
@@ -5810,7 +5810,7 @@ function VahvuuskarkkiSheet({
         </div>
 
         <div className="absolute right-[8%] top-[11%] z-20 h-[650px] w-[47%] rounded-[34px] bg-[#ef6f70] shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
-          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-bold uppercase text-black">
+          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-semibold uppercase text-black">
             {tr(context)}
           </div>
 
@@ -5824,7 +5824,7 @@ function VahvuuskarkkiSheet({
                   onSaveStateChange={onSaveStateChange}
                 />
               </div>
-              <p className="mt-2 text-center font-display text-[18px] font-bold leading-[1.2] text-white">
+              <p className="mt-2 text-center font-display text-[18px] font-semibold leading-[1.2] text-white">
                 {tr(field.label)}
               </p>
             </div>
@@ -5925,14 +5925,14 @@ function S30({ onSaveStateChange }: Props) {
 
         {pieces.map((piece) => (
           <div key={piece.key} className={cn("absolute z-20", piece.className)}>
-            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-bold">
+            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-semibold">
               {tr(piece.tab)}
             </div>
             <div
               className="h-full bg-white p-5 text-black shadow-[0_9px_0_rgba(48,27,74,0.55)]"
               style={{ clipPath: piece.clip }}
             >
-              <p className="mx-auto max-w-[85%] text-center font-display text-[13px] font-bold leading-[1.2]">
+              <p className="mx-auto max-w-[85%] text-center font-display text-[13px] font-semibold leading-[1.2]">
                 {tr(piece.question)}
               </p>
               <div className="mt-3 h-[calc(100%-50px)]">
@@ -5964,11 +5964,13 @@ function S31({ onSaveStateChange }: Props) {
     "Unelmieni ammatti",
   ];
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="coral" seed="s31-h">
-        <h1 className="font-display text-2xl">Unelmien tiekartta opinnoissa</h1>
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
+          Unelmien tiekartta opinnoissa
+        </h1>
       </StickyNote>
-      <div className="grid gap-3">
+      <div className="grid gap-5">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
@@ -5995,25 +5997,25 @@ function S32({ onSaveStateChange }: Props) {
     "Mitä vahvuuksia tavallisesti hyödynnät opintojen aikana?",
   ];
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="yellow" seed="s32-h">
-        <h1 className="font-display text-2xl mb-1">
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
           {tr(
             "Minä opiskelijana – Listaa seuraavalle sivulle kaikki vahvuutesi opiskelijana – myös sellaiset, jotka voivat tuntua sinusta itsestäänselvyyksiltä.",
           )}
         </h1>
-        <p className="text-sm opacity-90">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka
           saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia
           ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia,
           oletko ryhmähengen luoja?
         </p>
-        <p className="text-sm opacity-90 mt-2">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95 mt-2">
           Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet
           erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.
         </p>
       </StickyNote>
-      <div className="grid gap-3">
+      <div className="grid gap-5">
         {qs.map((q, i) => (
           <ReflectionTextarea
             key={i}
@@ -6032,11 +6034,11 @@ function S32({ onSaveStateChange }: Props) {
 function S33({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="mint" seed="s33-h">
         {tr("Täytä kaikki erityisosaamisesi tähän listaan. (Täytettävät kohdat 1–10)")}
       </StickyNote>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {Array.from({ length: 10 }).map((_, i) => (
           <ReflectionInput
             key={i}
@@ -6067,19 +6069,19 @@ function S34({ onSaveStateChange }: Props) {
     },
   ];
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="coral" seed="s34-h">
-        <h1 className="font-display text-2xl mb-1">
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
           {tr(
             "Koulumuistot – Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.",
           )}
         </h1>
-        <p className="text-sm opacity-90">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla
           on.
         </p>
       </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {qs.map((x) => (
           <ReflectionTextarea
             key={x.k}
@@ -6098,14 +6100,14 @@ function S34({ onSaveStateChange }: Props) {
 function S35() {
   const tr = useTr();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="yellow" seed="s35-h">
         {tr(
           "Tavoitteeni opiskelijana 1/2 – Tässä tehtävässä selkiytät tavoitteesi opiskelijana – tavoitteen, jonka haluat saavuttaa.",
         )}
       </StickyNote>
       <StickyNote tone="white" seed="s35-b">
-        <p className="text-sm leading-relaxed mb-2">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.6] mb-2">
           Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit
           saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä,
           mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.
@@ -6144,11 +6146,13 @@ function S36({ onSaveStateChange }: Props) {
     { k: "screen_36_taidot", label: "4. Mitä muita taitoja tarvitsen" },
   ];
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="mint" seed="s36-h">
-        <h1 className="font-display text-2xl">Tavoitteeni opiskelijana 2/2</h1>
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
+          Tavoitteeni opiskelijana 2/2
+        </h1>
       </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {boxes.map((b) => (
           <StickyNote key={b.k} tone="white" seed={b.k}>
             <ReflectionTextarea
@@ -6172,19 +6176,19 @@ function S36({ onSaveStateChange }: Props) {
 function S37({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="coral" seed="s37-h">
-        <h1 className="font-display text-2xl mb-1">
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
           {tr(
             "Vahvuuteni opiskelijana – Tunnista vahvuutesi. Arvosta ja ole ylpeä vahvuuksistasi. Kirjoita parhaat puolesi opiskelijana!",
           )}
         </h1>
-        <p className="text-sm opacity-90">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi
           muistiin omia parhaita puoliasi opiskelijana!
         </p>
       </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-5 lg:grid-cols-3">
         <ReflectionTextarea
           fieldKey="screen_37_arvostan"
           label="Mukavia asioita — Arvostan itsessäni"
@@ -6212,20 +6216,20 @@ function S37({ onSaveStateChange }: Props) {
 function S38({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="yellow" seed="s38-h">
-        <h1 className="font-display text-2xl mb-1">
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
           {tr(
             "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.",
           )}
         </h1>
-        <p className="text-sm opacity-90">
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana.
           Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet
           näkyvät ja miten ne vaikuttavat kanssaihmisiin.
         </p>
       </StickyNote>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         <ReflectionTextarea
           fieldKey="screen_38_uutta"
           label={tr("Mitä uutta opin palautteista?")}
@@ -6259,15 +6263,17 @@ function S38({ onSaveStateChange }: Props) {
 function S39({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="mint" seed="s39-h">
-        <h1 className="font-display text-2xl mb-1">{tr("Minä olen –övning")}</h1>
-        <p className="text-sm opacity-90">
+        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
+          {tr("Minä olen –övning")}
+        </h1>
+        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
           <em> “Olet sinnikäs.”</em> → <strong>“Minä olen sinnikäs.”</strong>
         </p>
       </StickyNote>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {Array.from({ length: 7 }).map((_, i) => (
           <ReflectionInput
             key={i}
@@ -6286,8 +6292,12 @@ function S39({ onSaveStateChange }: Props) {
 function M3Intro() {
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
-      <div className="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Moduuli 3</div>
-      <h1 className="font-display text-4xl leading-tight">3. Omat vahvuudet kotona</h1>
+      <div className="text-sm font-medium uppercase tracking-[0.12em] opacity-80 mb-2">
+        Moduuli 3
+      </div>
+      <h1 className="font-display text-[clamp(40px,4.5vw,68px)] font-medium leading-[1.1] tracking-[-0.025em]">
+        3. Omat vahvuudet kotona
+      </h1>
     </StickyNote>
   );
 }
