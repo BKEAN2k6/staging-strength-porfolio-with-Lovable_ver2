@@ -48,7 +48,7 @@ function ScreenView() {
   const rawPct = stats && stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
 
   /*
-   * Giới hạn phần trăm trong khoảng từ 0 đến 100.
+   * Giới hạn phần trăm từ 0 đến 100.
    */
   const pct = Math.max(0, Math.min(100, rawPct));
 
@@ -127,8 +127,8 @@ function ScreenView() {
       className="
         journey-bg
         flex
-        h-[calc(100vh-3.5rem)]
-        min-h-0
+        h-[calc(100dvh-3.5rem)]
+        min-h-[calc(100dvh-3.5rem)]
         min-w-0
         w-full
         flex-col
@@ -169,12 +169,6 @@ function ScreenView() {
       >
         {/* =====================================================
             PROLOGUE + WELCOME + PROGRESS
-
-            Bên trái:
-            Prologue + Welcome
-
-            Bên phải:
-            thanh tiến độ màu vàng + phần trăm
         ====================================================== */}
         <div
           className="
@@ -217,7 +211,7 @@ function ScreenView() {
             </span>
           </div>
 
-          {/* BÊN PHẢI: THANH TIẾN ĐỘ CĂN GIỮA */}
+          {/* BÊN PHẢI: THANH TIẾN ĐỘ */}
           <div
             className="
               ml-auto
@@ -348,7 +342,15 @@ function ScreenView() {
       {/* =====================================================
           PREVIOUS / NEXT
       ====================================================== */}
-      <div className="relative z-30 shrink-0">
+      <div
+        className="
+          relative
+          z-40
+          mt-auto
+          w-full
+          shrink-0
+        "
+      >
         <BottomNav
           n={n}
           saveState={saveState}
