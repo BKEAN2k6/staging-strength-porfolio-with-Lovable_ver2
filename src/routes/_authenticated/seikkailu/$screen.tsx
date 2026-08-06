@@ -126,9 +126,10 @@ function ScreenView() {
     <div
       className="
         journey-bg
+        relative
         flex
         h-[calc(100dvh-3.5rem)]
-        min-h-[calc(100dvh-3.5rem)]
+        min-h-0
         min-w-0
         w-full
         flex-col
@@ -163,7 +164,7 @@ function ScreenView() {
           flex-col
           overflow-hidden
           px-5
-          pb-3
+          pb-[76px]
           pt-0
         "
       >
@@ -341,14 +342,15 @@ function ScreenView() {
 
       {/* =====================================================
           PREVIOUS / NEXT
+          Cố định sát đáy container
       ====================================================== */}
       <div
         className="
-          relative
+          absolute
+          inset-x-0
+          bottom-0
           z-40
-          mt-auto
           w-full
-          shrink-0
         "
       >
         <BottomNav
