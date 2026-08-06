@@ -153,20 +153,20 @@ function ScreenView() {
       ====================================================== */}
       <main
         className="
-          relative
-          z-10
-          flex
-          min-h-0
-          min-w-0
-          w-full
-          max-w-none
-          flex-1
-          flex-col
-          overflow-hidden
-          px-5
-          pb-[76px]
-          pt-0
-        "
+    relative
+    z-10
+    flex
+    min-h-0
+    min-w-0
+    w-full
+    max-w-none
+    flex-1
+    flex-col
+    overflow-hidden
+    px-5
+    pb-[88px]
+    pt-0
+  "
       >
         {/* =====================================================
             PROLOGUE + WELCOME + PROGRESS
@@ -346,12 +346,16 @@ function ScreenView() {
       ====================================================== */}
       <div
         className="
-          absolute
-          inset-x-0
-          bottom-0
-          z-40
-          w-full
-        "
+    fixed
+    bottom-0
+    right-0
+    left-[289px]
+    z-[100]
+    m-0
+    w-auto
+    translate-y-4
+    p-0
+  "
       >
         <BottomNav
           n={n}
