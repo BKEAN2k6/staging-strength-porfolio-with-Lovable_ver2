@@ -1,23 +1,22 @@
 import {
-  useCallback,
   useEffect,
-  useMemo,
-  useRef,
   useState,
   type ReactNode,
   type CSSProperties,
+  useRef,
+  useCallback,
+  useMemo,
 } from "react";
-import { StickyNote } from "@/components/StickyNote";
-import { WORLDS } from "@/lib/screens";
-import { ReflectionTextarea, ReflectionInput } from "@/components/ReflectionTextarea";
-import { SelectableChips } from "@/components/SelectableChips";
+
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
+
 import { useReportCompletion } from "@/lib/screen-completion";
-import { cn } from "@/lib/utils";
+
 import { useTr, useLanguage } from "@/lib/i18n";
+
 import { getStrengthColor, getStrengthName } from "@/lib/strengths-i18n";
 
-// Screens 1–22: content sourced verbatim from the workbook PDF
+import { cn } from "@/lib/utils"; // Screens 1–22: content sourced verbatim from the workbook PDF
 // "Vahvuusportfolio lukiolaiselle" (Huomaa hyvä!®).
 
 export const STRENGTHS_24 = [
@@ -444,147 +443,167 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
 }
 
 // S6
-function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
+function StrengthsList({ onSaveStateChange }: Props) {
   const tr = useTr();
-
-  const strengths = [
-    {
-      id: 1,
-      text: "Rohkeus",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 2,
-      text: "Ystävällisyys",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-    {
-      id: 3,
-      text: "Kiitollisuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 4,
-      text: "Itsesäätely",
-      color: "#ccecf7",
-      border: "#48a9d0",
-    },
-
-    {
-      id: 5,
-      text: "Luovuus",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 6,
-      text: "Henkisyys",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 7,
-      text: "Rakkaus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 8,
-      text: "Innostus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-
-    {
-      id: 9,
-      text: "Johtajuus",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 10,
-      text: "Toiveikkuus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 11,
-      text: "Reiluus",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-    {
-      id: 12,
-      text: "Oppimisen ilo",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-
-    {
-      id: 13,
-      text: "Anteeksiantavuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 14,
-      text: "Sisukkuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 15,
-      text: "Rehellisyys",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 16,
-      text: "Arviointikyky",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-
-    {
-      id: 17,
-      text: "Myötätunto",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 18,
-      text: "Sosiaalinen älykkyys",
-      color: "#ded2f2",
-      border: "#7654ad",
-    },
-    {
-      id: 19,
-      text: "Uteliaisuus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 20,
-      text: "Ryhmätyötaidot",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-  ];
+  const { language } = useLanguage();
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
+  const report = useReportCompletion();
+
+  const fieldKey = "screen_6_known_strengths";
+  const maxSelections = 3;
+
+  /*
+   * Các version cũ của screen 6 từng lưu tên strength bằng tiếng Phần Lan.
+   * Map này chuyển dữ liệu cũ sang ID số từ 1–26.
+   */
+  const legacyNameToId: Record<string, number> = {
+    Luovuus: 1,
+    Uteliaisuus: 2,
+    Arviointikyky: 3,
+    "Oppimisen ilo": 4,
+    Näkökulmanottokyky: 5,
+
+    Rohkeus: 6,
+    Sinnikkyys: 7,
+    Rehellisyys: 8,
+    Innokkuus: 9,
+    Innostus: 9,
+    Sisukkuus: 10,
+
+    Myötätunto: 11,
+    Rakkaus: 12,
+    Ystävällisyys: 13,
+    "Sosiaalinen älykkyys": 14,
+
+    Ryhmätyötaito: 15,
+    Ryhmätyötaidot: 15,
+    Reiluus: 16,
+    Johtajuus: 17,
+
+    Anteeksiantavuus: 18,
+    Vaatimattomuus: 19,
+    Harkitsevuus: 20,
+    Harkitsevaisuus: 20,
+    Itsesäätely: 21,
+
+    "Kauneuden ja erinomaisuuden arvostaminen": 22,
+    "Kauneuden ja erinomaisuuden arvostus": 22,
+
+    Kiitollisuus: 23,
+    Toiveikkuus: 24,
+    Huumorintaju: 25,
+
+    Hengellisyys: 26,
+    Henkisyys: 26,
+  };
+
+  /*
+   * Load câu trả lời đã lưu.
+   *
+   * Version mới lưu ID số.
+   * Version cũ có thể vẫn là tên Finnish.
+   */
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSavedStrengths() {
+      const saved = await loadResponse<unknown[]>(fieldKey);
+
+      if (cancelled) return;
+
+      if (Array.isArray(saved)) {
+        const migratedIds = saved
+          .map((item) => {
+            /*
+             * Dữ liệu mới:
+             * [1, 6, 13]
+             */
+            if (typeof item === "number" && Number.isInteger(item) && item >= 1 && item <= 26) {
+              return item;
+            }
+
+            /*
+             * Dữ liệu cũ:
+             * ["Luovuus", "Rohkeus", ...]
+             */
+            if (typeof item === "string") {
+              /*
+               * Nếu string thực chất là số như "6".
+               */
+              const numericId = Number(item);
+
+              if (Number.isInteger(numericId) && numericId >= 1 && numericId <= 26) {
+                return numericId;
+              }
+
+              return legacyNameToId[item];
+            }
+
+            return undefined;
+          })
+          .filter((id): id is number => typeof id === "number");
+
+        const uniqueIds = [...new Set(migratedIds)];
+
+        setSelectedIds(uniqueIds.slice(0, maxSelections));
+      }
+
+      setLoaded(true);
+    }
+
+    void loadSavedStrengths();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  /*
+   * Lưu ID strength thay vì tên Finnish.
+   *
+   * Ví dụ:
+   * [1, 6, 13]
+   *
+   * Khi đổi FI / EN / SV thì ID vẫn giữ nguyên.
+   */
+  const state = useAutosave(fieldKey, selectedIds, {
+    enabled: loaded,
+  });
+
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
+
+  /*
+   * Screen được xem là complete khi
+   * học sinh đã chọn ít nhất 1 strength.
+   */
+  useEffect(() => {
+    if (!loaded) return;
+
+    report(fieldKey, selectedIds.length >= 1);
+  }, [loaded, report, selectedIds.length]);
+
+  /*
+   * Chọn / bỏ chọn strength.
+   * Tối đa 3 strength.
+   */
   function toggleStrength(id: number) {
     setSelectedIds((currentIds) => {
-      const alreadySelected = currentIds.includes(id);
-
-      if (alreadySelected) {
+      /*
+       * Nếu đã chọn rồi → bỏ chọn.
+       */
+      if (currentIds.includes(id)) {
         return currentIds.filter((selectedId) => selectedId !== id);
       }
 
-      if (currentIds.length >= 3) {
+      /*
+       * Nếu đã đủ 3 → không cho thêm.
+       */
+      if (currentIds.length >= maxSelections) {
         return currentIds;
       }
 
@@ -592,166 +611,406 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
     });
   }
 
-  const selectedStrengths = strengths.filter((strength) => selectedIds.includes(strength.id));
-
-  const selectionIsFull = selectedIds.length >= 3;
-
   return (
-    <div className="relative min-h-[620px] w-full overflow-hidden px-6 pb-5 pt-5 text-white">
-      <div className="grid min-h-[570px] grid-cols-[0.58fr_2fr] items-center gap-6">
-        <div className="relative flex min-w-0 flex-col items-center justify-center">
-          <div className="relative h-[210px] w-full max-w-[190px]">
-            <img
-              src="/illustrations/naytto-3.png"
-              alt={tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
-              className="absolute inset-0 h-full w-full object-contain"
+    <div
+      className="
+        relative
+        min-h-[560px]
+        overflow-hidden
+        rounded-[2rem]
+        bg-gradient-to-br
+        from-[#7A55CB]
+        via-[#7951C6]
+        to-[#7AA9D8]
+        p-8
+        text-white
+      "
+    >
+      {/* Góc trang trí */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -right-8
+          -top-10
+          h-28
+          w-40
+          rotate-12
+          bg-[#F28B4D]
+          [clip-path:polygon(23%_0,100%_22%,84%_100%,0_77%)]
+        "
+      />
+
+      <div
+        className="
+          relative
+          z-10
+          grid
+          h-full
+          grid-cols-[220px_minmax(0,1fr)]
+          gap-8
+        "
+      >
+        {/* =====================================================
+            JAR
+        ====================================================== */}
+        <aside
+          className="
+            flex
+            flex-col
+            items-center
+            justify-center
+            pt-4
+            text-center
+          "
+        >
+          <div className="relative h-[245px] w-[185px]">
+            {/* Jar lid */}
+            <div
+              className="
+                absolute
+                left-1/2
+                top-0
+                z-20
+                h-[28px]
+                w-[140px]
+                -translate-x-1/2
+                rounded-full
+                border-[3px]
+                border-black
+                bg-[#EAF9FC]
+              "
             />
 
-            <div className="absolute bottom-[30px] left-1/2 z-20 flex w-[180px] -translate-x-1/2 flex-col items-center gap-2">
-              {selectedStrengths.map((strength, index) => (
-                <button
-                  key={strength.id}
-                  type="button"
-                  onClick={() => toggleStrength(strength.id)}
-                  className={`
-                    max-w-[165px]
-                    rounded-full
-                    border-2
-                    px-4
-                    py-2
+            {/* Jar body */}
+            <div
+              className="
+                absolute
+                bottom-0
+                left-1/2
+                h-[220px]
+                w-[175px]
+                -translate-x-1/2
+                overflow-hidden
+                rounded-[36px]
+                border-[3px]
+                border-black
+                bg-white/20
+                shadow-[0_9px_0_rgba(0,0,0,0.14)]
+              "
+            >
+              {/* Label chỉ hiện khi chưa chọn strength */}
+              {selectedIds.length === 0 && (
+                <div
+                  className="
+                    absolute
+                    left-1/2
+                    top-[70px]
+                    w-[125px]
+                    -translate-x-1/2
+                    -rotate-3
+                    bg-[#FFF4DE]
+                    px-3
+                    py-3
                     text-center
-                    text-[12px]
-                    font-semibold
-                    leading-[1.1]
-                    shadow-sm
-                    transition-transform
-                    hover:scale-105
-                    ${index === 0 ? "-rotate-3" : ""}
-                    ${index === 1 ? "rotate-2" : ""}
-                    ${index === 2 ? "-rotate-1" : ""}
-                  `}
-                  style={{
-                    backgroundColor: strength.color,
-                    borderColor: strength.border,
-                  }}
+                    text-[11px]
+                    font-bold
+                    leading-tight
+                    text-[#4C3B58]
+                  "
                 >
-                  {tr(strength.text)}
-                </button>
-              ))}
+                  {tr("Minun vahvuuteni")}
+                </div>
+              )}
+
+              {/* Candies đã chọn trong jar */}
+              <div
+                className="
+                  absolute
+                  inset-x-2
+                  bottom-5
+                  flex
+                  flex-col-reverse
+                  items-center
+                  gap-2
+                "
+              >
+                {selectedIds.map((id, index) => {
+                  const color = getStrengthColor(id);
+
+                  const name = getStrengthName(id, language);
+
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => toggleStrength(id)}
+                      title={name}
+                      aria-label={`${name} – ${tr("poista valinta")}`}
+                      className={`
+                          flex
+                          items-center
+                          justify-center
+                          transition-transform
+                          hover:scale-105
+
+                          ${index === 0 ? "-rotate-2" : ""}
+
+                          ${index === 1 ? "rotate-2" : ""}
+
+                          ${index === 2 ? "-rotate-1" : ""}
+                        `}
+                    >
+                      {/* Candy end trái */}
+                      <span
+                        aria-hidden="true"
+                        className="
+                            h-[24px]
+                            w-[14px]
+                            shrink-0
+                            rounded-full
+                            border-2
+                            border-black
+                          "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      />
+
+                      {/* Candy center */}
+                      <span
+                        className="
+                            -mx-[2px]
+                            flex
+                            min-h-[32px]
+                            max-w-[120px]
+                            items-center
+                            justify-center
+                            rounded-full
+                            border-2
+                            border-black
+                            px-3
+                            py-1
+                            text-center
+                            font-display
+                            text-[9px]
+                            font-semibold
+                            leading-[1.05]
+                            text-[#2E2336]
+                            shadow-sm
+                          "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      >
+                        {name}
+                      </span>
+
+                      {/* Candy end phải */}
+                      <span
+                        aria-hidden="true"
+                        className="
+                            h-[24px]
+                            w-[14px]
+                            shrink-0
+                            rounded-full
+                            border-2
+                            border-black
+                          "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <div className="-mt-3 flex items-center justify-center gap-2 text-[#ffd12f]">
-            <span className="rotate-[-30deg] text-[40px] leading-[1.12]">↗</span>
+          {/* Instructions */}
+          <div
+            className="
+              relative
+              mt-5
+              max-w-[205px]
+              text-center
+              font-display
+              text-[13px]
+              font-semibold
+              leading-[1.25]
+              text-[#FFE65A]
+            "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                absolute
+                -left-7
+                top-2
+                -rotate-[25deg]
+                text-[34px]
+              "
+            >
+              ↗
+            </span>
 
-            <p className="text-center text-[14px] font-medium leading-[1.3]">
-              {tr(
-                "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
-              )}
-            </p>
+            {tr(
+              "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
+            )}
           </div>
 
-          <p className="mt-2 text-[13px] font-medium text-white">
-            {tr("Valittu {n} / {max}", {
-              n: selectedIds.length,
-              max: 3,
-            })}
-          </p>
-        </div>
+          {/* Counter */}
+          <div
+            className="
+              mt-3
+              font-display
+              text-[14px]
+              font-semibold
+            "
+          >
+            {tr("Valittu")} {selectedIds.length} / {maxSelections}
+          </div>
+        </aside>
 
-        <div className="min-w-0 pl-2">
-          <h1 className="max-w-[950px] font-display text-[32px] font-semibold leading-[1.12]">
-            {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
+        {/* =====================================================
+            26 STRENGTH CANDIES
+        ====================================================== */}
+        <section className="min-w-0 pt-1">
+          <h1
+            className="
+              mb-1
+              max-w-[850px]
+              font-display
+              text-[30px]
+              font-bold
+              leading-tight
+            "
+          >
+            {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa")}
           </h1>
 
-          <p className="mb-5 mt-2 text-[19px]">{tr("Keksitkö lisää?")}</p>
+          <p
+            className="
+              mb-4
+              font-display
+              text-[18px]
+              font-medium
+            "
+          >
+            {tr("Keksitkö lisää?")}
+          </p>
 
-          <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-5">
-            {strengths.map((strength) => {
-              const isSelected = selectedIds.includes(strength.id);
+          <div
+            className="
+              grid
+              max-w-[1000px]
+              grid-cols-5
+              gap-x-3
+              gap-y-3
+            "
+          >
+            {Array.from({ length: 26 }, (_, index) => index + 1).map((id) => {
+              const name = getStrengthName(id, language);
 
-              const selectionDisabled = selectionIsFull && !isSelected;
+              const color = getStrengthColor(id);
+
+              const isSelected = selectedIds.includes(id);
+
+              const selectionDisabled = selectedIds.length >= maxSelections && !isSelected;
 
               return (
                 <button
-                  key={strength.id}
+                  key={id}
                   type="button"
                   disabled={selectionDisabled}
-                  onClick={() => toggleStrength(strength.id)}
-                  className={`
-                    group
-                    flex
-                    w-full
-                    min-w-0
-                    items-center
-                    justify-center
-                    transition-all
-                    duration-150
-                    ${isSelected ? "scale-105" : ""}
-                    ${selectionDisabled ? "cursor-not-allowed opacity-35" : "hover:scale-105"}
-                  `}
+                  onClick={() => toggleStrength(id)}
+                  aria-pressed={isSelected}
+                  aria-label={name}
+                  className={cn(
+                    `
+                      group
+                      flex
+                      min-w-0
+                      items-center
+                      justify-center
+                      transition-all
+                      duration-150
+                    `,
+                    isSelected && "scale-105",
+                    selectionDisabled && "cursor-not-allowed opacity-35",
+                    !selectionDisabled && "hover:scale-105",
+                  )}
                 >
+                  {/* Candy end trái */}
                   <span
                     aria-hidden="true"
                     className="
-                      h-[40px]
+                      h-[34px]
                       w-[18px]
                       shrink-0
-                      [clip-path:polygon(100%_0,100%_100%,0_78%,30%_50%,0_22%)]
+                      rounded-full
+                      border-2
+                      border-black
                     "
                     style={{
-                      backgroundColor: strength.color,
-                      border: `2px solid ${strength.border}`,
+                      backgroundColor: color,
                     }}
                   />
 
+                  {/* Candy center */}
                   <span
-                    className={`
-                      -mx-[2px]
-                      flex
-                      min-h-[48px]
-                      w-[155px]
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-[50%]
-                      border-2
-                      px-2
-                      py-1
-                      text-center
-                      text-[11px]
-                      font-semibold
-                      leading-[1.12]
-                      whitespace-nowrap
-                      shadow-[0_4px_0_rgba(0,0,0,0.08)]
-                      ${isSelected ? "ring-4 ring-[#7755c9]/30" : ""}
-                    `}
+                    className={cn(
+                      `
+                        -mx-[2px]
+                        flex
+                        min-h-[46px]
+                        w-[128px]
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        border-2
+                        border-black
+                        px-2
+                        py-1
+                        text-center
+                        font-display
+                        text-[10px]
+                        font-semibold
+                        leading-[1.08]
+                        text-[#2E2336]
+                        shadow-[0_4px_0_rgba(0,0,0,0.12)]
+                      `,
+                      isSelected && "ring-4 ring-white/70",
+                    )}
                     style={{
-                      backgroundColor: strength.color,
-                      borderColor: strength.border,
+                      backgroundColor: color,
                     }}
                   >
-                    <span>{tr(strength.text)}</span>
+                    {name}
                   </span>
 
+                  {/* Candy end phải */}
                   <span
                     aria-hidden="true"
                     className="
-                      h-[40px]
+                      h-[34px]
                       w-[18px]
                       shrink-0
-                      [clip-path:polygon(0_0,0_100%,100%_78%,70%_50%,100%_22%)]
+                      rounded-full
+                      border-2
+                      border-black
                     "
                     style={{
-                      backgroundColor: strength.color,
-                      border: `2px solid ${strength.border}`,
+                      backgroundColor: color,
                     }}
                   />
                 </button>
               );
             })}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
