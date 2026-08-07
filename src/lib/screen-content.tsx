@@ -2112,11 +2112,11 @@ export default function Karkkikauppa() {
   return (
     <div className="ns">
       <style>{`
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
 .ns{--pu:#6C4F9C;--pud:#4E3A78;--ye:#F4C84A;--co:#E8736B;--ink:#2B2342;--wood:#B99444;
  position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;
- padding:18px 20px 0;font-family:'Poppins',system-ui,sans-serif;background:var(--pu);color:#fff}
+ padding:18px 20px 0;font-family:'Fredoka',system-ui,sans-serif;background:var(--pu);color:#fff}
 .shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
 .ns *{box-sizing:border-box}
 .fd{font-family:'Fredoka',system-ui,sans-serif;font-weight:500}
@@ -2130,7 +2130,7 @@ export default function Karkkikauppa() {
 .hd{position:relative;z-index:2;max-width:1310px;margin:0 auto 14px;display:flex;
  justify-content:space-between;align-items:flex-start;gap:26px;flex-wrap:wrap}
 .h1{font-size:clamp(24px,2.9vw,36px);line-height:1.03;letter-spacing:-.4px;max-width:15ch;margin:0}
-.h1 small{display:block;font-family:'Poppins';font-weight:400;font-size:13px;line-height:1.55;
+.h1 small{display:block;font-family:'Fredoka';font-weight:400;font-size:13px;line-height:1.55;
  opacity:.9;margin-top:11px;max-width:40ch;letter-spacing:0}
 .namu{position:relative;flex:0 0 auto;padding:13px 38px;border:3px solid var(--ye);border-radius:11px;
  font-family:'Fredoka';font-size:25px;color:var(--ye);letter-spacing:1px;transform:rotate(-3deg);white-space:nowrap}
@@ -2240,7 +2240,7 @@ export default function Karkkikauppa() {
 .btn.go:hover{box-shadow:0 7px 0 #C39C22}
 @keyframes br{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .link{background:none;border:0;color:inherit;opacity:.72;text-decoration:underline;cursor:pointer;
- font-size:13px;font-family:'Poppins';padding:6px}
+ font-size:13px;font-family:'Fredoka';padding:6px}
 
 /* ── kuitti ───────────────────────────────── */
 .receipt{position:relative;z-index:2;max-width:740px;margin:24px auto 0;background:#FFF9EF;color:var(--ink);
@@ -2257,7 +2257,7 @@ export default function Karkkikauppa() {
 .line em{font-style:normal;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.48}
 .q{font-weight:500;font-size:13px;margin:20px 0 8px;line-height:1.5}
 .ta{width:100%;min-height:80px;border:2px solid #E6DAC2;border-radius:12px;padding:11px 13px;background:#fff;
- font-family:'Poppins';font-size:13px;color:var(--ink);resize:vertical}
+ font-family:'Fredoka';font-size:13px;color:var(--ink);resize:vertical}
 .ta:focus{outline:0;border-color:var(--pu)}
 .acts{display:flex;gap:16px;align-items:center;margin-top:22px;flex-wrap:wrap}
 
@@ -2489,57 +2489,61 @@ function S13({ onSaveStateChange }: Props) {
   }, []);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
-      <div className="space-y-4">
-        <StickyNote tone="yellow" seed="s13-title">
-          <h1 className="mb-1 font-display text-3xl leading-tight">{tr("Vahvuuskarkkini")}</h1>
-          <p className="text-sm font-semibold opacity-90">
-            {tr("Pohdi omia vahvuuksia ja vastaa:")}
-          </p>
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[6%] pb-16 pt-10 text-white [font-family:var(--font-display)] [scrollbar-gutter:stable] [&_*]:[font-family:var(--font-display)] [&_label]:!text-white">
+      <div className="mx-auto grid w-full max-w-[1280px] gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
+        <div className="space-y-4">
+          <div className="pb-2 text-white">
+            <h1 className="mb-3 text-[clamp(36px,4vw,62px)] font-bold leading-[1.05] text-white">
+              {tr("Vahvuuskarkkini")}
+            </h1>
+            <p className="text-[clamp(20px,1.9vw,30px)] font-semibold leading-tight text-white">
+              {tr("Pohdi omia vahvuuksia ja vastaa:")}
+            </p>
+          </div>
+
+          <ReflectionTextarea
+            fieldKey="screen_13_examples"
+            label={tr(
+              "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
+            )}
+            rows={4}
+            onSaveStateChange={onSaveStateChange}
+          />
+
+          <ReflectionTextarea
+            fieldKey="screen_13_success"
+            label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+
+          <ReflectionTextarea
+            fieldKey="screen_13_effect"
+            label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
+            rows={3}
+            onSaveStateChange={onSaveStateChange}
+          />
+        </div>
+
+        <StickyNote tone="coral" seed="s13-candies" className="self-start">
+          <div className="mb-4 text-center font-display text-xl font-bold leading-tight text-[color:var(--purple-dark)]">
+            {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
+          </div>
+
+          <div className="grid gap-3">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <StrengthCandySelect
+                key={index}
+                index={index}
+                language={lang}
+                selectedValues={selectedValues}
+                onValueChange={updateCandy}
+                onSaveStateChange={onSaveStateChange}
+              />
+            ))}
+          </div>
         </StickyNote>
-
-        <ReflectionTextarea
-          fieldKey="screen_13_examples"
-          label={tr(
-            "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
-          )}
-          rows={4}
-          onSaveStateChange={onSaveStateChange}
-        />
-
-        <ReflectionTextarea
-          fieldKey="screen_13_success"
-          label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
-
-        <ReflectionTextarea
-          fieldKey="screen_13_effect"
-          label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
       </div>
-
-      <StickyNote tone="coral" seed="s13-candies" className="self-start">
-        <div className="mb-4 text-center font-display text-xl font-bold leading-tight text-[color:var(--purple-dark)]">
-          {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
-        </div>
-
-        <div className="grid gap-3">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <StrengthCandySelect
-              key={index}
-              index={index}
-              language={lang}
-              selectedValues={selectedValues}
-              onValueChange={updateCandy}
-              onSaveStateChange={onSaveStateChange}
-            />
-          ))}
-        </div>
-      </StickyNote>
     </div>
   );
 }
