@@ -1522,23 +1522,23 @@ function S12VahvuuksiaEnemman() {
             relative
             z-20
             mx-auto
-            w-full
-            max-w-[1320px]
+            w-[500px]
+            
             shrink-0
           "
         >
           <h1
             className="
-              mx-auto
-              max-w-[1240px]
-              text-center
-              font-display
-              text-[clamp(28px,2.45vw,42px)]
-              font-semibold
-              leading-[1.12]
-              tracking-[-0.01em]
-              text-white
-            "
+    mx-auto
+    max-w-[1240px]
+    text-center
+    font-display
+    text-[clamp(24px,2.15vw,36px)]
+    font-semibold
+    leading-[1.08]
+    tracking-[-0.01em]
+    text-white
+  "
           >
             {tr(
               "Meissä kaikissa on paljon enemmän vahvuuksia kuin päällepäin näkyy. Omien vahvuuksien pohtiminen ja hyödyntäminen tukee itsetuntoa, antaa itsevarmuutta ja auttaa tekemään valintoja – esimerkiksi opiskeluun tai työpaikkaan liittyen.",
