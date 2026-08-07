@@ -2470,72 +2470,163 @@ export default function Karkkikauppa() {
 }
 
 // ----- S13: Vahvuuskarkkini ----- (FIX: heading, subtitle, placeholder, và 3 label giờ đều qua tr())
+// ----- S13 (PDF p18): Vahvuuskarkkini -----
 function S13({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const { language: lang } = useLanguage();
+  const [selectedCandies, setSelectedCandies] = useState<Record<number, string>>({});
+
+  const selectedValues = Object.values(selectedCandies).filter(Boolean);
+
+  function updateCandy(index: number, value: string) {
+    setSelectedCandies((current) => ({
+      ...current,
+      [index]: value,
+    }));
+  }
+
   return (
-    <div
-      className="
-        h-full
-        min-h-0
-        w-full
-        overflow-y-auto
-        overflow-x-hidden
-        px-[6%]
-        pb-16
-        pt-8
-        text-white
-      "
-    >
-      <div className="mx-auto w-full max-w-[1100px]">
-        <h1 className="font-display text-[38px] font-semibold leading-[1.1]">
-          {tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
-        </h1>
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
+      <div className="space-y-4">
+        <StickyNote tone="yellow" seed="s13-title">
+          <h1 className="mb-1 font-display text-3xl leading-tight">{tr("Vahvuuskarkkini")}</h1>
+          <p className="text-sm font-semibold opacity-90">
+            {tr("Pohdi omia vahvuuksia ja vastaa:")}
+          </p>
+        </StickyNote>
 
-        <p className="mt-3 text-[17px] opacity-90">{tr("Pohdi omia vahvuuksia ja vastaa:")}</p>
+        <ReflectionTextarea
+          fieldKey="screen_13_examples"
+          label={tr(
+            "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
+          )}
+          rows={4}
+          onSaveStateChange={onSaveStateChange}
+        />
 
-        <div className="mt-7 rounded-[24px] border-2 border-black bg-white/10 p-6">
-          <h2 className="font-display text-[20px] font-semibold">
-            {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
-          </h2>
+        <ReflectionTextarea
+          fieldKey="screen_13_success"
+          label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
 
-          <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <ReflectionInput
-                key={index}
-                fieldKey={`screen_13_karkki_${index + 1}`}
-                prefix={`${index + 1}.`}
-                placeholder={tr("Vahvuuskarkki…")}
-                onSaveStateChange={onSaveStateChange}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6 grid gap-5 pb-8">
-          <ReflectionTextarea
-            fieldKey="screen_13_examples"
-            label={tr(
-              "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
-            )}
-            rows={4}
-            onSaveStateChange={onSaveStateChange}
-          />
-
-          <ReflectionTextarea
-            fieldKey="screen_13_success"
-            label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
-            rows={3}
-            onSaveStateChange={onSaveStateChange}
-          />
-
-          <ReflectionTextarea
-            fieldKey="screen_13_effect"
-            label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
-            rows={3}
-            onSaveStateChange={onSaveStateChange}
-          />
-        </div>
+        <ReflectionTextarea
+          fieldKey="screen_13_effect"
+          label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
+          rows={3}
+          onSaveStateChange={onSaveStateChange}
+        />
       </div>
+
+      <StickyNote tone="coral" seed="s13-candies" className="self-start">
+        <div className="mb-4 text-center font-display text-xl font-bold leading-tight text-[color:var(--purple-dark)]">
+          {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
+        </div>
+
+        <div className="grid gap-3">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <StrengthCandySelect
+              key={index}
+              index={index}
+              language={lang}
+              selectedValues={selectedValues}
+              onValueChange={updateCandy}
+              onSaveStateChange={onSaveStateChange}
+            />
+          ))}
+        </div>
+      </StickyNote>
+    </div>
+  );
+}
+
+function StrengthCandySelect({
+  index,
+  language,
+  selectedValues,
+  onValueChange,
+  onSaveStateChange,
+}: {
+  index: number;
+  language: "fi" | "sv" | "en";
+  selectedValues: string[];
+  onValueChange: (index: number, value: string) => void;
+  onSaveStateChange?: (s: SaveState) => void;
+}) {
+  const tr = useTr();
+  const fieldKey = `screen_13_karkki_${index + 1}`;
+  const [value, setValue] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const report = useReportCompletion();
+  const readResponse = useResponseReader();
+
+  useEffect(() => {
+    (async () => {
+      const saved = await readResponse<string>(fieldKey);
+      if (typeof saved === "string") {
+        setValue(saved);
+        onValueChange(index, saved);
+      }
+      setLoaded(true);
+    })();
+  }, [fieldKey, index, onValueChange, readResponse]);
+
+  const state = useAutosave(fieldKey, value, { enabled: loaded });
+
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    report(fieldKey, value.trim().length > 0);
+  }, [fieldKey, loaded, report, value]);
+
+  function handleChange(nextValue: string) {
+    setValue(nextValue);
+    onValueChange(index, nextValue);
+  }
+
+  const selectedStrengthNumber = Number(value);
+  const hasSelectedStrength =
+    Number.isInteger(selectedStrengthNumber) && selectedStrengthNumber >= 1;
+
+  return (
+    <div className="relative">
+      {hasSelectedStrength && (
+        <span
+          className="absolute left-4 top-1/2 z-10 h-4 w-4 -translate-y-1/2 rounded-full border border-black/20"
+          style={{ backgroundColor: getStrengthColor(selectedStrengthNumber) }}
+        />
+      )}
+
+      <select
+        value={value}
+        onChange={(event) => handleChange(event.target.value)}
+        className={cn(
+          "h-12 w-full appearance-none rounded-2xl border-2 border-white/70 bg-white px-4 pr-10 font-display text-sm font-bold text-[color:var(--ink)] shadow-sm outline-none transition focus:border-[color:var(--purple-dark)]",
+          hasSelectedStrength && "pl-10",
+        )}
+      >
+        <option value="">{tr("Valitse vahvuus")}</option>
+
+        {Array.from({ length: 26 }).map((_, strengthIndex) => {
+          const strengthNumber = strengthIndex + 1;
+          const optionValue = String(strengthNumber);
+          const alreadyUsed = selectedValues.includes(optionValue) && optionValue !== value;
+
+          return (
+            <option key={strengthNumber} value={optionValue} disabled={alreadyUsed}>
+              {getStrengthName(strengthNumber, language)}
+            </option>
+          );
+        })}
+      </select>
+
+      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-[color:var(--purple-dark)]">
+        ▼
+      </span>
     </div>
   );
 }
