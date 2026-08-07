@@ -1195,7 +1195,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
         pb-16
         pt-6
         text-white
-        [scrollbar-gutter:stable]
+       
       "
     >
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
