@@ -102,16 +102,16 @@ function Cover() {
           alt=""
           aria-hidden="true"
           className="
-            block
-            h-auto
-            w-full
-            max-h-[44vh]
-            max-w-[1160px]
-            object-contain
-            object-center
-            pointer-events-none
-            select-none
-          "
+    pointer-events-none
+    block
+    h-auto
+    w-[900px]
+    max-w-none
+    object-contain
+    object-center
+    select-none
+    translate-y-40
+  "
         />
       </div>
     </div>
