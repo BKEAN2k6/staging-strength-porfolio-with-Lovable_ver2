@@ -164,7 +164,7 @@ function ScreenView() {
     flex-col
     overflow-hidden
     px-5
-    pb-0
+    pb-10
     pt-0
   "
       >
