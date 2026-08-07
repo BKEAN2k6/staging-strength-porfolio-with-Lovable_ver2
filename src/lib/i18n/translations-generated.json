@@ -2186,6 +2186,7 @@
     "en": "Future Memory – Think of a situation in your studies or free time where you can use your strengths in the near future.",
     "sv": "Framtidsminne – Tänk på en situation i dina studier eller på fritiden där du i den närmaste framtiden kan använda dina styrkor."
   },
+
   "Tulokset!": {
     "en": "Results!",
     "sv": "Resultat!"
@@ -2304,9 +2305,13 @@
     "en": "Strengths help in facing challenges and support overcoming them. Skills and strengths are different. Skills are learned, whereas strengths are your natural and important ways of thinking and acting.",
     "sv": "Styrkor hjälper dig att möta utmaningar och ta dig igenom dem. Styrkor och färdigheter är inte samma sak. Färdigheter är inlärda, medan styrkor är ditt naturliga och viktiga sätt att tänka och agera."
   },
-  "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.": {
-    "en": "Strengths are not the things you are good at, and weaknesses are not the things you feel bad at. Instead, strengths make the person who has them stronger – and weaknesses work in the opposite way.",
-    "sv": "Styrkor är inte egenskaper du är bra på, och svagheter är inte det du känner dig dålig på. Styrkor gör dig starkare – och svagheter fungerar tvärtom."
+  "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi.": {
+    "en": "Strengths are not the things you are good at, and weaknesses are not the things you feel bad at.",
+    "sv": "Styrkor är inte egenskaper du är bra på, och svagheter är inte det du känner dig dålig på."
+  },
+  "Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.": {
+    "en": "Instead, strengths make the person who has them stronger – and weaknesses work in the opposite way.",
+    "sv": "I stället gör styrkor personen som har dem starkare – och svagheter fungerar på motsatt sätt."
   },
   "Vahvuuksia lähetetään!": {
     "en": "Sending strengths!",

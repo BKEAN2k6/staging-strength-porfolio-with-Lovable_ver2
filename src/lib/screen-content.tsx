@@ -205,19 +205,41 @@ function Quote() {
 
   return (
     <div className="grid min-h-[600px] w-full min-w-0 grid-cols-[60%_40%] overflow-hidden">
-      <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-left text-white">
+      <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-white">
         <h1
           className="
             m-0
             text-center
             font-display
-            text-[clamp(28px,3.4vw,50px)]
             font-normal
-            leading-[1.2]
             tracking-[-0.01em]
+            text-white
           "
         >
-          {tr("Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
+          <span
+            className="
+              block
+              text-[clamp(34px,4vw,56px)]
+              font-medium
+              leading-[1.15]
+            "
+          >
+            {tr("Panosta vahvuuksiisi.")}
+          </span>
+
+          <span
+            className="
+              mx-auto
+              mt-4
+              block
+              max-w-[780px]
+              text-[clamp(24px,2.7vw,38px)]
+              font-normal
+              leading-[1.25]
+            "
+          >
+            {tr("Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
+          </span>
         </h1>
       </div>
 
@@ -226,7 +248,15 @@ function Quote() {
           src="/illustrations/naytto-2.png"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none block h-auto max-h-full w-auto max-w-full object-contain"
+          className="
+            pointer-events-none
+            block
+            h-auto
+            max-h-full
+            w-auto
+            max-w-full
+            object-contain
+          "
         />
       </div>
     </div>
@@ -244,15 +274,39 @@ function Definition() {
           max-w-[1150px]
           text-center
           font-display
-          text-[clamp(27px,3vw,46px)]
           font-normal
-          leading-[1.22]
           tracking-[-0.01em]
+          text-white
         "
       >
-        {tr(
-          "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
-        )}
+        <span
+          className="
+            block
+            text-[clamp(30px,3.4vw,48px)]
+            font-medium
+            leading-[1.18]
+          "
+        >
+          {tr(
+            "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi.",
+          )}
+        </span>
+
+        <span
+          className="
+            mx-auto
+            mt-5
+            block
+            max-w-[980px]
+            text-[clamp(22px,2.5vw,34px)]
+            font-normal
+            leading-[1.3]
+          "
+        >
+          {tr(
+            "Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
+          )}
+        </span>
       </h1>
     </div>
   );
