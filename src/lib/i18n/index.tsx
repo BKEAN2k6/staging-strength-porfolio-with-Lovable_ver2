@@ -687,7 +687,10 @@ export function TranslateFi({ children }: { children: ReactNode }) {
       if (!isValidElement(node)) return node;
 
       const element = node as ReactElement<{ children?: ReactNode }>;
-      if (typeof element.type === "string" && ["script", "style", "textarea"].includes(element.type)) {
+      if (
+        typeof element.type === "string" &&
+        ["script", "style", "textarea"].includes(element.type)
+      ) {
         return element;
       }
 

@@ -3,10 +3,12 @@
 This guide walks you from an empty Supabase project + empty hosting account to a fully running, independent copy of Vahvuusseikkailu.
 
 Stack:
+
 - **Frontend**: TanStack Start (React 19 + Vite 7), Tailwind v4
 - **Backend**: Supabase (Postgres + Auth + Realtime). All app logic runs inside TanStack `createServerFn` — no Edge Functions required.
 
 You will need:
+
 - A GitHub account (for the codebase)
 - A Supabase account (free tier is fine) **or** a self-hosted Postgres with the Supabase auth schema
 - A hosting provider for the frontend (Vercel, Netlify, Cloudflare Pages, or your own Node host)
@@ -36,6 +38,7 @@ You will need:
 3. Click **Run**.
 
 The script is idempotent-safe on a fresh DB and creates:
+
 - 7 tables: `profiles`, `user_roles`, `classes`, `class_members`, `responses`, `share_links`, `external_responses`
 - RLS policies enforcing the privacy invariant (students only see their own data; teachers see only their own classes; anon has no direct table access)
 - RPCs: `claim_teacher_role`, `join_class`, `submit_external_response`, `get_share_link_info`, `has_role`, `is_teacher_of`
@@ -49,12 +52,14 @@ Verify: in **Table Editor** you should see all 7 tables, each with the green "RL
 ## 3. Configure Auth (email/password, no email confirmation)
 
 In **Authentication → Providers**:
+
 1. **Email**: Enabled ✅
 2. **Confirm email**: **Off** (so students can sign in immediately after signup)
 3. **Secure email change**: On (recommended)
 4. Disable any other providers you do not use (Google, etc.) unless you've configured them.
 
 In **Authentication → URL Configuration**:
+
 - **Site URL**: your production frontend URL (e.g. `https://vahvuusseikkailu.example.com`)
 - **Redirect URLs**: add the same URL, plus `http://localhost:8080` for local dev.
 
@@ -94,6 +99,7 @@ On your hosting provider, set the same variables as project / deployment environ
 ## 7. Build and deploy the frontend
 
 ### Local sanity check
+
 ```bash
 bun install         # or: npm install
 bun run dev         # http://localhost:8080
@@ -101,6 +107,7 @@ bun run build       # produces .output/
 ```
 
 ### Vercel
+
 1. **New Project** → import your GitHub repo.
 2. **Framework preset**: Other (Vercel auto-detects TanStack Start).
 3. **Build command**: `bun run build` (or `npm run build`)
@@ -110,19 +117,23 @@ bun run build       # produces .output/
 7. Deploy.
 
 ### Netlify
+
 1. **Add new site → Import from Git**.
 2. Build command: `bun run build`, Publish directory: `.output/public`.
 3. Add env vars under **Site settings → Environment variables**.
 4. Deploy.
 
 ### Self-hosted (Node)
+
 ```bash
 bun run build
 node .output/server/index.mjs
 ```
+
 Put it behind a reverse proxy (nginx/Caddy) terminating TLS on your domain.
 
 ### Cloudflare Pages / Workers
+
 TanStack Start ships a Worker-compatible build. Use the Pages "TanStack Start" preset; set the same env vars in the Pages dashboard.
 
 After the first deploy, return to step 3 and put your production URL into **Auth → URL Configuration**.
@@ -140,6 +151,7 @@ After the first deploy, return to step 3 and put your production URL into **Auth
 7. Click **Näytä portfolio** → student responses render read-only and the **Tulosta Portfolio** button opens print preview.
 
 If something fails, check:
+
 - Browser console for `VITE_SUPABASE_*` undefined → env vars not set on host
 - Supabase **Logs → API** for 401/403 → check RLS policies were created (re-run `schema.sql`)
 - `auth.users` exists but `public.profiles` is empty → the `on_auth_user_created` trigger didn't run (re-create with the trigger block from `schema.sql`)
@@ -151,6 +163,7 @@ If something fails, check:
 At this point your data lives in **your** Supabase project, your code lives in **your** GitHub repo, and your frontend runs on **your** hosting account. You can keep using Lovable for further development (sync is bidirectional), or detach entirely — the project is a standard TanStack Start app and will build anywhere Node 20 runs.
 
 Files in this folder:
+
 - `schema.sql` — single-file Postgres setup
 - `.env.example` — variable template
 - `DEPLOYMENT.md` — this guide

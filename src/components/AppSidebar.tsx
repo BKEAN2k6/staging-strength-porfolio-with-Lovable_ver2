@@ -11,8 +11,15 @@ import {
 } from "@/components/icons/AppIcons";
 import { toast } from "sonner";
 import {
-  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarFooter,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { WORLDS } from "@/lib/screens";
 import { useNavGate } from "@/lib/screen-completion";
@@ -149,23 +156,28 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {WORLDS.map((w) => {
-                const inWorld = activeScreen != null && activeScreen >= w.start && activeScreen <= w.end;
+                const inWorld =
+                  activeScreen != null && activeScreen >= w.start && activeScreen <= w.end;
                 const target = pickResumeTarget(
                   w.start,
                   w.end,
                   inWorld ? activeScreen : currentScreen,
                   progress?.completedScreens,
                 );
-                const locked = currentScreen != null && target > currentScreen && !canNavigateTo(target);
+                const locked =
+                  currentScreen != null && target > currentScreen && !canNavigateTo(target);
                 const title = tr(w.title);
                 const subtitle = tr(w.subtitle);
                 const stats = progress?.byWorld[w.id];
-                const pct = stats && stats.total > 0
-                  ? Math.round((stats.completed / stats.total) * 100)
-                  : 0;
+                const pct =
+                  stats && stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
                 return (
                   <SidebarMenuItem key={w.id}>
-                    <SidebarMenuButton asChild isActive={inWorld} className="h-auto items-start py-2">
+                    <SidebarMenuButton
+                      asChild
+                      isActive={inWorld}
+                      className="h-auto items-start py-2"
+                    >
                       <a
                         href={`/seikkailu/${target}`}
                         onClick={go(target)}

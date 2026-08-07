@@ -34,7 +34,9 @@ export function SelectableChips({
   }, [fieldKey]);
 
   const state = useAutosave(fieldKey, selected, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -67,7 +69,6 @@ export function SelectableChips({
                 : "bg-white text-slate-900 border-black hover:bg-[color:var(--yellow)]/70",
               atMax && "opacity-40 cursor-not-allowed hover:bg-white",
             )}
-
           >
             {labelFor ? labelFor(opt) : tFi(opt)}
           </button>

@@ -86,7 +86,6 @@ export function PresentationOverlay({
     return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, [onExit]);
 
-
   if (typeof document === "undefined") return null;
 
   // Rendered into <body> so it never nests inside (or duplicates) the page

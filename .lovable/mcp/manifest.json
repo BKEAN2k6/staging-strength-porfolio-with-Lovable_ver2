@@ -5,9 +5,7 @@
   "auth": {
     "type": "oauth",
     "issuer": "https://lqxgdvchxtblbbfyalhj.supabase.co/auth/v1",
-    "accepted_audiences": [
-      "authenticated"
-    ]
+    "accepted_audiences": ["authenticated"]
   },
   "mcp": {
     "server": {
@@ -112,9 +110,7 @@
               "description": "The id of a class the signed-in teacher owns."
             }
           },
-          "required": [
-            "class_id"
-          ]
+          "required": ["class_id"]
         },
         "outputSchema": null
       }

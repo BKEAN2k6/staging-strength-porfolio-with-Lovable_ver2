@@ -3,12 +3,22 @@ import type { ReactNode } from "react";
 import { StickyNote } from "@/components/StickyNote";
 import { MeterPicker } from "@/components/MeterPicker";
 import {
-  METER_STRENGTHS, VIRTUES, strengthForScreen, fieldKeyFor,
-  METER_FIRST_SCREEN, METER_STRENGTH_FIRST, METER_SUMMARY, METER_REFLECT, METER_TOP,
+  METER_STRENGTHS,
+  VIRTUES,
+  strengthForScreen,
+  fieldKeyFor,
+  METER_FIRST_SCREEN,
+  METER_STRENGTH_FIRST,
+  METER_SUMMARY,
+  METER_REFLECT,
+  METER_TOP,
   strengthsByVirtue,
 } from "@/lib/meter-data";
 import {
-  loadAllMeterScores, computeVirtueSubtotals, computeTop5, computeBottom3,
+  loadAllMeterScores,
+  computeVirtueSubtotals,
+  computeTop5,
+  computeBottom3,
   type StrengthScore,
 } from "@/lib/meter";
 import { useAutosave, loadResponse, type SaveState } from "@/hooks/use-autosave";
@@ -23,7 +33,9 @@ function MeterIntro() {
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow">
-        <div className="text-xs font-bold uppercase tracking-widest opacity-70">{tr("Vahvuusmittari")}</div>
+        <div className="text-xs font-bold uppercase tracking-widest opacity-70">
+          {tr("Vahvuusmittari")}
+        </div>
         <h1 className="font-display text-3xl leading-tight">
           {tr("Lukiolainen, aloita vahvuusmittarin täyttäminen")}
         </h1>
@@ -35,20 +47,33 @@ function MeterIntro() {
         </p>
         <ul className="list-disc pl-5 text-sm leading-relaxed space-y-1.5">
           <li>
-            {tr("Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit), jotka mielestäsi kuvaavat sinua parhaimmillasi.")}
+            {tr(
+              "Sinun kannattaa ennen mittarin täyttämistä valita viisi vahvuutta (vahvuuskarkit), jotka mielestäsi kuvaavat sinua parhaimmillasi.",
+            )}
           </li>
           <li>
-            {tr("Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.")}
+            {tr(
+              "Pyydä myös muita ihmisiä miettimään, mitkä ovat heidän mielestään sinun vahvuuksiasi. Haastattele ystäviäsi, perheenjäseniä tai esimerkiksi valmentajaasi.",
+            )}
           </li>
-          <li>{tr("Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?")}</li>
+          <li>
+            {tr(
+              "Vertaa muiden arvioita omiisi ja lopuksi mittarista saamaasi tulokseen. Yllätyitkö?",
+            )}
+          </li>
           <li>{tr("Ovatko tulokset yhteneväiset mittarin ja omien valintojesi kanssa?")}</li>
-          <li>{tr("Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?")}</li>
+          <li>
+            {tr(
+              "Antoiko mittari eri vastauksia kuin mitä itse valitsit? Entä opettajat, ystävät ja läheiset?",
+            )}
+          </li>
           <li>{tr("Yllätyitkö mittarin tuloksista tai muiden valinnoista? Miten?")}</li>
         </ul>
         <p className="mt-3 text-sm italic">
-          {tr("Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona olevaan väittämään sinulle sopivin vaihtoehto.")}
+          {tr(
+            "Tervetuloa tekemään omien vahvuuksien itsearviointia! Valitse kuhunkin otsikkona olevaan väittämään sinulle sopivin vaihtoehto.",
+          )}
         </p>
-
       </StickyNote>
     </div>
   );
@@ -115,14 +140,18 @@ function MeterStrengthScreen({ n, onSaveStateChange }: { n: number } & Props) {
 function MeterSummary() {
   const tr = useTr();
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
-  useEffect(() => { loadAllMeterScores().then(setScores); }, []);
-  const subtotals = useMemo(() => scores ? computeVirtueSubtotals(scores) : [], [scores]);
+  useEffect(() => {
+    loadAllMeterScores().then(setScores);
+  }, []);
+  const subtotals = useMemo(() => (scores ? computeVirtueSubtotals(scores) : []), [scores]);
 
   return (
     <div className="space-y-4">
       <StickyNote tone="yellow">
         <h1 className="font-display text-3xl leading-tight">{tr("Yhteenveto")}</h1>
-        <p className="text-sm">{tr("Kirjoita saamasi pisteet tähän listaan — mittari laskee summat puolestasi.")}</p>
+        <p className="text-sm">
+          {tr("Kirjoita saamasi pisteet tähän listaan — mittari laskee summat puolestasi.")}
+        </p>
       </StickyNote>
 
       {!scores && <p className="text-center opacity-70">{tr("Lasketaan…")}</p>}
@@ -139,7 +168,9 @@ function MeterSummary() {
               <ol className="mt-2 space-y-1 text-sm">
                 {v.strengths.map((s, i) => (
                   <li key={s.id} className="flex justify-between gap-3">
-                    <span>{i + 1}. {tr(s.name)}</span>
+                    <span>
+                      {i + 1}. {tr(s.name)}
+                    </span>
                     <span className={cn("font-mono", s.complete ? "" : "opacity-40")}>
                       {s.complete ? s.total : "—"}
                     </span>
@@ -158,18 +189,21 @@ function MeterSummary() {
 function MeterReflect() {
   const tr = useTr();
   const [scores, setScores] = useState<StrengthScore[] | null>(null);
-  useEffect(() => { loadAllMeterScores().then(setScores); }, []);
-  const top = useMemo(() => scores ? computeTop5(scores) : [], [scores]);
-  const bot = useMemo(() => scores ? computeBottom3(scores) : [], [scores]);
+  useEffect(() => {
+    loadAllMeterScores().then(setScores);
+  }, []);
+  const top = useMemo(() => (scores ? computeTop5(scores) : []), [scores]);
+  const bot = useMemo(() => (scores ? computeBottom3(scores) : []), [scores]);
 
   return (
     <div className="space-y-4">
       <StickyNote tone="coral">
         <h1 className="font-display text-2xl leading-tight">{tr("Ydinvahvuuksien pohtiminen")}</h1>
         <p className="text-sm leading-relaxed mt-2">
-          {tr("Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.")}
+          {tr(
+            "Sait kenties 3–7 kohtaa, joiden pistemäärä on 9 tai 10. Nämä ovat tämän mittarin mukaan sinun ydinvahvuuksiasi. Joillain meistä näitä ydinvahvuuksia on paljon enemmän! Kirjoita ydinvahvuutesi ylös ja tarkastele niitä. Katso myös, mistä kohdista sait matalimmat pisteet. Nämä ovat todennäköisesti kasvuvahvuuksiasi, joita voit tarkastella kehittymisen näkökulmasta.",
+          )}
         </p>
-
       </StickyNote>
 
       {scores && (
@@ -179,7 +213,10 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {top.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{tr(s.name)}</strong> <span className="opacity-70">— {tr(s.virtue)}</span></span>
+                  <span>
+                    <strong>{tr(s.name)}</strong>{" "}
+                    <span className="opacity-70">— {tr(s.virtue)}</span>
+                  </span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -190,7 +227,10 @@ function MeterReflect() {
             <ul className="space-y-1 text-sm">
               {bot.map((s) => (
                 <li key={s.id} className="flex justify-between">
-                  <span><strong>{tr(s.name)}</strong> <span className="opacity-70">— {tr(s.virtue)}</span></span>
+                  <span>
+                    <strong>{tr(s.name)}</strong>{" "}
+                    <span className="opacity-70">— {tr(s.virtue)}</span>
+                  </span>
                   <span className="font-mono">{s.total}/10</span>
                 </li>
               ))}
@@ -218,8 +258,12 @@ function MeterTop({ onSaveStateChange }: Props) {
       const savedTop = await loadResponse<string[]>("meter2_top5");
       const savedGr = await loadResponse<string[]>("meter2_growth3");
       const candy = await loadResponse<number[]>("screen_12_karkkikauppa_picks");
-      setTop5(Array.isArray(savedTop) && savedTop.length ? savedTop : computeTop5(sc).map((s) => s.id));
-      setGrowth3(Array.isArray(savedGr) && savedGr.length ? savedGr : computeBottom3(sc).map((s) => s.id));
+      setTop5(
+        Array.isArray(savedTop) && savedTop.length ? savedTop : computeTop5(sc).map((s) => s.id),
+      );
+      setGrowth3(
+        Array.isArray(savedGr) && savedGr.length ? savedGr : computeBottom3(sc).map((s) => s.id),
+      );
       setCandyPicks(Array.isArray(candy) ? candy : null);
       setLoaded(true);
     })();
@@ -227,14 +271,22 @@ function MeterTop({ onSaveStateChange }: Props) {
 
   const sTop = useAutosave("meter2_top5", top5, { enabled: loaded });
   const sGr = useAutosave("meter2_growth3", growth3, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(sTop); }, [sTop, onSaveStateChange]);
-  useEffect(() => { onSaveStateChange?.(sGr); }, [sGr, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(sTop);
+  }, [sTop, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(sGr);
+  }, [sGr, onSaveStateChange]);
 
   function toggleTop(id: string) {
-    setTop5((cur) => cur.includes(id) ? cur.filter((x) => x !== id) : cur.length >= 5 ? cur : [...cur, id]);
+    setTop5((cur) =>
+      cur.includes(id) ? cur.filter((x) => x !== id) : cur.length >= 5 ? cur : [...cur, id],
+    );
   }
   function toggleGrowth(id: string) {
-    setGrowth3((cur) => cur.includes(id) ? cur.filter((x) => x !== id) : cur.length >= 3 ? cur : [...cur, id]);
+    setGrowth3((cur) =>
+      cur.includes(id) ? cur.filter((x) => x !== id) : cur.length >= 3 ? cur : [...cur, id],
+    );
   }
 
   // Candy picks were stored as indices into screen_12 strengths list. We don't
@@ -252,7 +304,9 @@ function MeterTop({ onSaveStateChange }: Props) {
 
       <StickyNote tone="white">
         <h2 className="font-display text-xl mb-2">{tr("Top 5 ydinvahvuuttani")}</h2>
-        <p className="text-xs opacity-70 mb-2">{tr("Valittu {n} / {max}", { n: top5.length, max: 5 })}</p>
+        <p className="text-xs opacity-70 mb-2">
+          {tr("Valittu {n} / {max}", { n: top5.length, max: 5 })}
+        </p>
         <div className="flex flex-wrap gap-2">
           {METER_STRENGTHS.map((s) => {
             const active = top5.includes(s.id);
@@ -280,7 +334,9 @@ function MeterTop({ onSaveStateChange }: Props) {
 
       <StickyNote tone="white">
         <h2 className="font-display text-xl mb-2">{tr("Top 3 kasvuvahvuuttani")}</h2>
-        <p className="text-xs opacity-70 mb-2">{tr("Valittu {n} / {max}", { n: growth3.length, max: 3 })}</p>
+        <p className="text-xs opacity-70 mb-2">
+          {tr("Valittu {n} / {max}", { n: growth3.length, max: 3 })}
+        </p>
         <div className="flex flex-wrap gap-2">
           {METER_STRENGTHS.map((s) => {
             const active = growth3.includes(s.id);
@@ -310,9 +366,10 @@ function MeterTop({ onSaveStateChange }: Props) {
         <StickyNote tone="coral" className="text-center">
           <h2 className="font-display text-2xl">🎉 {tr("Vahvuusmittari suoritettu!")}</h2>
           <p className="text-sm mt-2">
-            {tr("Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.")}
+            {tr(
+              "Vastasivatko mittarin tulokset omaa karkkikauppa-valintaasi? Vertaa Top 5 -listaa näytön 12 valintoihin ja pohdi yhtäläisyyksiä ja eroja.",
+            )}
           </p>
-
         </StickyNote>
       )}
     </div>

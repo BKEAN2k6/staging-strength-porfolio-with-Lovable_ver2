@@ -42,18 +42,21 @@ export function MeterPicker({
   }, [fieldKey]);
 
   const state = useAutosave(fieldKey, picked, { enabled: loaded && picked !== null });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
   useEffect(() => {
     if (!loaded) return;
-    if (picked === null) { onScoreChange?.(null); return; }
+    if (picked === null) {
+      onScoreChange?.(null);
+      return;
+    }
     onScoreChange?.(reversed ? 6 - picked : picked);
   }, [picked, loaded, reversed, onScoreChange]);
 
   return (
     <div className="space-y-3">
-      <p className="text-[0.95rem] leading-snug font-medium text-[color:var(--ink)]">
-        {statement}
-      </p>
+      <p className="text-[0.95rem] leading-snug font-medium text-[color:var(--ink)]">{statement}</p>
       <div className="flex flex-col gap-2">
         {LABELS.map(({ label, value }) => {
           const active = picked === value;
@@ -73,7 +76,9 @@ export function MeterPicker({
               <span
                 className={cn(
                   "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-display font-bold",
-                  active ? "bg-white text-[color:var(--coral)]" : "bg-[color:var(--yellow)] text-[color:var(--ink)]",
+                  active
+                    ? "bg-white text-[color:var(--coral)]"
+                    : "bg-[color:var(--yellow)] text-[color:var(--ink)]",
                 )}
               >
                 {value}

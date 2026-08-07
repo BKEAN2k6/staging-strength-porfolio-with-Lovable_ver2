@@ -22,7 +22,11 @@ export default defineTool({
       },
     );
     const [profile, roles] = await Promise.all([
-      supabase.from("profiles").select("display_name, current_screen").eq("id", userId!).maybeSingle(),
+      supabase
+        .from("profiles")
+        .select("display_name, current_screen")
+        .eq("id", userId!)
+        .maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", userId!),
     ]);
     const data = {

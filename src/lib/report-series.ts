@@ -68,18 +68,13 @@ export function buildReportSeries(
   }
   if (buckets.length === 0) buckets.push(bucketOf(now, weekly));
 
-  const scoped = opts.classId
-    ? events.filter((e) => e.classId === opts.classId)
-    : events;
+  const scoped = opts.classId ? events.filter((e) => e.classId === opts.classId) : events;
 
   // Baseline: everything that happened before the range still counts toward
   // the cumulative totals so the curve starts at the real level.
   let cumStrengths = 0;
   const seenKeys = new Set<string>();
-  const perBucket = new Map<
-    string,
-    { strengths: number; keys: string[]; active: Set<string> }
-  >();
+  const perBucket = new Map<string, { strengths: number; keys: string[]; active: Set<string> }>();
   for (const b of buckets) perBucket.set(b, { strengths: 0, keys: [], active: new Set() });
 
   for (const e of scoped) {

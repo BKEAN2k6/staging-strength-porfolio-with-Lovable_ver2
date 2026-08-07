@@ -3,11 +3,13 @@
 ## 2026-08-04 — Bug fixes, Sprint completion, Teach section, Canva slides
 
 ### Bug fixes
+
 - `src/components/reports/ReportTrends.tsx` — strength growth tooltip resolved
   real strength names instead of `Strength NaN`; "Näytä kaikki" / "Näytä top 10"
   now go through `tr()`.
 
 ### Strength Sprint (Parts C–F)
+
 - **New** `src/routes/_authenticated/student/sprint.tsx` — student join code,
   realtime waiting room, one-by-one classmate rating, results with auto-collect.
 - **New** `src/routes/_authenticated/student/give-strength.tsx` — student → own
@@ -21,6 +23,7 @@
 - `src/components/strengths/StrengthPickerGrid.tsx` — shared 26-strength picker.
 
 ### Teach section (Part 3)
+
 - **New** `src/components/teach/PresentationOverlay.tsx` — shared fullscreen
   projector (arrow keys, click zones, auto-hiding toolbar, Esc to exit).
 - **New** `src/routes/teacher.teach.portfolio.tsx` — all 106 adventure screens
@@ -36,6 +39,7 @@
   published rows, super admins manage everything).
 
 ### Navigation & i18n (Parts G + wiring)
+
 - `src/components/DashboardShell.tsx` — new `sections` prop for grouped sidebar
   links (used by the "Opeta" / Teach group).
 - `src/components/AppSidebar.tsx` — student links for Strength Game and
@@ -47,6 +51,7 @@
   gifting, teach and materials management.
 
 ## 2026-07-31 — Strength Sprint foundations
+
 - Database: `sprint_sessions`, `sprint_players`, `sprint_strengths` with RLS and
   Realtime; bidirectional columns on `teacher_assigned_strengths`
   (`from_role`, `to_role`, `from_user_id`, `to_user_id`).

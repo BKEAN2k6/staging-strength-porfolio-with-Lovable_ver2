@@ -134,8 +134,11 @@ export function ReportTrends({
 
       <StrengthGrowthCard events={events} days={days} seed={`${seedPrefix}-growth`} />
 
-      <LevelCompletionCard events={events} studentCount={studentCount} seed={`${seedPrefix}-levels`} />
-
+      <LevelCompletionCard
+        events={events}
+        studentCount={studentCount}
+        seed={`${seedPrefix}-levels`}
+      />
 
       <ChartCard seed={`${seedPrefix}-active`} title={tr("Aktiiviset opiskelijat")}>
         <BarChart data={series} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
