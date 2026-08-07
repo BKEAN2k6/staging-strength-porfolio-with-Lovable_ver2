@@ -2478,12 +2478,15 @@ function S13({ onSaveStateChange }: Props) {
 
   const selectedValues = Object.values(selectedCandies).filter(Boolean);
 
-  function updateCandy(index: number, value: string) {
-    setSelectedCandies((current) => ({
-      ...current,
-      [index]: value,
-    }));
-  }
+  const updateCandy = useCallback((index: number, value: string) => {
+    setSelectedCandies((current) => {
+      if (current[index] === value) return current;
+      return {
+        ...current,
+        [index]: value,
+      };
+    });
+  }, []);
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
@@ -2559,18 +2562,25 @@ function StrengthCandySelect({
   const [value, setValue] = useState("");
   const [loaded, setLoaded] = useState(false);
   const report = useReportCompletion();
-  const readResponse = useResponseReader();
 
   useEffect(() => {
+    let cancelled = false;
+
     (async () => {
-      const saved = await readResponse<string>(fieldKey);
+      const saved = await loadResponse<string>(fieldKey);
+      if (cancelled) return;
+
       if (typeof saved === "string") {
         setValue(saved);
         onValueChange(index, saved);
       }
       setLoaded(true);
     })();
-  }, [fieldKey, index, onValueChange, readResponse]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [fieldKey, index, onValueChange]);
 
   const state = useAutosave(fieldKey, value, { enabled: loaded });
 
