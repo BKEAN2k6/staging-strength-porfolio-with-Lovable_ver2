@@ -74,20 +74,29 @@ function Cover() {
   const tr = useTr();
 
   return (
-    <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden text-white">
-      <div className="mx-auto w-full max-w-[1400px] shrink-0 px-5 pt-1">
-        <h1 className="font-display text-[clamp(18px,1.5vw,25px)] font-medium leading-[1.2]">
-          {tr("Vahvuusportfolio lukiolaiselle")}
-        </h1>
+    <div className="relative flex h-full min-h-[620px] w-full flex-col overflow-hidden px-[5%] text-center font-display text-white">
+      <div className="relative z-10 flex shrink-0 flex-col items-center pt-[7vh]">
+        <div className="text-[clamp(24px,2.4vw,42px)] font-bold leading-none tracking-[0] text-white">
+          {tr("Huomaa hyvä!®")}
+        </div>
 
-        <p className="mt-1 max-w-[1200px] text-[clamp(15px,1.15vw,20px)] leading-[1.4]">
-          {tr(
-            "Tervetuloa vahvuusseikkailuun! Tällä matkalla opit tunnistamaan, kehittämään ja hyödyntämään omia vahvuuksiasi — lukiossa, kotona, vapaa-ajalla ja ystävien kanssa.",
-          )}
-        </p>
+        <h1
+          className="
+            mt-[3vh]
+            max-w-[900px]
+            text-[clamp(30px,3.4vw,48px)]
+            font-medium
+            leading-[1.08]
+            tracking-[0]
+            text-white
+          "
+        >
+          {" "}
+          {trLines(tr, "Vahvuusportfolio\nlukiolaiselle")}
+        </h1>
       </div>
 
-      <div className="flex min-h-0 flex-1 items-end justify-center px-5 pb-0 pt-4">
+      <div className="relative z-0 flex min-h-0 flex-1 items-end justify-center pb-[8vh] pt-[6vh]">
         <img
           src="/illustrations/naytto-1.png"
           alt=""
@@ -95,9 +104,9 @@ function Cover() {
           className="
             block
             h-auto
-            w-auto
-            max-h-[420px]
-            max-w-[520px]
+            w-full
+            max-h-[44vh]
+            max-w-[1160px]
             object-contain
             object-center
             pointer-events-none
@@ -2116,12 +2125,12 @@ export default function Karkkikauppa() {
 
 .ns{--pu:#6C4F9C;--pud:#4E3A78;--ye:#F4C84A;--co:#E8736B;--ink:#2B2342;--wood:#B99444;
  position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;
- padding:18px 20px 0;font-family:'Fredoka',system-ui,sans-serif;background:var(--pu);color:#fff}
+ padding:18px 20px 0;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;background:#7654ad;color:#fff}
 .shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
 .ns *{box-sizing:border-box}
-.fd{font-family:'Fredoka',system-ui,sans-serif;font-weight:500}
+.fd{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-weight:600}
 
-.deco{position:absolute;pointer-events:none;z-index:0}
+.deco{display:none}
 .d1{top:-100px;left:-76px;width:272px;height:272px;border-radius:50%;background:#EE8C93}
 .d2{top:88px;right:-56px;width:0;height:0;border-left:96px solid transparent;border-right:96px solid transparent;border-bottom:132px solid var(--ye);transform:rotate(20deg)}
 .d3{bottom:170px;left:-58px;width:190px;height:190px;border-radius:50%;background:#8FB6D9;opacity:.55}
@@ -2129,11 +2138,15 @@ export default function Karkkikauppa() {
 
 .hd{position:relative;z-index:2;max-width:1310px;margin:0 auto 14px;display:flex;
  justify-content:space-between;align-items:flex-start;gap:26px;flex-wrap:wrap}
-.h1{font-size:clamp(24px,2.9vw,36px);line-height:1.03;letter-spacing:-.4px;max-width:15ch;margin:0}
-.h1 small{display:block;font-family:'Fredoka';font-weight:400;font-size:13px;line-height:1.55;
- opacity:.9;margin-top:11px;max-width:40ch;letter-spacing:0}
+.h1{font-size:clamp(30px,3.5vw,52px);line-height:1.04;letter-spacing:0;max-width:18ch;margin:0;
+ color:#fff;text-shadow:0 3px 0 rgba(43,35,66,.22)}
+.h1 small{display:block;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-weight:500;
+ font-size:clamp(15px,1.35vw,19px);line-height:1.35;color:#fff;opacity:1;margin-top:14px;
+ max-width:42ch;letter-spacing:0;text-shadow:0 2px 0 rgba(43,35,66,.18)}
 .namu{position:relative;flex:0 0 auto;padding:13px 38px;border:3px solid var(--ye);border-radius:11px;
- font-family:'Fredoka';font-size:25px;color:var(--ye);letter-spacing:1px;transform:rotate(-3deg);white-space:nowrap}
+ font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:25px;color:var(--ye);
+ letter-spacing:1px;transform:rotate(-3deg);white-space:nowrap;background:rgba(78,58,120,.72);
+ box-shadow:0 4px 0 rgba(43,35,66,.28)}
 .namu::before,.namu::after{content:"";position:absolute;top:50%;margin-top:-18px;width:0;height:0;
  border-top:18px solid transparent;border-bottom:18px solid transparent}
 .namu::before{left:-24px;border-right:21px solid var(--ye)}
@@ -2165,25 +2178,26 @@ export default function Karkkikauppa() {
 .lid{height:13px;border-radius:10px 10px 3px 3px;background:rgba(255,255,255,.30);
  border:1.5px solid rgba(255,255,255,.44);margin:0 -2px;box-shadow:0 3px 6px rgba(0,0,0,.2)}
 .tub{position:relative;border-radius:12px 12px 8px 8px;overflow:hidden;display:flex;flex-direction:column;
- background:linear-gradient(180deg,rgba(255,255,255,.21),rgba(255,255,255,.085) 44%,rgba(255,255,255,.15));
- border:1.5px solid rgba(255,255,255,.34);border-top:0;transition:box-shadow .2s,background .3s;
+ background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.14) 42%,rgba(255,255,255,.20));
+ border:1.5px solid rgba(255,255,255,.58);border-top:0;transition:box-shadow .2s,background .3s;
  box-shadow:inset 0 -16px 22px rgba(0,0,0,.15),0 5px 0 rgba(43,35,66,.3)}
 .h0 .tub{height:146px}.h1 .tub{height:170px}.h2 .tub{height:194px}
-.txt{flex:1 1 auto;padding:11px 10px 2px;font-size:9.3px;line-height:1.36;letter-spacing:.5px;
- text-transform:uppercase;font-weight:500;text-align:center;text-shadow:0 1px 2px rgba(43,35,66,.55)}
+.txt{flex:1 1 auto;padding:12px 11px 2px;font-size:10px;line-height:1.34;letter-spacing:.35px;
+ text-transform:uppercase;font-weight:700;text-align:center;color:#fff;
+ text-shadow:0 1px 2px rgba(24,17,42,.72),0 0 10px rgba(24,17,42,.34)}
 .pile{flex:0 0 auto;height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px}
 .pile>span{margin:0 -5px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
 .sticker{position:absolute;left:8px;bottom:8px;width:22px;height:15px;border-radius:2px;
  background:#fff;opacity:.9;box-shadow:0 1px 2px rgba(0,0,0,.3)}
 .chk{position:absolute;top:-10px;right:-8px;width:30px;height:30px;border-radius:50%;background:var(--ye);
- color:var(--ink);display:grid;place-items:center;font-family:'Fredoka';font-size:16px;border:3px solid var(--pu);
+ color:var(--ink);display:grid;place-items:center;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:16px;border:3px solid var(--pu);
  box-shadow:0 2px 0 rgba(43,35,66,.45);animation:pop .3s cubic-bezier(.34,1.8,.64,1);z-index:6}
 @keyframes pop{0%{transform:scale(0) rotate(-45deg)}100%{transform:scale(1) rotate(0)}}
 
 /* takapuoli: vahvuus + sitä vastaava karkki */
 .rev{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
  gap:8px;padding:12px 9px;text-align:center}
-.rev .nm{font-family:'Fredoka';line-height:1.12;font-size:15px}
+.rev .nm{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;line-height:1.12;font-size:15px}
 .rev .nm.long{font-size:11.5px}
 .rev .vt{font-size:7.6px;letter-spacing:1.3px;text-transform:uppercase;opacity:.6}
 .rev .cd{filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
@@ -2218,7 +2232,7 @@ export default function Karkkikauppa() {
 .bag.bump{animation:bb .36s cubic-bezier(.34,1.7,.64,1)}
 @keyframes bb{0%{transform:scale(1)}32%{transform:scale(1.15,.86)}66%{transform:scale(.95,1.07)}100%{transform:scale(1)}}
 
-.cnt{font-family:'Fredoka';font-size:14px;color:#3B2C10;line-height:1.2;flex:0 0 auto}
+.cnt{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:14px;color:#3B2C10;line-height:1.2;flex:0 0 auto}
 .cnt b{display:block;font-size:34px;line-height:1;color:#241A06}
 .slots{display:flex;gap:6px;margin-top:8px}
 .slot{width:13px;height:13px;border-radius:50%;background:rgba(59,44,16,.25);
@@ -2227,11 +2241,11 @@ export default function Karkkikauppa() {
 
 .won5{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;min-width:0}
 .pill{display:flex;align-items:center;gap:7px;background:#FFF6E8;color:var(--ink);
- border-radius:999px;padding:6px 15px 6px 7px;font-family:'Fredoka';font-size:13px;white-space:nowrap;
+ border-radius:999px;padding:6px 15px 6px 7px;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:13px;white-space:nowrap;
  box-shadow:0 3px 0 rgba(43,35,66,.32);animation:rise .4s backwards cubic-bezier(.34,1.6,.64,1)}
 @keyframes rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
 
-.btn{font-family:'Fredoka';font-size:17px;border:0;border-radius:999px;padding:15px 30px;cursor:pointer;
+.btn{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:17px;border:0;border-radius:999px;padding:15px 30px;cursor:pointer;
  background:var(--co);color:#fff;box-shadow:0 5px 0 #A8463F;transition:.12s;white-space:nowrap;flex:0 0 auto}
 .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 7px 0 #A8463F}
 .btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 #A8463F}
@@ -2240,7 +2254,7 @@ export default function Karkkikauppa() {
 .btn.go:hover{box-shadow:0 7px 0 #C39C22}
 @keyframes br{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .link{background:none;border:0;color:inherit;opacity:.72;text-decoration:underline;cursor:pointer;
- font-size:13px;font-family:'Fredoka';padding:6px}
+ font-size:13px;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;padding:6px}
 
 /* ── kuitti ───────────────────────────────── */
 .receipt{position:relative;z-index:2;max-width:740px;margin:24px auto 0;background:#FFF9EF;color:var(--ink);
@@ -2257,11 +2271,18 @@ export default function Karkkikauppa() {
 .line em{font-style:normal;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.48}
 .q{font-weight:500;font-size:13px;margin:20px 0 8px;line-height:1.5}
 .ta{width:100%;min-height:80px;border:2px solid #E6DAC2;border-radius:12px;padding:11px 13px;background:#fff;
- font-family:'Fredoka';font-size:13px;color:var(--ink);resize:vertical}
+ font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:13px;color:var(--ink);resize:vertical}
 .ta:focus{outline:0;border-color:var(--pu)}
 .acts{display:flex;gap:16px;align-items:center;margin-top:22px;flex-wrap:wrap}
 
-@media (max-width:820px){.bin{width:150px}.h0 .tub{height:150px}.h1 .tub{height:176px}.h2 .tub{height:202px}}
+@media (max-width:820px){
+ .hd{gap:16px}
+ .h1{font-size:32px;max-width:100%}
+ .h1 small{font-size:15px}
+ .namu{font-size:18px;padding:10px 24px}
+ .bin{width:150px}.h0 .tub{height:150px}.h1 .tub{height:176px}.h2 .tub{height:202px}
+ .txt{font-size:9.5px}
+}
 @media (prefers-reduced-motion:reduce){.ns *{animation:none!important;transition:none!important}}
       `}</style>
 
