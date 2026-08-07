@@ -121,6 +121,13 @@ function TeacherDashboardPage() {
         <TopStrengths students={students} classes={classes} assigned={assigned} />
       )}
 
+      {/* FIX: form "Luo luokka" (CreateClass) trước đây chỉ được render khi
+          tab === "settings" — nhưng KHÔNG có nút nào trong sidebar trỏ tới
+          tab đó (Profile trỏ sang route /teacher/profile riêng), nên form
+          này hoàn toàn không thể truy cập được qua UI. Chuyển nó lên đầu
+          tab "Classes" để giáo viên thấy và tạo lớp được ngay. */}
+      {tab === "classes" && !openClass && <CreateClass onCreated={refresh} />}
+
       {tab === "classes" && !openClass && (
         <div className="grid gap-3 md:grid-cols-2">
           {classes.length === 0 && <p className="opacity-70">{tr("Ei luokkia.")}</p>}
@@ -209,14 +216,11 @@ function TeacherDashboardPage() {
       )}
 
       {tab === "settings" && (
-        <>
-          <ProfileSettings
-            schoolName={guard.schoolName}
-            displayName={guard.displayName}
-            email={guard.email}
-          />
-          <CreateClass onCreated={refresh} />
-        </>
+        <ProfileSettings
+          schoolName={guard.schoolName}
+          displayName={guard.displayName}
+          email={guard.email}
+        />
       )}
     </DashboardShell>
   );

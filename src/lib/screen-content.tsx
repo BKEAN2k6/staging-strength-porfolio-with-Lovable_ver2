@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
 import { StickyNote } from "@/components/StickyNote";
 import { WORLDS } from "@/lib/screens";
 import { ReflectionTextarea, ReflectionInput } from "@/components/ReflectionTextarea";
@@ -42,6 +50,25 @@ export const STRENGTHS_24 = [
 ];
 
 type Props = { onSaveStateChange?: (s: SaveState) => void };
+
+// ------------------------------------------------------------------
+// FIX: helper to translate multi-line strings ("\n" -> <br />) so that
+// headings/paragraphs that used to be hardcoded JSX with <br /> can now
+// be run through tr() as a single translatable string.
+// ------------------------------------------------------------------
+function trLines(
+  tr: (key: string, params?: Record<string, string | number>) => string,
+  text: string,
+) {
+  const translated = tr(text);
+  const parts = translated.split("\n");
+  return parts.map((line, i) => (
+    <span key={i}>
+      {line}
+      {i < parts.length - 1 && <br />}
+    </span>
+  ));
+}
 
 function Cover() {
   const tr = useTr();
@@ -170,7 +197,17 @@ function Quote() {
   return (
     <div className="grid min-h-[600px] w-full min-w-0 grid-cols-[60%_40%] overflow-hidden">
       <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-left text-white">
-        <h1 className="m-0 text-center font-display text-[clamp(34px,4vw,60px)] font-medium leading-[1.12] tracking-[-0.02em]">
+        <h1
+          className="
+            m-0
+            text-center
+            font-display
+            text-[clamp(28px,3.4vw,50px)]
+            font-normal
+            leading-[1.2]
+            tracking-[-0.01em]
+          "
+        >
           {tr("Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
         </h1>
       </div>
@@ -192,7 +229,18 @@ function Definition() {
 
   return (
     <div className="relative flex min-h-[600px] w-full items-center justify-center overflow-hidden px-6 text-white">
-      <h1 className="mx-auto max-w-[1250px] text-center font-display text-[clamp(30px,3.4vw,52px)] font-semibold leading-[1.15]">
+      <h1
+        className="
+          mx-auto
+          max-w-[1150px]
+          text-center
+          font-display
+          text-[clamp(27px,3vw,46px)]
+          font-normal
+          leading-[1.22]
+          tracking-[-0.01em]
+        "
+      >
         {tr(
           "Vahvuudet eivät ole ominaisuuksia, joissa olet hyvä, eivätkä heikkoudet niitä, joissa tunnet itsesi huonoksi. Sen sijaan vahvuudet tekevät kantajastaan vahvan ja heikkoudet toimivat päinvastoin.",
         )}
@@ -371,12 +419,10 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
     setSelectedIds((currentIds) => {
       const alreadySelected = currentIds.includes(id);
 
-      // Nhấn lại viên đã chọn để bỏ chọn.
       if (alreadySelected) {
         return currentIds.filter((selectedId) => selectedId !== id);
       }
 
-      // Chỉ cho phép chọn tối đa 3 viên.
       if (currentIds.length >= 3) {
         return currentIds;
       }
@@ -391,11 +437,7 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
 
   return (
     <div className="relative min-h-[620px] w-full overflow-hidden px-6 pb-5 pt-5 text-white">
-      {/* Bố cục gồm cột lọ bên trái và danh sách kẹo bên phải */}
       <div className="grid min-h-[570px] grid-cols-[0.58fr_2fr] items-center gap-6">
-        {/* =====================================================
-            CỘT TRÁI: CHIẾC LỌ
-        ====================================================== */}
         <div className="relative flex min-w-0 flex-col items-center justify-center">
           <div className="relative h-[210px] w-full max-w-[190px]">
             <img
@@ -404,7 +446,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
               className="absolute inset-0 h-full w-full object-contain"
             />
 
-            {/* Các sức mạnh đã chọn trong lọ */}
             <div className="absolute bottom-[30px] left-1/2 z-20 flex w-[180px] -translate-x-1/2 flex-col items-center gap-2">
               {selectedStrengths.map((strength, index) => (
                 <button
@@ -439,18 +480,17 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
             </div>
           </div>
 
-          {/* Hướng dẫn chọn */}
-          <div className="-mt-3 flex items-center justify-center gap-2 text-white">
+          <div className="-mt-3 flex items-center justify-center gap-2 text-[#ffd12f]">
             <span className="rotate-[-30deg] text-[40px] leading-[1.12]">↗</span>
 
-            <p className="text-center text-[14px] font-semibold leading-[1.2]">
+            <p className="text-center text-[14px] font-medium leading-[1.3]">
               {tr(
                 "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
               )}
             </p>
           </div>
 
-          <p className="mt-2 text-[13px] font-semibold text-white">
+          <p className="mt-2 text-[13px] font-medium text-white">
             {tr("Valittu {n} / {max}", {
               n: selectedIds.length,
               max: 3,
@@ -458,9 +498,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
           </p>
         </div>
 
-        {/* =====================================================
-            CỘT PHẢI: TIÊU ĐỀ VÀ DANH SÁCH KẸO
-        ====================================================== */}
         <div className="min-w-0 pl-2">
           <h1 className="max-w-[950px] font-display text-[32px] font-semibold leading-[1.12]">
             {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
@@ -468,7 +505,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
 
           <p className="mb-5 mt-2 text-[19px]">{tr("Keksitkö lisää?")}</p>
 
-          {/* Danh sách 20 viên kẹo, chia thành 4 cột */}
           <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-5">
             {strengths.map((strength) => {
               const isSelected = selectedIds.includes(strength.id);
@@ -494,7 +530,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
                     ${selectionDisabled ? "cursor-not-allowed opacity-35" : "hover:scale-105"}
                   `}
                 >
-                  {/* Đầu giấy gói bên trái */}
                   <span
                     aria-hidden="true"
                     className="
@@ -509,7 +544,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
                     }}
                   />
 
-                  {/* Thân viên kẹo */}
                   <span
                     className={`
                       -mx-[2px]
@@ -539,7 +573,6 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
                     <span>{tr(strength.text)}</span>
                   </span>
 
-                  {/* Đầu giấy gói bên phải */}
                   <span
                     aria-hidden="true"
                     className="
@@ -576,21 +609,44 @@ function ThreeSteps() {
           className="h-[360px] w-full object-contain"
         />
 
-        <p className="mt-4 text-center font-display text-[24px] font-semibold text-white">
+        <p
+          className="
+            mt-4
+            text-center
+            font-display
+            text-[24px]
+            font-semibold
+            text-white
+            [-webkit-text-stroke:1px_#000]
+            [paint-order:stroke_fill]
+          "
+        >
           {tr("Tunnista omia vahvuuksia")}
         </p>
       </div>
 
-      <div className="absolute left-1/2 top-[-2%] z-20 flex w-[35%] -translate-x-1/2 flex-col items-center">
-        <div className="h-[570px] w-full overflow-hidden">
+      <div className="absolute left-1/2 top-[-0.5%] z-20 flex w-[35%] -translate-x-1/2 flex-col items-center">
+        <div className="h-[520px] w-full overflow-hidden">
           <img
             src="/illustrations/illustration-center-transparent.png"
             alt={tr("Hyödynnä omia vahvuuksia")}
-            className="h-[590px] w-full object-contain object-top"
+            className="h-[540px] w-full object-contain object-top"
           />
         </div>
 
-        <p className="-mt-7 whitespace-nowrap text-center font-display text-[24px] font-semibold text-white">
+        <p
+          className="
+            -mt-12
+            whitespace-nowrap
+            text-center
+            font-display
+            text-[24px]
+            font-medium
+            text-white
+            [-webkit-text-stroke:1px_#000]
+            [paint-order:stroke_fill]
+          "
+        >
           {tr("Hyödynnä omia vahvuuksia")}
         </p>
       </div>
@@ -602,7 +658,18 @@ function ThreeSteps() {
           className="h-[360px] w-full object-contain"
         />
 
-        <p className="mt-4 text-center font-display text-[24px] font-semibold text-white">
+        <p
+          className="
+            mt-4
+            text-center
+            font-display
+            text-[24px]
+            font-semibold
+            text-white
+            [-webkit-text-stroke:1px_#000]
+            [paint-order:stroke_fill]
+          "
+        >
           {tr("Kehitä omia vahvuuksia")}
         </p>
       </div>
@@ -637,54 +704,132 @@ function JokoTunnet({ onSaveStateChange }: Props) {
   ] as const;
 
   return (
-    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[5%] py-7 text-black">
-      <div className="mx-auto w-full max-w-[1180px] rounded-[28px] px-8 py-7 pb-12">
-        <div className="flex items-start justify-between gap-8">
-          <div className="min-w-0">
-            <h1 className="font-display text-[36px] font-semibold leading-[1.08] text-white">
-              {tr("Lukiolainen – joko tunnet omat vahvuutesi?")}
-            </h1>
-          </div>
-        </div>
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[4%]
+        pb-10
+        pt-5
+        text-black
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div className="mx-auto w-full max-w-[1180px]">
+        <h1
+          className="
+            max-w-[900px]
+            font-display
+            text-[clamp(28px,2.4vw,38px)]
+            font-medium
+            leading-[1.18]
+            tracking-[-0.01em]
+            text-white
+          "
+        >
+          {tr("Lukiolainen – joko tunnet omat vahvuutesi?")}
+        </h1>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2">
+        <div
+          className="
+            mt-6
+            grid
+            grid-cols-1
+            gap-5
+            md:grid-cols-2
+          "
+        >
           {questions.map((item, index) => {
             const isLast = index === questions.length - 1;
 
             return (
-              <div
+              <section
                 key={item.fieldKey}
                 className={`
-                  rounded-[20px]
-                  border-2
-                  border-[#e6ddf4]
+                  flex
+                  min-h-[235px]
+                  min-w-0
+                  flex-col
+                  rounded-[22px]
+                  border-[3px]
+                  border-black
                   bg-[#faf8ff]
                   px-5
-                  py-4
-                  shadow-[0_5px_0_#d9c9ef]
-                  transition-transform
-                  duration-200
-                  hover:-translate-y-1
+                  pb-5
+                  pt-5
+                  shadow-[0_6px_0_rgba(0,0,0,0.18)]
                   ${isLast ? "md:col-span-2" : ""}
                 `}
               >
-                <div className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-3">
-                  <span className="mt-[8px] h-[8px] w-[8px] rounded-full" />
+                <h2
+                  className="
+                    min-h-[58px]
+                    text-left
+                    font-display
+                    text-[clamp(17px,1.35vw,21px)]
+                    font-medium
+                    leading-[1.35]
+                    tracking-[-0.005em]
+                    text-black
+                  "
+                >
+                  {tr(item.text)}
+                </h2>
 
-                  <p className="font-display text-[18px] font-semibold leading-[1.28]">
-                    {tr(item.text)}
-                  </p>
-                </div>
+                <div
+                  className="
+                    mt-4
+                    min-h-0
+                    flex-1
+                    overflow-hidden
+                    rounded-[16px]
+                    border-[2px]
+                    border-black
+                    bg-white
 
-                <div className="mt-3">
+                    [&_label]:hidden
+
+                    [&>div]:h-full
+                    [&>div]:min-h-0
+
+                    [&_div]:border-0
+                    [&_div]:bg-transparent
+                    [&_div]:p-0
+                    [&_div]:shadow-none
+
+                    [&_textarea]:h-full
+                    [&_textarea]:w-full
+                    [&_textarea]:resize-none
+                    [&_textarea]:rounded-[14px]
+                    [&_textarea]:border-0
+                    [&_textarea]:bg-transparent
+                    [&_textarea]:px-4
+                    [&_textarea]:py-3
+                    [&_textarea]:text-[16px]
+                    [&_textarea]:font-normal
+                    [&_textarea]:leading-[1.5]
+                    [&_textarea]:text-[#241b3f]
+                    [&_textarea]:outline-none
+                    [&_textarea]:shadow-none
+                    [&_textarea]:ring-0
+                    [&_textarea]:placeholder:text-[#9a93a6]
+
+                    [&_textarea:focus]:outline-none
+                    [&_textarea:focus]:ring-0
+                  "
+                >
                   <ReflectionTextarea
                     fieldKey={item.fieldKey}
                     label=""
-                    rows={isLast ? 3 : 2}
+                    rows={isLast ? 4 : 3}
                     onSaveStateChange={onSaveStateChange}
                   />
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>
@@ -821,7 +966,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
       "
     >
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
-        {/* ================= BÊN TRÁI ================= */}
         <div className="relative min-w-0">
           <h1 className="font-display text-[42px] font-semibold leading-[1.12]">
             {tr("Minä olen –övning")}
@@ -850,7 +994,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
           />
         </div>
 
-        {/* ================= BÊN PHẢI ================= */}
         <div className="relative min-h-[760px] min-w-0">
           {notes.map((note) => (
             <div
@@ -914,7 +1057,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
               </p>
 
               <div className="relative min-h-0 flex-1 overflow-hidden rounded-[12px]">
-                {/* Đường kẻ giống giấy */}
                 <div
                   aria-hidden="true"
                   className="
@@ -942,44 +1084,33 @@ function MinaOlen({ onSaveStateChange }: Props) {
     </div>
   );
 }
+
+// FIX: description trước đây là JSX hard-code tiếng Phần Lan, không qua tr().
+// Nay chuyển description sang string (dùng "\n" thay cho <br/>) và render bằng trLines().
 function S11KehuJaKannusta() {
   const tr = useTr();
   const items = [
     {
       title: "1. Huomaa hyvää!",
-      description: (
-        <>
-          Harjoittele tunnistamaan myönteistä toimintaa ihmisissä ympärilläsi.
-          <br />
-          Tee hyvän huomaamisesta tapa ja tottumus.
-        </>
-      ),
+      description:
+        "Harjoittele tunnistamaan myönteistä toimintaa ihmisissä ympärilläsi.\nTee hyvän huomaamisesta tapa ja tottumus.",
     },
     {
       title: "2. Nimeä käytetty vahvuus ja sano palaute ääneen tai liitä viestiin somessa.",
-      description: (
-        <>“Olit todella rohkea.” “Kiitos ystävällisyydestä”. “Sinussa on myötätuntoa”.</>
-      ),
+      description: "“Olit todella rohkea.” “Kiitos ystävällisyydestä”. “Sinussa on myötätuntoa”.",
     },
     {
       title: "3. Syvennä ja kuvaile, miten käytetty vahvuus näkyy toisessa. Sanallista tunne.",
-      description: <>“Olit rohkea. Huomasin, että uskalsit nostaa esille vaikeita asioita.”</>,
+      description: "“Olit rohkea. Huomasin, että uskalsit nostaa esille vaikeita asioita.”",
     },
     {
       title: "4. Arvosta ja kerro, miten käytetty vahvuus vaikuttaa. Liitä mukaan tunnesana.",
-      description: (
-        <>
-          “Kiitos rohkeudestasi tänään. Tapasi toimia vaikuttaa myönteisesti koko ryhmään.
-          <br />
-          Olen susta ylpeä.”
-        </>
-      ),
+      description:
+        "“Kiitos rohkeudestasi tänään. Tapasi toimia vaikuttaa myönteisesti koko ryhmään.\nOlen susta ylpeä.”",
     },
     {
       title: "5. Huomaa, miten positiivinen palaute ja vahvuuksista puhuminen vaikuttaa toiseen.",
-      description: (
-        <>Miltä sinusta tuntui antaa kehuja ja kiitosta? Mikä oli tärkein oivalluksesi?</>
-      ),
+      description: "Miltä sinusta tuntui antaa kehuja ja kiitosta? Mikä oli tärkein oivalluksesi?",
     },
   ];
 
@@ -1011,7 +1142,6 @@ function S11KehuJaKannusta() {
         "
       >
         <div className="relative z-20 grid grid-cols-[72px_minmax(0,1fr)] gap-x-8">
-          {/* Tab VINKKI */}
           <div
             className="
               mt-1
@@ -1026,7 +1156,7 @@ function S11KehuJaKannusta() {
             "
           >
             <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl] font-display text-[22px] font-semibold">
-              VINKKI!
+              {tr("VINKKI!")}
             </span>
           </div>
 
@@ -1041,9 +1171,7 @@ function S11KehuJaKannusta() {
                 text-[#FFD700]
               "
             >
-              Näin voit antaa toiselle kehuja ja
-              <br />
-              kannustusta vahvuuksista:
+              {trLines(tr, "Näin voit antaa toiselle kehuja ja\nkannustusta vahvuuksista:")}
             </h1>
 
             <div className="mt-7 max-w-[1160px] space-y-7">
@@ -1054,7 +1182,7 @@ function S11KehuJaKannusta() {
                   </h2>
 
                   <div className="text-[clamp(18px,1.45vw,25px)] leading-[1.42]">
-                    {item.description}
+                    {trLines(tr, item.description)}
                   </div>
                 </div>
               ))}
@@ -1066,6 +1194,7 @@ function S11KehuJaKannusta() {
   );
 }
 
+// FIX: alt text giờ bọc tr()
 function S12VahvuuksiaEnemman() {
   const tr = useTr();
   return (
@@ -1131,7 +1260,7 @@ function S12VahvuuksiaEnemman() {
           <div className="mt-6 flex min-h-0 flex-1 items-end justify-center">
             <img
               src="/illustrations/s12-raised-hands.png"
-              alt="Erilaisia käsiä nostettuna ilmaan"
+              alt={tr("Erilaisia käsiä nostettuna ilmaan")}
               className="
                 pointer-events-none
                 block
@@ -1197,7 +1326,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* ================= NỘI DUNG CHÍNH ================= */}
       <div
         className="
           relative
@@ -1213,7 +1341,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
           pt-12
         "
       >
-        {/* ================= TAB VINKKI ================= */}
         <div
           className="
             mt-1
@@ -1237,11 +1364,10 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
               font-semibold
             "
           >
-            VINKKI!
+            {tr("VINKKI!")}
           </span>
         </div>
 
-        {/* ================= PHẦN CÂU HỎI ================= */}
         <div className="relative min-w-0">
           <div className="max-w-[940px]">
             <h1
@@ -1253,9 +1379,7 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                 text-[#ffd95d]
               "
             >
-              Nämä kysymykset auttavat sinua
-              <br />
-              näkemään hyviä puolia elämästäsi
+              {trLines(tr, "Nämä kysymykset auttavat sinua\nnäkemään hyviä puolia elämästäsi")}
             </h1>
 
             <p
@@ -1265,10 +1389,9 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                 leading-[1.4]
               "
             >
-              Kysy itseltäsi päivän aikana ja päätteeksi:
+              {tr("Kysy itseltäsi päivän aikana ja päätteeksi:")}
             </p>
 
-            {/* ================= DANH SÁCH 7 CÂU HỎI ================= */}
             <div className="mt-8 space-y-8">
               {questions.map((question) => (
                 <section
@@ -1280,7 +1403,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                     gap-x-5
                   "
                 >
-                  {/* Chấm vàng */}
                   <span
                     aria-hidden="true"
                     className="
@@ -1293,7 +1415,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                   />
 
                   <div className="min-w-0">
-                    {/* Câu hỏi */}
                     <h2
                       className="
                         text-[clamp(18px,1.42vw,24px)]
@@ -1305,7 +1426,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                       {tr(question.text)}
                     </h2>
 
-                    {/* Ô trả lời khoảng 5 dòng */}
                     <div
                       className="
                         relative
@@ -1354,7 +1474,6 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                         [&_textarea:focus]:ring-0
                       "
                     >
-                      {/* Các dòng kẻ */}
                       <div
                         aria-hidden="true"
                         className="
@@ -1382,10 +1501,9 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
             </div>
           </div>
 
-          {/* ================= ILLUSTRATION KẸO ================= */}
           <img
             src="/illustrations/s13-good-candy.png"
-            alt="See the Good Candy"
+            alt={tr("See the Good Candy")}
             className="
               pointer-events-none
               absolute
@@ -1416,8 +1534,6 @@ function M1Intro() {
 
 // ----- S12: Ydinvahvuuksien karkkikauppa (PDF p16–17) -----
 
-// 26 statements verbatim from PDF p16 (preserves capitalisation and the
-// "VAIKKA VAIKKA" repetition that appears in the source).
 const PICK = 5;
 
 const DATA = [
@@ -1788,7 +1904,6 @@ export default function Karkkikauppa() {
   const chosen = picked.map((id) => DATA.find((d) => d.id === id));
   const tilt = useMemo(() => DATA.map((_, i) => ((i * 53) % 7) - 3), []);
 
-  /* the wall turns around: stagger the 26 bins, then settle */
   useEffect(() => {
     if (phase !== "kaanto") return;
     const t1 = setTimeout(() => setTurned(true), 420);
@@ -2009,19 +2124,23 @@ export default function Karkkikauppa() {
             <div className="hd">
               <h1 className="fd h1">
                 {shopping
-                  ? "Ydinvahvuuksien karkkikauppa"
+                  ? tr("Ydinvahvuuksien karkkikauppa")
                   : settled
-                    ? "Nämä ovat ydinvahvuutesi"
-                    : "Hylly kääntyy…"}
+                    ? tr("Nämä ovat ydinvahvuutesi")
+                    : tr("Hylly kääntyy…")}
                 <small>
                   {shopping
-                    ? "Poimi hyllystä viisi väittämäkarkkia, jotka kuulostavat sinulta. Älä mieti liikaa — mene fiiliksellä."
+                    ? tr(
+                        "Poimi hyllystä viisi väittämäkarkkia, jotka kuulostavat sinulta. Älä mieti liikaa — mene fiiliksellä.",
+                      )
                     : settled
-                      ? "Jokaisen purkin takana oli luonteenvahvuus ja sitä vastaava karkki. Sinun viisi loistavat."
-                      : "Katso, mitkä vahvuudet väittämien takaa paljastuvat."}
+                      ? tr(
+                          "Jokaisen purkin takana oli luonteenvahvuus ja sitä vastaava karkki. Sinun viisi loistavat.",
+                        )
+                      : tr("Katso, mitkä vahvuudet väittämien takaa paljastuvat.")}
                 </small>
               </h1>
-              <div className="namu fd">{settled ? "OOT NAMU!" : "OOT NAMU"}</div>
+              <div className="namu fd">{settled ? tr("OOT NAMU!") : tr("OOT NAMU")}</div>
             </div>
 
             <div className={`wall ${shopping ? "shop" : "reveal"}${settled ? " settled" : ""}`}>
@@ -2046,8 +2165,8 @@ export default function Karkkikauppa() {
                           aria-pressed={on}
                           aria-label={
                             revealing
-                              ? `${d.strength} — ${d.virtue}${on ? ", sinun vahvuutesi" : ""}`
-                              : `${d.statement}${on ? " — pussissa" : ""}`
+                              ? `${tr(d.strength)} — ${tr(d.virtue)}${on ? `, ${tr("sinun vahvuutesi")}` : ""}`
+                              : `${tr(d.statement)}${on ? ` — ${tr("pussissa")}` : ""}`
                           }
                         >
                           <div
@@ -2112,7 +2231,7 @@ export default function Karkkikauppa() {
                 </div>
                 <div className="cnt">
                   <b>{picked.length}/5</b>
-                  karkkia pussissa
+                  {tr("karkkia pussissa")}
                   <div className="slots">
                     {Array.from({ length: PICK }).map((_, i) => (
                       <span key={i} className={`slot${picked[i] ? " on" : ""}`} />
@@ -2124,7 +2243,9 @@ export default function Karkkikauppa() {
                   disabled={!full}
                   onClick={() => setPhase("kaanto")}
                 >
-                  {full ? "Käännä hylly →" : `Valitse vielä ${PICK - picked.length}`}
+                  {full
+                    ? tr("Käännä hylly →")
+                    : tr("Valitse vielä {n}", { n: PICK - picked.length })}
                 </button>
               </>
             ) : settled ? (
@@ -2138,13 +2259,13 @@ export default function Karkkikauppa() {
                   ))}
                 </div>
                 <button className="btn go" onClick={() => setPhase("kuitti")}>
-                  Ota kuitti →
+                  {tr("Ota kuitti →")}
                 </button>
               </>
             ) : (
               <div className="cnt" style={{ textAlign: "center" }}>
                 <b>26</b>
-                purkkia kääntyy…
+                {tr("purkkia kääntyy…")}
               </div>
             )}
           </div>
@@ -2176,7 +2297,7 @@ export default function Karkkikauppa() {
                 <textarea
                   className="ta"
                   value={answers[i]}
-                  placeholder="Kirjoita tähän…"
+                  placeholder={tr("Kirjoita tähän…")}
                   onChange={(e) =>
                     setAnswers((a) => a.map((v, j) => (j === i ? e.target.value : v)))
                   }
@@ -2184,9 +2305,9 @@ export default function Karkkikauppa() {
               </div>
             ))}
             <div className="acts">
-              <button className="btn">Tallenna ja jatka</button>
+              <button className="btn">{tr("Tallenna ja jatka")}</button>
               <button className="link" onClick={restart}>
-                Valitse karkit uudelleen
+                {tr("Valitse karkit uudelleen")}
               </button>
             </div>
           </div>
@@ -2196,7 +2317,7 @@ export default function Karkkikauppa() {
   );
 }
 
-// ----- S13: Vahvuuskarkkini -----
+// ----- S13: Vahvuuskarkkini ----- (FIX: heading, subtitle, placeholder, và 3 label giờ đều qua tr())
 function S13({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -2218,11 +2339,11 @@ function S13({ onSaveStateChange }: Props) {
           {tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
         </h1>
 
-        <p className="mt-3 text-[17px] opacity-90">Pohdi omia vahvuuksia ja vastaa:</p>
+        <p className="mt-3 text-[17px] opacity-90">{tr("Pohdi omia vahvuuksia ja vastaa:")}</p>
 
         <div className="mt-7 rounded-[24px] bg-white/10 p-6">
           <h2 className="font-display text-[20px] font-semibold">
-            Merkkaa tähän 5 vahvuuskarkkiasi!
+            {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
           </h2>
 
           <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -2231,7 +2352,7 @@ function S13({ onSaveStateChange }: Props) {
                 key={index}
                 fieldKey={`screen_13_karkki_${index + 1}`}
                 prefix={`${index + 1}.`}
-                placeholder="Vahvuuskarkki…"
+                placeholder={tr("Vahvuuskarkki…")}
                 onSaveStateChange={onSaveStateChange}
               />
             ))}
@@ -2241,21 +2362,23 @@ function S13({ onSaveStateChange }: Props) {
         <div className="mt-6 grid gap-5 pb-8">
           <ReflectionTextarea
             fieldKey="screen_13_examples"
-            label="Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista."
+            label={tr(
+              "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
+            )}
             rows={4}
             onSaveStateChange={onSaveStateChange}
           />
 
           <ReflectionTextarea
             fieldKey="screen_13_success"
-            label="Missä onnistuit omia vahvuuksia hyödyntämällä?"
+            label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
             rows={3}
             onSaveStateChange={onSaveStateChange}
           />
 
           <ReflectionTextarea
             fieldKey="screen_13_effect"
-            label="Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?"
+            label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
             rows={3}
             onSaveStateChange={onSaveStateChange}
           />
@@ -2479,14 +2602,11 @@ function S14({ onSaveStateChange }: Props) {
               ${question.position}
             `}
           >
-            {/* Câu hỏi */}
             <p className="relative z-10 shrink-0 text-center font-display text-[16px] font-semibold leading-[1.18] text-[#7654ad]">
               {question.id}. {tr(question.text)}
             </p>
 
-            {/* Vùng nhập */}
             <div className="relative mt-3 min-h-0 flex-1 [&>div]:h-full">
-              {/* Các dòng kẻ */}
               <div
                 aria-hidden="true"
                 className="
@@ -2515,56 +2635,36 @@ function S14({ onSaveStateChange }: Props) {
 }
 
 // ----- S15 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
+// FIX: bulletItems giờ là string thuần (không còn JSX fragment), qua tr(); heading cũng qua tr()
 function S15() {
+  const tr = useTr();
   const bulletItems = [
-    <>
-      Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa
-      elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.
-    </>,
-    <>
-      Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset,
-      tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi, myötätuntoinen
-      suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.
-    </>,
-    <>
-      Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin, miten tärkeiksi voimavarasi
-      koet.
-    </>,
+    "Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.",
+    "Näitä tekijöitä voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset, tunnetaidot, unelmasi tulevaisuuden suhteen, ajatuksesi, asenteesi, myötätuntoinen suhtautuminen itseesi ja aikaisemmat onnistumisen kokemukset.",
+    "Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin, miten tärkeiksi voimavarasi koet.",
   ];
 
   return (
     <div className="relative min-h-[620px] w-full overflow-hidden  px-[8%] pb-10 pt-14 text-white">
-      {/* =====================================================
-          KHỐI NỘI DUNG BÊN TRÁI
-      ====================================================== */}
       <div className="relative z-20 max-w-[920px]">
-        {/* Tiêu đề */}
         <h1 className="font-display text-[42px] font-semibold leading-[1.08]">
-          Voimavarani opiskelijana <span className="text-white">1/2</span>
+          {tr("Voimavarani opiskelijana")} <span className="text-white">1/2</span>
         </h1>
 
-        {/* Tiêu đề phụ */}
         <h2 className="mt-9 font-display text-[24px] font-semibold leading-[1.2] text-white">
-          Pohdi ja täydennä omien voimavarojesi sydämet
+          {tr("Pohdi ja täydennä omien voimavarojesi sydämet")}
         </h2>
 
-        {/* Danh sách nội dung */}
         <div className="mt-3 flex max-w-[900px] flex-col gap-7">
           {bulletItems.map((item, index) => (
             <div key={index} className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-5">
-              {/* Dấu chấm vàng */}
               <span className="mt-[12px] h-[8px] w-[8px] rounded-full " />
 
-              <p className="font-display text-[23px] font-medium leading-[1.42]">{item}</p>
+              <p className="font-display text-[23px] font-medium leading-[1.42]">{tr(item)}</p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* =====================================================
-          KHU VỰC ILLUSTRATION BÊN PHẢI
-          BỎ COMMENT KHI BẠN ĐÃ CÓ ẢNH
-      ====================================================== */}
 
       <img
         src="/illustrations/voimavarani-hand.png"
@@ -2586,7 +2686,7 @@ function S15() {
 }
 
 // ----- S16 (PDF p21): Voimavarani opiskelijana 2/2 -----
-
+// FIX: heading "Voimavarani opiskelijana 2/2" và "Merkitse vahvuutesi" giờ qua tr()
 export function S16({ onSaveStateChange }: Props) {
   const tr = useTr();
   const [scores, setScores] = useState<Record<string, number | null>>({});
@@ -2647,12 +2747,10 @@ export function S16({ onSaveStateChange }: Props) {
       "
     >
       <div className="mx-auto w-full max-w-[1280px]">
-        {/* ================= TIÊU ĐỀ ================= */}
         <h1 className="font-display text-[42px] font-semibold leading-[1.08] text-white">
-          Voimavarani opiskelijana <span className="text-[#f1f1ef]">2/2</span>
+          {tr("Voimavarani opiskelijana")} <span className="text-[#f1f1ef]">2/2</span>
         </h1>
 
-        {/* ================= 4 KHUNG LỚN ================= */}
         <div className="mt-8 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
           {groups.map((group) => {
             const selectedScore = scores[group.fieldKey] ?? null;
@@ -2670,7 +2768,6 @@ export function S16({ onSaveStateChange }: Props) {
                   ${group.rotateClass}
                 `}
               >
-                {/* ================= NHÃN DỌC ================= */}
                 <div
                   className={`
                     absolute
@@ -2695,7 +2792,6 @@ export function S16({ onSaveStateChange }: Props) {
                   </span>
                 </div>
 
-                {/* ================= VIỀN MÀU ================= */}
                 <div
                   className={`
                     h-full
@@ -2716,7 +2812,6 @@ export function S16({ onSaveStateChange }: Props) {
                       gap-3
                     "
                   >
-                    {/* ================= Ô NHẬP TEXT ================= */}
                     <div
                       className="
                         min-h-[225px]
@@ -2762,7 +2857,6 @@ export function S16({ onSaveStateChange }: Props) {
                       />
                     </div>
 
-                    {/* ================= KHU VỰC CHỌN ĐIỂM ================= */}
                     <div
                       className="
                         flex
@@ -2786,12 +2880,9 @@ export function S16({ onSaveStateChange }: Props) {
                           text-[#4b3a66]
                         "
                       >
-                        Merkitse
-                        <br />
-                        vahvuutesi
+                        {trLines(tr, "Merkitse\nvahvuutesi")}
                       </p>
 
-                      {/* 4 ô vuông */}
                       <div
                         className="
                           grid
@@ -2806,7 +2897,7 @@ export function S16({ onSaveStateChange }: Props) {
                             <button
                               key={score}
                               type="button"
-                              aria-label={`${group.label}: valitse taso ${score}`}
+                              aria-label={`${tr(group.label)}: ${tr("valitse taso {n}", { n: score })}`}
                               aria-pressed={isSelected}
                               onClick={() => selectScore(group.fieldKey, score)}
                               className={`
@@ -2841,7 +2932,6 @@ export function S16({ onSaveStateChange }: Props) {
                         })}
                       </div>
 
-                      {/* Số điểm dưới từng ô */}
                       <div
                         className="
                           mt-2
@@ -2887,9 +2977,6 @@ function S17({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* =====================================================
-          KHUNG NỘI DUNG CHÍNH
-      ====================================================== */}
       <div
         className="
           relative
@@ -2903,9 +2990,6 @@ function S17({ onSaveStateChange }: Props) {
           pt-16
         "
       >
-        {/* =====================================================
-            ILLUSTRATION DÂY XÍCH
-        ====================================================== */}
         <img
           src="/illustrations/s17-chain.png"
           alt=""
@@ -2923,16 +3007,10 @@ function S17({ onSaveStateChange }: Props) {
           "
         />
 
-        {/* =====================================================
-            NỘI DUNG PHÍA TRÊN
-        ====================================================== */}
         <div className="relative z-20 max-w-[1050px]">
           {tr("Haasteet ja vahvuudet – Pohdi ja kirjoita vastaukset.")}
         </div>
 
-        {/* =====================================================
-            HAI CÂU HỎI PHÍA TRÊN
-        ====================================================== */}
         <div
           className="
             relative
@@ -2946,7 +3024,6 @@ function S17({ onSaveStateChange }: Props) {
             md:grid-cols-2
           "
         >
-          {/* ================= CÂU HỎI 1 ================= */}
           <div className="flex min-h-[245px] min-w-0 flex-col">
             <h2
               className="
@@ -3017,7 +3094,6 @@ function S17({ onSaveStateChange }: Props) {
             </div>
           </div>
 
-          {/* ================= CÂU HỎI 2 ================= */}
           <div className="flex min-h-[245px] min-w-0 flex-col">
             <h2
               className="
@@ -3089,9 +3165,6 @@ function S17({ onSaveStateChange }: Props) {
           </div>
         </div>
 
-        {/* =====================================================
-            CÂU HỎI PHÍA DƯỚI
-        ====================================================== */}
         <div
           className="
             relative
@@ -3175,6 +3248,7 @@ function S17({ onSaveStateChange }: Props) {
 }
 
 // ----- S18 (PDF p23): Vahvuuksien käyttökielto -----
+// FIX: title và heading câu hỏi 2 (đổi <br/> thành trLines) giờ đều qua tr()
 function S18({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -3203,7 +3277,6 @@ function S18({ onSaveStateChange }: Props) {
           pt-16
         "
       >
-        {/* ================= ILLUSTRATION LON NƯỚC ================= */}
         <img
           src="/illustrations/s18-can.png"
           alt=""
@@ -3221,7 +3294,6 @@ function S18({ onSaveStateChange }: Props) {
           "
         />
 
-        {/* ================= PHẦN TIÊU ĐỀ ================= */}
         <div className="relative z-20 max-w-[1100px]">
           <h1
             className="
@@ -3232,7 +3304,7 @@ function S18({ onSaveStateChange }: Props) {
               text-white
             "
           >
-            Vahvuuksien käyttökielto
+            {tr("Vahvuuksien käyttökielto")}
           </h1>
 
           <p
@@ -3250,7 +3322,6 @@ function S18({ onSaveStateChange }: Props) {
           </p>
         </div>
 
-        {/* ================= HAI CÂU HỎI ================= */}
         <div
           className="
             relative
@@ -3264,7 +3335,6 @@ function S18({ onSaveStateChange }: Props) {
             md:grid-cols-2
           "
         >
-          {/* ================= CÂU HỎI 1 ================= */}
           <div className="flex min-h-[450px] min-w-0 flex-col">
             <h2
               className="
@@ -3335,7 +3405,6 @@ function S18({ onSaveStateChange }: Props) {
             </div>
           </div>
 
-          {/* ================= CÂU HỎI 2 ================= */}
           <div className="flex min-h-[300px] min-w-0 flex-col">
             <h2
               className="
@@ -3347,9 +3416,7 @@ function S18({ onSaveStateChange }: Props) {
                 text-white
               "
             >
-              Miten tämä vaikuttaisi arkeesi,
-              <br />
-              entä opintoihin?
+              {trLines(tr, "Miten tämä vaikuttaisi arkeesi,\nentä opintoihin?")}
             </h2>
 
             <div
@@ -3414,6 +3481,7 @@ function S18({ onSaveStateChange }: Props) {
 }
 
 // ----- S19 (PDF p24): Idea: Vahvuusjulisteet — informational, no required input -----
+// FIX: 3 đoạn <p> giờ qua tr()
 function S19() {
   const tr = useTr();
   return (
@@ -3454,7 +3522,6 @@ function S19() {
             lg:grid-cols-[46%_54%]
           "
         >
-          {/* CỘT TRÁI */}
           <div className="min-w-0 pt-10 lg:pr-6">
             <h1
               className="
@@ -3485,23 +3552,25 @@ function S19() {
               "
             >
               <p>
-                Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma
-                kuva ja viisi ydinvahvuutta.
+                {tr(
+                  "Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.",
+                )}
               </p>
 
               <p>
-                Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla
-                tavalla?
+                {tr(
+                  "Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?",
+                )}
               </p>
 
               <p>
-                Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat
-                mukanasi päivittäin lukioon.
+                {tr(
+                  "Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat mukanasi päivittäin lukioon.",
+                )}
               </p>
             </div>
           </div>
 
-          {/* CỘT PHẢI */}
           <div
             className="
               relative
@@ -3512,7 +3581,7 @@ function S19() {
           >
             <img
               src="/illustrations/s19-karin-poster.png"
-              alt="Esimerkki Karin vahvuusjulisteesta"
+              alt={tr("Esimerkki Karin vahvuusjulisteesta")}
               className="
     pointer-events-none
     absolute
@@ -3535,7 +3604,9 @@ function S19() {
 }
 
 // ----- S20 (PDF p25): Muistele onnistumista -----
+// FIX: title + 4 câu hỏi (kể cả phần có <strong>) giờ đều qua tr(), tách phần in đậm thành tr() riêng
 function S20({ onSaveStateChange }: Props) {
+  const tr = useTr();
   return (
     <div
       className="
@@ -3551,9 +3622,6 @@ function S20({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* =====================================================
-          KHUNG TRẮNG CHÍNH
-      ====================================================== */}
       <div
         className="
           relative
@@ -3570,9 +3638,6 @@ function S20({ onSaveStateChange }: Props) {
           shadow-[0_8px_24px_rgba(44,27,78,0.08)]
         "
       >
-        {/* =====================================================
-            TIÊU ĐỀ
-        ====================================================== */}
         <h1
           className="
             font-display
@@ -3582,18 +3647,11 @@ function S20({ onSaveStateChange }: Props) {
             text-black
           "
         >
-          Muistele onnistumista
+          {tr("Muistele onnistumista")}
         </h1>
 
-        {/* =====================================================
-            DANH SÁCH CÂU HỎI
-        ====================================================== */}
         <div className="mt-10 space-y-8">
-          {/* =================================================
-              CÂU HỎI 1
-          ================================================== */}
           <section className="grid grid-cols-[16px_1fr] gap-x-4">
-            {/* Chấm vàng */}
             <span
               aria-hidden="true"
               className="
@@ -3615,15 +3673,16 @@ function S20({ onSaveStateChange }: Props) {
                   text-[#241b3f]
                 "
               >
-                Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet
-                ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa.{" "}
+                {tr(
+                  "Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa.",
+                )}{" "}
                 <strong className="font-semibold">
-                  Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait
-                  toisilta? Mikä siinä oli sinulle tärkeää?
+                  {tr(
+                    "Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait toisilta? Mikä siinä oli sinulle tärkeää?",
+                  )}
                 </strong>
               </p>
 
-              {/* Vùng nhập câu trả lời */}
               <div
                 className="
                   mt-3
@@ -3679,9 +3738,6 @@ function S20({ onSaveStateChange }: Props) {
             </div>
           </section>
 
-          {/* =================================================
-              CÂU HỎI 2
-          ================================================== */}
           <section className="grid grid-cols-[16px_1fr] gap-x-4">
             <span
               aria-hidden="true"
@@ -3704,9 +3760,9 @@ function S20({ onSaveStateChange }: Props) {
                   text-[#171717]
                 "
               >
-                Mitä tämä onnistuminen kertoo{" "}
-                <strong className="font-semibold">ydinvahvuuksistasi:</strong> mitä omia
-                ydinvahvuuksia käyttämällä onnistuit?
+                {tr("Mitä tämä onnistuminen kertoo")}{" "}
+                <strong className="font-semibold">{tr("ydinvahvuuksistasi:")}</strong>{" "}
+                {tr("mitä omia ydinvahvuuksia käyttämällä onnistuit?")}
               </p>
 
               <div
@@ -3763,9 +3819,6 @@ function S20({ onSaveStateChange }: Props) {
             </div>
           </section>
 
-          {/* =================================================
-              CÂU HỎI 3
-          ================================================== */}
           <section className="grid grid-cols-[16px_1fr] gap-x-4">
             <span
               aria-hidden="true"
@@ -3788,8 +3841,9 @@ function S20({ onSaveStateChange }: Props) {
                   text-[#171717]
                 "
               >
-                Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi
-                hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki.
+                {tr(
+                  "Mieti onnistumista, jossa pystyit tukemaan ja auttamaan toisia omia vahvuuksiasi hyödyntämällä? Mitä teit ja kenen kanssa olit? Kerro esimerkki.",
+                )}
               </p>
 
               <div
@@ -3846,9 +3900,6 @@ function S20({ onSaveStateChange }: Props) {
             </div>
           </section>
 
-          {/* =================================================
-              CÂU HỎI 4
-          ================================================== */}
           <section className="grid grid-cols-[16px_1fr] gap-x-4">
             <span
               aria-hidden="true"
@@ -3871,7 +3922,7 @@ function S20({ onSaveStateChange }: Props) {
                   text-[#171717]
                 "
               >
-                Mitä yhteistä hyvää vahvuutesi edistivät, miten?
+                {tr("Mitä yhteistä hyvää vahvuutesi edistivät, miten?")}
               </p>
 
               <div
@@ -4144,7 +4195,6 @@ function S21({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* Nội dung cao hơn màn hình để scrollbar hoạt động */}
       <div
         className="
           relative
@@ -4158,15 +4208,6 @@ function S21({ onSaveStateChange }: Props) {
           pt-16
         "
       >
-        {/* =====================================================
-            GRID CHÍNH
-
-            Desktop:
-            - Cột 1: tiêu đề
-            - Cột 2–4: các box
-            - gap-x: khoảng cách ngang
-            - gap-y: khoảng cách dọc
-        ====================================================== */}
         <div
           className="
             relative
@@ -4184,9 +4225,6 @@ function S21({ onSaveStateChange }: Props) {
             lg:gap-y-20
           "
         >
-          {/* =================================================
-              TIÊU ĐỀ
-          ================================================== */}
           <div
             className="
               relative
@@ -4207,9 +4245,6 @@ function S21({ onSaveStateChange }: Props) {
             {tr("Pohdi onnistumisia ja täytä!")}
           </div>
 
-          {/* =================================================
-              8 BOX NHẬP LIỆU
-          ================================================== */}
           {notes.map((note) => (
             <IrregularPaper
               key={note.fieldKey}
@@ -4237,7 +4272,6 @@ function S21({ onSaveStateChange }: Props) {
                 note.gridClass,
               )}
             >
-              {/* Tiêu đề của box */}
               <p
                 className="
                   relative
@@ -4260,7 +4294,6 @@ function S21({ onSaveStateChange }: Props) {
                 {tr(note.label)}
               </p>
 
-              {/* Khu vực nhập câu trả lời */}
               <div
                 className="
                   relative
@@ -4302,7 +4335,6 @@ function S21({ onSaveStateChange }: Props) {
                   [&_textarea:focus]:ring-0
                 "
               >
-                {/* Dòng kẻ trong vùng nhập */}
                 <div
                   aria-hidden="true"
                   className="
@@ -4328,7 +4360,6 @@ function S21({ onSaveStateChange }: Props) {
             </IrregularPaper>
           ))}
 
-          {/* Khoảng trống hàng cuối bên phải để giống bố cục design */}
           <div
             aria-hidden="true"
             className="
@@ -4339,8 +4370,6 @@ function S21({ onSaveStateChange }: Props) {
             "
           />
         </div>
-
-        {/* Logo góc dưới phải */}
       </div>
     </div>
   );
@@ -4349,6 +4378,7 @@ function S21({ onSaveStateChange }: Props) {
 // ============================================================
 // S22 — PDF page 28: Tulevaisuuden muistelu
 // ============================================================
+// FIX: tách 2 đoạn <p> có <strong> thành các tr() riêng
 function S22({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -4364,9 +4394,6 @@ function S22({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* =====================================================
-          KHUNG TOÀN TRANG
-      ====================================================== */}
       <div
         className="
           relative
@@ -4380,9 +4407,6 @@ function S22({ onSaveStateChange }: Props) {
           pt-16
         "
       >
-        {/* =====================================================
-            KHUNG TRẮNG CHÍNH
-        ====================================================== */}
         <div
           className="
             relative
@@ -4396,9 +4420,6 @@ function S22({ onSaveStateChange }: Props) {
             text-white
           "
         >
-          {/* =================================================
-              TIÊU ĐỀ
-          ================================================== */}
           <h1
             className="
               max-w-[800px]
@@ -4414,13 +4435,7 @@ function S22({ onSaveStateChange }: Props) {
             )}
           </h1>
 
-          {/* =================================================
-              CÁC CÂU HỎI
-          ================================================== */}
           <div className="mt-10 space-y-16">
-            {/* =================================================
-                CÂU HỎI 1
-            ================================================== */}
             <section
               className="
                 grid
@@ -4429,7 +4444,6 @@ function S22({ onSaveStateChange }: Props) {
                 gap-x-4
               "
             >
-              {/* Chấm vàng */}
               <span
                 aria-hidden="true"
                 className="
@@ -4442,7 +4456,6 @@ function S22({ onSaveStateChange }: Props) {
               />
 
               <div className="min-w-0">
-                {/* Chừa không gian bên phải cho illustration */}
                 <div className="pr-[28%]">
                   <p
                     className="
@@ -4452,18 +4465,17 @@ function S22({ onSaveStateChange }: Props) {
                       text-white
                     "
                   >
-                    Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit
-                    lähitulevaisuudessa hyödyntää vahvuuksiasi?{" "}
+                    {tr(
+                      "Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, jossa voit lähitulevaisuudessa hyödyntää vahvuuksiasi?",
+                    )}{" "}
                     <strong>
-                      Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt
-                      vahvuuksiasi tietoisemmin?
+                      {tr(
+                        "Mikä tulee menemään hyvin? Mistä voit huomata, että olet hyödyntänyt vahvuuksiasi tietoisemmin?",
+                      )}
                     </strong>
                   </p>
                 </div>
 
-                {/* =============================================
-                    TEXTBOX 1
-                ============================================== */}
                 <div
                   className="
                     relative
@@ -4481,7 +4493,6 @@ function S22({ onSaveStateChange }: Props) {
                     focus-within:bg-white
                   "
                 >
-                  {/* Dòng kẻ chỉ nằm trong textbox */}
                   <div
                     aria-hidden="true"
                     className="
@@ -4495,7 +4506,6 @@ function S22({ onSaveStateChange }: Props) {
                     "
                   />
 
-                  {/* FlatReflectionTextarea */}
                   <div
                     className="
                       relative
@@ -4544,9 +4554,6 @@ function S22({ onSaveStateChange }: Props) {
               </div>
             </section>
 
-            {/* =================================================
-                CÂU HỎI 2
-            ================================================== */}
             <section
               className="
                 grid
@@ -4555,7 +4562,6 @@ function S22({ onSaveStateChange }: Props) {
                 gap-x-4
               "
             >
-              {/* Chấm vàng */}
               <span
                 aria-hidden="true"
                 className="
@@ -4576,13 +4582,12 @@ function S22({ onSaveStateChange }: Props) {
                     text-white
                   "
                 >
-                  Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit
-                  niitä liikaa? <strong>Mitä tämä tilanne opetti sinulle?</strong>
+                  {tr(
+                    "Mieti jotain tilannetta, jossa et onnistunut hyödyntämään vahvuuksiasi, tai käytit niitä liikaa?",
+                  )}{" "}
+                  <strong>{tr("Mitä tämä tilanne opetti sinulle?")}</strong>
                 </p>
 
-                {/* =============================================
-                    TEXTBOX 2
-                ============================================== */}
                 <div
                   className="
                     relative
@@ -4600,7 +4605,6 @@ function S22({ onSaveStateChange }: Props) {
                     focus-within:bg-white
                   "
                 >
-                  {/* Dòng kẻ chỉ nằm trong textbox */}
                   <div
                     aria-hidden="true"
                     className="
@@ -4614,7 +4618,6 @@ function S22({ onSaveStateChange }: Props) {
                     "
                   />
 
-                  {/* FlatReflectionTextarea */}
                   <div
                     className="
                       relative
@@ -4665,12 +4668,9 @@ function S22({ onSaveStateChange }: Props) {
           </div>
         </div>
 
-        {/* =====================================================
-            ILLUSTRATION
-        ====================================================== */}
         <img
           src="/illustrations/s22-future-book.png"
-          alt="Back to the Future -kirja"
+          alt={tr("Back to the Future -kirja")}
           className="
             pointer-events-none
             absolute
@@ -4691,6 +4691,7 @@ function S22({ onSaveStateChange }: Props) {
 // ============================================================
 // S23 — PDF page 29: Ydinvahvuudet parin kanssa
 // ============================================================
+// FIX: đoạn intro giờ qua tr()
 function S23({ onSaveStateChange }: Props) {
   const tr = useTr();
   const questions = [
@@ -4750,9 +4751,6 @@ function S23({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* =====================================================
-          KHUNG NỘI DUNG DÀI ĐỂ CÓ SCROLLBAR
-      ====================================================== */}
       <div
         className="
           relative
@@ -4766,9 +4764,6 @@ function S23({ onSaveStateChange }: Props) {
           pt-16
         "
       >
-        {/* =====================================================
-            TIÊU ĐỀ VÀ MÔ TẢ
-        ====================================================== */}
         <div className="relative z-20">
           <div className="pr-[18%]">
             <h1
@@ -4795,14 +4790,12 @@ function S23({ onSaveStateChange }: Props) {
                 text-white
               "
             >
-              Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja apuna
-              keskustelussa.
+              {tr(
+                "Keskustele parin kanssa. Vastaa kysymyksiin. Käyttäkää omia vahvuuskarkkeja apuna keskustelussa.",
+              )}
             </p>
           </div>
 
-          {/* =================================================
-              ILLUSTRATION
-          ================================================== */}
           <img
             src="/illustrations/s23-candy-banana-shoe.png"
             alt=""
@@ -4820,9 +4813,6 @@ function S23({ onSaveStateChange }: Props) {
   "
           />
 
-          {/* =================================================
-              10 CÂU HỎI
-          ================================================== */}
           <div
             className="
               mt-12
@@ -4840,9 +4830,6 @@ function S23({ onSaveStateChange }: Props) {
                   min-w-0
                 "
               >
-                {/* =============================================
-                    CÂU HỎI
-                ============================================== */}
                 <div
                   className="
                     grid
@@ -4875,9 +4862,6 @@ function S23({ onSaveStateChange }: Props) {
                   </h2>
                 </div>
 
-                {/* =============================================
-                    Ô TRẢ LỜI 6 DÒNG
-                ============================================== */}
                 <div
                   className="
                     relative
@@ -4895,7 +4879,6 @@ function S23({ onSaveStateChange }: Props) {
                     focus-within:bg-white
                   "
                 >
-                  {/* Dòng kẻ chỉ nằm trong textbox */}
                   <div
                     aria-hidden="true"
                     className="
@@ -4909,7 +4892,6 @@ function S23({ onSaveStateChange }: Props) {
                     "
                   />
 
-                  {/* ReflectionTextarea */}
                   <div
                     className="
                       relative
@@ -4960,10 +4942,6 @@ function S23({ onSaveStateChange }: Props) {
             ))}
           </div>
         </div>
-
-        {/* =====================================================
-            LOGO
-        ====================================================== */}
       </div>
     </div>
   );
@@ -4972,6 +4950,7 @@ function S23({ onSaveStateChange }: Props) {
 // ============================================================
 // S24 — PDF page 30: Anna palautetta ja kehuja
 // ============================================================
+// FIX: title (đổi <br/> thành trLines) giờ qua tr()
 function S24({ onSaveStateChange }: Props) {
   const tr = useTr();
   const bubbles = [
@@ -5021,9 +5000,6 @@ function S24({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* =====================================================
-          KHUNG NỘI DUNG DÀI ĐỂ SCROLLBAR HOẠT ĐỘNG
-      ====================================================== */}
       <div
         className="
           relative
@@ -5037,13 +5013,6 @@ function S24({ onSaveStateChange }: Props) {
           pt-14
         "
       >
-        {/* =====================================================
-            SHAPE TRANG TRÍ
-        ====================================================== */}
-
-        {/* =====================================================
-            TIÊU ĐỀ
-        ====================================================== */}
         <h1
           className="
             relative
@@ -5056,14 +5025,9 @@ function S24({ onSaveStateChange }: Props) {
             text-[#ffd95d]
           "
         >
-          Anna palautetta ja kehuja täydentämällä
-          <br />
-          seuraavia lauseenalkuja:
+          {trLines(tr, "Anna palautetta ja kehuja täydentämällä\nseuraavia lauseenalkuja:")}
         </h1>
 
-        {/* =====================================================
-            6 Ô BONG BÓNG
-        ====================================================== */}
         <div
           className="
             relative
@@ -5108,9 +5072,6 @@ function S24({ onSaveStateChange }: Props) {
                 borderRadius: "48% 52% 46% 54% / 48% 44% 56% 52%",
               }}
             >
-              {/* =================================================
-                  TIÊU ĐỀ BONG BÓNG
-              ================================================== */}
               <p
                 className="
                   relative
@@ -5133,9 +5094,6 @@ function S24({ onSaveStateChange }: Props) {
                 {tr(bubble.label)}
               </p>
 
-              {/* =================================================
-                  Ô TRẢ LỜI — TỐI THIỂU 6 DÒNG
-              ================================================== */}
               <div
                 className="
                   relative
@@ -5153,7 +5111,6 @@ function S24({ onSaveStateChange }: Props) {
                   focus-within:bg-white
                 "
               >
-                {/* Các dòng kẻ chỉ nằm trong ô trả lời */}
                 <div
                   aria-hidden="true"
                   className="
@@ -5167,7 +5124,6 @@ function S24({ onSaveStateChange }: Props) {
                   "
                 />
 
-                {/* FlatReflectionTextarea */}
                 <div
                   className="
                     relative
@@ -5413,13 +5369,11 @@ function LikertRow({
         hover:bg-white/5
       "
     >
-      {/* Nội dung câu hỏi */}
       <div className="min-w-0 pr-4 text-white">
         <span className="mr-1 font-medium">{index + 1}.</span>
         <span>{tr(label)}</span>
       </div>
 
-      {/* Các lựa chọn 1–5 */}
       <div className="flex shrink-0 items-center gap-2">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -5459,6 +5413,7 @@ function LikertRow({
 // ============================================================
 // S26 — PDF page 33: Omien vahvuuksien käyttö
 // ============================================================
+// FIX: đoạn giải thích, chú thích thang điểm, "Vastaa kyselyyn.", "Laske yhteen pisteesi:" giờ qua tr()
 function S26({ onSaveStateChange }: Props) {
   const tr = useTr();
   const [scores, setScores] = useState<Record<number, number>>({});
@@ -5478,7 +5433,6 @@ function S26({ onSaveStateChange }: Props) {
         [scrollbar-gutter:stable]
       "
     >
-      {/* Nội dung dài hơn màn hình để scrollbar hoạt động */}
       <div
         className="
           relative
@@ -5501,9 +5455,6 @@ function S26({ onSaveStateChange }: Props) {
             pb-12
           "
         >
-          {/* =================================================
-              TIÊU ĐỀ
-          ================================================== */}
           <h1
             className="
               font-display
@@ -5529,13 +5480,11 @@ function S26({ onSaveStateChange }: Props) {
               text-white
             "
           >
-            Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan
-            mittariin vahvuuksien käytöstä.
+            {tr(
+              "Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan mittariin vahvuuksien käytöstä.",
+            )}
           </p>
 
-          {/* =================================================
-              GIẢI THÍCH THANG ĐIỂM
-          ================================================== */}
           <div
             className="
               mt-7
@@ -5555,29 +5504,26 @@ function S26({ onSaveStateChange }: Props) {
             "
           >
             <span>
-              <strong>1</strong> = täysin eri mieltä
+              <strong>1</strong> = {tr("täysin eri mieltä")}
             </span>
 
             <span>
-              <strong>2</strong> = eri mieltä
+              <strong>2</strong> = {tr("eri mieltä")}
             </span>
 
             <span>
-              <strong>3</strong> = ei samaa eikä eri mieltä
+              <strong>3</strong> = {tr("ei samaa eikä eri mieltä")}
             </span>
 
             <span>
-              <strong>4</strong> = samaa mieltä
+              <strong>4</strong> = {tr("samaa mieltä")}
             </span>
 
             <span>
-              <strong>5</strong> = täysin samaa mieltä
+              <strong>5</strong> = {tr("täysin samaa mieltä")}
             </span>
           </div>
 
-          {/* =================================================
-              DANH SÁCH LIKERT
-          ================================================== */}
           <div
             className="
               mt-8
@@ -5602,10 +5548,6 @@ function S26({ onSaveStateChange }: Props) {
             ))}
           </div>
 
-          {/* =================================================
-              TỔNG ĐIỂM
-              Không dùng absolute để tránh đè lên câu hỏi cuối
-          ================================================== */}
           <div
             className="
               mt-12
@@ -5644,10 +5586,10 @@ function S26({ onSaveStateChange }: Props) {
                 leading-[1.4]
               "
             >
-              <p>Vastaa kyselyyn.</p>
+              <p>{tr("Vastaa kyselyyn.")}</p>
 
               <p className="mt-1">
-                Laske yhteen pisteesi:{" "}
+                {tr("Laske yhteen pisteesi:")}{" "}
                 <span
                   className="
                     ml-2
@@ -5675,18 +5617,18 @@ function S26({ onSaveStateChange }: Props) {
 // ============================================================
 // M2Intro — Module 2 title card
 // ============================================================
+// FIX: "Tasot  2" và h1 (đổi <br/> thành trLines) giờ qua tr()
 function M2Intro() {
+  const tr = useTr();
   return (
     <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
       <div className="absolute right-[4%] top-0 rounded-b-[12px] bg-[#7654ad] px-5 py-3 text-white">
-        <span className="font-display text-[20px] font-semibold">Tasot&nbsp; 2</span>
+        <span className="font-display text-[20px] font-semibold">{tr("Tasot 2")}</span>
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center px-8">
         <h1 className="text-center font-display text-[clamp(48px,5vw,78px)] font-semibold leading-[1.08] tracking-[-0.02em]">
-          2. Omat vahvuudet
-          <br />
-          lukiossa
+          {trLines(tr, "2. Omat vahvuudet\nlukiossa")}
         </h1>
       </div>
     </div>
@@ -5696,6 +5638,7 @@ function M2Intro() {
 // ============================================================
 // S28 — Omat vahvuuteni lukiossa
 // ============================================================
+// FIX: 3 đoạn <p> giờ qua tr()
 function S28() {
   const tr = useTr();
   return (
@@ -5708,22 +5651,21 @@ function S28() {
 
           <div className="mt-10 space-y-8 text-[clamp(18px,1.5vw,25px)] leading-[1.42]">
             <p>
-              Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.
+              {tr(
+                "Tässä kokonaisuudessa pääset tutustumaan ja työstämään omia vahvuuksiasi lukiolaisena.",
+              )}
             </p>
 
             <p>
-              Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin
-              itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti
-              pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä
-              kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi
-              vielä kehittää ja oppia.
+              {tr(
+                "Koulukulttuurissa ja opinnoissa virheiden ja puutteiden tunnistaminen tapahtuu kuin itsestään, mutta sen vastavoima, eli vahvuudet ja onnistumiset, eivät tavallisesti pääsekään esiin arvolleen kuuluvalla tavalla. Opiskelussa huomio saattaa kiinnittyä kaikkeen siihen, mitä ei vielä osaa, missä ei ole onnistunut ja mitä kaikkea pitäisi vielä kehittää ja oppia.",
+              )}
             </p>
 
             <p>
-              Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että
-              luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi
-              tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi
-              opiskelijana jotta voit hyödyntää niitä osana opintoja.
+              {tr(
+                "Kasvamme ja kehitymme ihmisenä läpi opintojen ja koko elämän. On hyvä muistaa, että luonteenvahvuudet eivät ole syntymässä fiksattuja ominaisuuksia, vaan niitä voi tavoitteellisesti kehittää. Lähtökohta on, että opit tunnistamaan omat vahvuutesi opiskelijana jotta voit hyödyntää niitä osana opintoja.",
+              )}
             </p>
           </div>
         </div>
@@ -5735,6 +5677,8 @@ function S28() {
 // ============================================================
 // Reusable Vahvuuskarkkini worksheet — design used by S29
 // ============================================================
+// FIX: "Valitse 1–2 vahvuuskarkkia ja" / "Kirjoita vahvuudet tähän" / "Pohdi, mitä teit, koit ja opit."
+// / "Täydennä oheinen tehtävä." giờ đều qua tr()
 function VahvuuskarkkiSheet({
   title,
   context,
@@ -5778,10 +5722,10 @@ function VahvuuskarkkiSheet({
             {tr(title)}
           </h1>
           <p className="mt-10 max-w-[420px] text-[clamp(21px,1.8vw,30px)] font-semibold leading-[1.28] text-white">
-            Valitse 1–2 vahvuuskarkkia ja <span className="bg-[#c9e2ff] px-1">hyödynnä</span> niitä{" "}
-            {tr(context)}.
+            {tr("Valitse 1–2 vahvuuskarkkia ja")}{" "}
+            <span className="bg-[#c9e2ff] px-1">{tr("hyödynnä")}</span> {tr(context)}.
             <br />
-            Kirjoita vahvuudet tähän
+            {tr("Kirjoita vahvuudet tähän")}
           </p>
 
           <div className="mt-7 max-w-[390px] [&_label]:hidden [&_input]:border-0 [&_input]:border-b-2 [&_input]:border-[#7654ad] [&_input]:bg-transparent [&_input]:text-[18px] [&_input]:outline-none">
@@ -5794,11 +5738,11 @@ function VahvuuskarkkiSheet({
           </div>
 
           <p className="mt-24 text-[clamp(19px,1.6vw,26px)] font-semibold leading-[1.35] text-white">
-            Pohdi, mitä teit, koit ja opit.
+            {tr("Pohdi, mitä teit, koit ja opit.")}
           </p>
           <div className="mt-8 grid grid-cols-[10px_minmax(0,1fr)] gap-x-4">
             <span className="mt-[10px] h-[8px] w-[8px] rounded-full bg-[#ffc936]" />
-            <p className="text-[clamp(18px,1.45vw,24px)]">Täydennä oheinen tehtävä.</p>
+            <p className="text-[clamp(18px,1.45vw,24px)]">{tr("Täydennä oheinen tehtävä.")}</p>
           </div>
 
           <img
@@ -5848,11 +5792,12 @@ function VahvuuskarkkiSheet({
   );
 }
 
+// FIX: title trước đây bị tr() 2 lần (1 lần ở đây, 1 lần bên trong VahvuuskarkkiSheet).
+// Nay truyền chuỗi Phần Lan gốc, để VahvuuskarkkiSheet tự tr() một lần duy nhất.
 function S29(p: Props) {
-  const tr = useTr();
   return (
     <VahvuuskarkkiSheet
-      title={tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}
+      title="Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!"
       context="lukiossa"
       fieldPrefix="screen_29"
       onSaveStateChange={p.onSaveStateChange}
@@ -5863,6 +5808,7 @@ function S29(p: Props) {
 // ============================================================
 // S30 — Osaamisen osa-alueiden palapeli
 // ============================================================
+// FIX: đoạn <p> phụ (trùng h1) giờ qua tr()
 function S30({ onSaveStateChange }: Props) {
   const tr = useTr();
   const pieces = [
@@ -5909,9 +5855,12 @@ function S30({ onSaveStateChange }: Props) {
             )}
           </h1>
           <p className="mt-8 text-[clamp(19px,1.55vw,26px)] leading-[1.35]">
-            Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään
-            osa-alueeseen:{" "}
-            <strong>lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.</strong>
+            {tr(
+              "Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään osa-alueeseen:",
+            )}{" "}
+            <strong>
+              {tr("lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.")}
+            </strong>
           </p>
           <p className="mt-16 text-[17px]">(Niemiec, 2018)</p>
 
@@ -5955,7 +5904,9 @@ function S30({ onSaveStateChange }: Props) {
 }
 
 // ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
+// FIX: h1 và mảng qs giờ qua tr()
 function S31({ onSaveStateChange }: Props) {
+  const tr = useTr();
   const qs = [
     "Keneltä saan tukea ja opastusta?",
     "Mitä vahvuuksiani voin hyödyntää?",
@@ -5967,7 +5918,7 @@ function S31({ onSaveStateChange }: Props) {
     <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="coral" seed="s31-h">
         <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
-          Unelmien tiekartta opinnoissa
+          {tr("Unelmien tiekartta opinnoissa")}
         </h1>
       </StickyNote>
       <div className="grid gap-5">
@@ -5975,7 +5926,7 @@ function S31({ onSaveStateChange }: Props) {
           <ReflectionTextarea
             key={i}
             fieldKey={`screen_31_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${q}`}
+            label={`${i + 1}. ${tr(q)}`}
             rows={2}
             onSaveStateChange={onSaveStateChange}
           />
@@ -6005,14 +5956,14 @@ function S32({ onSaveStateChange }: Props) {
           )}
         </h1>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
-          Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka
-          saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia
-          ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia,
-          oletko ryhmähengen luoja?
+          {tr(
+            "Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?",
+          )}
         </p>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95 mt-2">
-          Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet
-          erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.
+          {tr(
+            "Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-5">
@@ -6031,6 +5982,7 @@ function S32({ onSaveStateChange }: Props) {
 }
 
 // ----- S33 (PDF p39): Listaa erityistaidot — 10 slots -----
+// FIX: placeholder giờ qua tr()
 function S33({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6044,7 +5996,7 @@ function S33({ onSaveStateChange }: Props) {
             key={i}
             fieldKey={`screen_33_erityistaito_${i + 1}`}
             prefix={`${i + 1}.`}
-            placeholder="Erityistaito…"
+            placeholder={tr("Erityistaito…")}
             onSaveStateChange={onSaveStateChange}
           />
         ))}
@@ -6077,8 +6029,9 @@ function S34({ onSaveStateChange }: Props) {
           )}
         </h1>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
-          Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla
-          on.
+          {tr(
+            "Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-5 md:grid-cols-2">
@@ -6097,6 +6050,7 @@ function S34({ onSaveStateChange }: Props) {
 }
 
 // ----- S35 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
+// FIX: đoạn <p>, danh sách <ol><li>, và dòng chú thích cuối giờ qua tr()
 function S35() {
   const tr = useTr();
   return (
@@ -6108,35 +6062,39 @@ function S35() {
       </StickyNote>
       <StickyNote tone="white" seed="s35-b">
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.6] mb-2">
-          Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit
-          saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä,
-          mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.
+          {tr(
+            "Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.",
+          )}
         </p>
         <p className="text-sm font-medium">
-          Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?
+          {tr("Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?")}
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
-          <li>Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.</li>
+          <li>{tr("Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.")}</li>
           <li>
-            Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja
-            kehittäminen tukee tavoitteen saavuttamista.
+            {tr(
+              "Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.",
+            )}
           </li>
           <li>
-            Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen
-            saavuttamisessa.
+            {tr(
+              "Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.",
+            )}
           </li>
           <li>
-            Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen
-            saavuttamisessa.
+            {tr(
+              "Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.",
+            )}
           </li>
         </ol>
-        <p className="text-xs italic opacity-70 mt-2">→ Jäävuori seuraavalla sivulla.</p>
+        <p className="text-xs italic opacity-70 mt-2">{tr("→ Jäävuori seuraavalla sivulla.")}</p>
       </StickyNote>
     </div>
   );
 }
 
 // ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
+// FIX: h1 và dòng chú thích cuối giờ qua tr()
 function S36({ onSaveStateChange }: Props) {
   const tr = useTr();
   const boxes: Array<{ k: string; label: string }> = [
@@ -6149,7 +6107,7 @@ function S36({ onSaveStateChange }: Props) {
     <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="mint" seed="s36-h">
         <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
-          Tavoitteeni opiskelijana 2/2
+          {tr("Tavoitteeni opiskelijana 2/2")}
         </h1>
       </StickyNote>
       <div className="grid gap-5 md:grid-cols-2">
@@ -6165,14 +6123,16 @@ function S36({ onSaveStateChange }: Props) {
         ))}
       </div>
       <p className="text-center text-xs opacity-60">
-        Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan
-        käyttöön.
+        {tr(
+          "Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan käyttöön.",
+        )}
       </p>
     </div>
   );
 }
 
 // ----- S37 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
+// FIX: 3 label của ReflectionTextarea giờ qua tr()
 function S37({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6184,26 +6144,27 @@ function S37({ onSaveStateChange }: Props) {
           )}
         </h1>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
-          Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi
-          muistiin omia parhaita puoliasi opiskelijana!
+          {tr(
+            "Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-5 lg:grid-cols-3">
         <ReflectionTextarea
           fieldKey="screen_37_arvostan"
-          label="Mukavia asioita — Arvostan itsessäni"
+          label={tr("Mukavia asioita — Arvostan itsessäni")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_vahvuuksiani"
-          label="Omia vahvuuksia — Vahvuuksiani ovat mielestäni"
+          label={tr("Omia vahvuuksia — Vahvuuksiani ovat mielestäni")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
         <ReflectionTextarea
           fieldKey="screen_37_paikkoja"
-          label="Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani"
+          label={tr("Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani")}
           rows={5}
           onSaveStateChange={onSaveStateChange}
         />
@@ -6213,6 +6174,7 @@ function S37({ onSaveStateChange }: Props) {
 }
 
 // ----- S38 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
+// FIX: label "Mitä hyvää vahvuuteni tuovat yhteisööni?" giờ qua tr() (thiếu, không đồng bộ với 3 label kia)
 function S38({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6224,9 +6186,9 @@ function S38({ onSaveStateChange }: Props) {
           )}
         </h1>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
-          Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana.
-          Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet
-          näkyvät ja miten ne vaikuttavat kanssaihmisiin.
+          {tr(
+            "Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat kanssaihmisiin.",
+          )}
         </p>
       </StickyNote>
       <div className="grid gap-5 md:grid-cols-2">
@@ -6250,7 +6212,7 @@ function S38({ onSaveStateChange }: Props) {
         />
         <ReflectionTextarea
           fieldKey="screen_38_yhteisoon"
-          label="Mitä hyvää vahvuuteni tuovat yhteisööni?"
+          label={tr("Mitä hyvää vahvuuteni tuovat yhteisööni?")}
           rows={3}
           onSaveStateChange={onSaveStateChange}
         />
@@ -6289,14 +6251,16 @@ function S39({ onSaveStateChange }: Props) {
 }
 
 // ----- S40 (PDF p46): Moduuli 3 title card -----
+// FIX: trước đây component này KHÔNG có tr() nào. Nay bọc "Moduuli 3" và h1.
 function M3Intro() {
+  const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
       <div className="text-sm font-medium uppercase tracking-[0.12em] opacity-80 mb-2">
-        Moduuli 3
+        {tr("Moduuli 3")}
       </div>
       <h1 className="font-display text-[clamp(40px,4.5vw,68px)] font-medium leading-[1.1] tracking-[-0.025em]">
-        3. Omat vahvuudet kotona
+        {tr("3. Omat vahvuudet kotona")}
       </h1>
     </StickyNote>
   );
@@ -6531,6 +6495,7 @@ function S48_vapaa({ onSaveStateChange }: Props) {
 }
 
 // ----- S49 (PDF p55): Love to-do -lista 1/3 — informational -----
+// FIX: h1 "Love to-do -lista 1/3" giờ qua tr()
 function S49_loveinfo() {
   const tr = useTr();
   return (
@@ -6561,6 +6526,7 @@ function S49_loveinfo() {
 }
 
 // ----- S50 (PDF p56): Love to-do -lista 2/3 — 5 inputs -----
+// FIX: h1 "Love to-do -lista" giờ qua tr()
 function S50_love({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6589,6 +6555,7 @@ function S50_love({ onSaveStateChange }: Props) {
 }
 
 // ----- S51 (PDF p57): Love to-do -lista 3/3 -----
+// FIX: h1 "Love to-do -lista" giờ qua tr()
 function S51_loveB({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6617,6 +6584,7 @@ function S51_loveB({ onSaveStateChange }: Props) {
 }
 
 // ----- S52 (PDF p58): Kuvakollaasi 1/2 — informational -----
+// FIX: h1 "Kuvakollaasi 1/2" giờ qua tr()
 function S52_kollaasiInfo() {
   const tr = useTr();
   const bullets = [
@@ -6648,6 +6616,7 @@ function S52_kollaasiInfo() {
 }
 
 // ----- S53 (PDF p59): Kuvakollaasi 2/2 -----
+// FIX: h1 "Kuvakollaasi 2/2" giờ qua tr()
 function S53_kollaasi({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6708,6 +6677,7 @@ function S55(p: Props) {
 }
 
 // ----- S56 (PDF p62): Minä ystävänä -----
+// FIX: h1 "Minä ystävänä" giờ qua tr()
 function S56_ystava({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6737,6 +6707,7 @@ function S56_ystava({ onSaveStateChange }: Props) {
 }
 
 // ----- S57 (PDF p63): Vahvuuspalaute ystäviltä -----
+// FIX: h1 "Vahvuuspalaute ystäviltä" giờ qua tr()
 function S57_palaute({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6795,6 +6766,7 @@ function M6Intro() {
 }
 
 // ----- S59 (PDF p65): Vahvuuksien yhteenveto -----
+// FIX: h1 "Vahvuuksien yhteenveto" giờ qua tr()
 function S59_yhteenveto({ onSaveStateChange }: Props) {
   const tr = useTr();
   const cols = [
@@ -6829,6 +6801,7 @@ function S59_yhteenveto({ onSaveStateChange }: Props) {
 }
 
 // ----- S60 (PDF p66): Pohdi ja hyödynnä saamaasi palautetta -----
+// FIX: h1 giờ qua tr()
 function S60_pohdi({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
@@ -6862,6 +6835,7 @@ function S60_pohdi({ onSaveStateChange }: Props) {
 }
 
 // ----- S61 (PDF p67): Visioni ja tavoitteeni -----
+// FIX: h1 "Visioni ja tavoitteeni" giờ qua tr()
 function S61_visio({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
@@ -6927,6 +6901,7 @@ function S62_video({ onSaveStateChange }: Props) {
 }
 
 // ----- S63 (PDF p69): Muistiinpanoja — stems -----
+// FIX: h1 "Muistiinpanoja" giờ qua tr()
 function S63_notes({ onSaveStateChange }: Props) {
   const tr = useTr();
   const stems = [
@@ -6953,6 +6928,7 @@ function S63_notes({ onSaveStateChange }: Props) {
 }
 
 // ----- S64 (PDF p70): Muistiinpanoja — free notes -----
+// FIX: h1 "Muistiinpanoja" giờ qua tr()
 function S64_notesB({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -6971,6 +6947,7 @@ function S64_notesB({ onSaveStateChange }: Props) {
 }
 
 // ----- S65 (PDF p71): Muistiinpanoja — free notes -----
+// FIX: h1 "Muistiinpanoja" giờ qua tr()
 function S65_notesC({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
@@ -7026,6 +7003,7 @@ function S66_palauteInfo() {
 }
 
 // ----- S67 (PDF p73): 5 vinkkiä sinulle — informational -----
+// FIX: h1 "5 vinkkiä sinulle" giờ qua tr()
 function S67_vinkit() {
   const tr = useTr();
   const tips = [
@@ -7055,6 +7033,7 @@ function S67_vinkit() {
 }
 
 // ----- S68 (PDF p74): Reflektoi tuloksia -----
+// FIX: h1 "Reflektoi tuloksia" giờ qua tr()
 function S68_reflekto({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (

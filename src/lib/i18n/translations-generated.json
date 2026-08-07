@@ -918,6 +918,10 @@
     "en": "Ask 2–4 close people, a teacher and a friend for feedback on your strengths. Use page 10 as a template. Ask them to name the strengths they appreciate most in you. Also ask where and how your strengths show.",
     "sv": "Be 2–4 närstående, en lärare och en vän om respons om dina styrkor. Använd sida 10 som mall. Be dem nämna de styrkor de uppskattar mest hos dig. Fråga också var och hur styrkorna syns."
   },
+  "Kysy itseltäsi päivän aikana ja päätteeksi:": {
+    "en": "Ask yourself during the day and at the end of it:",
+    "sv": "Fråga dig själv under dagen och när den avslutas:"
+  },
   "Kysy palautetta": {
     "en": "Det finns mycket mer styrka i oss alla än vad som syns utåt. Att fundera på sina styrkor och använda dem stärker självkänslan, ger självförtroende och hjälper dig att göra val – till exempel när det gäller studier eller arbetsplats.",
     "sv": "Be om respons"
@@ -1109,6 +1113,10 @@
     "en": "Champion!",
     "sv": "Mästare!"
   },
+  "Mieti kolme hyvää asiaa, jotka olet saanut kokea tänään.": {
+    "en": "Think of three good things you got to experience today.",
+    "sv": "Fundera på tre bra saker du har fått uppleva idag."
+  },
   "Mieti kolmea hyvää asiaa, jota sait tänään kokea.": {
     "en": "Think of three good things you got to experience today.",
     "sv": "Tänk på tre bra saker du fick uppleva idag."
@@ -1176,6 +1184,10 @@
   "Mikä tuntuu helpolta?": {
     "en": "What feels easy and natural?",
     "sv": "Vad känns lätt att göra?"
+  },
+  "Mikä tänään meni hyvin?": {
+    "en": "What went well today?",
+    "sv": "Vad gick bra idag?"
   },
   "Mikäli täytettävät elementit eivät näy Acrobat Readerissa, kokeile vaihtaa näkymän asetuksia Preferences > Forms.": {
     "en": "If the fillable fields are not visible in Acrobat Reader, try changing the settings under Preferences > Forms.",
@@ -1361,6 +1373,10 @@
     "en": "What do you want to remember from the feedback?",
     "sv": "Vad vill du minnas av responsen?"
   },
+  "Mitä huomasin jo osaavani?": {
+    "en": "What did I notice I already know how to do?",
+    "sv": "Vad märkte jag att jag redan kan?"
+  },
   "Mitä huomasin osaavani jo?": {
     "en": "What did I notice I am already capable of?",
     "sv": "Vad märkte jag att jag redan kan?"
@@ -1428,6 +1444,10 @@
   "Mitä uutta opin palautteista?": {
     "en": "What new things did I learn from the feedback?",
     "sv": "Vad lärde jag mig av responsen?"
+  },
+  "Mitä vahvuuksia hyödynsin opinnoissani?": {
+    "en": "What strengths did I use in my studies?",
+    "sv": "Vilka styrkor använde jag i mina studier?"
   },
   "Mitä vahvuuksia ja taitoja haluat kehittää itsessäsi, ja miksi?": {
     "en": "What strengths and skills do you want to develop in yourself, and why?",
@@ -1515,6 +1535,10 @@
   "Näkökulmanottokyky": {
     "en": "Perspective",
     "sv": "Perspektivförmåga"
+  },
+  "Nämä kysymykset auttavat sinua\nnäkemään hyviä puolia elämästäsi": {
+    "en": "These questions help you\nsee the good sides of your life",
+    "sv": "Dessa frågor hjälper dig\nse det goda i ditt liv"
   },
   "Nämä resurssit voivat olla omat vahvuutesi, sosiaaliset suhteet, läheiset ihmiset, tunteiden käsittely, tulevaisuuden unelmat, ajatuksesi, asenteesi, itsemyötätuntoinen suhtautuminen itseen ja aiemmat onnistumiskokemukset.": {
     "en": "These resources can be your own strengths, social relationships, close people, emotional regulation, dreams for the future, your thoughts, your attitude, a self-compassionate approach to yourself, and previous experiences of success.",
@@ -1931,6 +1955,10 @@
     "en": "What I especially appreciate about you is ______ and ______",
     "sv": "Det jag särskilt uppskattar hos dig är ______ och ______"
   },
+  "See the Good Candy": {
+    "en": "See the Good Candy",
+    "sv": "Se det Goda-godis"
+  },
   "Seuraava": {
     "en": "Next",
     "sv": "Nästa"
@@ -2223,6 +2251,10 @@
   },
   "VAATIMATTOMUUS / ANSPRÅKSLÖSHET": {
     "sv": "section_header"
+  },
+  "VINKKI!": {
+    "en": "TIP!",
+    "sv": "TIPS!"
   },
   "VINKKI! Näin voit antaa toiselle kehuja ja kannustusta vahvuuksista:": {
     "en": "TIP! Here is how you can give others praise and encouragement based on strengths:",
