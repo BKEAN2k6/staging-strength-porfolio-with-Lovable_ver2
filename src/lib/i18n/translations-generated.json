@@ -3026,5 +3026,9 @@
   "{n} t sitten": {
     "en": "{n}h ago",
     "sv": "{n} h sedan"
+  },
+  "Minä olen ...": {
+    "en": "I am ...",
+    "sv": "Jag är ..."
   }
 }

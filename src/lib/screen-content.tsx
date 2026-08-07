@@ -763,16 +763,24 @@ function ThreeSteps() {
 
   return (
     <div className="relative min-h-[620px] w-full overflow-hidden">
-      <div className="absolute left-[7%] top-[15%] flex w-[31%] flex-col items-center">
-        <img
-          src="/illustrations/illustration-left-transparent.png"
-          alt={tr("Tunnista omia vahvuuksia")}
-          className="h-[360px] w-full object-contain"
-        />
+      {/* LEFT */}
+      <div className="absolute left-[5%] top-[9%] flex w-[30%] flex-col items-center">
+        <div className="flex h-[430px] w-full items-center justify-center">
+          <img
+            src="/illustrations/illustration-left-transparent.png"
+            alt={tr("Tunnista omia vahvuuksia")}
+            className="
+              h-[400px]
+              w-auto
+              max-w-full
+              object-contain
+            "
+          />
+        </div>
 
         <p
           className="
-            mt-4
+            mt-3
             text-center
             font-display
             text-[24px]
@@ -786,23 +794,29 @@ function ThreeSteps() {
         </p>
       </div>
 
-      <div className="absolute left-1/2 top-[-0.5%] z-20 flex w-[35%] -translate-x-1/2 flex-col items-center">
-        <div className="h-[520px] w-full overflow-hidden">
+      {/* CENTER */}
+      <div className="absolute left-1/2 top-[4%] flex w-[30%] -translate-x-1/2 flex-col items-center">
+        <div className="flex h-[430px] w-full items-center justify-center">
           <img
             src="/illustrations/illustration-center-transparent.png"
             alt={tr("Hyödynnä omia vahvuuksia")}
-            className="h-[540px] w-full object-contain object-top"
+            className="
+              h-[430px]
+              w-auto
+              max-w-full
+              object-contain
+            "
           />
         </div>
 
         <p
           className="
-            -mt-12
+            mt-3
             whitespace-nowrap
             text-center
             font-display
             text-[24px]
-            font-medium
+            font-semibold
             text-white
             [-webkit-text-stroke:1px_#000]
             [paint-order:stroke_fill]
@@ -812,16 +826,24 @@ function ThreeSteps() {
         </p>
       </div>
 
-      <div className="absolute right-[7%] top-[15%] flex w-[31%] flex-col items-center">
-        <img
-          src="/illustrations/illustration-right-transparent.png"
-          alt={tr("Kehitä omia vahvuuksia")}
-          className="h-[360px] w-full object-contain"
-        />
+      {/* RIGHT */}
+      <div className="absolute right-[5%] top-[9%] flex w-[30%] flex-col items-center">
+        <div className="flex h-[430px] w-full items-center justify-center">
+          <img
+            src="/illustrations/illustration-right-transparent.png"
+            alt={tr("Kehitä omia vahvuuksia")}
+            className="
+              h-[400px]
+              w-auto
+              max-w-full
+              object-contain
+            "
+          />
+        </div>
 
         <p
           className="
-            mt-4
+            mt-3
             text-center
             font-display
             text-[24px]
@@ -1177,9 +1199,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
       "
     >
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
-        {/* =========================
-            CỘT TRÁI
-        ========================== */}
+        {/* CỘT TRÁI */}
         <div className="relative min-w-0">
           <h1
             className="
@@ -1218,24 +1238,25 @@ function MinaOlen({ onSaveStateChange }: Props) {
             {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}
           </div>
 
+          {/* ILLUSTRATION TO HƠN */}
           <img
             src="/illustrations/mina-olen-character.png"
             alt={tr("Minä olen –övning")}
             className="
               pointer-events-none
               absolute
-              bottom-[20px]
-              left-[-20px]
-              h-[290px]
+              bottom-[-55px]
+              left-[-95px]
+              h-[520px]
               w-auto
+              max-w-none
+              select-none
               object-contain
             "
           />
         </div>
 
-        {/* =========================
-            CỘT PHẢI
-        ========================== */}
+        {/* CỘT PHẢI */}
         <div className="relative min-h-[760px] min-w-0">
           {notes.map((note) => (
             <div
@@ -1245,37 +1266,26 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 flex
                 flex-col
                 overflow-hidden
-
                 rounded-[18px_14px_24px_16px]
                 border-[3px]
                 border-black
-
                 bg-[#fffefa]
-
                 px-5
                 pb-4
                 pt-4
-
                 text-black
-
                 shadow-[0_10px_0_#4b326c]
-
                 transition-all
                 duration-200
-
                 hover:z-30
                 hover:-translate-y-1
                 hover:scale-[1.02]
-
                 focus-within:ring-2
                 focus-within:ring-[#d5c2ef]
-
                 ${note.position}
               `}
             >
-              {/* =========================
-                  TIÊU ĐỀ BOX
-              ========================== */}
+              {/* TIÊU ĐỀ BOX */}
               <p
                 className="
                   mb-3
@@ -1290,71 +1300,51 @@ function MinaOlen({ onSaveStateChange }: Props) {
                   text-black
                 "
               >
-                {tr("Minä olen")}
+                {tr("Minä olen ...")}
               </p>
 
-              {/* =========================
-                  VÙNG NHẬP
-              ========================== */}
+              {/* VÙNG NHẬP */}
               <div
                 className="
                   relative
                   min-h-0
                   flex-1
                   overflow-hidden
-
                   rounded-[12px]
                   border-2
                   border-black
-
                   bg-[#fffefa]
-
                   [&_label]:hidden
-
                   [&>div]:h-full
                   [&>div]:min-h-0
-
                   [&_div]:border-0
                   [&_div]:bg-transparent
                   [&_div]:p-0
                   [&_div]:shadow-none
-
                   [&_textarea]:relative
                   [&_textarea]:z-10
-
                   [&_textarea]:h-full
                   [&_textarea]:min-h-[125px]
                   [&_textarea]:w-full
-
                   [&_textarea]:resize-none
-
                   [&_textarea]:rounded-[10px]
                   [&_textarea]:border-0
-
                   [&_textarea]:bg-transparent
-
                   [&_textarea]:px-3
                   [&_textarea]:py-2
-
                   [&_textarea]:text-[16px]
                   [&_textarea]:font-normal
                   [&_textarea]:leading-[29px]
-
                   [&_textarea]:text-[#241b3f]
-
                   [&_textarea]:outline-none
                   [&_textarea]:shadow-none
                   [&_textarea]:ring-0
-
                   [&_textarea]:placeholder:text-[#9b93a8]
-
                   [&_textarea:focus]:outline-none
                   [&_textarea:focus]:ring-0
                 "
               >
-                {/* =========================
-                    DÒNG KẺ GIẤY
-                ========================== */}
+                {/* DÒNG KẺ GIẤY */}
                 <div
                   aria-hidden="true"
                   className="
@@ -1364,14 +1354,11 @@ function MinaOlen({ onSaveStateChange }: Props) {
                     inset-y-2
                     z-0
                     opacity-35
-
                     [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_28px,#b7a8cc_29px)]
                   "
                 />
 
-                {/* =========================
-                    TEXTAREA
-                ========================== */}
+                {/* TEXTAREA */}
                 <div className="relative z-10 h-full [&>div]:h-full">
                   <ReflectionTextarea
                     fieldKey={`screen_10_mina_olen_${note.id}`}
@@ -1501,15 +1488,15 @@ function S11KehuJaKannusta() {
 // FIX: alt text giờ bọc tr()
 function S12VahvuuksiaEnemman() {
   const tr = useTr();
+
   return (
     <div
       className="
         relative
         h-full
-        min-h-0
+        min-h-[620px]
         w-full
         overflow-hidden
-        
         text-white
       "
     >
@@ -1519,40 +1506,37 @@ function S12VahvuuksiaEnemman() {
           mx-auto
           flex
           h-full
-          min-h-0
+          min-h-[620px]
           w-full
           max-w-[1500px]
           flex-col
           overflow-hidden
-          px-[7%]
+          px-[4%]
           pb-0
-          pt-10
+          pt-8
         "
       >
+        {/* TEXT */}
         <div
           className="
             relative
             z-20
             mx-auto
-            flex
-            h-full
-            min-h-0
             w-full
-            max-w-[1240px]
-            flex-col
-            items-center
+            max-w-[1320px]
+            shrink-0
           "
         >
           <h1
             className="
               mx-auto
-              max-w-[1120px]
-              shrink-0
+              max-w-[1240px]
               text-center
               font-display
               text-[clamp(28px,2.45vw,42px)]
               font-semibold
               leading-[1.12]
+              tracking-[-0.01em]
               text-white
             "
           >
@@ -1560,23 +1544,36 @@ function S12VahvuuksiaEnemman() {
               "Meissä kaikissa on paljon enemmän vahvuuksia kuin päällepäin näkyy. Omien vahvuuksien pohtiminen ja hyödyntäminen tukee itsetuntoa, antaa itsevarmuutta ja auttaa tekemään valintoja – esimerkiksi opiskeluun tai työpaikkaan liittyen.",
             )}
           </h1>
+        </div>
 
-          <div className="mt-6 flex min-h-0 flex-1 items-end justify-center">
-            <img
-              src="/illustrations/s12-raised-hands.png"
-              alt={tr("Erilaisia käsiä nostettuna ilmaan")}
-              className="
-                pointer-events-none
-                block
-                h-full
-                max-h-[390px]
-                w-auto
-                max-w-[82%]
-                object-contain
-                object-bottom
-              "
-            />
-          </div>
+        {/* ILLUSTRATION */}
+        <div
+          className="
+            relative
+            z-10
+            mt-6
+            flex
+            min-h-0
+            flex-1
+            items-end
+            justify-center
+          "
+        >
+          <img
+            src="/illustrations/s12-raised-hands.png"
+            alt={tr("Erilaisia käsiä nostettuna ilmaan")}
+            className="
+              pointer-events-none
+              block
+              h-auto
+              max-h-[370px]
+              w-auto
+              max-w-[100%]
+              object-contain
+              object-bottom
+              select-none
+            "
+          />
         </div>
       </div>
     </div>
