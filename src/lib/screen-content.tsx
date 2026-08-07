@@ -1189,13 +1189,11 @@ function MinaOlen({ onSaveStateChange }: Props) {
         h-full
         min-h-0
         w-full
-        overflow-x-hidden
-        overflow-y-auto
+        overflow-hidden
         px-[3%]
         pb-16
         pt-6
         text-white
-       
       "
     >
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
@@ -1238,7 +1236,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
             {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}
           </div>
 
-          {/* ILLUSTRATION TO HƠN */}
           <img
             src="/illustrations/mina-olen-character.png"
             alt={tr("Minä olen –övning")}
@@ -1285,7 +1282,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 ${note.position}
               `}
             >
-              {/* TIÊU ĐỀ BOX */}
               <p
                 className="
                   mb-3
@@ -1303,7 +1299,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 {tr("Minä olen ...")}
               </p>
 
-              {/* VÙNG NHẬP */}
               <div
                 className="
                   relative
@@ -1314,6 +1309,7 @@ function MinaOlen({ onSaveStateChange }: Props) {
                   border-2
                   border-black
                   bg-[#fffefa]
+
                   [&_label]:hidden
                   [&>div]:h-full
                   [&>div]:min-h-0
@@ -1344,7 +1340,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
                   [&_textarea:focus]:ring-0
                 "
               >
-                {/* DÒNG KẺ GIẤY */}
                 <div
                   aria-hidden="true"
                   className="
@@ -1358,7 +1353,6 @@ function MinaOlen({ onSaveStateChange }: Props) {
                   "
                 />
 
-                {/* TEXTAREA */}
                 <div className="relative z-10 h-full [&>div]:h-full">
                   <ReflectionTextarea
                     fieldKey={`screen_10_mina_olen_${note.id}`}
