@@ -165,9 +165,9 @@ function Modules() {
           return (
             <div
               key={module.id}
-              className="relative flex min-h-[330px] min-w-0 flex-col rounded-[22px] border-2 border-white bg-white px-4 pb-6 pt-11 text-center text-white"
+              className="relative flex min-h-[330px] min-w-0 flex-col rounded-[22px] border-2 border-black bg-white px-4 pb-6 pt-11 text-center text-white"
             >
-              <div className="absolute left-1/2 top-0 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#7755c9] text-[22px] font-semibold text-white">
+              <div className="absolute left-1/2 top-0 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-black bg-[#7755c9] text-[22px] font-semibold text-white">
                 {index + 1}
               </div>
 
@@ -863,45 +863,93 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
   return (
     <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-10 pt-9 text-black">
       <div className="mx-auto w-full max-w-[1150px] rounded-[30px] px-10 py-8 pb-12">
-        <h1 className="font-display text-[38px] font-semibold leading-[1.1] text-[#f1f1ef]">
+        <h1 className="font-display text-[38px] font-medium leading-[1.1] text-[#f1f1ef]">
           {tr("Kysy palautetta ja opi lisää itsestäsi")}
         </h1>
 
-        <p className="mt-6 max-w-[980px] text-[19px] font-medium leading-[1.4] text-[#f1f1ef]">
+        <p className="mt-6 max-w-[980px] text-[19px] font-normal leading-[1.45] text-[#f1f1ef]">
           {tr(
             "Kysy 2–4 läheiseltä, opettajalta ja ystävältä palautetta vahvuuksistasi. Käytä sivua 10 pohjana. Pyydä heitä nimeämään vahvuutesi, joita he sinussa eniten arvostavat. Kysy myös, missä ja miten vahvuutesi näkyvät.",
           )}
         </p>
 
-        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
-          {questions.map((item, index) => (
-            <div
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2">
+          {questions.map((item) => (
+            <section
               key={item.fieldKey}
-              className={`
+              className="
                 relative
-                rounded-[20px]
-                border-2
-                border-[#e6ddf3]
+                flex
+                min-h-[230px]
+                min-w-0
+                flex-col
+                rounded-[22px]
+                border-[3px]
+                border-black
                 bg-[#faf8ff]
                 px-5
-                pb-4
-                pt-4
-                shadow-[0_5px_0_#d8c8ee]
-                transition-transform
-                duration-200
-                hover:-translate-y-1
-                ${index % 2 === 0 ? "-rotate-[0.3deg]" : "rotate-[0.3deg]"}
-              `}
+                pb-5
+                pt-5
+                shadow-[0_6px_0_rgba(0,0,0,0.18)]
+              "
             >
-              <div className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-3">
-                <span className="mt-[9px] h-[8px] w-[8px] rounded-full" />
+              <h2
+                className="
+                  min-h-[56px]
+                  text-left
+                  font-display
+                  text-[18px]
+                  font-medium
+                  leading-[1.35]
+                  text-black
+                "
+              >
+                {tr(item.text)}
+              </h2>
 
-                <p className="font-display text-[18px] font-semibold leading-[1.3]">
-                  {tr(item.text)}
-                </p>
-              </div>
+              <div
+                className="
+                  mt-4
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[16px]
+                  border-2
+                  border-black
+                  bg-white
 
-              <div className="mt-3">
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[120px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[14px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[16px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[1.5]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea]:placeholder:text-[#9a93a6]
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
                 <ReflectionTextarea
                   fieldKey={item.fieldKey}
                   label=""
@@ -909,7 +957,7 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
                   onSaveStateChange={onSaveStateChange}
                 />
               </div>
-            </div>
+            </section>
           ))}
         </div>
       </div>
@@ -919,6 +967,7 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
 
 function MinaOlen({ onSaveStateChange }: Props) {
   const tr = useTr();
+
   const notes = [
     {
       id: 1,
@@ -963,19 +1012,48 @@ function MinaOlen({ onSaveStateChange }: Props) {
         pb-16
         pt-6
         text-white
+        [scrollbar-gutter:stable]
       "
     >
       <div className="grid min-h-[760px] grid-cols-[0.25fr_0.75fr] gap-7">
+        {/* =========================
+            CỘT TRÁI
+        ========================== */}
         <div className="relative min-w-0">
-          <h1 className="font-display text-[42px] font-semibold leading-[1.12]">
-            {tr("Minä olen –övning")}
+          <h1
+            className="
+              font-display
+              text-[42px]
+              font-medium
+              leading-[1.12]
+              tracking-[-0.01em]
+            "
+          >
+            {tr("Minä olen")}
           </h1>
 
-          <p className="mt-8 max-w-[290px] font-display text-[22px] font-semibold leading-[1.35]">
+          <p
+            className="
+              mt-8
+              max-w-[290px]
+              font-display
+              text-[22px]
+              font-medium
+              leading-[1.4]
+            "
+          >
             {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
           </p>
 
-          <div className="mt-7 max-w-[290px] text-[21px] leading-[1.4]">
+          <div
+            className="
+              mt-7
+              max-w-[290px]
+              text-[21px]
+              font-normal
+              leading-[1.45]
+            "
+          >
             {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}
           </div>
 
@@ -994,6 +1072,9 @@ function MinaOlen({ onSaveStateChange }: Props) {
           />
         </div>
 
+        {/* =========================
+            CỘT PHẢI
+        ========================== */}
         <div className="relative min-h-[760px] min-w-0">
           {notes.map((note) => (
             <div
@@ -1003,13 +1084,21 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 flex
                 flex-col
                 overflow-hidden
+
                 rounded-[18px_14px_24px_16px]
+                border-[3px]
+                border-black
+
                 bg-[#fffefa]
+
                 px-5
                 pb-4
                 pt-4
+
                 text-black
+
                 shadow-[0_10px_0_#4b326c]
+
                 transition-all
                 duration-200
 
@@ -1020,54 +1109,108 @@ function MinaOlen({ onSaveStateChange }: Props) {
                 focus-within:ring-2
                 focus-within:ring-[#d5c2ef]
 
-                [&_label]:hidden
-
-                [&_div]:min-h-0
-                [&_div]:border-0
-                [&_div]:bg-transparent
-                [&_div]:p-0
-                [&_div]:shadow-none
-
-                [&_textarea]:relative
-                [&_textarea]:z-10
-                [&_textarea]:h-full
-                [&_textarea]:min-h-[125px]
-                [&_textarea]:w-full
-                [&_textarea]:resize-none
-                [&_textarea]:border-0
-                [&_textarea]:bg-transparent
-                [&_textarea]:px-2
-                [&_textarea]:py-1
-                [&_textarea]:text-[16px]
-                [&_textarea]:leading-[29px]
-                [&_textarea]:text-[#241b3f]
-                [&_textarea]:outline-none
-                [&_textarea]:shadow-none
-                [&_textarea]:ring-0
-                [&_textarea]:placeholder:text-[#9b93a8]
-
-                [&_textarea:focus]:outline-none
-                [&_textarea:focus]:ring-0
-
                 ${note.position}
               `}
             >
-              <p className="mb-2 shrink-0 text-center font-display text-[15px] font-semibold uppercase tracking-[0.3px]">
-                {tr("Minä olen –övning")}
+              {/* =========================
+                  TIÊU ĐỀ BOX
+              ========================== */}
+              <p
+                className="
+                  mb-3
+                  shrink-0
+                  text-center
+                  font-display
+                  text-[15px]
+                  font-medium
+                  uppercase
+                  leading-[1.2]
+                  tracking-[0.2px]
+                  text-black
+                "
+              >
+                {tr("Minä olen")}
               </p>
 
-              <div className="relative min-h-0 flex-1 overflow-hidden rounded-[12px]">
+              {/* =========================
+                  VÙNG NHẬP
+              ========================== */}
+              <div
+                className="
+                  relative
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+
+                  rounded-[12px]
+                  border-2
+                  border-black
+
+                  bg-[#fffefa]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:relative
+                  [&_textarea]:z-10
+
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[125px]
+                  [&_textarea]:w-full
+
+                  [&_textarea]:resize-none
+
+                  [&_textarea]:rounded-[10px]
+                  [&_textarea]:border-0
+
+                  [&_textarea]:bg-transparent
+
+                  [&_textarea]:px-3
+                  [&_textarea]:py-2
+
+                  [&_textarea]:text-[16px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[29px]
+
+                  [&_textarea]:text-[#241b3f]
+
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+
+                  [&_textarea]:placeholder:text-[#9b93a8]
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                {/* =========================
+                    DÒNG KẺ GIẤY
+                ========================== */}
                 <div
                   aria-hidden="true"
                   className="
                     pointer-events-none
                     absolute
-                    inset-0
-                    opacity-30
+                    inset-x-3
+                    inset-y-2
+                    z-0
+                    opacity-35
+
                     [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_28px,#b7a8cc_29px)]
                   "
                 />
 
+                {/* =========================
+                    TEXTAREA
+                ========================== */}
                 <div className="relative z-10 h-full [&>div]:h-full">
                   <ReflectionTextarea
                     fieldKey={`screen_10_mina_olen_${note.id}`}
@@ -1436,11 +1579,11 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
                         overflow-hidden
                         rounded-[18px]
                         border-2
-                        border-[#ddd4ea]
+                        border-black
                         bg-[#fffefa]
                         shadow-[0_5px_0_rgba(68,42,105,0.12)]
 
-                        focus-within:border-[#bda8d8]
+                        focus-within:border-black
                         focus-within:bg-white
 
                         [&_label]:hidden
@@ -1522,12 +1665,21 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
   );
 }
 
-// S11 (PDF p15): pure title card.
+// S14 (PDF p15): pure title card.
 function M1Intro() {
   const tr = useTr();
   return (
-    <div className="relative min-h-[620px] w-full overflow-hidden text-white">
-      {tr("Omat ydinvahvuudet")}
+    <div className="relative flex h-full min-h-[620px] w-full items-center justify-center overflow-hidden px-8 text-white">
+      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white">
+        <span className="font-display text-[20px] font-semibold">{tr("Taso 1")}</span>
+      </div>
+
+      <div className="pointer-events-none absolute left-[7%] top-[16%] h-28 w-28 rounded-full border-[14px] border-[#ffd95d]/45" />
+      <div className="pointer-events-none absolute bottom-[14%] right-[11%] h-40 w-40 rounded-full border-2 border-black bg-[#f36f56]/25" />
+
+      <h1 className="relative z-10 text-center font-display text-[clamp(48px,5vw,78px)] font-semibold leading-[1.08]">
+        {trLines(tr, "1. Omat\nydinvahvuudet")}
+      </h1>
     </div>
   );
 }
@@ -2341,7 +2493,7 @@ function S13({ onSaveStateChange }: Props) {
 
         <p className="mt-3 text-[17px] opacity-90">{tr("Pohdi omia vahvuuksia ja vastaa:")}</p>
 
-        <div className="mt-7 rounded-[24px] bg-white/10 p-6">
+        <div className="mt-7 rounded-[24px] border-2 border-black bg-white/10 p-6">
           <h2 className="font-display text-[20px] font-semibold">
             {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
           </h2>
@@ -2554,6 +2706,8 @@ function S14({ onSaveStateChange }: Props) {
               flex-col
               overflow-hidden
               rounded-[26px]
+              border-2
+              border-black
               bg-[#fffefa]
               px-5
               pb-4
@@ -2796,6 +2950,8 @@ export function S16({ onSaveStateChange }: Props) {
                   className={`
                     h-full
                     w-full
+                    border-2
+                    border-black
                     rounded-[26px]
                     p-[10px]
                     shadow-[0_8px_0_rgba(62,36,112,0.28)]
@@ -2816,6 +2972,8 @@ export function S16({ onSaveStateChange }: Props) {
                       className="
                         min-h-[225px]
                         overflow-hidden
+                        border-2
+                        border-black
                         rounded-[18px]
                         bg-white
 
@@ -2864,6 +3022,8 @@ export function S16({ onSaveStateChange }: Props) {
                         flex-col
                         items-center
                         justify-center
+                        border-2
+                        border-black
                         rounded-[18px]
                         bg-white
                         px-4
@@ -2917,8 +3077,8 @@ export function S16({ onSaveStateChange }: Props) {
 
                                 ${
                                   isSelected
-                                    ? "border-[#7654ad] bg-[#eee8f8] text-[#241b3f] shadow-[0_3px_0_rgba(68,42,105,0.18)]"
-                                    : "border-[#7654ad] bg-white text-transparent hover:bg-[#f7f3fb]"
+                                    ? "border-black bg-[#eee8f8] text-[#241b3f] shadow-[0_3px_0_rgba(68,42,105,0.18)]"
+                                    : "border-black bg-white text-transparent hover:bg-[#f7f3fb]"
                                 }
 
                                 focus-visible:outline-none
@@ -3045,13 +3205,12 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[155px]
                 flex-1
                 overflow-hidden
-                rounded-[18px]
                 border-2
-                border-[#e8e0f1]
+                border-black
+                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
-                focus-within:border-[#cdbce3]
                 focus-within:bg-white
 
                 [&_label]:hidden
@@ -3115,13 +3274,12 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[155px]
                 flex-1
                 overflow-hidden
-                rounded-[18px]
                 border-2
-                border-[#e8e0f1]
+                border-black
+                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
-                focus-within:border-[#cdbce3]
                 focus-within:bg-white
 
                 [&_label]:hidden
@@ -3194,13 +3352,12 @@ function S17({ onSaveStateChange }: Props) {
               min-h-[150px]
               w-full
               overflow-hidden
-              rounded-[18px]
               border-2
-              border-[#e8e0f1]
+              border-black
+              rounded-[18px]
               bg-[#fcfbfe]
               shadow-[0_5px_0_#e2d8ed]
 
-              focus-within:border-[#cdbce3]
               focus-within:bg-white
 
               [&_label]:hidden
@@ -3356,13 +3513,12 @@ function S18({ onSaveStateChange }: Props) {
                 min-h-[350px]
                 flex-1
                 overflow-hidden
-                rounded-[18px]
                 border-2
-                border-[#e7def1]
+                border-black
+                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
-                focus-within:border-[#cdbce3]
                 focus-within:bg-white
 
                 [&_label]:hidden
@@ -3426,13 +3582,12 @@ function S18({ onSaveStateChange }: Props) {
                 min-h-[350px]
                 flex-1
                 overflow-hidden
-                rounded-[18px]
                 border-2
-                border-[#e7def1]
+                border-black
+                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
-                focus-within:border-[#cdbce3]
                 focus-within:bg-white
 
                 [&_label]:hidden
@@ -3629,6 +3784,8 @@ function S20({ onSaveStateChange }: Props) {
           min-h-[720px]
           w-full
           max-w-[1420px]
+          border-2
+          border-black
           rounded-[36px]
           bg-white
           px-[6%]
@@ -3689,12 +3846,11 @@ function S20({ onSaveStateChange }: Props) {
                   min-h-[88px]
                   w-full
                   overflow-hidden
-                  rounded-[14px]
                   border-2
-                  border-transparent
+                  border-black
+                  rounded-[14px]
                   bg-transparent
 
-                  focus-within:border-[#ddd2ec]
                   focus-within:bg-[#fbf9fe]
 
                   [&_label]:hidden
@@ -3771,12 +3927,11 @@ function S20({ onSaveStateChange }: Props) {
                   min-h-[78px]
                   w-full
                   overflow-hidden
-                  rounded-[14px]
                   border-2
-                  border-transparent
+                  border-black
+                  rounded-[14px]
                   bg-transparent
 
-                  focus-within:border-[#ddd2ec]
                   focus-within:bg-[#fbf9fe]
 
                   [&_label]:hidden
@@ -3852,12 +4007,11 @@ function S20({ onSaveStateChange }: Props) {
                   min-h-[78px]
                   w-full
                   overflow-hidden
-                  rounded-[14px]
                   border-2
-                  border-transparent
+                  border-black
+                  rounded-[14px]
                   bg-transparent
 
-                  focus-within:border-[#ddd2ec]
                   focus-within:bg-[#fbf9fe]
 
                   [&_label]:hidden
@@ -3931,12 +4085,11 @@ function S20({ onSaveStateChange }: Props) {
                   min-h-[68px]
                   w-full
                   overflow-hidden
-                  rounded-[14px]
                   border-2
-                  border-transparent
+                  border-black
+                  rounded-[14px]
                   bg-transparent
 
-                  focus-within:border-[#ddd2ec]
                   focus-within:bg-[#fbf9fe]
 
                   [&_label]:hidden
@@ -4110,6 +4263,7 @@ function IrregularPaper({
     <div
       className={cn(
         "relative overflow-hidden bg-[#fffefe]",
+        "border-2 border-black",
         "shadow-[0_10px_0_var(--paper-shadow)]",
         className,
       )}
@@ -4483,13 +4637,12 @@ function S22({ onSaveStateChange }: Props) {
                     min-h-[190px]
                     w-full
                     overflow-hidden
-                    rounded-[18px]
                     border-2
-                    border-[#cfc2df]
+                    border-black
+                    rounded-[18px]
                     bg-[#fffefa]
                     shadow-[0_6px_0_#4f267d]
 
-                    focus-within:border-[#ac98ca]
                     focus-within:bg-white
                   "
                 >
@@ -4595,13 +4748,12 @@ function S22({ onSaveStateChange }: Props) {
                     min-h-[170px]
                     w-full
                     overflow-hidden
-                    rounded-[18px]
                     border-2
-                    border-[#cfc2df]
+                    border-black
+                    rounded-[18px]
                     bg-[#fffefa]
                     shadow-[0_6px_0_#4f267d]
 
-                    focus-within:border-[#ac98ca]
                     focus-within:bg-white
                   "
                 >
@@ -4869,13 +5021,12 @@ function S23({ onSaveStateChange }: Props) {
                     min-h-[205px]
                     w-full
                     overflow-hidden
-                    rounded-[18px]
                     border-2
-                    border-[#d7cbe7]
+                    border-black
+                    rounded-[18px]
                     bg-[#fffefa]
                     shadow-[0_6px_0_rgba(68,42,105,0.18)]
 
-                    focus-within:border-[#b9a4d2]
                     focus-within:bg-white
                   "
                 >
@@ -5055,7 +5206,7 @@ function S24({ onSaveStateChange }: Props) {
                 min-w-0
                 flex-col
                 overflow-hidden
-                border-[3px]
+                border-2
                 border-black
                 bg-white
                 px-5
@@ -5102,12 +5253,11 @@ function S24({ onSaveStateChange }: Props) {
                   min-h-[210px]
                   flex-1
                   overflow-hidden
-                  rounded-[22px]
                   border-2
-                  border-[#d7cbe7]
+                  border-black
+                  rounded-[22px]
                   bg-[#fffefa]
 
-                  focus-within:border-[#a992ca]
                   focus-within:bg-white
                 "
               >
@@ -5389,15 +5539,15 @@ function LikertRow({
                 items-center
                 justify-center
                 rounded-full
-                border-2
+                border-0
                 text-[13px]
                 font-semibold
                 transition
                 duration-150
               `,
               value === n
-                ? "border-white bg-white text-[#7654ad] shadow-[0_3px_0_rgba(42,24,74,0.32)]"
-                : "border-white/75 bg-transparent text-white hover:border-white hover:bg-white/15",
+                ? "bg-white text-[#7654ad] shadow-[0_3px_0_rgba(42,24,74,0.32)]"
+                : "bg-white/15 text-white hover:bg-white/25",
             )}
             aria-label={`${n}/5`}
             aria-pressed={value === n}
@@ -5493,9 +5643,9 @@ function S26({ onSaveStateChange }: Props) {
               items-center
               gap-x-8
               gap-y-3
+              border-2
+              border-black
               rounded-[16px]
-              border
-              border-white/20
               bg-white/10
               px-5
               py-4
@@ -5557,9 +5707,9 @@ function S26({ onSaveStateChange }: Props) {
               max-w-full
               items-center
               gap-5
-              rounded-[20px]
               border-2
-              border-white/30
+              border-black
+              rounded-[20px]
               bg-white/10
               px-7
               py-5
@@ -5622,7 +5772,7 @@ function M2Intro() {
   const tr = useTr();
   return (
     <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
-      <div className="absolute right-[4%] top-0 rounded-b-[12px] bg-[#7654ad] px-5 py-3 text-white">
+      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white">
         <span className="font-display text-[20px] font-semibold">{tr("Tasot 2")}</span>
       </div>
 
@@ -5728,7 +5878,7 @@ function VahvuuskarkkiSheet({
             {tr("Kirjoita vahvuudet tähän")}
           </p>
 
-          <div className="mt-7 max-w-[390px] [&_label]:hidden [&_input]:border-0 [&_input]:border-b-2 [&_input]:border-[#7654ad] [&_input]:bg-transparent [&_input]:text-[18px] [&_input]:outline-none">
+          <div className="mt-7 max-w-[390px] [&_label]:hidden [&_input]:border-0 [&_input]:border-b-2 [&_input]:border-black [&_input]:bg-transparent [&_input]:text-[18px] [&_input]:outline-none">
             <ReflectionInput
               fieldKey={`${fieldPrefix}_karkit`}
               prefix=""
@@ -5753,14 +5903,14 @@ function VahvuuskarkkiSheet({
           />
         </div>
 
-        <div className="absolute right-[8%] top-[11%] z-20 h-[650px] w-[47%] rounded-[34px] bg-[#ef6f70] shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
-          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-semibold uppercase text-black">
+        <div className="absolute right-[8%] top-[11%] z-20 h-[650px] w-[47%] rounded-[34px] border-2 border-black bg-[#ef6f70] shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
+          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] border-2 border-b-0 border-black bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-semibold uppercase text-black">
             {tr(context)}
           </div>
 
           {fields.map((field) => (
             <div key={field.key} className={cn("absolute", field.className)}>
-              <div className="h-full overflow-hidden rounded-[18px] bg-white">
+              <div className="h-full overflow-hidden rounded-[18px] border-2 border-black bg-white">
                 <FlatReflectionTextarea
                   fieldKey={field.key}
                   rows={4}
@@ -5874,11 +6024,11 @@ function S30({ onSaveStateChange }: Props) {
 
         {pieces.map((piece) => (
           <div key={piece.key} className={cn("absolute z-20", piece.className)}>
-            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-semibold">
+            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] border-2 border-b-0 border-black bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-semibold">
               {tr(piece.tab)}
             </div>
             <div
-              className="h-full bg-white p-5 text-black shadow-[0_9px_0_rgba(48,27,74,0.55)]"
+              className="h-full border-2 border-black bg-white p-5 text-black shadow-[0_9px_0_rgba(48,27,74,0.55)]"
               style={{ clipPath: piece.clip }}
             >
               <p className="mx-auto max-w-[85%] text-center font-display text-[13px] font-semibold leading-[1.2]">
@@ -6228,11 +6378,11 @@ function S39({ onSaveStateChange }: Props) {
     <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
       <StickyNote tone="mint" seed="s39-h">
         <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
-          {tr("Minä olen –övning")}
+          {tr("Minä olen")}
         </h1>
         <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
           {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
-          <em> “Olet sinnikäs.”</em> → <strong>“Minä olen sinnikäs.”</strong>
+          <span className="font-semibold"> {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}</span>
         </p>
       </StickyNote>
       <div className="grid gap-4 md:grid-cols-2">
@@ -6240,7 +6390,7 @@ function S39({ onSaveStateChange }: Props) {
           <ReflectionInput
             key={i}
             fieldKey={`screen_39_mina_olen_${i + 1}`}
-            prefix={tr("Minä olen –övning")}
+            prefix={tr("Minä olen")}
             placeholder="…"
             onSaveStateChange={onSaveStateChange}
           />

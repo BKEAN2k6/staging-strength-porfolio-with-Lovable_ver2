@@ -267,7 +267,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   "candy-chip rounded-full border-2 px-3 py-1.5 text-sm font-semibold",
                   active
                     ? "is-active bg-[color:var(--coral)] border-[color:var(--coral)] text-white"
-                    : "bg-white text-slate-900 border-white/40",
+                    : "bg-white text-slate-900 border-black",
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >
@@ -295,7 +295,7 @@ function MeterTop({ onSaveStateChange }: Props) {
                   "candy-chip rounded-full border-2 px-3 py-1.5 text-sm font-semibold",
                   active
                     ? "is-active bg-[color:var(--mint)] border-[color:var(--mint)] text-[color:var(--ink)]"
-                    : "bg-white text-slate-900 border-white/40",
+                    : "bg-white text-slate-900 border-black",
                   atMax && "opacity-40 cursor-not-allowed",
                 )}
               >

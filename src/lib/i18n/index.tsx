@@ -668,7 +668,35 @@ export function useTFi(): (fi: string | undefined | null) => string {
 }
 
 // ---------------- Recursive text translator ----------------
-// STEP 1 Finnish-only: passthrough. Kept for API compatibility.
 export function TranslateFi({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const tr = useTr();
+
+  const translateNode = useCallback(
+    (node: ReactNode): ReactNode => {
+      if (typeof node === "string") {
+        if (!node.trim()) return node;
+        const leading = node.match(/^\s*/)?.[0] ?? "";
+        const trailing = node.match(/\s*$/)?.[0] ?? "";
+        return `${leading}${tr(node.trim())}${trailing}`;
+      }
+
+      if (Array.isArray(node)) {
+        return node.map(translateNode);
+      }
+
+      if (!isValidElement(node)) return node;
+
+      const element = node as ReactElement<{ children?: ReactNode }>;
+      if (typeof element.type === "string" && ["script", "style", "textarea"].includes(element.type)) {
+        return element;
+      }
+
+      const childNodes = element.props.children;
+      if (childNodes === undefined) return element;
+      return cloneElement(element, undefined, Children.map(childNodes, translateNode));
+    },
+    [tr],
+  );
+
+  return <>{Children.map(children, translateNode)}</>;
 }

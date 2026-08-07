@@ -66,7 +66,7 @@ export function MeterPicker({
                 "candy-chip flex items-center gap-3 rounded-full border-2 px-3 py-2 text-left text-sm font-medium transition-all",
                 active
                   ? "is-active bg-[color:var(--coral)] border-[color:var(--coral)] text-white"
-                  : "bg-white text-slate-900 border-white/40 hover:bg-[color:var(--yellow)]/50",
+                  : "bg-white text-slate-900 border-black hover:bg-[color:var(--yellow)]/50",
               )}
               aria-pressed={active}
             >

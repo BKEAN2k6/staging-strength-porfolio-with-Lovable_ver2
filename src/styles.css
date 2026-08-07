@@ -184,6 +184,7 @@
   background: var(--card);
   color: var(--card-foreground);
   border-radius: 1.5rem;
+  border: 3px solid #000;
   padding: 1.5rem;
   text-align: left;
   box-shadow: 6px 8px 0 0 var(--purple-dark);
@@ -226,6 +227,7 @@
 /* Candy-like chip option (used by SelectableChips) */
 .candy-chip {
   position: relative;
+  border-color: #000 !important;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -273,7 +275,7 @@
   background-origin: content-box;
   background-clip: content-box;
   border-radius: 1rem;
-  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  border: 2px solid #000;
   box-shadow: 4px 4px 0 0 var(--purple-dark);
   padding: 0.75rem 1rem;
   display: flex;
@@ -281,7 +283,7 @@
 }
 .workbook-paper:focus-within {
   box-shadow: 4px 4px 0 0 var(--coral);
-  border-color: var(--coral);
+  border-color: #000;
 }
 .workbook-paper textarea,
 .workbook-paper input {
@@ -307,13 +309,13 @@
 .workbook-line {
   background-color: #fffdf6;
   border-radius: 0.75rem;
-  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  border: 2px solid #000;
   box-shadow: 3px 3px 0 0 var(--purple-dark);
   padding: 0.55rem 0.9rem;
   color: var(--ink);
 }
 .workbook-line:focus-within {
-  border-color: var(--coral);
+  border-color: #000;
   box-shadow: 3px 3px 0 0 var(--coral);
 }
 .workbook-line input {
@@ -324,7 +326,7 @@
   /* legacy alias */
   background-color: #fffdf6;
   border-radius: 9999px;
-  border: 2px solid color-mix(in oklab, var(--purple-dark) 35%, transparent);
+  border: 2px solid #000;
   box-shadow: 3px 3px 0 0 var(--purple-dark);
   padding: 0.45rem 0.9rem;
 }
