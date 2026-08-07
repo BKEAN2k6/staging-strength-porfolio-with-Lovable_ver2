@@ -213,19 +213,41 @@ function Quote() {
 
   return (
     <div className="grid min-h-[600px] w-full min-w-0 grid-cols-[60%_40%] overflow-hidden">
-      <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-left text-white">
+      <div className="flex min-w-0 flex-col justify-center pl-[2%] pr-[3%] text-white">
         <h1
           className="
             m-0
             text-center
             font-display
-            text-[clamp(28px,3.4vw,50px)]
             font-normal
-            leading-[1.2]
             tracking-[-0.01em]
+            text-white
           "
         >
-          {tr("Panosta vahvuuksiisi. Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
+          <span
+            className="
+              block
+              text-[clamp(34px,4vw,56px)]
+              font-medium
+              leading-[1.15]
+            "
+          >
+            {tr("Panosta vahvuuksiisi.")}
+          </span>
+
+          <span
+            className="
+              mx-auto
+              mt-4
+              block
+              max-w-[780px]
+              text-[clamp(22px,2.5vw,36px)]
+              font-normal
+              leading-[1.3]
+            "
+          >
+            {tr("Kasvat eniten niillä alueilla, joilla olet jo vahva.")}
+          </span>
         </h1>
       </div>
 
@@ -302,36 +324,126 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
   const tr = useTr();
 
   return (
-    <div className="relative min-h-[600px] w-full overflow-hidden px-[6%] pb-14 pt-8 text-white">
-      <h1 className="mb-7 font-display text-[clamp(32px,3vw,46px)] font-semibold leading-[1.12] tracking-[-0.02em] text-white">
-        {tr("Tietoa vahvuuksista")}
-      </h1>
+    <div
+      className="
+        relative
+        min-h-[600px]
+        w-full
+        overflow-hidden
+        px-[5%]
+        pb-12
+        pt-8
+        text-white
+      "
+    >
+      <div
+        className="
+          grid
+          min-h-[540px]
+          w-full
+          grid-cols-[62%_38%]
+          items-center
+          gap-8
+        "
+      >
+        {/* =========================
+            BÊN TRÁI: TEXT
+        ========================== */}
+        <div className="min-w-0">
+          {/* PHẦN CHỮ LỚN */}
+          <div className="max-w-[900px]">
+            <h1
+              className="
+                mb-5
+                font-display
+                text-[clamp(32px,3.2vw,48px)]
+                font-medium
+                leading-[1.12]
+                tracking-[-0.015em]
+                text-white
+              "
+            >
+              {tr("Tietoa vahvuuksista")}
+            </h1>
 
-      <div className="max-w-[1120px] space-y-5 text-[clamp(17px,1.35vw,21px)] font-normal leading-[1.55]">
-        <p>
-          {tr(
-            "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.",
-          )}
-        </p>
+            <p
+              className="
+                font-display
+                text-[clamp(21px,1.85vw,28px)]
+                font-normal
+                leading-[1.42]
+                tracking-[-0.005em]
+                text-white
+              "
+            >
+              {tr(
+                "Luonteenvahvuudet ovat persoonan myönteisiä piirteitä, joita hyödyntämällä sinä, opiskelukaverisi ja monenlaiset yhteisöt, kuten lukiot, voivat kukoistaa. Niitä ovat esimerkiksi sinnikkyys, uteliaisuus, rohkeus ja myötätuntoisuus. Jokaisella opiskelijalla on vahvuuksia ja kehittymässä olevaa vahvuuspotentiaalia. Vahvuuksien voi ajatella heijastelevan sitä, millainen kukin meistä on ihmisenä parhaimmillaan.",
+              )}
+            </p>
+          </div>
 
-        <p>
-          {tr(
-            "Vahvuudet auttavat haasteiden kohtaamisessa ja edistävät niistä ylipääsemisessä eli selviytymisessä. Taidoilla ja vahvuuksilla on eroa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.",
-          )}
-        </p>
+          {/* PHẦN CHỮ NHỎ */}
+          <div
+            className="
+              mt-7
+              max-w-[880px]
+              space-y-4
+              font-display
+              text-[clamp(16px,1.25vw,19px)]
+              font-normal
+              leading-[1.5]
+              text-white
+            "
+          >
+            <p>
+              {tr(
+                "Vahvuudet auttavat haasteiden kohtaamisessa ja edistävät niistä ylipääsemisessä eli selviytymisessä. Taidoilla ja vahvuuksilla on eroa. Taidot ovat opittuja, kun taas vahvuudet ovat itselle luontaisia ja tärkeitä ajattelu- ja toimintatapoja.",
+              )}
+            </p>
 
-        <p>
-          {tr(
-            "Jokaisella on omat ydinvahvuutensa, joihin kannattaa keskittyä ja joita on järkevää vahvistaa! Omien vahvuuksien tunteminen ja niiden hyödyntäminen opiskelussa ja vapaa-ajalla lisää tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.",
-          )}
-        </p>
+            <p>
+              {tr(
+                "Jokaisella on omat ydinvahvuutensa, joihin kannattaa keskittyä ja joita on järkevää vahvistaa! Omien vahvuuksien tunteminen ja niiden hyödyntäminen opiskelussa ja vapaa-ajalla lisää tyytyväisyyttä, opiskelun mielekkyyttä ja hyvinvointia.",
+              )}
+            </p>
 
-        <p className="pt-1">{tr("Tervetuloa mukaan lukiolainen!")}</p>
+            <p className="pt-1 font-medium">{tr("Tervetuloa mukaan lukiolainen!")}</p>
+          </div>
+        </div>
+
+        {/* =========================
+            BÊN PHẢI: ILLUSTRATION
+        ========================== */}
+        <div
+          className="
+            flex
+            min-w-0
+            items-center
+            justify-center
+          "
+        >
+          <img
+            src="/illustrations/tieto-vahvuuksista.png"
+            alt=""
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              block
+              h-auto
+              w-full
+              max-w-[430px]
+              object-contain
+              object-center
+              select-none
+            "
+          />
+        </div>
       </div>
     </div>
   );
 }
 
+// S6
 function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
   const tr = useTr();
 
