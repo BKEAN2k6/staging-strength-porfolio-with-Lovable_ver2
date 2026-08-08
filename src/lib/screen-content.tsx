@@ -444,147 +444,114 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
 }
 
 // S6
-function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
+function StrengthsList({ onSaveStateChange }: Props) {
   const tr = useTr();
-
-  const strengths = [
-    {
-      id: 1,
-      text: "Rohkeus",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 2,
-      text: "Ystävällisyys",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-    {
-      id: 3,
-      text: "Kiitollisuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 4,
-      text: "Itsesäätely",
-      color: "#ccecf7",
-      border: "#48a9d0",
-    },
-
-    {
-      id: 5,
-      text: "Luovuus",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 6,
-      text: "Henkisyys",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 7,
-      text: "Rakkaus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 8,
-      text: "Innostus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-
-    {
-      id: 9,
-      text: "Johtajuus",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 10,
-      text: "Toiveikkuus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 11,
-      text: "Reiluus",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-    {
-      id: 12,
-      text: "Oppimisen ilo",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-
-    {
-      id: 13,
-      text: "Anteeksiantavuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 14,
-      text: "Sisukkuus",
-      color: "#ffe7a1",
-      border: "#e7ab1b",
-    },
-    {
-      id: 15,
-      text: "Rehellisyys",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-    {
-      id: 16,
-      text: "Arviointikyky",
-      color: "#ffd9ad",
-      border: "#ed8a32",
-    },
-
-    {
-      id: 17,
-      text: "Myötätunto",
-      color: "#ccebcf",
-      border: "#55a667",
-    },
-    {
-      id: 18,
-      text: "Sosiaalinen älykkyys",
-      color: "#ded2f2",
-      border: "#7654ad",
-    },
-    {
-      id: 19,
-      text: "Uteliaisuus",
-      color: "#ffd1d1",
-      border: "#e36c6c",
-    },
-    {
-      id: 20,
-      text: "Ryhmätyötaidot",
-      color: "#bfe9f7",
-      border: "#48a9d0",
-    },
-  ];
+  const { language } = useLanguage();
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  const report = useReportCompletion();
+
+  const fieldKey = "screen_6_known_strengths";
+  const maxSelections = 3;
+
+  const legacyNameToId: Record<string, number> = {
+    Luovuus: 1,
+    Uteliaisuus: 2,
+    Arviointikyky: 3,
+    "Oppimisen ilo": 4,
+    Näkökulmanottokyky: 5,
+
+    Rohkeus: 6,
+    Sinnikkyys: 7,
+    Rehellisyys: 8,
+    Innokkuus: 9,
+    Innostus: 9,
+    Sisukkuus: 10,
+
+    Myötätunto: 11,
+    Rakkaus: 12,
+    Ystävällisyys: 13,
+    "Sosiaalinen älykkyys": 14,
+
+    Ryhmätyötaito: 15,
+    Ryhmätyötaidot: 15,
+    Reiluus: 16,
+    Johtajuus: 17,
+
+    Anteeksiantavuus: 18,
+    Vaatimattomuus: 19,
+    Harkitsevuus: 20,
+    Harkitsevaisuus: 20,
+    Itsesäätely: 21,
+
+    "Kauneuden ja erinomaisuuden arvostaminen": 22,
+    "Kauneuden ja erinomaisuuden arvostus": 22,
+
+    Kiitollisuus: 23,
+    Toiveikkuus: 24,
+    Huumorintaju: 25,
+
+    Hengellisyys: 26,
+    Henkisyys: 26,
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      const saved = await loadResponse<unknown[]>(fieldKey);
+
+      if (cancelled) return;
+
+      if (Array.isArray(saved)) {
+        const migratedIds = saved
+          .map((item) => {
+            if (typeof item === "number" && Number.isInteger(item) && item >= 1 && item <= 26) {
+              return item;
+            }
+
+            if (typeof item === "string") {
+              return legacyNameToId[item];
+            }
+
+            return undefined;
+          })
+          .filter((id): id is number => typeof id === "number");
+
+        setSelectedIds([...new Set(migratedIds)].slice(0, maxSelections));
+      }
+
+      setLoaded(true);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const state = useAutosave(fieldKey, selectedIds, {
+    enabled: loaded,
+  });
+
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    report(fieldKey, selectedIds.length >= 1);
+  }, [loaded, report, selectedIds.length]);
 
   function toggleStrength(id: number) {
     setSelectedIds((currentIds) => {
-      const alreadySelected = currentIds.includes(id);
-
-      if (alreadySelected) {
+      if (currentIds.includes(id)) {
         return currentIds.filter((selectedId) => selectedId !== id);
       }
 
-      if (currentIds.length >= 3) {
+      if (currentIds.length >= maxSelections) {
         return currentIds;
       }
 
@@ -592,166 +559,283 @@ function StrengthsList({ onSaveStateChange: _onSaveStateChange }: Props) {
     });
   }
 
-  const selectedStrengths = strengths.filter((strength) => selectedIds.includes(strength.id));
-
-  const selectionIsFull = selectedIds.length >= 3;
-
   return (
-    <div className="relative min-h-[620px] w-full overflow-hidden px-6 pb-5 pt-5 text-white">
-      <div className="grid min-h-[570px] grid-cols-[0.58fr_2fr] items-center gap-6">
-        <div className="relative flex min-w-0 flex-col items-center justify-center">
-          <div className="relative h-[210px] w-full max-w-[190px]">
-            <img
-              src="/illustrations/naytto-3.png"
-              alt={tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
-              className="absolute inset-0 h-full w-full object-contain"
+    <div className="relative min-h-[560px] overflow-hidden p-8 text-white">
+      <div className="relative z-10 grid h-full grid-cols-[220px_minmax(0,1fr)] gap-8">
+        {/* JAR */}
+        <aside className="flex flex-col items-center justify-center pt-4 text-center">
+          <div className="relative h-[245px] w-[185px]">
+            {/* Jar lid */}
+            <div
+              className="
+                absolute
+                left-1/2
+                top-0
+                z-20
+                h-[28px]
+                w-[140px]
+                -translate-x-1/2
+                rounded-full
+                border-[3px]
+                border-black
+                bg-[#EAF9FC]
+              "
             />
 
-            <div className="absolute bottom-[30px] left-1/2 z-20 flex w-[180px] -translate-x-1/2 flex-col items-center gap-2">
-              {selectedStrengths.map((strength, index) => (
-                <button
-                  key={strength.id}
-                  type="button"
-                  onClick={() => toggleStrength(strength.id)}
-                  className={`
-                    max-w-[165px]
-                    rounded-full
-                    border-2
-                    px-4
-                    py-2
+            {/* Jar body */}
+            <div
+              className="
+                absolute
+                bottom-0
+                left-1/2
+                h-[220px]
+                w-[175px]
+                -translate-x-1/2
+                overflow-hidden
+                rounded-[36px]
+                border-[3px]
+                border-black
+                bg-white/20
+                shadow-[0_9px_0_rgba(0,0,0,0.14)]
+              "
+            >
+              {selectedIds.length === 0 && (
+                <div
+                  className="
+                    absolute
+                    left-1/2
+                    top-[70px]
+                    w-[125px]
+                    -translate-x-1/2
+                    -rotate-3
+                    bg-[#FFF4DE]
+                    px-3
+                    py-3
                     text-center
-                    text-[12px]
-                    font-semibold
-                    leading-[1.1]
-                    shadow-sm
-                    transition-transform
-                    hover:scale-105
-                    ${index === 0 ? "-rotate-3" : ""}
-                    ${index === 1 ? "rotate-2" : ""}
-                    ${index === 2 ? "-rotate-1" : ""}
-                  `}
-                  style={{
-                    backgroundColor: strength.color,
-                    borderColor: strength.border,
-                  }}
+                    text-[11px]
+                    font-bold
+                    leading-tight
+                    text-[#4C3B58]
+                  "
                 >
-                  {tr(strength.text)}
-                </button>
-              ))}
+                  {tr("Minun vahvuuteni")}
+                </div>
+              )}
+
+              <div
+                className="
+                  absolute
+                  inset-x-2
+                  bottom-5
+                  flex
+                  flex-col-reverse
+                  items-center
+                  gap-2
+                "
+              >
+                {selectedIds.map((id, index) => {
+                  const color = getStrengthColor(id);
+                  const name = getStrengthName(id, language);
+
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => toggleStrength(id)}
+                      title={name}
+                      className={`
+                        flex
+                        items-center
+                        justify-center
+                        transition-transform
+                        hover:scale-105
+                        ${index === 0 ? "-rotate-2" : ""}
+                        ${index === 1 ? "rotate-2" : ""}
+                        ${index === 2 ? "-rotate-1" : ""}
+                      `}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="
+                          h-[24px]
+                          w-[14px]
+                          shrink-0
+                          rounded-full
+                          border-2
+                          border-black
+                        "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      />
+
+                      <span
+                        className="
+                          -mx-[2px]
+                          flex
+                          min-h-[32px]
+                          max-w-[120px]
+                          items-center
+                          justify-center
+                          rounded-full
+                          border-2
+                          border-black
+                          px-3
+                          py-1
+                          text-center
+                          text-[9px]
+                          font-semibold
+                          leading-[1.05]
+                          text-[#2E2336]
+                          shadow-sm
+                        "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      >
+                        {name}
+                      </span>
+
+                      <span
+                        aria-hidden="true"
+                        className="
+                          h-[24px]
+                          w-[14px]
+                          shrink-0
+                          rounded-full
+                          border-2
+                          border-black
+                        "
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <div className="-mt-3 flex items-center justify-center gap-2 text-[#ffd12f]">
-            <span className="rotate-[-30deg] text-[40px] leading-[1.12]">↗</span>
+          <div className="relative mt-5 max-w-[205px] text-center font-display text-[13px] font-semibold leading-[1.25] text-[#FFE65A]">
+            <span className="absolute -left-7 top-2 -rotate-[25deg] text-[34px]">↗</span>
 
-            <p className="text-center text-[14px] font-medium leading-[1.3]">
-              {tr(
-                "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
-              )}
-            </p>
+            {tr(
+              "Valitse ne vahvuudet, jotka tunnistat itsessäsi tai läheisissäsi. Voit palata muokkaamaan valintaasi myöhemmin.",
+            )}
           </div>
 
-          <p className="mt-2 text-[13px] font-medium text-white">
-            {tr("Valittu {n} / {max}", {
-              n: selectedIds.length,
-              max: 3,
-            })}
-          </p>
-        </div>
+          <div className="mt-3 font-display text-[14px] font-semibold">
+            {tr("Valittu")} {selectedIds.length} / {maxSelections}
+          </div>
+        </aside>
 
-        <div className="min-w-0 pl-2">
-          <h1 className="max-w-[950px] font-display text-[32px] font-semibold leading-[1.12]">
-            {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa ihmisissä")}
+        {/* STRENGTH CANDIES */}
+        <section className="min-w-0 pt-1">
+          <h1 className="mb-1 max-w-[850px] font-display text-[30px] font-bold leading-tight">
+            {tr("Luonteenvahvuudet, joita voit tunnistaa itsessäsi ja toisissa")}
           </h1>
 
-          <p className="mb-5 mt-2 text-[19px]">{tr("Keksitkö lisää?")}</p>
+          <p className="mb-4 font-display text-[18px] font-medium">{tr("Keksitkö lisää?")}</p>
 
-          <div className="grid grid-cols-4 justify-items-center gap-x-2 gap-y-5">
-            {strengths.map((strength) => {
-              const isSelected = selectedIds.includes(strength.id);
+          <div className="grid max-w-[1000px] grid-cols-5 gap-x-3 gap-y-3">
+            {Array.from({ length: 26 }, (_, index) => index + 1).map((id) => {
+              const name = getStrengthName(id, language);
+              const color = getStrengthColor(id);
 
-              const selectionDisabled = selectionIsFull && !isSelected;
+              const isSelected = selectedIds.includes(id);
+
+              const selectionDisabled = selectedIds.length >= maxSelections && !isSelected;
 
               return (
                 <button
-                  key={strength.id}
+                  key={id}
                   type="button"
                   disabled={selectionDisabled}
-                  onClick={() => toggleStrength(strength.id)}
-                  className={`
-                    group
-                    flex
-                    w-full
-                    min-w-0
-                    items-center
-                    justify-center
-                    transition-all
-                    duration-150
-                    ${isSelected ? "scale-105" : ""}
-                    ${selectionDisabled ? "cursor-not-allowed opacity-35" : "hover:scale-105"}
-                  `}
+                  onClick={() => toggleStrength(id)}
+                  aria-pressed={isSelected}
+                  aria-label={name}
+                  className={cn(
+                    `
+                      group
+                      flex
+                      min-w-0
+                      items-center
+                      justify-center
+                      transition-all
+                      duration-150
+                    `,
+                    isSelected && "scale-105",
+                    selectionDisabled && "cursor-not-allowed opacity-35",
+                    !selectionDisabled && "hover:scale-105",
+                  )}
                 >
                   <span
                     aria-hidden="true"
                     className="
-                      h-[40px]
+                      h-[34px]
                       w-[18px]
                       shrink-0
-                      [clip-path:polygon(100%_0,100%_100%,0_78%,30%_50%,0_22%)]
+                      rounded-full
+                      border-2
+                      border-black
                     "
                     style={{
-                      backgroundColor: strength.color,
-                      border: `2px solid ${strength.border}`,
+                      backgroundColor: color,
                     }}
                   />
 
                   <span
-                    className={`
-                      -mx-[2px]
-                      flex
-                      min-h-[48px]
-                      w-[155px]
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-[50%]
-                      border-2
-                      px-2
-                      py-1
-                      text-center
-                      text-[11px]
-                      font-semibold
-                      leading-[1.12]
-                      whitespace-nowrap
-                      shadow-[0_4px_0_rgba(0,0,0,0.08)]
-                      ${isSelected ? "ring-4 ring-[#7755c9]/30" : ""}
-                    `}
+                    className={cn(
+                      `
+                        -mx-[2px]
+                        flex
+                        min-h-[46px]
+                        w-[128px]
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        border-2
+                        border-black
+                        px-2
+                        py-1
+                        text-center
+                        font-display
+                        text-[10px]
+                        font-semibold
+                        leading-[1.08]
+                        text-[#2E2336]
+                        shadow-[0_4px_0_rgba(0,0,0,0.12)]
+                      `,
+                      isSelected && "ring-4 ring-white/70",
+                    )}
                     style={{
-                      backgroundColor: strength.color,
-                      borderColor: strength.border,
+                      backgroundColor: color,
                     }}
                   >
-                    <span>{tr(strength.text)}</span>
+                    {name}
                   </span>
 
                   <span
                     aria-hidden="true"
                     className="
-                      h-[40px]
+                      h-[34px]
                       w-[18px]
                       shrink-0
-                      [clip-path:polygon(0_0,0_100%,100%_78%,70%_50%,100%_22%)]
+                      rounded-full
+                      border-2
+                      border-black
                     "
                     style={{
-                      backgroundColor: strength.color,
-                      border: `2px solid ${strength.border}`,
+                      backgroundColor: color,
                     }}
                   />
                 </button>
               );
             })}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
@@ -1522,7 +1606,8 @@ function S12VahvuuksiaEnemman() {
             relative
             z-20
             mx-auto
-            w-[500px]
+            w-full
+            max-w-[1240px]
             
             shrink-0
           "
@@ -1828,9 +1913,7 @@ function M1Intro() {
   const tr = useTr();
   return (
     <div className="relative flex h-full min-h-[620px] w-full items-center justify-center overflow-hidden px-8 text-white">
-      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white">
-        <span className="font-display text-[20px] font-semibold">{tr("Taso 1")}</span>
-      </div>
+      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white"></div>
 
       <div className="pointer-events-none absolute left-[7%] top-[16%] h-28 w-28 rounded-full border-[14px] border-[#ffd95d]/45" />
       <div className="pointer-events-none absolute bottom-[14%] right-[11%] h-40 w-40 rounded-full border-2 border-black bg-[#f36f56]/25" />
@@ -2198,7 +2281,7 @@ function Fly({ x0, y0, x1, y1, kind, hue }) {
 }
 
 /* ════════════════════════════════════════════════════════════ */
-export default function Karkkikauppa() {
+function Karkkikauppa() {
   const tr = useTr();
   const [phase, setPhase] = useState("kauppa"); // kauppa | kaanto | kuitti
   const [picked, setPicked] = useState([]);
@@ -2274,7 +2357,7 @@ export default function Karkkikauppa() {
 
 .ns{--pu:#6C4F9C;--pud:#4E3A78;--ye:#F4C84A;--co:#E8736B;--ink:#2B2342;--wood:#B99444;
  position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;
- padding:18px 20px 0;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;background:#7654ad;color:#fff}
+ padding:2px 20px 0;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;background:#7654ad;color:#fff}
 .shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
 .ns *{box-sizing:border-box}
 .fd{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-weight:600}
@@ -2401,6 +2484,7 @@ export default function Karkkikauppa() {
 .btn:disabled{background:#6F5D3B;color:#CBBA95;box-shadow:0 5px 0 #4E4126;cursor:not-allowed}
 .btn.go{background:var(--ye);color:var(--ink);box-shadow:0 5px 0 #C39C22;animation:br 1.5s ease-in-out infinite}
 .btn.go:hover{box-shadow:0 7px 0 #C39C22}
+.middle-btn{position:relative;top:-20px}
 @keyframes br{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .link{background:none;border:0;color:inherit;opacity:.72;text-decoration:underline;cursor:pointer;
  font-size:13px;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;padding:6px}
@@ -2561,7 +2645,7 @@ export default function Karkkikauppa() {
                   </div>
                 </div>
                 <button
-                  className={`btn${full ? " go" : ""}`}
+                  className={`btn middle-btn${full ? " go" : ""}`}
                   disabled={!full}
                   onClick={() => setPhase("kaanto")}
                 >
@@ -2580,7 +2664,7 @@ export default function Karkkikauppa() {
                     </span>
                   ))}
                 </div>
-                <button className="btn go" onClick={() => setPhase("kuitti")}>
+                <button className="btn middle-btn go" onClick={() => setPhase("kuitti")}>
                   {tr("Ota kuitti →")}
                 </button>
               </>
@@ -2815,56 +2899,164 @@ function StrengthCandySelect({
   );
 }
 
-// ----- S14 (PDF p19): Ydinvahvuuksien tiekartta -----
-function S14({ onSaveStateChange }: Props) {
+// ============================================================
+// Core Strengths Roadmap
+// ============================================================
+
+const SCREEN_14_QUESTIONS = [
+  {
+    id: 1,
+    text: "Mistä innostut?",
+  },
+  {
+    id: 2,
+    text: "Minkä tekeminen tuntuu kevyeltä?",
+  },
+  {
+    id: 3,
+    text: "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
+  },
+  {
+    id: 4,
+    text: "Mitä rakastat tehdä vapaa-ajalla?",
+  },
+  {
+    id: 5,
+    text: "Minkä alkamista odotat eniten päivässäsi?",
+  },
+  {
+    id: 6,
+    text: "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
+  },
+  {
+    id: 7,
+    text: "Mitkä vahvuudet vahvistavat sinua vapaa-ajalla?",
+  },
+  {
+    id: 8,
+    text: "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
+  },
+  {
+    id: 9,
+    text: "Mitä vahvuuksia arvostat eniten itsessäsi?",
+  },
+] as const;
+
+const SCREEN_14_BOXES = [
+  // 1 — left middle
+  {
+    cx: 180,
+    cy: 285,
+    w: 220,
+    h: 165,
+  },
+
+  // 2 — left bottom
+  {
+    cx: 150,
+    cy: 605,
+    w: 220,
+    h: 160,
+  },
+
+  // 3 — bottom left-center
+  {
+    cx: 445,
+    cy: 610,
+    w: 220,
+    h: 160,
+  },
+
+  // 4 — center
+  {
+    cx: 505,
+    cy: 430,
+    w: 225,
+    h: 165,
+  },
+
+  // 5 — top center
+  {
+    cx: 790,
+    cy: 145,
+    w: 230,
+    h: 165,
+  },
+
+  // 6 — bottom center-right
+  {
+    cx: 805,
+    cy: 610,
+    w: 225,
+    h: 160,
+  },
+
+  // 7 — right middle
+  {
+    cx: 1070,
+    cy: 430,
+    w: 225,
+    h: 165,
+  },
+
+  // 8 — top right
+  {
+    cx: 1115,
+    cy: 150,
+    w: 230,
+    h: 165,
+  },
+
+  // 9 — right bottom
+  {
+    cx: 1215,
+    cy: 610,
+    w: 220,
+    h: 160,
+  },
+] as const;
+
+const SCREEN_14_ROAD_PATH = `
+  M 40 380
+
+  C 70 330, 115 285, 180 285
+
+  C 250 285, 255 355, 245 420
+
+  C 230 515, 175 555, 150 605
+
+  C 135 660, 260 675, 360 650
+
+  C 410 638, 435 625, 445 610
+
+  C 490 555, 510 500, 505 430
+
+  C 500 300, 575 190, 790 145
+
+  C 855 135, 900 170, 920 250
+
+  C 950 370, 830 535, 805 610
+
+  C 790 665, 910 675, 990 650
+
+  C 1040 635, 1065 535, 1070 430
+
+  C 1075 310, 1090 205, 1115 150
+
+  C 1140 105, 1200 130, 1225 200
+
+  C 1265 330, 1240 535, 1215 610
+
+  C 1205 655, 1285 660, 1345 635
+
+  C 1370 625, 1390 615, 1420 605
+`;
+
+function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const questions = [
-    {
-      id: 1,
-      text: "Mistä innostut?",
-      position: "left-[1%] top-[25%] h-[180px] w-[22%]",
-    },
-    {
-      id: 2,
-      text: "Minkä tekeminen tuntuu kevyeltä?",
-      position: "left-[3%] bottom-[1%] h-[170px] w-[22%]",
-    },
-    {
-      id: 3,
-      text: "Mistä luonteenvahvuuksista saat kiitosta ja palautetta toisilta?",
-      position: "left-[28%] bottom-[4%] h-[175px] w-[23%]",
-    },
-    {
-      id: 4,
-      text: "Mitä rakastat tehdä vapaa-ajalla?",
-      position: "left-[31%] top-[39%] h-[180px] w-[23%]",
-    },
-    {
-      id: 5,
-      text: "Minkä alkamista odotat eniten päivässäsi?",
-      position: "left-[48%] top-[0%] h-[175px] w-[23%]",
-    },
-    {
-      id: 6,
-      text: "Mitä tehdessä aika ja paikka unohtuvat ja pääset flow-tilaan?",
-      position: "left-[55%] bottom-[1%] h-[175px] w-[23%]",
-    },
-    {
-      id: 7,
-      text: "Mitkä vahvuudet vahvistavat sinua vapaa-ajalla?",
-      position: "right-[6%] top-[41%] h-[180px] w-[22%]",
-    },
-    {
-      id: 8,
-      text: "Mitkä vahvuudet tulevat lukioon, kun sinä tulet paikalle?",
-      position: "right-[3%] top-[2%] h-[175px] w-[22%]",
-    },
-    {
-      id: 9,
-      text: "Mitä vahvuuksia arvostat eniten itsessäsi?",
-      position: "right-[0%] bottom-[4%] h-[175px] w-[21%]",
-    },
-  ];
+
+  const CANVAS_WIDTH = 1450;
+  const CANVAS_HEIGHT = 760;
 
   return (
     <div
@@ -2875,194 +3067,320 @@ function S14({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
-        px-[2%]
-        pb-12
-        pt-5
+        px-[1.5%]
+        pb-28
+        pt-4
         text-black
+        [scrollbar-gutter:stable]
       "
     >
-      <div className="relative mx-auto h-[610px] w-full max-w-[1280px]">
-        <div className="absolute left-[1%] top-[3%] z-30">{tr("Ydinvahvuuksien tiekartta")}</div>
+      <div
+        className="
+          relative
+          mx-auto
+          h-[760px]
+          w-full
+          max-w-[1450px]
+        "
+      >
+        {/* =========================
+            TITLE
+        ========================== */}
+
+        <h1
+          className="
+            absolute
+            left-[1.5%]
+            top-[2%]
+            z-30
+            max-w-[300px]
+            text-left
+            font-display
+            text-[clamp(34px,2.8vw,52px)]
+            font-semibold
+            leading-[1.03]
+            text-white
+          "
+        >
+          {tr("Ydinvahvuuksien tiekartta")}
+        </h1>
+
+        {/* =========================
+            ROAD
+        ========================== */}
 
         <svg
           aria-hidden="true"
-          viewBox="0 0 1280 610"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+          viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-0
+            h-full
+            w-full
+            overflow-visible
+          "
         >
+          {/* Road shadow */}
           <path
-            d="
-              M -30 390
-              C 100 455, 225 470, 330 390
-              C 425 315, 430 175, 575 170
-              C 740 165, 805 280, 985 275
-              C 1125 270, 1190 225, 1225 135
-              C 1260 45, 1250 5, 1285 -45
-            "
+            d={SCREEN_14_ROAD_PATH}
             fill="none"
-            stroke="white"
-            strokeWidth="18"
+            stroke="rgba(0,0,0,0.15)"
+            strokeWidth="58"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
 
+          {/* White road */}
           <path
-            d="M 140 430 C 110 505, 130 555, 195 585"
+            d={SCREEN_14_ROAD_PATH}
             fill="none"
-            stroke="white"
-            strokeWidth="15"
+            stroke="#fffdfc"
+            strokeWidth="45"
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
 
+          {/* Center dashed line */}
           <path
-            d="M 320 405 C 405 395, 455 430, 455 565"
+            d={SCREEN_14_ROAD_PATH}
             fill="none"
-            stroke="white"
-            strokeWidth="15"
+            stroke="rgba(118,84,173,0.22)"
+            strokeWidth="3"
             strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="12 18"
           />
 
-          <path
-            d="M 470 275 C 445 345, 480 390, 545 410"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+          {/* =========================
+              START
+          ========================== */}
 
-          <path
-            d="M 640 175 L 640 85 C 640 55, 660 45, 685 45"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+          <g transform="translate(20 356)">
+            <path
+              d="
+                M 0 0
+                H 100
+                L 118 24
+                L 100 48
+                H 0
+                Z
+              "
+              fill="#f3cbd1"
+              stroke="#241b3f"
+              strokeWidth="2"
+            />
 
-          <path
-            d="M 790 260 C 755 350, 850 380, 805 570"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+            <text x="56" y="30" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7654ad">
+              {tr("Aloita tästä")}
+            </text>
+          </g>
 
-          <path
-            d="M 1000 275 L 1000 430"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+          {/* =========================
+              FINISH
+          ========================== */}
 
-          <path
-            d="M 1100 270 L 1100 90"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+          <g transform="translate(1340 565)">
+            {/* Pole */}
+            <line
+              x1="8"
+              y1="0"
+              x2="8"
+              y2="62"
+              stroke="#241b3f"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
 
-          <path
-            d="M 1220 255 C 1270 350, 1205 410, 1205 565"
-            fill="none"
-            stroke="white"
-            strokeWidth="15"
-            strokeLinecap="round"
-          />
+            {/* Sign */}
+            <rect
+              x="10"
+              y="0"
+              width="82"
+              height="36"
+              rx="9"
+              fill="#ffd95d"
+              stroke="#241b3f"
+              strokeWidth="2"
+            />
+
+            <text x="51" y="23" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7654ad">
+              {tr("Maali")}
+            </text>
+          </g>
         </svg>
 
-        {questions.map((question) => (
-          <div
-            key={question.id}
-            className={`
-              absolute
-              z-20
-              flex
-              flex-col
-              overflow-hidden
-              rounded-[26px]
-              border-2
-              border-black
-              bg-[#fffefa]
-              px-5
-              pb-4
-              pt-4
-              shadow-[0_7px_0_rgba(68,42,105,0.22)]
-              transition-all
-              duration-200
+        {/* =========================
+            QUESTION BOXES
+        ========================== */}
 
-              hover:-translate-y-1
-              hover:shadow-[0_9px_0_rgba(68,42,105,0.22)]
+        {SCREEN_14_QUESTIONS.map((question, index) => {
+          const box = SCREEN_14_BOXES[index];
 
-              focus-within:ring-[3px]
-              focus-within:ring-[#ffd143]/70
+          if (!box) {
+            return null;
+          }
 
-              [&_label]:hidden
+          const left = ((box.cx - box.w / 2) / CANVAS_WIDTH) * 100;
 
-              [&_div]:min-h-0
-              [&_div]:border-0
-              [&_div]:bg-transparent
-              [&_div]:p-0
-              [&_div]:shadow-none
+          const top = ((box.cy - box.h / 2) / CANVAS_HEIGHT) * 100;
 
-              [&_textarea]:h-full
-              [&_textarea]:min-h-0
-              [&_textarea]:w-full
-              [&_textarea]:resize-none
-              [&_textarea]:rounded-none
-              [&_textarea]:border-0
-              [&_textarea]:bg-transparent
-              [&_textarea]:px-2
-              [&_textarea]:py-2
-              [&_textarea]:text-[15px]
-              [&_textarea]:font-normal
-              [&_textarea]:leading-[30px]
-              [&_textarea]:text-[#241b3f]
-              [&_textarea]:outline-none
-              [&_textarea]:shadow-none
-              [&_textarea]:ring-0
+          const width = (box.w / CANVAS_WIDTH) * 100;
 
-              [&_textarea:focus]:border-0
-              [&_textarea:focus]:outline-none
-              [&_textarea:focus]:ring-0
+          const height = (box.h / CANVAS_HEIGHT) * 100;
 
-              [&_textarea]:placeholder:text-[#aaa1b5]
+          return (
+            <section
+              key={question.id}
+              className="
+                absolute
+                z-20
+                flex
+                min-w-0
+                flex-col
+                overflow-hidden
+                bg-[#f8f6f1]
+                px-4
+                pb-4
+                pt-3
+                text-black
+                transition-transform
+                duration-200
 
-              ${question.position}
-            `}
-          >
-            <p className="relative z-10 shrink-0 text-center font-display text-[16px] font-semibold leading-[1.18] text-[#7654ad]">
-              {question.id}. {tr(question.text)}
-            </p>
+                hover:z-30
+                hover:-translate-y-1
 
-            <div className="relative mt-3 min-h-0 flex-1 [&>div]:h-full">
-              <div
-                aria-hidden="true"
+                focus-within:z-30
+              "
+              style={{
+                left: `${left}%`,
+                top: `${top}%`,
+                width: `${width}%`,
+                height: `${height}%`,
+
+                minWidth: "0",
+                minHeight: "0",
+
+                border: "4px solid #111",
+
+                borderRadius: index % 2 === 0 ? "28px 24px 30px 25px" : "24px 29px 24px 30px",
+
+                boxShadow: "4px 5px 0 rgba(0,0,0,0.10)",
+
+                transform: `rotate(${
+                  index % 3 === 0 ? "-0.45deg" : index % 3 === 1 ? "0.35deg" : "-0.15deg"
+                })`,
+              }}
+            >
+              {/* =========================
+                  QUESTION
+              ========================== */}
+
+              <p
                 className="
-                  pointer-events-none
-                  absolute
-                  inset-0
-                  opacity-60
-                  [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                  mb-2
+                  shrink-0
+                  text-left
+                  font-display
+                  text-[11px]
+                  font-semibold
+                  leading-[1.18]
+                  text-[#6c50a8]
                 "
-              />
+              >
+                {question.id}. {tr(question.text)}
+              </p>
 
-              <div className="relative z-10 h-full">
-                <ReflectionTextarea
-                  fieldKey={`screen_14_tiekartta_${question.id}`}
-                  label=""
-                  rows={4}
-                  onSaveStateChange={onSaveStateChange}
+              {/* =========================
+                  WRITING BOX
+              ========================== */}
+
+              <div
+                className="
+                  relative
+                  mt-1
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[22px]
+                  border-[4px]
+                  border-black
+                  bg-[#f8f6f1]
+
+                  [&_label]:hidden
+
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+
+                  [&_textarea]:relative
+                  [&_textarea]:z-10
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[92px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+
+                  [&_textarea]:rounded-[18px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+
+                  [&_textarea]:px-3
+                  [&_textarea]:py-2
+
+                  [&_textarea]:text-left
+                  [&_textarea]:font-display
+                  [&_textarea]:text-[13px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[28px]
+
+                  [&_textarea]:text-[#241b3f]
+
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+
+                  [&_textarea]:placeholder:text-[#aaa1b5]
+
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                {/* Paper lines */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    z-0
+                    opacity-75
+                    [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_26px,#d9ccef_27px,#d9ccef_29px)]
+                  "
                 />
+
+                {/* Saved textarea */}
+                <div className="relative z-10 h-full">
+                  <ReflectionTextarea
+                    fieldKey={`screen_14_tiekartta_${question.id}`}
+                    label=""
+                    rows={4}
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </section>
+          );
+        })}
       </div>
     </div>
   );
 }
-
 // ----- S15 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
 // FIX: bulletItems giờ là string thuần (không còn JSX fragment), qua tr(); heading cũng qua tr()
 function S15() {
@@ -3075,7 +3393,7 @@ function S15() {
 
   return (
     <div className="relative min-h-[620px] w-full overflow-hidden  px-[8%] pb-10 pt-14 text-white">
-      <div className="relative z-20 max-w-[920px]">
+      <div className="relative z-20 max-w-[820px]">
         <h1 className="font-display text-[42px] font-semibold leading-[1.08]">
           {tr("Voimavarani opiskelijana")} <span className="text-white">1/2</span>
         </h1>
@@ -3084,10 +3402,13 @@ function S15() {
           {tr("Pohdi ja täydennä omien voimavarojesi sydämet")}
         </h2>
 
-        <div className="mt-3 flex max-w-[900px] flex-col gap-7">
+        <div className="mt-3 flex max-w-[800px] flex-col gap-7">
           {bulletItems.map((item, index) => (
             <div key={index} className="grid grid-cols-[12px_minmax(0,1fr)] items-start gap-5">
-              <span className="mt-[12px] h-[8px] w-[8px] rounded-full " />
+              <span
+                aria-hidden="true"
+                className="mt-[13px] h-[10px] w-[10px] rounded-full bg-[#ffd95d]"
+              />
 
               <p className="font-display text-[23px] font-medium leading-[1.42]">{tr(item)}</p>
             </div>
@@ -3102,10 +3423,10 @@ function S15() {
         className="
           pointer-events-none
           absolute
-           right-[-1%]
-          top-[1%]
+          right-[-3%]
+          top-[7%]
           z-10
-          h-[430px]
+          h-[390px]
           w-auto
           object-contain
         "
@@ -3118,7 +3439,7 @@ function S15() {
 // FIX: heading "Voimavarani opiskelijana 2/2" và "Merkitse vahvuutesi" giờ qua tr()
 export function S16({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const [scores, setScores] = useState<Record<string, number | null>>({});
+  const [scores, setScores] = useState<Record<string, number[]>>({});
 
   const groups = [
     {
@@ -3154,7 +3475,9 @@ export function S16({ onSaveStateChange }: Props) {
   const selectScore = (fieldKey: string, score: number) => {
     setScores((current) => ({
       ...current,
-      [fieldKey]: current[fieldKey] === score ? null : score,
+      [fieldKey]: current[fieldKey]?.includes(score)
+        ? current[fieldKey].filter((selectedScore) => selectedScore !== score)
+        : [...(current[fieldKey] ?? []), score],
     }));
   };
 
@@ -3182,7 +3505,7 @@ export function S16({ onSaveStateChange }: Props) {
 
         <div className="mt-8 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
           {groups.map((group) => {
-            const selectedScore = scores[group.fieldKey] ?? null;
+            const selectedScores = scores[group.fieldKey] ?? [];
 
             return (
               <div
@@ -3326,7 +3649,7 @@ export function S16({ onSaveStateChange }: Props) {
                         "
                       >
                         {[1, 2, 3, 4].map((score) => {
-                          const isSelected = selectedScore === score;
+                          const isSelected = selectedScores.includes(score);
 
                           return (
                             <button
@@ -3914,6 +4237,15 @@ function S18({ onSaveStateChange }: Props) {
 // FIX: 3 đoạn <p> giờ qua tr()
 function S19() {
   const tr = useTr();
+  const { language } = useLanguage();
+
+  const illustrationSrc =
+    language === "en"
+      ? "/illustrations/s19-karin-poster-en.png"
+      : language === "sv"
+        ? "/illustrations/s19-karin-poster-sv.png"
+        : "/illustrations/s19-karin-poster.png";
+
   return (
     <div
       className="
@@ -3921,112 +4253,116 @@ function S19() {
         h-full
         min-h-0
         w-full
-        overflow-hidden
+        overflow-x-hidden
+        overflow-y-auto
+        px-[5%]
+        pb-28
+        pt-8
         text-white
+        [scrollbar-gutter:stable]
       "
     >
       <div
         className="
-          relative
           mx-auto
-          h-full
-          min-h-0
+          grid
+          min-h-[760px]
           w-full
-          max-w-[1500px]
-          overflow-hidden
-          px-[7.5%]
-          pb-8
-          pt-8
+          max-w-[1380px]
+          grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]
+          gap-10
+          pb-10
         "
       >
+        {/* =========================
+            LEFT — TEXT
+        ========================== */}
+
         <div
           className="
-            relative
-            z-20
-            grid
-            h-full
-            min-h-0
-            grid-cols-1
-            gap-x-10
-            gap-y-10
-            lg:grid-cols-[46%_54%]
+            min-w-0
+            pb-10
+            pt-6
           "
         >
-          <div className="min-w-0 pt-10 lg:pr-6">
-            <h1
-              className="
-                max-w-[600px]
-                font-display
-                text-[clamp(36px,2.8vw,48px)]
-                font-medium
-                leading-[1.08]
-                tracking-[-0.015em]
-                text-white
-              "
-            >
-              {tr(
-                "Idé: Vahvuusjulisteet – Jokainen opiskelija tekee julisteen itsestään ja ydinvahvuuksistaan – omalla valokuvalla ja viidellä ydinvahvuudella.",
-              )}
-            </h1>
-
-            <div
-              className="
-                mt-9
-                max-w-[565px]
-                space-y-8
-                font-display
-                text-[clamp(18px,1.35vw,23px)]
-                font-semibold
-                leading-[1.42]
-                text-white
-              "
-            >
-              <p>
-                {tr(
-                  "Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.",
-                )}
-              </p>
-
-              <p>
-                {tr(
-                  "Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?",
-                )}
-              </p>
-
-              <p>
-                {tr(
-                  "Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat mukanasi päivittäin lukioon.",
-                )}
-              </p>
-            </div>
-          </div>
+          <h1
+            className="
+              max-w-[700px]
+              font-display
+              text-[clamp(34px,3.1vw,52px)]
+              font-semibold
+              leading-[1.1]
+              tracking-[-0.015em]
+              text-white
+            "
+          >
+            {tr(
+              "Idé: Vahvuusjulisteet – Jokainen opiskelija tekee julisteen itsestään ja ydinvahvuuksistaan – omalla valokuvalla ja viidellä ydinvahvuudella.",
+            )}
+          </h1>
 
           <div
             className="
-              relative
-              min-h-0
-              min-w-0
-              overflow-hidden
+              mt-9
+              max-w-[660px]
+              space-y-8
+              font-display
+              text-[clamp(18px,1.35vw,23px)]
+              font-semibold
+              leading-[1.42]
+              text-white
             "
           >
-            <img
-              src="/illustrations/s19-karin-poster.png"
-              alt={tr("Esimerkki Karin vahvuusjulisteesta")}
-              className="
-    pointer-events-none
-    absolute
-    bottom-[12px]
-    right-[3%]
-    z-20
-    block
-    h-[560px]
-    w-auto
-    max-w-[88%]
-    object-contain
-    object-bottom
-  "
-            />
+            <p>
+              {tr(
+                "Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.",
+              )}
+            </p>
+
+            <p>
+              {tr(
+                "Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?",
+              )}
+            </p>
+
+            <p>
+              {tr(
+                "Miten haluat visualisoida omat vahvuutesi? Ne parhaat puolesi, jotka tulevat mukanasi päivittäin lukioon.",
+              )}
+            </p>
           </div>
+        </div>
+
+        {/* =========================
+            RIGHT — ILLUSTRATION
+        ========================== */}
+
+        <div
+          className="
+            relative
+            flex
+            min-h-[700px]
+            min-w-0
+            items-end
+            justify-center
+            pb-4
+          "
+        >
+          <img
+            src={illustrationSrc}
+            alt={tr("Esimerkki Karin vahvuusjulisteesta")}
+            className="
+              pointer-events-none
+              block
+              h-auto
+              max-h-[680px]
+              w-auto
+              max-w-[100%]
+              select-none
+              object-contain
+              object-bottom
+            "
+          />
         </div>
       </div>
     </div>
@@ -4560,6 +4896,7 @@ function IrregularPaper({
 // ============================================================
 function S21({ onSaveStateChange }: Props) {
   const tr = useTr();
+
   const notes = [
     {
       fieldKey: "screen_21_ylpea",
@@ -4620,6 +4957,9 @@ function S21({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
+        px-[4%]
+        pb-20
+        pt-6
         text-white
         [scrollbar-gutter:stable]
       "
@@ -4628,13 +4968,9 @@ function S21({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[1180px]
+          min-h-[950px]
           w-full
           max-w-[1500px]
-          overflow-hidden
-          px-[5%]
-          pb-28
-          pt-16
         "
       >
         <div
@@ -4654,6 +4990,10 @@ function S21({ onSaveStateChange }: Props) {
             lg:gap-y-20
           "
         >
+          {/* =========================
+              TITLE
+          ========================== */}
+
           <div
             className="
               relative
@@ -4671,8 +5011,25 @@ function S21({ onSaveStateChange }: Props) {
               lg:pt-12
             "
           >
-            {tr("Pohdi onnistumisia ja täytä!")}
+            <h1
+              className="
+                max-w-[340px]
+                font-display
+                text-[clamp(40px,4vw,64px)]
+                font-extrabold
+                leading-[1.02]
+                tracking-[-0.025em]
+                text-[#FFD95D]
+                drop-shadow-[0_5px_0_rgba(59,35,82,0.35)]
+              "
+            >
+              {tr("Pohdi onnistumisia ja täytä!")}
+            </h1>
           </div>
+
+          {/* =========================
+              NOTES
+          ========================== */}
 
           {notes.map((note) => (
             <IrregularPaper
@@ -4789,6 +5146,7 @@ function S21({ onSaveStateChange }: Props) {
             </IrregularPaper>
           ))}
 
+          {/* EMPTY CELL */}
           <div
             aria-hidden="true"
             className="
@@ -5121,6 +5479,7 @@ function S22({ onSaveStateChange }: Props) {
 // FIX: đoạn intro giờ qua tr()
 function S23({ onSaveStateChange }: Props) {
   const tr = useTr();
+
   const questions = [
     {
       fieldKey: "screen_23_innostus",
@@ -5173,7 +5532,6 @@ function S23({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
-      
         text-white
         [scrollbar-gutter:stable]
       "
@@ -5192,7 +5550,8 @@ function S23({ onSaveStateChange }: Props) {
         "
       >
         <div className="relative z-20">
-          <div className="pr-[18%]">
+          {/* HEADER */}
+          <div className="pr-[24%]">
             <h1
               className="
                 font-display
@@ -5209,7 +5568,7 @@ function S23({ onSaveStateChange }: Props) {
 
             <p
               className="
-                mt-7
+                mt-6
                 max-w-[1050px]
                 text-[clamp(17px,1.35vw,23px)]
                 font-semibold
@@ -5223,30 +5582,33 @@ function S23({ onSaveStateChange }: Props) {
             </p>
           </div>
 
+          {/* ILLUSTRATION */}
           <img
             src="/illustrations/s23-candy-banana-shoe.png"
             alt=""
             aria-hidden="true"
             className="
-    pointer-events-none
-    absolute
-    right-[1%]
-    top-[-30px]
-    z-20
-    h-[230px]
-    w-auto
-    max-w-none
-    object-contain
-  "
+              pointer-events-none
+              absolute
+              right-[-1%]
+              top-[-55px]
+              z-30
+              h-[320px]
+              w-auto
+              max-w-[30%]
+              object-contain
+              drop-shadow-[0_10px_0_rgba(59,35,82,0.18)]
+            "
           />
 
+          {/* QUESTIONS */}
           <div
             className="
-              mt-12
+              mt-14
               grid
               grid-cols-1
               gap-x-12
-              gap-y-10
+              gap-y-8
               lg:grid-cols-2
             "
           >
@@ -5257,19 +5619,20 @@ function S23({ onSaveStateChange }: Props) {
                   min-w-0
                 "
               >
+                {/* QUESTION */}
                 <div
                   className="
                     grid
-                    min-h-[64px]
+                    min-h-[40px]
                     grid-cols-[10px_minmax(0,1fr)]
                     items-start
-                    gap-x-5
+                    gap-x-4
                   "
                 >
                   <span
                     aria-hidden="true"
                     className="
-                      mt-[11px]
+                      mt-[9px]
                       h-[8px]
                       w-[8px]
                       rounded-full
@@ -5281,7 +5644,7 @@ function S23({ onSaveStateChange }: Props) {
                     className="
                       text-[clamp(18px,1.4vw,24px)]
                       font-medium
-                      leading-[1.35]
+                      leading-[1.28]
                       text-white
                     "
                   >
@@ -5289,16 +5652,17 @@ function S23({ onSaveStateChange }: Props) {
                   </h2>
                 </div>
 
+                {/* ANSWER BOX */}
                 <div
                   className="
                     relative
-                    mt-4
+                    mt-2
                     min-h-[205px]
                     w-full
                     overflow-hidden
+                    rounded-[18px]
                     border-2
                     border-black
-                    rounded-[18px]
                     bg-[#fffefa]
                     shadow-[0_6px_0_rgba(68,42,105,0.18)]
 
@@ -5729,6 +6093,7 @@ const LIKERT_STATEMENTS = [
 // ============================================================
 // Likert helper restyled for S26
 // ============================================================
+
 function LikertRow({
   fieldKey,
   index,
@@ -5743,13 +6108,19 @@ function LikertRow({
   onValue?: (n: number) => void;
 }) {
   const tr = useTr();
+
   const [value, setValue] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
+
   const report = useReportCompletion();
 
   useEffect(() => {
+    let cancelled = false;
+
     (async () => {
-      const savedValue = await loadResponse<number>(fieldKey);
+      const savedValue = await loadResponse(fieldKey);
+
+      if (cancelled) return;
 
       if (typeof savedValue === "number") {
         setValue(savedValue);
@@ -5757,6 +6128,10 @@ function LikertRow({
 
       setLoaded(true);
     })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [fieldKey]);
 
   const state = useAutosave(fieldKey, value, {
@@ -5780,25 +6155,38 @@ function LikertRow({
   return (
     <div
       className="
-        grid
-        min-h-[52px]
-        grid-cols-[minmax(0,1fr)_auto]
+        flex
+        min-h-[62px]
+        w-full
         items-center
-        gap-x-8
-        rounded-[14px]
-        px-3
-        py-2
-        text-[clamp(15px,1.15vw,19px)]
-        leading-[1.35]
-        transition-colors
-        hover:bg-white/5
+        justify-between
+        gap-5
+        rounded-[16px]
+        border-2
+        border-black
+        bg-white/10
+        px-5
+        py-3
+        text-white
       "
     >
-      <div className="min-w-0 pr-4 text-white">
-        <span className="mr-1 font-medium">{index + 1}.</span>
-        <span>{tr(label)}</span>
+      {/* STATEMENT */}
+      <div
+        className="
+          min-w-0
+          flex-1
+          text-[clamp(14px,1.1vw,18px)]
+          font-medium
+          leading-[1.35]
+          text-white
+        "
+      >
+        <span className="mr-2 font-semibold text-[#ffd95d]">{index + 1}.</span>
+
+        {tr(label)}
       </div>
 
+      {/* 1–5 */}
       <div className="flex shrink-0 items-center gap-2">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -5821,8 +6209,16 @@ function LikertRow({
                 duration-150
               `,
               value === n
-                ? "bg-white text-[#7654ad] shadow-[0_3px_0_rgba(42,24,74,0.32)]"
-                : "bg-white/15 text-white hover:bg-white/25",
+                ? `
+                    bg-white
+                    text-[#7654ad]
+                    shadow-[0_3px_0_rgba(42,24,74,0.32)]
+                  `
+                : `
+                    bg-white/15
+                    text-white
+                    hover:bg-white/25
+                  `,
             )}
             aria-label={`${n}/5`}
             aria-pressed={value === n}
@@ -5838,9 +6234,10 @@ function LikertRow({
 // ============================================================
 // S26 — PDF page 33: Omien vahvuuksien käyttö
 // ============================================================
-// FIX: đoạn giải thích, chú thích thang điểm, "Vastaa kyselyyn.", "Laske yhteen pisteesi:" giờ qua tr()
+
 function S26({ onSaveStateChange }: Props) {
   const tr = useTr();
+
   const [scores, setScores] = useState<Record<number, number>>({});
 
   const sum = Object.values(scores).reduce((total, currentValue) => total + currentValue, 0);
@@ -5862,183 +6259,206 @@ function S26({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[1220px]
+          min-h-[1100px]
           w-full
           max-w-[1500px]
-          px-[7%]
+          px-[8%]
           pb-28
           pt-14
         "
       >
-        <div
-          className="
-            relative
-            z-10
-            mx-auto
-            w-full
-            max-w-[1320px]
-            pb-12
-          "
-        >
+        {/* ========================================
+            TITLE
+        ========================================= */}
+
+        <div className="max-w-[1180px]">
           <h1
             className="
               font-display
-              text-[clamp(38px,3vw,54px)]
+              text-[clamp(34px,3vw,50px)]
               font-semibold
-              leading-[1.05]
+              leading-[1.08]
+              tracking-[-0.015em]
               text-[#ffd95d]
             "
           >
-            {tr(
-              "Omien vahvuuksien käyttäminen – asteikko (Govindji & Linley, 2007) – Vastaa seuraavaan asteikolla 1 (täysin eri mieltä) – 5 (täysin samaa mieltä).",
-            )}
+            {tr("Omien vahvuuksien käyttäminen")}
           </h1>
 
-          <p className="mt-3 text-[16px] text-white/85">Govindji and Linley (2007)</p>
-
-          <p
+          <h2
             className="
-              mt-6
-              max-w-[1120px]
-              text-[clamp(16px,1.3vw,21px)]
-              leading-[1.45]
+              mt-3
+              max-w-[1100px]
+              font-display
+              text-[clamp(17px,1.4vw,23px)]
+              font-semibold
+              leading-[1.35]
               text-white
             "
           >
             {tr(
-              "Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan mittariin vahvuuksien käytöstä.",
+              "Asteikko (Govindji & Linley, 2007) – Vastaa seuraavaan asteikolla 1 (täysin eri mieltä) – 5 (täysin samaa mieltä).",
             )}
-          </p>
+          </h2>
+        </div>
+
+        {/* ========================================
+            DESCRIPTION
+        ========================================= */}
+
+        <p
+          className="
+            mt-6
+            max-w-[1120px]
+            text-[clamp(16px,1.3vw,21px)]
+            leading-[1.45]
+            text-white
+          "
+        >
+          {tr(
+            "Asteikolla 1 täysin eri mieltä, 2.. 3.. 4.. ja 5 täysin samaa mieltä, vastaa seuraavaan mittariin vahvuuksien käytöstä.",
+          )}
+        </p>
+
+        {/* ========================================
+            SCALE EXPLANATION
+        ========================================= */}
+
+        <div
+          className="
+            mt-7
+            flex
+            flex-wrap
+            items-center
+            gap-x-8
+            gap-y-3
+            rounded-[16px]
+            border-2
+            border-black
+            bg-white/10
+            px-5
+            py-4
+            text-[14px]
+            text-white
+          "
+        >
+          <span>
+            <strong>1</strong> = {tr("täysin eri mieltä")}
+          </span>
+
+          <span>
+            <strong>2</strong> = {tr("eri mieltä")}
+          </span>
+
+          <span>
+            <strong>3</strong> = {tr("ei samaa eikä eri mieltä")}
+          </span>
+
+          <span>
+            <strong>4</strong> = {tr("samaa mieltä")}
+          </span>
+
+          <span>
+            <strong>5</strong> = {tr("täysin samaa mieltä")}
+          </span>
+        </div>
+
+        {/* ========================================
+            LIKERT QUESTIONS
+        ========================================= */}
+
+        <div
+          className="
+            mt-8
+            grid
+            gap-y-3
+          "
+        >
+          {LIKERT_STATEMENTS.map((statement, index) => (
+            <LikertRow
+              key={statement}
+              fieldKey={`screen_26_likert_${index + 1}`}
+              index={index}
+              label={statement}
+              onSaveStateChange={onSaveStateChange}
+              onValue={(value) =>
+                setScores((current) => ({
+                  ...current,
+                  [index]: value,
+                }))
+              }
+            />
+          ))}
+        </div>
+
+        {/* ========================================
+            TOTAL
+        ========================================= */}
+
+        <div
+          className="
+            ml-auto
+            mt-12
+            flex
+            w-fit
+            max-w-full
+            items-center
+            gap-5
+            rounded-[20px]
+            border-2
+            border-black
+            bg-white/10
+            px-7
+            py-5
+            text-white
+          "
+        >
+          <span
+            aria-hidden="true"
+            className="
+              font-display
+              text-[64px]
+              font-semibold
+              leading-[1.12]
+              text-[#ffd95d]
+            "
+          >
+            ›
+          </span>
 
           <div
             className="
-              mt-7
-              flex
-              flex-wrap
-              items-center
-              gap-x-8
-              gap-y-3
-              border-2
-              border-black
-              rounded-[16px]
-              bg-white/10
-              px-5
-              py-4
-              text-[14px]
-              text-white
+              text-[clamp(18px,1.4vw,24px)]
+              font-semibold
+              leading-[1.4]
             "
           >
-            <span>
-              <strong>1</strong> = {tr("täysin eri mieltä")}
-            </span>
+            <p>{tr("Vastaa kyselyyn.")}</p>
 
-            <span>
-              <strong>2</strong> = {tr("eri mieltä")}
-            </span>
-
-            <span>
-              <strong>3</strong> = {tr("ei samaa eikä eri mieltä")}
-            </span>
-
-            <span>
-              <strong>4</strong> = {tr("samaa mieltä")}
-            </span>
-
-            <span>
-              <strong>5</strong> = {tr("täysin samaa mieltä")}
-            </span>
-          </div>
-
-          <div
-            className="
-              mt-8
-              grid
-              gap-y-3
-            "
-          >
-            {LIKERT_STATEMENTS.map((statement, index) => (
-              <LikertRow
-                key={tr(statement)}
-                fieldKey={`screen_26_likert_${index + 1}`}
-                index={index}
-                label={tr(statement)}
-                onSaveStateChange={onSaveStateChange}
-                onValue={(value) =>
-                  setScores((current) => ({
-                    ...current,
-                    [index]: value,
-                  }))
-                }
-              />
-            ))}
-          </div>
-
-          <div
-            className="
-              mt-12
-              ml-auto
-              flex
-              w-fit
-              max-w-full
-              items-center
-              gap-5
-              border-2
-              border-black
-              rounded-[20px]
-              bg-white/10
-              px-7
-              py-5
-              text-white
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="
-                font-display
-                text-[64px]
-                font-semibold
-                leading-[1.12]
-                text-[#ffd95d]
-              "
-            >
-              ›
-            </span>
-
-            <div
-              className="
-                text-[clamp(18px,1.4vw,24px)]
-                font-semibold
-                leading-[1.4]
-              "
-            >
-              <p>{tr("Vastaa kyselyyn.")}</p>
-
-              <p className="mt-1">
-                {tr("Laske yhteen pisteesi:")}{" "}
-                <span
-                  className="
-                    ml-2
-                    inline-flex
-                    min-w-[88px]
-                    items-center
-                    justify-center
-                    border-b-2
-                    border-[#ffd95d]
-                    px-3
-                    text-[#ffd95d]
-                  "
-                >
-                  {sum || ""}
-                </span>
-              </p>
-            </div>
+            <p className="mt-1">
+              {tr("Laske yhteen pisteesi:")}{" "}
+              <span
+                className="
+                  ml-2
+                  inline-flex
+                  min-w-[88px]
+                  items-center
+                  justify-center
+                  border-b-2
+                  border-[#ffd95d]
+                  px-3
+                  text-[#ffd95d]
+                "
+              >
+                {sum || ""}
+              </span>
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 // ============================================================
 // M2Intro — Module 2 title card
 // ============================================================
@@ -6047,13 +6467,11 @@ function M2Intro() {
   const tr = useTr();
   return (
     <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
-      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white">
-        <span className="font-display text-[20px] font-semibold">{tr("Tasot 2")}</span>
-      </div>
+      <div className="absolute right-[4%] top-0 rounded-b-[12px] border-2 border-t-0 border-black bg-[#7654ad] px-5 py-3 text-white"></div>
 
       <div className="absolute inset-0 flex items-center justify-center px-8">
         <h1 className="text-center font-display text-[clamp(48px,5vw,78px)] font-semibold leading-[1.08] tracking-[-0.02em]">
-          {trLines(tr, "2. Omat vahvuudet\nlukiossa")}
+          {trLines(tr, "2. Omat vahvuudet lukiossa")}
         </h1>
       </div>
     </div>
@@ -6104,6 +6522,62 @@ function S28() {
 // ============================================================
 // FIX: "Valitse 1–2 vahvuuskarkkia ja" / "Kirjoita vahvuudet tähän" / "Pohdi, mitä teit, koit ja opit."
 // / "Täydennä oheinen tehtävä." giờ đều qua tr()
+function VahvuuskarkkiOverlayInput({
+  fieldKey,
+  onSaveStateChange,
+}: {
+  fieldKey: string;
+  onSaveStateChange?: (s: SaveState) => void;
+}) {
+  return (
+    <div
+      className="
+        h-full
+        w-full
+        overflow-hidden
+        rounded-[18px]
+
+        [&_label]:hidden
+
+        [&>div]:h-full
+        [&>div]:min-h-0
+
+        [&_div]:h-full
+        [&_div]:border-0
+        [&_div]:bg-transparent
+        [&_div]:p-0
+        [&_div]:shadow-none
+
+        [&_textarea]:h-full
+        [&_textarea]:min-h-0
+        [&_textarea]:w-full
+        [&_textarea]:resize-none
+        [&_textarea]:rounded-[18px]
+        [&_textarea]:border-0
+        [&_textarea]:bg-transparent
+        [&_textarea]:px-4
+        [&_textarea]:py-3
+        [&_textarea]:text-[15px]
+        [&_textarea]:leading-[1.45]
+        [&_textarea]:text-[#241b3f]
+        [&_textarea]:outline-none
+        [&_textarea]:shadow-none
+        [&_textarea]:ring-0
+
+        [&_textarea:focus]:outline-none
+        [&_textarea:focus]:ring-0
+      "
+    >
+      <FlatReflectionTextarea
+        fieldKey={fieldKey}
+        rows={4}
+        minHeight={0}
+        onSaveStateChange={onSaveStateChange}
+      />
+    </div>
+  );
+}
+
 function VahvuuskarkkiSheet({
   title,
   context,
@@ -6116,44 +6590,94 @@ function VahvuuskarkkiSheet({
   onSaveStateChange?: (s: SaveState) => void;
 }) {
   const tr = useTr();
-  const fields = [
-    {
-      key: `${fieldPrefix}_opit`,
-      label: "3. Mitä opit?",
-      className: "left-[50%] top-[9%] h-[145px] w-[30%]",
-    },
-    {
-      key: `${fieldPrefix}_seuraavaksi`,
-      label: "2. Mitä tapahtui seuraavaksi?",
-      className: "left-[44%] top-[38%] h-[145px] w-[22%]",
-    },
-    {
-      key: `${fieldPrefix}_hyodynnat`,
-      label: "4. Miten hyödynnät oppimaasi?",
-      className: "left-[68%] top-[38%] h-[145px] w-[22%]",
-    },
-    {
-      key: `${fieldPrefix}_teit`,
-      label: "1. Mitä teit?",
-      className: "left-[50%] top-[69%] h-[145px] w-[30%]",
-    },
-  ];
 
   return (
-    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
-      <div className="relative mx-auto min-h-[760px] w-full max-w-[1500px] overflow-hidden px-[8%] pb-20 pt-14">
-        <div className="relative z-20 w-[34%] pt-8">
-          <h1 className="font-display text-[clamp(38px,3.1vw,54px)] font-semibold leading-[1.12]">
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[5%]
+        pb-24
+        pt-8
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          grid
+          min-h-[780px]
+          w-full
+          max-w-[1450px]
+          grid-cols-[42%_58%]
+          gap-8
+        "
+      >
+        {/* =========================
+            LEFT SIDE
+        ========================== */}
+
+        <div className="relative min-w-0 pt-6">
+          <h1
+            className="
+              max-w-[520px]
+              font-display
+              text-[clamp(36px,3.2vw,54px)]
+              font-semibold
+              leading-[1.05]
+              text-white
+            "
+          >
             {tr(title)}
           </h1>
-          <p className="mt-10 max-w-[420px] text-[clamp(21px,1.8vw,30px)] font-semibold leading-[1.28] text-white">
-            {tr("Valitse 1–2 vahvuuskarkkia ja")}{" "}
-            <span className="bg-[#c9e2ff] px-1">{tr("hyödynnä")}</span> {tr(context)}.
-            <br />
+
+          <p
+            className="
+              mt-10
+              max-w-[430px]
+              font-display
+              text-[clamp(20px,1.55vw,27px)]
+              font-semibold
+              leading-[1.25]
+              text-[#7654ad]
+            "
+          >
+            {tr("Valitse 1–2 vahvuuskarkkia ja")} {tr("hyödynnä")} {tr(context)}.
+          </p>
+
+          <p
+            className="
+              mt-2
+              font-display
+              text-[clamp(18px,1.4vw,24px)]
+              font-semibold
+              text-[#7654ad]
+            "
+          >
             {tr("Kirjoita vahvuudet tähän")}
           </p>
 
-          <div className="mt-7 max-w-[390px] [&_label]:hidden [&_input]:border-0 [&_input]:border-b-2 [&_input]:border-black [&_input]:bg-transparent [&_input]:text-[18px] [&_input]:outline-none">
+          <div
+            className="
+              mt-7
+              max-w-[390px]
+
+              [&_label]:hidden
+
+              [&_input]:border-0
+              [&_input]:border-b-2
+              [&_input]:border-black
+              [&_input]:bg-transparent
+              [&_input]:text-[18px]
+              [&_input]:outline-none
+            "
+          >
             <ReflectionInput
               fieldKey={`${fieldPrefix}_karkit`}
               prefix=""
@@ -6162,70 +6686,222 @@ function VahvuuskarkkiSheet({
             />
           </div>
 
-          <p className="mt-24 text-[clamp(19px,1.6vw,26px)] font-semibold leading-[1.35] text-white">
+          <p
+            className="
+              mt-24
+              max-w-[440px]
+              font-display
+              text-[clamp(19px,1.6vw,26px)]
+              font-semibold
+              leading-[1.35]
+              text-[#7654ad]
+            "
+          >
             {tr("Pohdi, mitä teit, koit ja opit.")}
           </p>
-          <div className="mt-8 grid grid-cols-[10px_minmax(0,1fr)] gap-x-4">
-            <span className="mt-[10px] h-[8px] w-[8px] rounded-full bg-[#ffc936]" />
-            <p className="text-[clamp(18px,1.45vw,24px)]">{tr("Täydennä oheinen tehtävä.")}</p>
+
+          <div
+            className="
+              mt-8
+              grid
+              max-w-[460px]
+              grid-cols-[10px_minmax(0,1fr)]
+              gap-x-4
+            "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                mt-[10px]
+                h-[8px]
+                w-[8px]
+                rounded-full
+                bg-[#ffc936]
+              "
+            />
+
+            <p
+              className="
+                text-[clamp(18px,1.45vw,24px)]
+                leading-[1.35]
+                text-black
+              "
+            >
+              {tr("Täydennä oheinen tehtävä.")}
+            </p>
           </div>
 
           <img
             src="/illustrations/s29-candy-collage.png"
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-[-40px] left-[-10%] h-[250px] w-auto object-contain"
+            className="
+              pointer-events-none
+              absolute
+              bottom-[-10px]
+              left-[-8%]
+              h-[250px]
+              w-auto
+              object-contain
+              select-none
+            "
           />
         </div>
 
-        <div className="absolute right-[8%] top-[11%] z-20 h-[650px] w-[47%] rounded-[34px] border-2 border-black bg-[#ef6f70] shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
-          <div className="absolute left-[28%] top-[-38px] rounded-t-[14px] border-2 border-b-0 border-black bg-[#acd9b1] px-16 py-2 font-display text-[16px] font-semibold uppercase text-black">
-            {tr(context)}
-          </div>
+        {/* =========================
+            RIGHT SIDE
+        ========================== */}
 
-          {fields.map((field) => (
-            <div key={field.key} className={cn("absolute", field.className)}>
-              <div className="h-full overflow-hidden rounded-[18px] border-2 border-black bg-white">
-                <FlatReflectionTextarea
-                  fieldKey={field.key}
-                  rows={4}
-                  minHeight={115}
-                  onSaveStateChange={onSaveStateChange}
-                />
-              </div>
-              <p className="mt-2 text-center font-display text-[18px] font-semibold leading-[1.2] text-white">
-                {tr(field.label)}
-              </p>
+        <div
+          className="
+            relative
+            flex
+            min-h-[760px]
+            min-w-0
+            items-start
+            justify-center
+          "
+        >
+          {/* 
+            IMPORTANT:
+            Illustration + inputs share this exact same box.
+            This keeps all 4 textareas aligned.
+          */}
+          <div
+            className="
+              relative
+              h-[700px]
+              w-[560px]
+              max-w-full
+              shrink-0
+            "
+          >
+            {/* ILLUSTRATION */}
+            <img
+              src="/illustrations/s29-lukiossa-sheet.png"
+              alt=""
+              aria-hidden="true"
+              className="
+                pointer-events-none
+                absolute
+                inset-0
+                z-0
+                h-full
+                w-full
+                object-fill
+                select-none
+              "
+            />
+
+            {/*
+              FIX: Tọa độ 4 ô bên dưới được đo TRỰC TIẾP từ file ảnh gốc
+              s29-lukiossa-sheet.png (1024x1024px, 4 vùng trong suốt được
+              "khoét lỗ" sẵn trong ảnh — không phải màu trắng). Vì <img>
+              dùng object-fill nên % tính trên đúng kích thước ảnh gốc,
+              khớp 1:1 với khung trong ảnh dù container co giãn thế nào.
+            */}
+
+            {/* =========================
+                TOP BOX — 3. MITÄ OPIT?
+                đo được: x 260–772, y 134–328 / 1024
+            ========================== */}
+
+            <div
+              className="
+                absolute
+                left-[25.39%]
+                top-[13.09%]
+                z-20
+                h-[18.95%]
+                w-[50%]
+              "
+            >
+              <VahvuuskarkkiOverlayInput
+                fieldKey={`${fieldPrefix}_opit`}
+                onSaveStateChange={onSaveStateChange}
+              />
             </div>
-          ))}
 
-          <div className="pointer-events-none absolute inset-0 text-white">
-            <span className="absolute bottom-[13%] left-[8%] text-[70px]">↖</span>
-            <span className="absolute right-[7%] top-[27%] text-[70px]">↘</span>
-            <span className="absolute bottom-[15%] right-[8%] text-[70px]">↙</span>
+            {/* =========================
+                MIDDLE LEFT — 2
+                đo được: x 151–495, y 406–597 / 1024
+            ========================== */}
+
+            <div
+              className="
+                absolute
+                left-[14.75%]
+                top-[39.65%]
+                z-20
+                h-[18.65%]
+                w-[33.59%]
+              "
+            >
+              <VahvuuskarkkiOverlayInput
+                fieldKey={`${fieldPrefix}_seuraavaksi`}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+
+            {/* =========================
+                MIDDLE RIGHT — 4
+                đo được: x 531–873, y 406–597 / 1024
+            ========================== */}
+
+            <div
+              className="
+                absolute
+                left-[51.86%]
+                top-[39.65%]
+                z-20
+                h-[18.65%]
+                w-[33.40%]
+              "
+            >
+              <VahvuuskarkkiOverlayInput
+                fieldKey={`${fieldPrefix}_hyodynnat`}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+
+            {/* =========================
+                BOTTOM BOX — 1. MITÄ TEIT?
+                đo được: x 253–770, y 714–878 / 1024
+            ========================== */}
+
+            <div
+              className="
+                absolute
+                left-[24.71%]
+                top-[69.73%]
+                z-20
+                h-[16.02%]
+                w-[50.49%]
+              "
+            >
+              <VahvuuskarkkiOverlayInput
+                fieldKey={`${fieldPrefix}_teit`}
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
           </div>
         </div>
-
-        <img
-          src="/illustrations/s29-side-candies.png"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[48px] right-[1%] z-10 h-[210px] w-auto object-contain"
-        />
       </div>
     </div>
   );
 }
 
-// FIX: title trước đây bị tr() 2 lần (1 lần ở đây, 1 lần bên trong VahvuuskarkkiSheet).
-// Nay truyền chuỗi Phần Lan gốc, để VahvuuskarkkiSheet tự tr() một lần duy nhất.
+// ============================================================
+// S29
+// ============================================================
+
 function S29(p: Props) {
   return (
     <VahvuuskarkkiSheet
-      title="Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!"
-      context="lukiossa"
+      title="Vahvuuskarkkini"
+      context="opinnoissa"
       fieldPrefix="screen_29"
-      onSaveStateChange={p.onSaveStateChange}
+      {...p}
     />
   );
 }
@@ -7578,7 +8254,7 @@ const REGISTRY: Record<number, (p: Props) => ReactNode> = {
   14: () => <M1Intro />,
   15: (p) => <Karkkikauppa {...p} />,
   16: (p) => <S13 {...p} />,
-  17: (p) => <S14 {...p} />,
+  17: (p) => <S14YdinvahvuuksienTiekartta {...p} />,
   18: () => <S15 />,
   19: (p) => <S16 {...p} />,
   20: (p) => <S17 {...p} />,

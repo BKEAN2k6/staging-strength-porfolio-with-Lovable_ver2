@@ -331,9 +331,9 @@
     "en": "1. Notice the good! Practise recognising positive actions in the people around you. Make noticing goodness a habit.",
     "sv": "1. Se det goda! Öva på att se positiva handlingar hos människorna runt dig. Gör det till en vana att lägga märke till det goda."
   },
-  "2 – Omat vahvuudet lukiossa | Tutustut henkilökohtaisiin vahvuuksiin opiskelijana. Opit kysymään palautetta opettajilta ja opiskelukavereilta. | sivut 34–46": {
-    "en": "2 – My Strengths at School | Explore your personal strengths as a student. Learn to ask for feedback from teachers and classmates. | pages 34–46",
-    "sv": "2 – Mina styrkor i gymnasiet | Utforska dina personliga styrkor som studerande. Lär dig be om feedback från lärare och klasskamrater. | sidor 34–46"
+  "2. Omat vahvuudet lukiossa | Tutustut henkilökohtaisiin vahvuuksiin opiskelijana. Opit kysymään palautetta opettajilta ja opiskelukavereilta. | sivut 34–46": {
+    "en": "2. My Strengths at School | Explore your personal strengths as a student. Learn to ask for feedback from teachers and classmates. | pages 34–46",
+    "sv": "2. Mina styrkor i gymnasiet | Utforska dina personliga styrkor som studerande. Lär dig be om feedback från lärare och klasskamrater. | sidor 34–46"
   },
   "2. Nimeä käytetty vahvuus ja sano palaute ääneen tai liitä viestiin somessa. \"Olit todella rohkea.\" \"Kiitos ystävällisyydestä.\" \"Sinussa on myötätuntoa.\"": {
     "en": "2. Name the strength used and say the feedback aloud – or send it in a message. \"You were really brave.\" \"Thank you for your kindness.\" \"You have compassion in you.\"",
@@ -1635,9 +1635,9 @@
     "en": "My Strengths in Friendships",
     "sv": "Mina styrkor i vänskapsrelationer"
   },
-  "Omat ydinvahvuudet": {
-    "en": "My Core Strengths",
-    "sv": "Mina kärnstyrkor"
+  "1. Omat ydinvahvuudet": {
+    "en": "1. My Core Strengths",
+    "sv": "1. Mina kärnstyrkor"
   },
   "Omien vahvuuksien käyttäminen – asteikko (Govindji & Linley, 2007) – Vastaa seuraavaan asteikolla 1 (täysin eri mieltä) – 5 (täysin samaa mieltä).": {
     "en": "Using My Own Strengths – scale (Govindji & Linley, 2007) – Answer the following on a scale of 1 (strongly disagree) to 5 (strongly agree).",
@@ -2978,6 +2978,10 @@
   "Listaa voimavarasi seuraavan sivun taulukkoon. Merkkaa sydämiin, miten tärkeiksi voimavarasi koet.": {
     "en": "List your resources in the table on the next page. Mark in the hearts how important you feel each resource is.",
     "sv": "Lista dina resurser i tabellen på nästa sida. Markera i hjärtana hur viktiga du upplever att dina resurser är."
+  },
+  "Merkitse\nvahvuutesi": {
+    "en": "Mark\nyour strengths",
+    "sv": "Markera\ndina styrkor"
   },
   "Huomaa hyvä": {
     "en": "Notice the good",
