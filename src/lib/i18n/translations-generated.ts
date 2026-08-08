@@ -3123,6 +3123,10 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
     en: "My resources as a student 2/2",
     sv: "Mina resurser som studerande 2/2",
   },
+  "Merkitse\nvahvuutesi": {
+    en: "Mark\nyour strengths",
+    sv: "Markera\ndina styrkor",
+  },
   "Pohdi ja kirjoita vastaukset": {
     en: "Reflect and write down your answers",
     sv: "Fundera och skriv ner svaren",
