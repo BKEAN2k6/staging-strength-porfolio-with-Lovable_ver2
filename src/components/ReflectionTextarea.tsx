@@ -30,7 +30,9 @@ export function ReflectionTextarea({
   }, [fieldKey]);
 
   const state = useAutosave(fieldKey, value, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -91,7 +93,9 @@ export function ReflectionInput({
     })();
   }, [fieldKey]);
   const state = useAutosave(fieldKey, value, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
   useEffect(() => {
     if (!loaded) return;
     report(fieldKey, value.trim().length > 0);

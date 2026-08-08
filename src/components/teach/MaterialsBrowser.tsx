@@ -28,10 +28,7 @@ export function MaterialsBrowser({
     loading,
   } = useTeachingMaterials();
 
-  const categories = useMemo(
-    () => allCategories.filter((c) => c.is_published),
-    [allCategories],
-  );
+  const categories = useMemo(() => allCategories.filter((c) => c.is_published), [allCategories]);
 
   /** Legacy rows may still carry only a subcategory — resolve their parent. */
   const parentOfSub = useMemo(() => {
@@ -47,7 +44,7 @@ export function MaterialsBrowser({
       .map((a) => ({
         ...a,
         category_id:
-          a.category_id ?? (a.subcategory_id ? parentOfSub.get(a.subcategory_id) ?? null : null),
+          a.category_id ?? (a.subcategory_id ? (parentOfSub.get(a.subcategory_id) ?? null) : null),
       }))
       .filter((a) => a.category_id && ok.has(a.category_id));
   }, [allArticles, categories, parentOfSub]);
@@ -83,8 +80,7 @@ export function MaterialsBrowser({
       },
     },
   ];
-  if (category)
-    crumbs.push({ label: strengthName, onClick: () => setArticleId(null) });
+  if (category) crumbs.push({ label: strengthName, onClick: () => setArticleId(null) });
   if (article) crumbs.push({ label: pickLang(article as never, "title", lang) });
 
   if (loading) return <p className="opacity-70">…</p>;

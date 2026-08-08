@@ -36,7 +36,10 @@ export default defineTool({
       };
     }
     const [{ data: profiles }, { data: responses }] = await Promise.all([
-      supabase.from("profiles").select("id, display_name, current_screen, updated_at").in("id", ids),
+      supabase
+        .from("profiles")
+        .select("id, display_name, current_screen, updated_at")
+        .in("id", ids),
       supabase.from("responses").select("user_id").in("user_id", ids),
     ]);
     const counts = new Map<string, number>();

@@ -16,9 +16,15 @@ export const Route = createFileRoute("/_authenticated/student/strengths")({
   head: () => ({
     meta: [
       { title: "Vahvuuteni — Vahvuusseikkailu" },
-      { name: "description", content: "Katso valitsemasi, keräämäsi ja opettajilta saamasi vahvuudet." },
+      {
+        name: "description",
+        content: "Katso valitsemasi, keräämäsi ja opettajilta saamasi vahvuudet.",
+      },
       { property: "og:title", content: "Vahvuuteni — Vahvuusseikkailu" },
-      { property: "og:description", content: "Katso valitsemasi, keräämäsi ja opettajilta saamasi vahvuudet." },
+      {
+        property: "og:description",
+        content: "Katso valitsemasi, keräämäsi ja opettajilta saamasi vahvuudet.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -113,13 +119,9 @@ function StudentStrengthsPage() {
         {top5.length === 0 ? (
           <p className="text-sm opacity-70">{tr("Et ole vielä kerännyt vahvuuksia.")}</p>
         ) : (
-          <TopStrengthCards
-            items={top5.map((s) => ({ id: s.id, count: s.n }))}
-            lang={lang}
-          />
+          <TopStrengthCards items={top5.map((s) => ({ id: s.id, count: s.n }))} lang={lang} />
         )}
       </StickyNote>
-
 
       {peers && peers.classTop.length > 0 && (
         <StickyNote
@@ -283,4 +285,3 @@ function StudentStrengthsPage() {
     </div>
   );
 }
-

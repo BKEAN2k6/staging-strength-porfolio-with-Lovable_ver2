@@ -14,7 +14,13 @@ export default defineTool({
       .max(64)
       .optional()
       .describe("Optional field_key prefix to filter by, e.g. 's14'."),
-    limit: z.number().int().min(1).max(500).optional().describe("Max rows to return (default 200)."),
+    limit: z
+      .number()
+      .int()
+      .min(1)
+      .max(500)
+      .optional()
+      .describe("Max rows to return (default 200)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ prefix, limit }, ctx: ToolContext) => {

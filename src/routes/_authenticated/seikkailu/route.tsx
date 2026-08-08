@@ -58,7 +58,11 @@ function SeikkailuLayout() {
   }, [navigate, setLanguage]);
 
   if (!ready) {
-    return <div className="flex min-h-screen items-center justify-center text-foreground">{t("common.loading")}</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center text-foreground">
+        {t("common.loading")}
+      </div>
+    );
   }
 
   if (blocked) return <ClassRemovedNotice />;

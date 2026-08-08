@@ -34,7 +34,9 @@ export function SelectableChips({
   }, [fieldKey]);
 
   const state = useAutosave(fieldKey, selected, { enabled: loaded });
-  useEffect(() => { onSaveStateChange?.(state); }, [state, onSaveStateChange]);
+  useEffect(() => {
+    onSaveStateChange?.(state);
+  }, [state, onSaveStateChange]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -64,10 +66,9 @@ export function SelectableChips({
               "candy-chip rounded-full border-2 px-4 py-1.5 text-sm font-semibold",
               active
                 ? "is-active bg-[color:var(--coral)] border-[color:var(--coral)] text-white"
-                : "bg-white text-slate-900 border-white/40 hover:bg-[color:var(--yellow)]/70",
+                : "bg-white text-slate-900 border-black hover:bg-[color:var(--yellow)]/70",
               atMax && "opacity-40 cursor-not-allowed hover:bg-white",
             )}
-
           >
             {labelFor ? labelFor(opt) : tFi(opt)}
           </button>

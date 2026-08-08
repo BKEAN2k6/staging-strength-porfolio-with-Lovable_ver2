@@ -23,7 +23,10 @@ export default defineTool({
     );
     const [profile, responses] = await Promise.all([
       supabase.from("profiles").select("current_screen, updated_at").eq("id", userId).maybeSingle(),
-      supabase.from("responses").select("field_key", { count: "exact", head: true }).eq("user_id", userId),
+      supabase
+        .from("responses")
+        .select("field_key", { count: "exact", head: true })
+        .eq("user_id", userId),
     ]);
     const data = {
       current_screen: profile.data?.current_screen ?? 1,

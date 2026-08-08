@@ -191,7 +191,11 @@ function EditTemplateDialog({
           </div>
           <p className="text-xs opacity-70">
             {tr("Käytettävissä olevat muuttujat")}:{" "}
-            <code>{Object.keys(SAMPLE).map((k) => `{{${k}}}`).join(" ")}</code>
+            <code>
+              {Object.keys(SAMPLE)
+                .map((k) => `{{${k}}}`)
+                .join(" ")}
+            </code>
           </p>
         </div>
 

@@ -14,9 +14,15 @@ type AuthorizationDetails = {
 
 // The supabase.auth.oauth namespace is beta; wrap with a local typed shim.
 type OAuthApi = {
-  getAuthorizationDetails: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
-  approveAuthorization: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
-  denyAuthorization: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  getAuthorizationDetails: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  approveAuthorization: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  denyAuthorization: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
 };
 function oauthApi(): OAuthApi {
   return (supabase.auth as unknown as { oauth: OAuthApi }).oauth;
@@ -83,7 +89,9 @@ function Consent() {
     <main className="relative min-h-screen flex items-center justify-center p-6">
       <CornerBlobs />
       <StickyNote className="max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-2">{tr("Yhdistä {name} tiliisi", { name: clientName })}</h1>
+        <h1 className="text-2xl font-bold mb-2">
+          {tr("Yhdistä {name} tiliisi", { name: clientName })}
+        </h1>
         <p className="mb-4">
           {tr(
             "{name} pyytää lupaa käyttää Huomaa Hyvä -sovellusta sinun nimissäsi. Näkyviin tulevat vain sinun omat tietosi.",
