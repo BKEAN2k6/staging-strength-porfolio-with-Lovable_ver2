@@ -9052,31 +9052,30 @@ function Screen42({ onSaveStateChange }: Props) {
           </div>
         </div>
 
-        {/* Cụm 5 hình illustration – góc dưới-trái, xếp 2 hàng: 2 trên / 3 dưới */}
-        <div className="pointer-events-none absolute bottom-0 left-[-2%] z-10 flex flex-col items-start gap-2 -translate-y-70">
-          {" "}
+        {/* Cụm 5 hình illustration – bên phải, xếp 2 hàng: 2 trên / 3 dưới */}
+        <div className="pointer-events-none absolute right-[1%] top-[315px] z-10 flex w-[760px] max-w-[56vw] flex-col items-end gap-2">
           {/* Hàng trên: 2 hình */}
-          <div className="flex items-end gap-3 pl-10">
+          <div className="flex items-end justify-end gap-3 pr-16">
             {figures.slice(0, 2).map((src, index) => (
               <div key={`${src}-${index}`} className="flex items-end justify-center">
                 <img
                   src={src}
                   alt=""
                   aria-hidden="true"
-                  className="h-[clamp(150px,12vw,190px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
+                  className="h-[clamp(200px,16vw,250px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
                 />
               </div>
             ))}
           </div>
           {/* Hàng dưới: 3 hình */}
-          <div className="flex items-end gap-3">
+          <div className="flex items-end justify-end gap-3">
             {figures.slice(2, 5).map((src, index) => (
               <div key={`${src}-${index + 2}`} className="flex items-end justify-center">
                 <img
                   src={src}
                   alt=""
                   aria-hidden="true"
-                  className="h-[clamp(180px,15vw,230px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
+                  className="h-[clamp(200px,16vw,250px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
                 />
               </div>
             ))}
