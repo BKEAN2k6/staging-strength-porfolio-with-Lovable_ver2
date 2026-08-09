@@ -612,6 +612,8 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
     sv: "Hur påverkade användningen av dina kärnstyrkor dig själv eller andra?",
   },
   "Ydinvahvuuksien tiekartta": { en: "Core Strengths Roadmap", sv: "Kärnstyrkornas vägkarta" },
+  "Aloita tästä": { en: "Start here", sv: "Börja här" },
+  Maali: { en: "Finish", sv: "Mål" },
   "Mikä innostaa sinua?": { en: "What engages and excites you?", sv: "Vad engagerar dig?" },
   "Mikä tuntuu helpolta?": { en: "What feels easy and natural?", sv: "Vad känns lätt att göra?" },
   "Mistä luonteenvahvuuksista saat kehuja ja palautetta toisilta?": {
@@ -943,6 +945,24 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
     en: "Fill in all your special skills in this list. (Numbered fields 1–10)",
     sv: "Fyll i alla dina specialkunskaper i den här listan. (Numrerade ifyllnadsfält 1–10)",
   },
+  "Täytä kaikki erityisosaamisesi tähän listaan. (Täytettävät kohdat 1–5)": {
+    en: "Fill in all your special skills in this list. (Numbered fields 1–5)",
+    sv: "Fyll i alla dina specialkunskaper i den här listan. (Numrerade ifyllnadsfält 1–5)",
+  },
+  "Täytä kaikki erityisosaamisesi tähän listaan.": {
+    en: "Fill in all your special skills in this list.",
+    sv: "Fyll i alla dina specialkunskaper i den här listan.",
+  },
+  "(Täytettävät kohdat 1–5)": {
+    en: "(Numbered fields 1–5)",
+    sv: "(Numrerade ifyllnadsfält 1–5)",
+  },
+  Koulumuistot: { en: "School Memories", sv: "Skolerfarenheter" },
+  "Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.":
+    {
+      en: "Look back at your own previous study experiences and notice what strengths you have.",
+      sv: "Titta tillbaka på dina egna tidigare studieerfarenheter och lägg märke till vilka styrkor du har.",
+    },
   "Koulumuistot – Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.":
     {
       en: "School Memories – Look back at your own previous study experiences and notice what strengths you have.",
@@ -2098,6 +2118,10 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
     en: "How would it affect your everyday life, and your studies?",
     sv: "Hur skulle det påverka din vardag, och dina studier?",
   },
+  "Miten tämä vaikuttaisi arkeesi,\nentä opintoihin?": {
+    en: "How would it affect your everyday life,\nand your studies?",
+    sv: "Hur skulle det påverka din vardag,\noch dina studier?",
+  },
   "Mieti jotain tilannetta opinnoissa tai vapaa-ajalla, joka sujui hyvin, josta olet ylpeä ja jossa huomasit onnistuvasi sinulle tärkeissä asioissa. Mitä silloin tapahtui? Mikä siinä meni hyvin? Minkälaista palautetta sait toisilta? Mikä siinä oli sinulle tärkeää?":
     {
       en: "Think of a time in school or your free time that went well, that you're proud of, and where you succeeded at things that matter to you. What happened? What went well? What feedback did you get from others? What was important to you about it?",
@@ -2681,6 +2705,10 @@ export const TRANSLATIONS: Record<string, TranslationPair> = {
   "Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:": {
     en: "Give feedback and praise by completing these sentence starters:",
     sv: "Ge feedback och beröm genom att fylla i följande meningsbörjor:",
+  },
+  "Anna palautetta ja kehuja täydentämällä\nseuraavia lauseenalkuja:": {
+    en: "Give feedback and praise by completing\nthese sentence starters:",
+    sv: "Ge feedback och beröm genom att fylla i\nföljande meningsbörjor:",
   },
   "Tässä olen minä:": { en: "This is me:", sv: "Här är jag:" },
   "Omien vahvuuksien käyttö": { en: "Using my strengths", sv: "Att använda mina styrkor" },
