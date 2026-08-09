@@ -51,6 +51,13 @@ export function isLanguage(v: unknown): v is Language {
   return v === "en" || v === "fi" || v === "sv";
 }
 
+export function languageFromDisplayName(name?: string | null): Language | null {
+  const match = name?.trim().match(/\+(EN|FI|SV)\s*$/i);
+  if (!match) return null;
+  const lang = match[1].toLowerCase();
+  return isLanguage(lang) ? lang : null;
+}
+
 // ---------------- Content dictionary (Excel-derived) ----------------
 
 type Entry = { en?: string; sv?: string };
@@ -552,12 +559,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       try {
         const { data: u } = await supabase.auth.getUser();
         if (!u.user) return;
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from("profiles" as never)
-          .select("language")
+          .select("language, display_name")
           .eq("id", u.user.id)
           .maybeSingle();
-        const lang = (data as { language?: string } | null)?.language;
+        let profile = data as { language?: string; display_name?: string | null } | null;
+        if (error) {
+          const { data: nameOnly } = await supabase
+            .from("profiles" as never)
+            .select("display_name")
+            .eq("id", u.user.id)
+            .maybeSingle();
+          profile = nameOnly as { display_name?: string | null } | null;
+        }
+        const lang = languageFromDisplayName(profile?.display_name) ?? profile?.language;
         if (!cancelled && isLanguage(lang)) {
           setLanguageState(lang);
           if (typeof window !== "undefined") {

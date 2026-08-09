@@ -70,7 +70,7 @@ function trLines(
   ));
 }
 
-function Cover() {
+function Screen1() {
   const tr = useTr();
 
   return (
@@ -120,7 +120,7 @@ function Cover() {
 
 //=============Tarot======================//
 
-function Modules() {
+function Screen2() {
   const tr = useTr();
 
   const moduleKeys = [
@@ -200,7 +200,7 @@ function mapTone(tone: string): "white" | "yellow" | "mint" | "coral" {
   return "white";
 }
 
-function Quote() {
+function Screen3() {
   const tr = useTr();
   const { language } = useLanguage();
 
@@ -270,8 +270,8 @@ function Quote() {
     </div>
   );
 }
-
-function Definition() {
+//s4
+function Screen4() {
   const tr = useTr();
 
   return (
@@ -319,52 +319,43 @@ function Definition() {
     </div>
   );
 }
-
-function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
+//s5
+function Screen5({ onSaveStateChange: _onSaveStateChange }: Props) {
   const tr = useTr();
 
   return (
     <div
       className="
         relative
-        min-h-[600px]
+        h-full
+        min-h-0
         w-full
-        overflow-hidden
-        px-[5%]
-        pb-12
-        pt-8
-        text-white
+        overflow-x-hidden
+        overflow-y-scroll
+        overscroll-contain
+        [scrollbar-gutter:stable]
       "
     >
       <div
         className="
+          relative
           grid
-          min-h-[540px]
           w-full
-          grid-cols-[62%_38%]
-          items-center
-          gap-8
+          grid-cols-1
+          gap-10
+          pb-[150px]
+          lg:grid-cols-[minmax(0,1fr)_430px]
         "
       >
         {/* =========================
             BÊN TRÁI: TEXT
         ========================== */}
+
         <div className="min-w-0">
           {/* PHẦN CHỮ LỚN */}
-          <div className="max-w-[900px]">
-            <h1
-              className="
-                mb-5
-                font-display
-                text-[clamp(32px,3.2vw,48px)]
-                font-medium
-                leading-[1.12]
-                tracking-[-0.015em]
-                text-white
-              "
-            >
-              {tr("Tietoa vahvuuksista")}
-            </h1>
+
+          <div>
+            <h1 className="font-display text-white">{tr("Tietoa vahvuuksista")}</h1>
 
             <p
               className="
@@ -383,6 +374,7 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
           </div>
 
           {/* PHẦN CHỮ NHỎ */}
+
           <div
             className="
               mt-7
@@ -414,6 +406,7 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
         {/* =========================
             BÊN PHẢI: ILLUSTRATION
         ========================== */}
+
         <div
           className="
             flex
@@ -444,7 +437,7 @@ function Tieto({ onSaveStateChange: _onSaveStateChange }: Props) {
 }
 
 // S6
-function StrengthsList({ onSaveStateChange }: Props) {
+function Screen6({ onSaveStateChange }: Props) {
   const tr = useTr();
   const { language } = useLanguage();
 
@@ -842,7 +835,7 @@ function StrengthsList({ onSaveStateChange }: Props) {
 }
 
 // S7 (PDF p7): only three short phrases on the page. No invented blurbs.
-function ThreeSteps() {
+function Screen7() {
   const tr = useTr();
 
   return (
@@ -943,8 +936,8 @@ function ThreeSteps() {
     </div>
   );
 }
-
-function JokoTunnet({ onSaveStateChange }: Props) {
+//s8
+function Screen8({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const questions = [
@@ -1104,8 +1097,8 @@ function JokoTunnet({ onSaveStateChange }: Props) {
     </div>
   );
 }
-
-function KysyPalautetta({ onSaveStateChange }: Props) {
+//s9
+function Screen9({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const questions = [
@@ -1231,8 +1224,8 @@ function KysyPalautetta({ onSaveStateChange }: Props) {
     </div>
   );
 }
-
-function MinaOlen({ onSaveStateChange }: Props) {
+//s10
+function Screen10({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const notes = [
@@ -1459,10 +1452,10 @@ function MinaOlen({ onSaveStateChange }: Props) {
     </div>
   );
 }
-
+//s11
 // FIX: description trước đây là JSX hard-code tiếng Phần Lan, không qua tr().
 // Nay chuyển description sang string (dùng "\n" thay cho <br/>) và render bằng trLines().
-function S11KehuJaKannusta() {
+function Screen11() {
   const tr = useTr();
   const items = [
     {
@@ -1570,7 +1563,7 @@ function S11KehuJaKannusta() {
 }
 
 // FIX: alt text giờ bọc tr()
-function S12VahvuuksiaEnemman() {
+function Screen12() {
   const tr = useTr();
 
   return (
@@ -1665,7 +1658,7 @@ function S12VahvuuksiaEnemman() {
   );
 }
 
-function S13HyvatKysymykset({ onSaveStateChange }: Props) {
+function Screen13({ onSaveStateChange }: Props) {
   const tr = useTr();
   const questions = [
     {
@@ -1909,7 +1902,7 @@ function S13HyvatKysymykset({ onSaveStateChange }: Props) {
 }
 
 // S14 (PDF p15): pure title card.
-function M1Intro() {
+function Screen14() {
   const tr = useTr();
   return (
     <div className="relative flex h-full min-h-[620px] w-full items-center justify-center overflow-hidden px-8 text-white">
@@ -2281,7 +2274,7 @@ function Fly({ x0, y0, x1, y1, kind, hue }) {
 }
 
 /* ════════════════════════════════════════════════════════════ */
-function Karkkikauppa() {
+function Screen15() {
   const tr = useTr();
   const [phase, setPhase] = useState("kauppa"); // kauppa | kaanto | kuitti
   const [picked, setPicked] = useState([]);
@@ -2299,8 +2292,10 @@ function Karkkikauppa() {
 
   useEffect(() => {
     if (phase !== "kaanto") return;
+
     const t1 = setTimeout(() => setTurned(true), 420);
     const t2 = setTimeout(() => setSettled(true), 420 + 26 * 42 + 700);
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -2313,11 +2308,15 @@ function Karkkikauppa() {
         setPicked((p) => p.filter((x) => x !== d.id));
         return;
       }
+
       if (picked.length >= PICK) return;
+
       const a = el.getBoundingClientRect();
       const b = bagRef.current?.getBoundingClientRect();
+
       if (b) {
         const fid = ++flyId.current;
+
         setFlying((f) => [
           ...f,
           {
@@ -2330,9 +2329,12 @@ function Karkkikauppa() {
             y1: b.top + 20,
           },
         ]);
+
         setTimeout(() => setFlying((f) => f.filter((x) => x.fid !== fid)), 640);
+
         setTimeout(() => setBump((n) => n + 1), 470);
       }
+
       setPicked((p) => [...p, d.id]);
     },
     [picked],
@@ -2347,6 +2349,7 @@ function Karkkikauppa() {
   };
 
   const rows = [DATA.slice(0, 7), DATA.slice(7, 14), DATA.slice(14, 20), DATA.slice(20, 26)];
+
   const shopping = phase === "kauppa";
   const revealing = phase === "kaanto";
 
@@ -2355,175 +2358,878 @@ function Karkkikauppa() {
       <style>{`
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
-.ns{--pu:#6C4F9C;--pud:#4E3A78;--ye:#F4C84A;--co:#E8736B;--ink:#2B2342;--wood:#B99444;
- position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;
- padding:2px 20px 0;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;background:#7654ad;color:#fff}
-.shopscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:32px}
-.ns *{box-sizing:border-box}
-.fd{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-weight:600}
+.ns{
+  --pu:#6C4F9C;
+  --pud:#4E3A78;
+  --ye:#F4C84A;
+  --co:#E8736B;
+  --ink:#2B2342;
+  --wood:#B99444;
 
-.deco{display:none}
-.d1{top:-100px;left:-76px;width:272px;height:272px;border-radius:50%;background:#EE8C93}
-.d2{top:88px;right:-56px;width:0;height:0;border-left:96px solid transparent;border-right:96px solid transparent;border-bottom:132px solid var(--ye);transform:rotate(20deg)}
-.d3{bottom:170px;left:-58px;width:190px;height:190px;border-radius:50%;background:#8FB6D9;opacity:.55}
-.counter{display:none}
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+  min-height:0;
+  overflow:hidden;
+  padding:2px 20px 0;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
 
-.hd{position:relative;z-index:2;max-width:1310px;margin:0 auto 14px;display:flex;
- justify-content:space-between;align-items:flex-start;gap:26px;flex-wrap:wrap}
-.h1{font-size:clamp(30px,3.5vw,52px);line-height:1.04;letter-spacing:0;max-width:18ch;margin:0;
- color:#fff;text-shadow:0 3px 0 rgba(43,35,66,.22)}
-.h1 small{display:block;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-weight:500;
- font-size:clamp(15px,1.35vw,19px);line-height:1.35;color:#fff;opacity:1;margin-top:14px;
- max-width:42ch;letter-spacing:0;text-shadow:0 2px 0 rgba(43,35,66,.18)}
-.namu{position:relative;flex:0 0 auto;padding:13px 38px;border:3px solid var(--ye);border-radius:11px;
- font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:25px;color:var(--ye);
- letter-spacing:1px;transform:rotate(-3deg);white-space:nowrap;background:rgba(78,58,120,.72);
- box-shadow:0 4px 0 rgba(43,35,66,.28)}
-.namu::before,.namu::after{content:"";position:absolute;top:50%;margin-top:-18px;width:0;height:0;
- border-top:18px solid transparent;border-bottom:18px solid transparent}
-.namu::before{left:-24px;border-right:21px solid var(--ye)}
-.namu::after{right:-24px;border-left:21px solid var(--ye)}
+  background:transparent;
+
+  color:#fff;
+}
+
+.shopscroll{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-bottom:32px;
+}
+
+.ns *{
+  box-sizing:border-box;
+}
+
+.fd{
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-weight:600;
+}
+
+.deco{
+  display:none;
+}
+
+.d1{
+  top:-100px;
+  left:-76px;
+  width:272px;
+  height:272px;
+  border-radius:50%;
+  background:#EE8C93;
+}
+
+.d2{
+  top:88px;
+  right:-56px;
+  width:0;
+  height:0;
+  border-left:96px solid transparent;
+  border-right:96px solid transparent;
+  border-bottom:132px solid var(--ye);
+  transform:rotate(20deg);
+}
+
+.d3{
+  bottom:170px;
+  left:-58px;
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  background:#8FB6D9;
+  opacity:.55;
+}
+
+.counter{
+  display:none;
+}
+
+/* ── header ─────────────────────────────── */
+
+.hd{
+  position:relative;
+  z-index:2;
+  max-width:1310px;
+  margin:0 auto 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:26px;
+  flex-wrap:wrap;
+}
+
+.h1{
+  font-size:clamp(30px,3.5vw,52px);
+  line-height:1.04;
+  letter-spacing:0;
+  max-width:18ch;
+  margin:0;
+  color:#fff;
+  text-shadow:0 3px 0 rgba(43,35,66,.22);
+}
+
+.h1 small{
+  display:block;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-weight:500;
+  font-size:clamp(15px,1.35vw,19px);
+  line-height:1.35;
+  color:#fff;
+  opacity:1;
+  margin-top:14px;
+  max-width:42ch;
+  letter-spacing:0;
+  text-shadow:0 2px 0 rgba(43,35,66,.18);
+}
+
+.namu{
+  position:relative;
+  flex:0 0 auto;
+  padding:13px 38px;
+  border:3px solid var(--ye);
+  border-radius:11px;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:25px;
+  color:var(--ye);
+  letter-spacing:1px;
+  transform:rotate(-3deg);
+  white-space:nowrap;
+  background:rgba(78,58,120,.72);
+  box-shadow:0 4px 0 rgba(43,35,66,.28);
+}
+
+.namu::before,
+.namu::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  margin-top:-18px;
+  width:0;
+  height:0;
+  border-top:18px solid transparent;
+  border-bottom:18px solid transparent;
+}
+
+.namu::before{
+  left:-24px;
+  border-right:21px solid var(--ye);
+}
+
+.namu::after{
+  right:-24px;
+  border-left:21px solid var(--ye);
+}
 
 /* ── hylly ────────────────────────────────── */
-.wall{position:relative;z-index:2;max-width:1310px;margin:0 auto}
-.shelf{position:relative;margin-bottom:30px}
-.bins{display:flex;gap:10px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
-.plank{height:11px;border-radius:3px;background:#3D2E60;margin-top:-2px;
- box-shadow:0 8px 15px rgba(0,0,0,.32),inset 0 2px 0 rgba(255,255,255,.1)}
-.tongs{width:32px;height:104px;align-self:flex-end;margin:0 2px 4px;opacity:.9;flex:0 0 auto}
+
+.wall{
+  position:relative;
+  z-index:2;
+  max-width:1310px;
+  margin:0 auto;
+}
+
+.shelf{
+  position:relative;
+  margin-bottom:30px;
+}
+
+.bins{
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.plank{
+  height:11px;
+  border-radius:3px;
+  background:#3D2E60;
+  margin-top:-2px;
+  box-shadow:
+    0 8px 15px rgba(0,0,0,.32),
+    inset 0 2px 0 rgba(255,255,255,.1);
+}
+
+.tongs{
+  width:32px;
+  height:104px;
+  align-self:flex-end;
+  margin:0 2px 4px;
+  opacity:.9;
+  flex:0 0 auto;
+}
 
 /* ── purkki ───────────────────────────────── */
-.bin{position:relative;width:170px;border:0;padding:0;background:none;
- transition:transform .18s cubic-bezier(.34,1.56,.64,1),filter .3s,opacity .3s}
-.shop .bin{cursor:pointer}
-.shop .bin:hover:not(:disabled){transform:translateY(-10px) rotate(0deg) scale(1.04)!important;z-index:9}
-.shop .bin:active:not(:disabled){transform:translateY(-2px) scale(.985)!important}
-.bin:focus-visible{outline:none}
-.bin:focus-visible .tub{box-shadow:0 0 0 3px #fff,0 0 0 8px rgba(244,200,74,.55),inset 0 -14px 20px rgba(0,0,0,.14)}
-.bin:disabled{cursor:not-allowed}
-.shop .bin:disabled{filter:grayscale(.6) brightness(.68);opacity:.45}
 
-.flipper{position:relative;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.55,-0.28,.3,1.25)}
-.turn .flipper{transform:rotateY(180deg)}
-.side{backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.side.back{position:absolute;inset:0;transform:rotateY(180deg)}
-.lid{height:13px;border-radius:10px 10px 3px 3px;background:rgba(255,255,255,.30);
- border:1.5px solid rgba(255,255,255,.44);margin:0 -2px;box-shadow:0 3px 6px rgba(0,0,0,.2)}
-.tub{position:relative;border-radius:12px 12px 8px 8px;overflow:hidden;display:flex;flex-direction:column;
- background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.14) 42%,rgba(255,255,255,.20));
- border:1.5px solid rgba(255,255,255,.58);border-top:0;transition:box-shadow .2s,background .3s;
- box-shadow:inset 0 -16px 22px rgba(0,0,0,.15),0 5px 0 rgba(43,35,66,.3)}
-.h0 .tub{height:146px}.h1 .tub{height:170px}.h2 .tub{height:194px}
-.txt{flex:1 1 auto;padding:12px 11px 2px;font-size:10px;line-height:1.34;letter-spacing:.35px;
- text-transform:uppercase;font-weight:700;text-align:center;color:#fff;
- text-shadow:0 1px 2px rgba(24,17,42,.72),0 0 10px rgba(24,17,42,.34)}
-.pile{flex:0 0 auto;height:44px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px}
-.pile>span{margin:0 -5px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
-.sticker{position:absolute;left:8px;bottom:8px;width:22px;height:15px;border-radius:2px;
- background:#fff;opacity:.9;box-shadow:0 1px 2px rgba(0,0,0,.3)}
-.chk{position:absolute;top:-10px;right:-8px;width:30px;height:30px;border-radius:50%;background:var(--ye);
- color:var(--ink);display:grid;place-items:center;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:16px;border:3px solid var(--pu);
- box-shadow:0 2px 0 rgba(43,35,66,.45);animation:pop .3s cubic-bezier(.34,1.8,.64,1);z-index:6}
-@keyframes pop{0%{transform:scale(0) rotate(-45deg)}100%{transform:scale(1) rotate(0)}}
+.bin{
+  position:relative;
+  width:170px;
+  border:0;
+  padding:0;
+  background:none;
+  transition:
+    transform .18s cubic-bezier(.34,1.56,.64,1),
+    filter .3s,
+    opacity .3s;
+}
+
+.shop .bin{
+  cursor:pointer;
+}
+
+.shop .bin:hover:not(:disabled){
+  transform:translateY(-10px) rotate(0deg) scale(1.04)!important;
+  z-index:9;
+}
+
+.shop .bin:active:not(:disabled){
+  transform:translateY(-2px) scale(.985)!important;
+}
+
+.bin:focus-visible{
+  outline:none;
+}
+
+.bin:focus-visible .tub{
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 8px rgba(244,200,74,.55),
+    inset 0 -14px 20px rgba(0,0,0,.14);
+}
+
+.bin:disabled{
+  cursor:not-allowed;
+}
+
+.shop .bin:disabled{
+  filter:grayscale(.6) brightness(.68);
+  opacity:.45;
+}
+
+.flipper{
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .72s cubic-bezier(.55,-0.28,.3,1.25);
+}
+
+.turn .flipper{
+  transform:rotateY(180deg);
+}
+
+.side{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+.side.back{
+  position:absolute;
+  inset:0;
+  transform:rotateY(180deg);
+}
+
+.lid{
+  height:13px;
+  border-radius:10px 10px 3px 3px;
+  background:rgba(255,255,255,.30);
+  border:1.5px solid rgba(255,255,255,.44);
+  margin:0 -2px;
+  box-shadow:0 3px 6px rgba(0,0,0,.2);
+}
+
+.tub{
+  position:relative;
+  border-radius:12px 12px 8px 8px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.28),
+      rgba(255,255,255,.14) 42%,
+      rgba(255,255,255,.20)
+    );
+  border:1.5px solid rgba(255,255,255,.58);
+  border-top:0;
+  transition:box-shadow .2s,background .3s;
+  box-shadow:
+    inset 0 -16px 22px rgba(0,0,0,.15),
+    0 5px 0 rgba(43,35,66,.3);
+}
+
+.h0 .tub{
+  height:146px;
+}
+
+.h1 .tub{
+  height:170px;
+}
+
+.h2 .tub{
+  height:194px;
+}
+
+.txt{
+  flex:1 1 auto;
+  padding:12px 11px 2px;
+  font-size:10px;
+  line-height:1.34;
+  letter-spacing:.35px;
+  text-transform:uppercase;
+  font-weight:700;
+  text-align:center;
+  color:#fff;
+  text-shadow:
+    0 1px 2px rgba(24,17,42,.72),
+    0 0 10px rgba(24,17,42,.34);
+}
+
+.pile{
+  flex:0 0 auto;
+  height:44px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:7px;
+}
+
+.pile>span{
+  margin:0 -5px;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.3));
+}
+
+.sticker{
+  position:absolute;
+  left:8px;
+  bottom:8px;
+  width:22px;
+  height:15px;
+  border-radius:2px;
+  background:#fff;
+  opacity:.9;
+  box-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+.chk{
+  position:absolute;
+  top:-10px;
+  right:-8px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--ye);
+  color:var(--ink);
+  display:grid;
+  place-items:center;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:16px;
+  border:3px solid var(--pu);
+  box-shadow:0 2px 0 rgba(43,35,66,.45);
+  animation:pop .3s cubic-bezier(.34,1.8,.64,1);
+  z-index:6;
+}
+
+@keyframes pop{
+  0%{
+    transform:scale(0) rotate(-45deg);
+  }
+
+  100%{
+    transform:scale(1) rotate(0);
+  }
+}
 
 /* takapuoli: vahvuus + sitä vastaava karkki */
-.rev{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
- gap:8px;padding:12px 9px;text-align:center}
-.rev .nm{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;line-height:1.12;font-size:15px}
-.rev .nm.long{font-size:11.5px}
-.rev .vt{font-size:7.6px;letter-spacing:1.3px;text-transform:uppercase;opacity:.6}
-.rev .cd{filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+
+.rev{
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 9px;
+  text-align:center;
+}
+
+.rev .nm{
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  line-height:1.12;
+  font-size:15px;
+}
+
+.rev .nm.long{
+  font-size:11.5px;
+}
+
+.rev .vt{
+  font-size:7.6px;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  opacity:.6;
+}
+
+.rev .cd{
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));
+}
 
 /* voittajapurkit vs. muut */
-.reveal .bin{opacity:.34;filter:saturate(.35)}
-.reveal .bin.won{opacity:1;filter:none;z-index:8}
-.settled .bin.won{transform:translateY(-14px) scale(1.07)!important;animation:hover 3s ease-in-out infinite}
-@keyframes hover{0%,100%{transform:translateY(-14px) scale(1.07)}50%{transform:translateY(-20px) scale(1.07)}}
-.reveal .bin.won .tub{background:linear-gradient(180deg,#FFF6E2,#FFE8B8);
- border-color:var(--ye);box-shadow:0 0 0 3px var(--ye),0 0 34px rgba(244,200,74,.6),0 6px 0 #B98F1C}
-.reveal .bin.won .lid{background:var(--ye);border-color:#FFF0C4}
-.reveal .bin.won .rev{color:var(--ink)}
-.reveal .bin.won .vt{opacity:.5}
 
-.fly{position:fixed;z-index:60;pointer-events:none;
- transition:transform .62s cubic-bezier(.38,-0.25,.5,1),opacity .62s ease-in}
+.reveal .bin{
+  opacity:.34;
+  filter:saturate(.35);
+}
+
+.reveal .bin.won{
+  opacity:1;
+  filter:none;
+  z-index:8;
+}
+
+.settled .bin.won{
+  transform:translateY(-14px) scale(1.07)!important;
+  animation:hover 3s ease-in-out infinite;
+}
+
+@keyframes hover{
+  0%,
+  100%{
+    transform:translateY(-14px) scale(1.07);
+  }
+
+  50%{
+    transform:translateY(-20px) scale(1.07);
+  }
+}
+
+.reveal .bin.won .tub{
+  background:linear-gradient(180deg,#FFF6E2,#FFE8B8);
+  border-color:var(--ye);
+  box-shadow:
+    0 0 0 3px var(--ye),
+    0 0 34px rgba(244,200,74,.6),
+    0 6px 0 #B98F1C;
+}
+
+.reveal .bin.won .lid{
+  background:var(--ye);
+  border-color:#FFF0C4;
+}
+
+.reveal .bin.won .rev{
+  color:var(--ink);
+}
+
+.reveal .bin.won .vt{
+  opacity:.5;
+}
+
+.fly{
+  position:fixed;
+  z-index:60;
+  pointer-events:none;
+  transition:
+    transform .62s cubic-bezier(.38,-0.25,.5,1),
+    opacity .62s ease-in;
+}
 
 /* ── pussi + palkki ───────────────────────── */
-.bar{position:relative;z-index:30;display:flex;flex:0 0 100px;height:100px;
- align-items:center;justify-content:center;gap:24px;flex-wrap:nowrap;margin:0 -20px;padding:0 22px;
- background:linear-gradient(180deg,var(--wood),#9A7A33);
- box-shadow:inset 0 7px 0 rgba(255,255,255,.18),0 -3px 16px rgba(0,0,0,.3)}
-.bag{position:relative;width:104px;height:86px;flex:0 0 auto}
-.bagbody{position:absolute;inset:14px 0 0;border-radius:5px 5px 10px 10px;
- background:linear-gradient(180deg,#F7E6C8,#E0C89E);
- box-shadow:inset -13px 0 18px rgba(0,0,0,.11),0 4px 0 rgba(43,35,66,.32)}
-.bagfold{position:absolute;top:8px;left:-4px;right:-4px;height:15px;border-radius:4px;background:#FFF3DE;
- box-shadow:0 2px 3px rgba(0,0,0,.18)}
-.heldrow{position:absolute;top:-8px;left:0;right:0;display:flex;justify-content:center;z-index:2}
-.heldrow>span{margin:0 -6px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.32))}
-.bag.bump{animation:bb .36s cubic-bezier(.34,1.7,.64,1)}
-@keyframes bb{0%{transform:scale(1)}32%{transform:scale(1.15,.86)}66%{transform:scale(.95,1.07)}100%{transform:scale(1)}}
 
-.cnt{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:14px;color:#3B2C10;line-height:1.2;flex:0 0 auto}
-.cnt b{display:block;font-size:34px;line-height:1;color:#241A06}
-.slots{display:flex;gap:6px;margin-top:8px}
-.slot{width:13px;height:13px;border-radius:50%;background:rgba(59,44,16,.25);
- transition:.24s cubic-bezier(.34,1.6,.64,1)}
-.slot.on{background:var(--ye);box-shadow:0 0 0 2px rgba(255,255,255,.65);transform:scale(1.2)}
+.bar{
+  position:relative;
+  z-index:30;
+  display:flex;
+  flex:0 0 100px;
+  height:100px;
 
-.won5{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;min-width:0}
-.pill{display:flex;align-items:center;gap:7px;background:#FFF6E8;color:var(--ink);
- border-radius:999px;padding:6px 15px 6px 7px;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:13px;white-space:nowrap;
- box-shadow:0 3px 0 rgba(43,35,66,.32);animation:rise .4s backwards cubic-bezier(.34,1.6,.64,1)}
-@keyframes rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  flex-wrap:nowrap;
 
-.btn{font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:17px;border:0;border-radius:999px;padding:15px 30px;cursor:pointer;
- background:var(--co);color:#fff;box-shadow:0 5px 0 #A8463F;transition:.12s;white-space:nowrap;flex:0 0 auto}
-.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 7px 0 #A8463F}
-.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 #A8463F}
-.btn:disabled{background:#6F5D3B;color:#CBBA95;box-shadow:0 5px 0 #4E4126;cursor:not-allowed}
-.btn.go{background:var(--ye);color:var(--ink);box-shadow:0 5px 0 #C39C22;animation:br 1.5s ease-in-out infinite}
-.btn.go:hover{box-shadow:0 7px 0 #C39C22}
-.middle-btn{position:relative;top:-20px}
-@keyframes br{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-.link{background:none;border:0;color:inherit;opacity:.72;text-decoration:underline;cursor:pointer;
- font-size:13px;font-family:var(--font-display),'Fredoka',system-ui,sans-serif;padding:6px}
+  /* kéo bar tràn hết 2 bên */
+  width:calc(100% + 40px);
+  left:-20px;
+
+  margin:0;
+  padding:0 22px;
+
+  /* đẩy bar lên */
+  transform:translateY(-20px);
+
+  /* màu mới */
+  background:#FFE77A;
+
+  box-shadow:
+    inset 0 7px 0 rgba(255,255,255,.22),
+    0 -3px 16px rgba(0,0,0,.22);
+}
+
+.bag{
+  position:relative;
+  width:104px;
+  height:86px;
+  flex:0 0 auto;
+}
+
+.bagbody{
+  position:absolute;
+  inset:14px 0 0;
+  border-radius:5px 5px 10px 10px;
+  background:linear-gradient(180deg,#F7E6C8,#E0C89E);
+  box-shadow:
+    inset -13px 0 18px rgba(0,0,0,.11),
+    0 4px 0 rgba(43,35,66,.32);
+}
+
+.bagfold{
+  position:absolute;
+  top:8px;
+  left:-4px;
+  right:-4px;
+  height:15px;
+  border-radius:4px;
+  background:#FFF3DE;
+  box-shadow:0 2px 3px rgba(0,0,0,.18);
+}
+
+.heldrow{
+  position:absolute;
+  top:-8px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  z-index:2;
+}
+
+.heldrow>span{
+  margin:0 -6px;
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.32));
+}
+
+.bag.bump{
+  animation:bb .36s cubic-bezier(.34,1.7,.64,1);
+}
+
+@keyframes bb{
+  0%{
+    transform:scale(1);
+  }
+
+  32%{
+    transform:scale(1.15,.86);
+  }
+
+  66%{
+    transform:scale(.95,1.07);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
+.cnt{
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:14px;
+  color:#3B2C10;
+  line-height:1.2;
+  flex:0 0 auto;
+}
+
+.cnt b{
+  display:block;
+  font-size:34px;
+  line-height:1;
+  color:#241A06;
+}
+
+.slots{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.slot{
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:rgba(59,44,16,.25);
+  transition:.24s cubic-bezier(.34,1.6,.64,1);
+}
+
+.slot.on{
+  background:var(--ye);
+  box-shadow:0 0 0 2px rgba(255,255,255,.65);
+  transform:scale(1.2);
+}
+
+.won5{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+  min-width:0;
+}
+
+.pill{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#FFF6E8;
+  color:var(--ink);
+  border-radius:999px;
+  padding:6px 15px 6px 7px;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:13px;
+  white-space:nowrap;
+  box-shadow:0 3px 0 rgba(43,35,66,.32);
+  animation:rise .4s backwards cubic-bezier(.34,1.6,.64,1);
+}
+
+@keyframes rise{
+  from{
+    transform:translateY(16px);
+    opacity:0;
+  }
+
+  to{
+    transform:none;
+    opacity:1;
+  }
+}
+
+.btn{
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:17px;
+  border:0;
+  border-radius:999px;
+  padding:15px 30px;
+  cursor:pointer;
+  background:var(--co);
+  color:#fff;
+  box-shadow:0 5px 0 #A8463F;
+  transition:.12s;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+
+.btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 7px 0 #A8463F;
+}
+
+.btn:active:not(:disabled){
+  transform:translateY(3px);
+  box-shadow:0 2px 0 #A8463F;
+}
+
+.btn:disabled{
+  background:#6F5D3B;
+  color:#CBBA95;
+  box-shadow:0 5px 0 #4E4126;
+  cursor:not-allowed;
+}
+
+.btn.go{
+  background:var(--ye);
+  color:var(--ink);
+  box-shadow:0 5px 0 #C39C22;
+  animation:br 1.5s ease-in-out infinite;
+}
+
+.btn.go:hover{
+  box-shadow:0 7px 0 #C39C22;
+}
+
+/* button về vị trí cũ */
+.middle-btn{
+  position:relative;
+  top:0;
+}
+
+@keyframes br{
+  0%,
+  100%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.05);
+  }
+}
+
+.link{
+  background:none;
+  border:0;
+  color:inherit;
+  opacity:.72;
+  text-decoration:underline;
+  cursor:pointer;
+  font-size:13px;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  padding:6px;
+}
 
 /* ── kuitti ───────────────────────────────── */
-.receipt{position:relative;z-index:2;max-width:740px;margin:24px auto 0;background:#FFF9EF;color:var(--ink);
- padding:32px 34px 28px;box-shadow:0 10px 0 rgba(43,35,66,.38)}
-.receipt::before,.receipt::after{content:"";position:absolute;left:0;right:0;height:12px;
- background:repeating-linear-gradient(135deg,#FFF9EF 0 9px,transparent 9px 18px)}
-.receipt::before{top:-11px;transform:scaleY(-1)}
-.receipt::after{bottom:-11px}
-.rhead{text-align:center;border-bottom:2px dashed #D8C9AE;padding-bottom:15px;margin-bottom:8px}
-.rhead .fd{font-size:23px}
-.rhead p{font-size:10px;letter-spacing:2.6px;text-transform:uppercase;opacity:.5;margin:7px 0 0}
-.line{display:flex;align-items:center;gap:13px;padding:9px 2px;border-bottom:1px dotted #DCCEB6}
-.line .fd{flex:1;font-size:16px;text-align:left}
-.line em{font-style:normal;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.48}
-.q{font-weight:500;font-size:13px;margin:20px 0 8px;line-height:1.5}
-.ta{width:100%;min-height:80px;border:2px solid #E6DAC2;border-radius:12px;padding:11px 13px;background:#fff;
- font-family:var(--font-display),'Fredoka',system-ui,sans-serif;font-size:13px;color:var(--ink);resize:vertical}
-.ta:focus{outline:0;border-color:var(--pu)}
-.acts{display:flex;gap:16px;align-items:center;margin-top:22px;flex-wrap:wrap}
+
+.receipt{
+  position:relative;
+  z-index:2;
+  max-width:740px;
+  margin:24px auto 0;
+  background:#FFF9EF;
+  color:var(--ink);
+  padding:32px 34px 28px;
+  box-shadow:0 10px 0 rgba(43,35,66,.38);
+}
+
+.receipt::before,
+.receipt::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  height:12px;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #FFF9EF 0 9px,
+      transparent 9px 18px
+    );
+}
+
+.receipt::before{
+  top:-11px;
+  transform:scaleY(-1);
+}
+
+.receipt::after{
+  bottom:-11px;
+}
+
+.rhead{
+  text-align:center;
+  border-bottom:2px dashed #D8C9AE;
+  padding-bottom:15px;
+  margin-bottom:8px;
+}
+
+.rhead .fd{
+  font-size:23px;
+}
+
+.rhead p{
+  font-size:10px;
+  letter-spacing:2.6px;
+  text-transform:uppercase;
+  opacity:.5;
+  margin:7px 0 0;
+}
+
+.line{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:9px 2px;
+  border-bottom:1px dotted #DCCEB6;
+}
+
+.line .fd{
+  flex:1;
+  font-size:16px;
+  text-align:left;
+}
+
+.line em{
+  font-style:normal;
+  font-size:9px;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  opacity:.48;
+}
+
+.q{
+  font-weight:500;
+  font-size:13px;
+  margin:20px 0 8px;
+  line-height:1.5;
+}
+
+.ta{
+  width:100%;
+  min-height:80px;
+  border:2px solid #E6DAC2;
+  border-radius:12px;
+  padding:11px 13px;
+  background:#fff;
+  font-family:var(--font-display),'Fredoka',system-ui,sans-serif;
+  font-size:13px;
+  color:var(--ink);
+  resize:vertical;
+}
+
+.ta:focus{
+  outline:0;
+  border-color:var(--pu);
+}
+
+.acts{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
 
 @media (max-width:820px){
- .hd{gap:16px}
- .h1{font-size:32px;max-width:100%}
- .h1 small{font-size:15px}
- .namu{font-size:18px;padding:10px 24px}
- .bin{width:150px}.h0 .tub{height:150px}.h1 .tub{height:176px}.h2 .tub{height:202px}
- .txt{font-size:9.5px}
+  .hd{
+    gap:16px;
+  }
+
+  .h1{
+    font-size:32px;
+    max-width:100%;
+  }
+
+  .h1 small{
+    font-size:15px;
+  }
+
+  .namu{
+    font-size:18px;
+    padding:10px 24px;
+  }
+
+  .bin{
+    width:150px;
+  }
+
+  .h0 .tub{
+    height:150px;
+  }
+
+  .h1 .tub{
+    height:176px;
+  }
+
+  .h2 .tub{
+    height:202px;
+  }
+
+  .txt{
+    font-size:9.5px;
+  }
 }
-@media (prefers-reduced-motion:reduce){.ns *{animation:none!important;transition:none!important}}
+
+@media (prefers-reduced-motion:reduce){
+  .ns *{
+    animation:none!important;
+    transition:none!important;
+  }
+}
       `}</style>
 
       <div className="deco d1" />
       <div className="deco d2" />
       <div className="deco d3" />
 
-      {/* ═════ HYLLY (kauppa + kääntö jakavat saman seinän) ═════ */}
       {(shopping || revealing) && (
         <>
           <div className="shopscroll">
@@ -2534,6 +3240,7 @@ function Karkkikauppa() {
                   : settled
                     ? tr("Nämä ovat ydinvahvuutesi")
                     : tr("Hylly kääntyy…")}
+
                 <small>
                   {shopping
                     ? tr(
@@ -2546,6 +3253,7 @@ function Karkkikauppa() {
                       : tr("Katso, mitkä vahvuudet väittämien takaa paljastuvat.")}
                 </small>
               </h1>
+
               <div className="namu fd">{settled ? tr("OOT NAMU!") : tr("OOT NAMU")}</div>
             </div>
 
@@ -2554,10 +3262,12 @@ function Karkkikauppa() {
                 <div className="shelf" key={ri}>
                   <div className="bins">
                     {ri % 2 === 1 && <Tongs />}
+
                     {row.map((d) => {
                       const i = DATA.indexOf(d);
                       const on = picked.includes(d.id);
                       const longName = d.strength.length > 22;
+
                       return (
                         <button
                           key={d.id}
@@ -2571,58 +3281,71 @@ function Karkkikauppa() {
                           aria-pressed={on}
                           aria-label={
                             revealing
-                              ? `${tr(d.strength)} — ${tr(d.virtue)}${on ? `, ${tr("sinun vahvuutesi")}` : ""}`
+                              ? `${tr(d.strength)} — ${tr(d.virtue)}${
+                                  on ? `, ${tr("sinun vahvuutesi")}` : ""
+                                }`
                               : `${tr(d.statement)}${on ? ` — ${tr("pussissa")}` : ""}`
                           }
                         >
                           <div
                             className="flipper"
-                            style={{ transitionDelay: revealing ? `${i * 42}ms` : "0ms" }}
+                            style={{
+                              transitionDelay: revealing ? `${i * 42}ms` : "0ms",
+                            }}
                           >
-                            {/* etupuoli — väittämä */}
                             <div className="side front">
                               <div className="lid" />
+
                               <div className="tub">
                                 <div className="txt">{tr(d.statement)}</div>
+
                                 <div className="pile">
                                   {!on &&
                                     [0, 1, 2, 3].map((k) => (
                                       <span
                                         key={k}
                                         style={{
-                                          transform: `rotate(${((k * 37) % 50) - 25}deg) translateY(${k % 2 ? 3 : 0}px)`,
+                                          transform: `rotate(${
+                                            ((k * 37) % 50) - 25
+                                          }deg) translateY(${k % 2 ? 3 : 0}px)`,
                                         }}
                                       >
                                         <Candy kind={d.kind + k} hue={d.hue + (k % 2)} size={27} />
                                       </span>
                                     ))}
                                 </div>
+
                                 <span className="sticker" />
                               </div>
                             </div>
 
-                            {/* takapuoli — vahvuus + vastaava karkki */}
                             <div className="side back">
                               <div className="lid" />
+
                               <div className="tub">
                                 <div className="rev">
                                   <span className="cd">
                                     <Candy kind={d.kind} hue={d.hue} size={on ? 52 : 38} />
                                   </span>
+
                                   <span className={`nm${longName ? " nm long" : ""}`}>
                                     {tr(d.strength)}
                                   </span>
+
                                   <span className="vt">{tr(d.virtue)}</span>
                                 </div>
                               </div>
                             </div>
                           </div>
+
                           {on && shopping && <span className="chk">✓</span>}
                         </button>
                       );
                     })}
+
                     {ri % 2 === 0 && <Tongs />}
                   </div>
+
                   <div className="plank" />
                 </div>
               ))}
@@ -2635,15 +3358,19 @@ function Karkkikauppa() {
                 <div ref={bagRef} className={`bag${bump ? " bump" : ""}`} key={bump}>
                   <BagArt items={chosen} />
                 </div>
+
                 <div className="cnt">
                   <b>{picked.length}/5</b>
+
                   {tr("karkkia pussissa")}
+
                   <div className="slots">
                     {Array.from({ length: PICK }).map((_, i) => (
                       <span key={i} className={`slot${picked[i] ? " on" : ""}`} />
                     ))}
                   </div>
                 </div>
+
                 <button
                   className={`btn middle-btn${full ? " go" : ""}`}
                   disabled={!full}
@@ -2651,19 +3378,29 @@ function Karkkikauppa() {
                 >
                   {full
                     ? tr("Käännä hylly →")
-                    : tr("Valitse vielä {n}", { n: PICK - picked.length })}
+                    : tr("Valitse vielä {n}", {
+                        n: PICK - picked.length,
+                      })}
                 </button>
               </>
             ) : settled ? (
               <>
                 <div className="won5">
                   {chosen.map((d, i) => (
-                    <span className="pill" key={d.id} style={{ animationDelay: `${i * 90}ms` }}>
+                    <span
+                      className="pill"
+                      key={d.id}
+                      style={{
+                        animationDelay: `${i * 90}ms`,
+                      }}
+                    >
                       <Candy kind={d.kind} hue={d.hue} size={24} />
+
                       {tr(d.strength)}
                     </span>
                   ))}
                 </div>
+
                 <button className="btn middle-btn go" onClick={() => setPhase("kuitti")}>
                   {tr("Ota kuitti →")}
                 </button>
@@ -2682,24 +3419,29 @@ function Karkkikauppa() {
         </>
       )}
 
-      {/* ═════ KUITTI (s. 19) ═════ */}
       {phase === "kuitti" && (
         <div className="shopscroll">
           <div className="receipt">
             <div className="rhead">
               <div className="fd">{tr("Vahvuuskarkkini – Merkkaa tähän vahvuuskarkkisi!")}</div>
+
               <p>{tr("YDINVAHVUUKSIEN KARKKIKAUPPA")}</p>
             </div>
+
             {chosen.map((d) => (
               <div className="line" key={d.id}>
                 <Candy kind={d.kind} hue={d.hue} size={30} />
+
                 <span className="fd">{tr(d.strength)}</span>
+
                 <em>{tr(d.virtue)}</em>
               </div>
             ))}
+
             {PROMPTS.map((q, i) => (
               <div key={i}>
                 <p className="q">{tr(q)}</p>
+
                 <textarea
                   className="ta"
                   value={answers[i]}
@@ -2710,8 +3452,10 @@ function Karkkikauppa() {
                 />
               </div>
             ))}
+
             <div className="acts">
               <button className="btn">{tr("Tallenna ja jatka")}</button>
+
               <button className="link" onClick={restart}>
                 {tr("Valitse karkit uudelleen")}
               </button>
@@ -2723,11 +3467,12 @@ function Karkkikauppa() {
   );
 }
 
-// ----- S13: Vahvuuskarkkini ----- (FIX: heading, subtitle, placeholder, và 3 label giờ đều qua tr())
-// ----- S13 (PDF p18): Vahvuuskarkkini -----
-function S13({ onSaveStateChange }: Props) {
+// ----- Screen16: Vahvuuskarkkini ----- (FIX: heading, subtitle, placeholder, và 3 label giờ đều qua tr())
+// ----- Screen16 (PDF p18): Vahvuuskarkkini -----
+function Screen16({ onSaveStateChange }: Props) {
   const tr = useTr();
   const { language: lang } = useLanguage();
+
   const [selectedCandies, setSelectedCandies] = useState<Record<number, string>>({});
 
   const selectedValues = Object.values(selectedCandies).filter(Boolean);
@@ -2735,6 +3480,7 @@ function S13({ onSaveStateChange }: Props) {
   const updateCandy = useCallback((index: number, value: string) => {
     setSelectedCandies((current) => {
       if (current[index] === value) return current;
+
       return {
         ...current,
         [index]: value,
@@ -2743,44 +3489,103 @@ function S13({ onSaveStateChange }: Props) {
   }, []);
 
   return (
-    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[6%] pb-16 pt-10 text-white [font-family:var(--font-display)] [scrollbar-gutter:stable] [&_*]:[font-family:var(--font-display)] [&_label]:!text-white">
-      <div className="mx-auto grid w-full max-w-[1280px] gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
-        <div className="space-y-4">
-          <div className="pb-2 text-white">
-            <h1 className="mb-3 text-[clamp(36px,4vw,62px)] font-bold leading-[1.05] text-white">
-              {tr("Vahvuuskarkkini")}
-            </h1>
-            <p className="text-[clamp(20px,1.9vw,30px)] font-semibold leading-tight text-white">
-              {tr("Pohdi omia vahvuuksia ja vastaa:")}
-            </p>
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+      "
+    >
+      <div
+        className="
+          relative
+          mx-auto
+          grid
+          min-h-[760px]
+          w-full
+          max-w-[1220px]
+          grid-cols-1
+          gap-10
+          px-6
+          pb-24
+          pt-3
+          lg:grid-cols-[minmax(0,1fr)_360px]
+        "
+      >
+        {/* =========================
+            BÊN TRÁI
+        ========================== */}
+
+        <div className="min-w-0">
+          <h1
+            className="
+              font-display
+              text-[clamp(34px,3vw,50px)]
+              font-semibold
+              leading-[1.05]
+              text-white
+            "
+          >
+            {tr("Vahvuuskarkkini")}
+          </h1>
+
+          <p
+            className="
+              mt-4
+              font-display
+              text-[clamp(17px,1.35vw,21px)]
+              font-semibold
+              text-white
+            "
+          >
+            {tr("Pohdi omia vahvuuksia ja vastaa:")}
+          </p>
+
+          <div className="mt-7 grid gap-6">
+            <ReflectionTextarea
+              fieldKey="screen_13_examples"
+              label={tr(
+                "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
+              )}
+              rows={4}
+              onSaveStateChange={onSaveStateChange}
+            />
+
+            <ReflectionTextarea
+              fieldKey="screen_13_success"
+              label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
+              rows={3}
+              onSaveStateChange={onSaveStateChange}
+            />
+
+            <ReflectionTextarea
+              fieldKey="screen_13_effect"
+              label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
+              rows={3}
+              onSaveStateChange={onSaveStateChange}
+            />
           </div>
-
-          <ReflectionTextarea
-            fieldKey="screen_13_examples"
-            label={tr(
-              "Ajattele itseäsi tekemässä tavanomaisia ja arkisia asioita tai tehtäviä. Miten olet näissä tekemisissä käyttänyt ydinvahvuuksiasi? Kirjoita muutama esimerkki tilanteista.",
-            )}
-            rows={4}
-            onSaveStateChange={onSaveStateChange}
-          />
-
-          <ReflectionTextarea
-            fieldKey="screen_13_success"
-            label={tr("Missä onnistuit omia vahvuuksia hyödyntämällä?")}
-            rows={3}
-            onSaveStateChange={onSaveStateChange}
-          />
-
-          <ReflectionTextarea
-            fieldKey="screen_13_effect"
-            label={tr("Miten omien ydinvahvuuksien hyödyntäminen vaikutti itseesi tai toisiin?")}
-            rows={3}
-            onSaveStateChange={onSaveStateChange}
-          />
         </div>
 
+        {/* =========================
+            BÊN PHẢI
+        ========================== */}
+
         <StickyNote tone="coral" seed="s13-candies" className="self-start">
-          <div className="mb-4 text-center font-display text-xl font-bold leading-tight text-[color:var(--purple-dark)]">
+          <div
+            className="
+              mb-4
+              text-center
+              font-display
+              text-xl
+              font-bold
+              leading-tight
+              text-[color:var(--purple-dark)]
+            "
+          >
             {tr("Merkkaa tähän 5 vahvuuskarkkiasi!")}
           </div>
 
@@ -2797,6 +3602,28 @@ function S13({ onSaveStateChange }: Props) {
             ))}
           </div>
         </StickyNote>
+
+        {/* =========================
+            ILLUSTRATION GÓC PHẢI DƯỚI
+        ========================== */}
+
+        <img
+          src="/illustrations/s16-bottom-right.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            bottom-4
+            right-4
+            z-20
+            h-auto
+            w-[500px]
+            max-w-[100%]
+            select-none
+            object-contain
+          "
+        />
       </div>
     </div>
   );
@@ -2943,120 +3770,115 @@ const SCREEN_14_QUESTIONS = [
 ] as const;
 
 const SCREEN_14_BOXES = [
-  // 1 — left middle
   {
     cx: 180,
     cy: 285,
-    w: 220,
-    h: 165,
+    w: 236,
+    h: 174,
   },
 
-  // 2 — left bottom
   {
     cx: 150,
-    cy: 605,
-    w: 220,
-    h: 160,
+    cy: 570,
+    w: 236,
+    h: 166,
   },
 
-  // 3 — bottom left-center
   {
-    cx: 445,
-    cy: 610,
-    w: 220,
-    h: 160,
+    cx: 440,
+    cy: 588,
+    w: 236,
+    h: 166,
   },
 
-  // 4 — center
   {
     cx: 505,
     cy: 430,
-    w: 225,
-    h: 165,
+    w: 242,
+    h: 174,
   },
 
-  // 5 — top center
   {
     cx: 790,
-    cy: 145,
-    w: 230,
-    h: 165,
+    cy: 170,
+    w: 246,
+    h: 174,
   },
 
-  // 6 — bottom center-right
   {
     cx: 805,
-    cy: 610,
-    w: 225,
-    h: 160,
+    cy: 588,
+    w: 242,
+    h: 166,
   },
 
-  // 7 — right middle
   {
     cx: 1070,
     cy: 430,
-    w: 225,
-    h: 165,
+    w: 242,
+    h: 174,
   },
 
-  // 8 — top right
   {
     cx: 1115,
-    cy: 150,
-    w: 230,
-    h: 165,
+    cy: 170,
+    w: 246,
+    h: 174,
   },
 
-  // 9 — right bottom
   {
     cx: 1215,
-    cy: 610,
-    w: 220,
-    h: 160,
+    cy: 588,
+    w: 236,
+    h: 166,
   },
 ] as const;
 
 const SCREEN_14_ROAD_PATH = `
-  M 40 380
+  M 5 380
+
+  C 18 376, 28 378, 40 380
 
   C 70 330, 115 285, 180 285
 
   C 250 285, 255 355, 245 420
 
-  C 230 515, 175 555, 150 605
+  C 230 500, 175 535, 150 570
 
-  C 135 660, 260 675, 360 650
+  C 135 635, 260 650, 358 628
 
-  C 410 638, 435 625, 445 610
+  C 410 616, 432 602, 440 588
 
   C 490 555, 510 500, 505 430
 
-  C 500 300, 575 190, 790 145
+  C 500 315, 575 215, 790 170
 
-  C 855 135, 900 170, 920 250
+  C 855 158, 900 190, 920 265
 
-  C 950 370, 830 535, 805 610
+  C 950 380, 830 525, 805 588
 
-  C 790 665, 910 675, 990 650
+  C 790 640, 910 650, 990 628
 
   C 1040 635, 1065 535, 1070 430
 
-  C 1075 310, 1090 205, 1115 150
+  C 1075 320, 1090 225, 1115 170
 
-  C 1140 105, 1200 130, 1225 200
+  C 1140 132, 1200 148, 1225 210
 
-  C 1265 330, 1240 535, 1215 610
+  C 1265 330, 1240 525, 1215 588
 
-  C 1205 655, 1285 660, 1345 635
+  C 1205 636, 1285 642, 1345 618
 
-  C 1370 625, 1390 615, 1420 605
+  C 1370 610, 1390 600, 1420 590
+
+  C 1430 586, 1438 582, 1445 578
 `;
 
-function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
+function Screen17({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const CANVAS_WIDTH = 1450;
-  const CANVAS_HEIGHT = 760;
+  const CANVAS_HEIGHT = 720;
 
   return (
     <div
@@ -3068,8 +3890,8 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
         overflow-x-hidden
         overflow-y-auto
         px-[1.5%]
-        pb-28
-        pt-4
+        pb-24
+        pt-5
         text-black
         [scrollbar-gutter:stable]
       "
@@ -3078,7 +3900,7 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          h-[760px]
+          h-[720px]
           w-full
           max-w-[1450px]
         "
@@ -3091,7 +3913,7 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
           className="
             absolute
             left-[1.5%]
-            top-[2%]
+            top-[5%]
             z-30
             max-w-[300px]
             text-left
@@ -3124,11 +3946,12 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
           "
         >
           {/* Road shadow */}
+          {/* FIX: tăng bề rộng road theo tỉ lệ box to hơn, cho đồng bộ */}
           <path
             d={SCREEN_14_ROAD_PATH}
             fill="none"
             stroke="rgba(0,0,0,0.15)"
-            strokeWidth="58"
+            strokeWidth="62"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -3138,7 +3961,7 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
             d={SCREEN_14_ROAD_PATH}
             fill="none"
             stroke="#fffdfc"
-            strokeWidth="45"
+            strokeWidth="48"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -3158,7 +3981,7 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
               START
           ========================== */}
 
-          <g transform="translate(20 356)">
+          <g transform="translate(22 356)">
             <path
               d="
                 M 0 0
@@ -3182,8 +4005,7 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
               FINISH
           ========================== */}
 
-          <g transform="translate(1340 565)">
-            {/* Pole */}
+          <g transform="translate(1340 538)">
             <line
               x1="8"
               y1="0"
@@ -3194,7 +4016,6 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
               strokeLinecap="round"
             />
 
-            {/* Sign */}
             <rect
               x="10"
               y="0"
@@ -3263,11 +4084,11 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
                 minWidth: "0",
                 minHeight: "0",
 
-                border: "4px solid #111",
+                border: "5px solid #111",
 
-                borderRadius: index % 2 === 0 ? "28px 24px 30px 25px" : "24px 29px 24px 30px",
+                borderRadius: index % 2 === 0 ? "30px 26px 32px 27px" : "26px 31px 26px 32px",
 
-                boxShadow: "4px 5px 0 rgba(0,0,0,0.10)",
+                boxShadow: "5px 6px 0 rgba(0,0,0,0.12)",
 
                 transform: `rotate(${
                   index % 3 === 0 ? "-0.45deg" : index % 3 === 1 ? "0.35deg" : "-0.15deg"
@@ -3280,13 +4101,13 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
 
               <p
                 className="
-                  mb-2
+                  mb-3
                   shrink-0
                   text-left
                   font-display
                   text-[11px]
                   font-semibold
-                  leading-[1.18]
+                  leading-[1.2]
                   text-[#6c50a8]
                 "
               >
@@ -3294,39 +4115,50 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
               </p>
 
               {/* =========================
-                  WRITING BOX
+                  WRITING AREA
+                  FIX: siết chặt hơn để chắc chắn KHÔNG còn viền/outline/
+                  shadow/ring nào còn sót lại bên trong (kể cả trên chính
+                  div gốc do ReflectionTextarea trả về) — trước đây chỉ
+                  reset [&_div] (descendant) mà chưa ép luôn chính nó qua
+                  [&>div] nên có thể còn sót viền mặc định.
               ========================== */}
 
               <div
                 className="
                   relative
                   mt-1
-                  min-h-0
-                  flex-1
-                  overflow-hidden
-                  rounded-[22px]
-                  border-[4px]
-                  border-black
-                  bg-[#f8f6f1]
+	                  min-h-0
+	                  flex-1
+	                  overflow-hidden
+	                  rounded-[18px]
+	                  border-[5px]
+	                  border-black
+	                  bg-[#f8f6f1]
 
                   [&_label]:hidden
 
                   [&>div]:h-full
                   [&>div]:min-h-0
+                  [&>div]:border-0
+                  [&>div]:shadow-none
+                  [&>div]:outline-none
+                  [&>div]:ring-0
 
                   [&_div]:border-0
                   [&_div]:bg-transparent
                   [&_div]:p-0
                   [&_div]:shadow-none
+                  [&_div]:outline-none
+                  [&_div]:ring-0
 
                   [&_textarea]:relative
                   [&_textarea]:z-10
                   [&_textarea]:h-full
-                  [&_textarea]:min-h-[92px]
+	                  [&_textarea]:min-h-[86px]
                   [&_textarea]:w-full
                   [&_textarea]:resize-none
 
-                  [&_textarea]:rounded-[18px]
+                  [&_textarea]:rounded-[14px]
                   [&_textarea]:border-0
                   [&_textarea]:bg-transparent
 
@@ -3349,6 +4181,13 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
 
                   [&_textarea:focus]:outline-none
                   [&_textarea:focus]:ring-0
+                  [&_textarea:focus]:border-0
+                  [&_textarea:focus]:shadow-none
+
+                  [&_input]:border-0
+                  [&_input]:outline-none
+                  [&_input]:shadow-none
+                  [&_input]:ring-0
                 "
               >
                 {/* Paper lines */}
@@ -3381,9 +4220,10 @@ function S14YdinvahvuuksienTiekartta({ onSaveStateChange }: Props) {
     </div>
   );
 }
-// ----- S15 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
+
+// ----- Screen18 (PDF p20): Voimavarani opiskelijana 1/2 — informational -----
 // FIX: bulletItems giờ là string thuần (không còn JSX fragment), qua tr(); heading cũng qua tr()
-function S15() {
+function Screen18() {
   const tr = useTr();
   const bulletItems = [
     "Mieti voimavarojasi, jotka auttavat sinua selviytymään hankalissa ja stressaavissa elämäntilanteissa, palautumaan vastoinkäymisistä ja olemaan toiveikas tulevaisuuden suhteen.",
@@ -3435,9 +4275,9 @@ function S15() {
   );
 }
 
-// ----- S16 (PDF p21): Voimavarani opiskelijana 2/2 -----
+// ----- Screen19 (PDF p21): Voimavarani opiskelijana 2/2 -----
 // FIX: heading "Voimavarani opiskelijana 2/2" và "Merkitse vahvuutesi" giờ qua tr()
-export function S16({ onSaveStateChange }: Props) {
+export function Screen19({ onSaveStateChange }: Props) {
   const tr = useTr();
   const [scores, setScores] = useState<Record<string, number[]>>({});
 
@@ -3719,8 +4559,9 @@ export function S16({ onSaveStateChange }: Props) {
   );
 }
 
-function S17({ onSaveStateChange }: Props) {
+function Screen20({ onSaveStateChange }: Props) {
   const tr = useTr();
+
   return (
     <div
       className="
@@ -3730,7 +4571,6 @@ function S17({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
-
         text-white
         [scrollbar-gutter:stable]
       "
@@ -3748,6 +4588,10 @@ function S17({ onSaveStateChange }: Props) {
           pt-16
         "
       >
+        {/* =========================
+            ILLUSTRATION
+        ========================== */}
+
         <img
           src="/illustrations/s17-chain.png"
           alt=""
@@ -3765,9 +4609,49 @@ function S17({ onSaveStateChange }: Props) {
           "
         />
 
-        <div className="relative z-20 max-w-[1050px]">
-          {tr("Haasteet ja vahvuudet – Pohdi ja kirjoita vastaukset.")}
+        {/* =========================
+            TITLE
+        ========================== */}
+
+        <div
+          className="
+            relative
+            z-20
+            max-w-[820px]
+            pr-6
+            font-display
+            font-semibold
+            leading-[1.1]
+            text-[#FFE77A]
+          "
+        >
+          <h2
+            className="
+              m-0
+              text-[clamp(30px,2.6vw,42px)]
+              font-semibold
+              leading-[1.08]
+            "
+          >
+            {tr("Haasteet ja vahvuudet")}
+          </h2>
+
+          <h3
+            className="
+              mt-2
+              text-[clamp(23px,2vw,32px)]
+              font-semibold
+              leading-[1.15]
+              text-[#FFE77A]
+            "
+          >
+            {tr("– Pohdi ja kirjoita vastaukset.")}
+          </h3>
         </div>
+
+        {/* =========================
+            TOP QUESTIONS
+        ========================== */}
 
         <div
           className="
@@ -3782,6 +4666,10 @@ function S17({ onSaveStateChange }: Props) {
             md:grid-cols-2
           "
         >
+          {/* =========================
+              QUESTION 1
+          ========================== */}
+
           <div className="flex min-h-[245px] min-w-0 flex-col">
             <h2
               className="
@@ -3803,9 +4691,9 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[155px]
                 flex-1
                 overflow-hidden
+                rounded-[18px]
                 border-2
                 border-black
-                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
@@ -3851,6 +4739,10 @@ function S17({ onSaveStateChange }: Props) {
             </div>
           </div>
 
+          {/* =========================
+              QUESTION 2
+          ========================== */}
+
           <div className="flex min-h-[245px] min-w-0 flex-col">
             <h2
               className="
@@ -3872,9 +4764,9 @@ function S17({ onSaveStateChange }: Props) {
                 min-h-[155px]
                 flex-1
                 overflow-hidden
+                rounded-[18px]
                 border-2
                 border-black
-                rounded-[18px]
                 bg-[#fcfbfe]
                 shadow-[0_5px_0_#e2d8ed]
 
@@ -3921,6 +4813,10 @@ function S17({ onSaveStateChange }: Props) {
           </div>
         </div>
 
+        {/* =========================
+            BOTTOM QUESTION
+        ========================== */}
+
         <div
           className="
             relative
@@ -3950,9 +4846,9 @@ function S17({ onSaveStateChange }: Props) {
               min-h-[150px]
               w-full
               overflow-hidden
+              rounded-[18px]
               border-2
               border-black
-              rounded-[18px]
               bg-[#fcfbfe]
               shadow-[0_5px_0_#e2d8ed]
 
@@ -4002,9 +4898,9 @@ function S17({ onSaveStateChange }: Props) {
   );
 }
 
-// ----- S18 (PDF p23): Vahvuuksien käyttökielto -----
+// ----- Screen21 (PDF p23): Vahvuuksien käyttökielto -----
 // FIX: title và heading câu hỏi 2 (đổi <br/> thành trLines) giờ đều qua tr()
-function S18({ onSaveStateChange }: Props) {
+function Screen21({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div
@@ -4056,7 +4952,7 @@ function S18({ onSaveStateChange }: Props) {
               text-[clamp(38px,3.4vw,54px)]
               font-semibold
               leading-[1.08]
-              text-white
+              text-yellow
             "
           >
             {tr("Vahvuuksien käyttökielto")}
@@ -4070,7 +4966,7 @@ function S18({ onSaveStateChange }: Props) {
               text-[clamp(20px,1.65vw,27px)]
               font-semibold
               leading-[1.35]
-              text-white
+              text-yellow
             "
           >
             {tr("Kuvittele tilanne, jossa ydinvahvuutesi on kielletty seuraavaksi kuukaudeksi.")}
@@ -4233,9 +5129,9 @@ function S18({ onSaveStateChange }: Props) {
   );
 }
 
-// ----- S19 (PDF p24): Idea: Vahvuusjulisteet — informational, no required input -----
+// ----- Screen22 (PDF p24): Idea: Vahvuusjulisteet — informational, no required input -----
 // FIX: 3 đoạn <p> giờ qua tr()
-function S19() {
+function Screen22() {
   const tr = useTr();
   const { language } = useLanguage();
 
@@ -4256,7 +5152,7 @@ function S19() {
         overflow-x-hidden
         overflow-y-auto
         px-[5%]
-        pb-28
+        pb-[72px]
         pt-8
         text-white
         [scrollbar-gutter:stable]
@@ -4266,12 +5162,12 @@ function S19() {
         className="
           mx-auto
           grid
-          min-h-[760px]
+          min-h-[620px]
           w-full
           max-w-[1380px]
           grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]
           gap-10
-          pb-10
+          pb-2
         "
       >
         {/* =========================
@@ -4296,14 +5192,28 @@ function S19() {
               text-white
             "
           >
-            {tr(
-              "Idé: Vahvuusjulisteet – Jokainen opiskelija tekee julisteen itsestään ja ydinvahvuuksistaan – omalla valokuvalla ja viidellä ydinvahvuudella.",
-            )}
+            {tr("Idea: Vahvuusjulisteet")}
           </h1>
+
+          <p
+            className="
+              mt-8
+              max-w-[660px]
+              font-display
+              text-[clamp(16px,1.25vw,21px)]
+              font-semibold
+              leading-[1.42]
+              text-white
+            "
+          >
+            {tr(
+              "Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.",
+            )}
+          </p>
 
           <div
             className="
-              mt-9
+              mt-8
               max-w-[660px]
               space-y-8
               font-display
@@ -4313,12 +5223,6 @@ function S19() {
               text-white
             "
           >
-            <p>
-              {tr(
-                "Jokainen opiskelija tekee itsestään ja ydinvahvuuksistaan julisteen, jossa on oma kuva ja viisi ydinvahvuutta.",
-              )}
-            </p>
-
             <p>
               {tr(
                 "Millä tavoin voisit tehdä ydinvahvuutesi näkyväksi muille hauskalla ja luovalla tavalla?",
@@ -4341,7 +5245,7 @@ function S19() {
           className="
             relative
             flex
-            min-h-[700px]
+            min-h-[590px]
             min-w-0
             items-end
             justify-center
@@ -4355,7 +5259,7 @@ function S19() {
               pointer-events-none
               block
               h-auto
-              max-h-[680px]
+              max-h-[590px]
               w-auto
               max-w-[100%]
               select-none
@@ -4369,9 +5273,9 @@ function S19() {
   );
 }
 
-// ----- S20 (PDF p25): Muistele onnistumista -----
+// ----- Screen23 (PDF p25): Muistele onnistumista -----
 // FIX: title + 4 câu hỏi (kể cả phần có <strong>) giờ đều qua tr(), tách phần in đậm thành tr() riêng
-function S20({ onSaveStateChange }: Props) {
+function Screen23({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div
@@ -4748,7 +5652,7 @@ function S20({ onSaveStateChange }: Props) {
   );
 }
 
-// ----- S21 (PDF p26): Pohdi onnistumisia ja täydennä! -----
+// ----- Screen24 (PDF p26): Pohdi onnistumisia ja täydennä! -----
 const PAGE_PURPLE = "#7654ad";
 const PAGE_CORAL = "#ef6f70";
 const PAGE_YELLOW = "#ffd85d";
@@ -4892,9 +5796,9 @@ function IrregularPaper({
 }
 
 // ============================================================
-// S21 — PDF page 27: Pohdi onnistumisia ja täydennä!
+// Screen24 — PDF page 27: Pohdi onnistumisia ja täydennä!
 // ============================================================
-function S21({ onSaveStateChange }: Props) {
+function Screen24({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const notes = [
@@ -4957,9 +5861,6 @@ function S21({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
-        px-[4%]
-        pb-20
-        pt-6
         text-white
         [scrollbar-gutter:stable]
       "
@@ -4968,11 +5869,55 @@ function S21({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[950px]
+          min-h-[980px]
           w-full
           max-w-[1500px]
+          overflow-hidden
+          px-[6%]
+          pb-28
+          pt-8
         "
       >
+        {/* =========================
+            BOTTOM LEFT ILLUSTRATION
+        ========================== */}
+        <img
+          src="/illustrations/s24-bottom-left.png"
+          alt=""
+          aria-hidden="true"
+          className="
+    pointer-events-none
+    absolute
+    bottom-[230px]
+    left-[-10px]
+    z-10
+    h-auto
+    w-[240px]
+    object-contain
+    lg:w-[300px]
+  "
+        />
+
+        {/* =========================
+            BOTTOM RIGHT ILLUSTRATION
+        ========================== */}
+        <img
+          src="/illustrations/s24-bottom-right.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            bottom-[-4px]
+            right-[-8px]
+            z-10
+            h-auto
+            w-[240px]
+            object-contain
+            lg:w-[300px]
+          "
+        />
+
         <div
           className="
             relative
@@ -4981,9 +5926,7 @@ function S21({ onSaveStateChange }: Props) {
             grid-cols-1
             gap-x-12
             gap-y-16
-
             md:grid-cols-2
-
             lg:grid-cols-[25%_1fr_1fr_1fr]
             lg:grid-rows-[270px_270px_270px]
             lg:gap-x-10
@@ -5000,9 +5943,7 @@ function S21({ onSaveStateChange }: Props) {
               z-30
               min-w-0
               pt-8
-
               md:col-span-2
-
               lg:col-span-1
               lg:col-start-1
               lg:row-span-2
@@ -5163,10 +6104,10 @@ function S21({ onSaveStateChange }: Props) {
 }
 
 // ============================================================
-// S22 — PDF page 28: Tulevaisuuden muistelu
+// Screen25 — PDF page 28: Tulevaisuuden muistelu
 // ============================================================
 // FIX: tách 2 đoạn <p> có <strong> thành các tr() riêng
-function S22({ onSaveStateChange }: Props) {
+function Screen25({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div
@@ -5185,24 +6126,24 @@ function S22({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[900px]
+	          min-h-[840px]
           w-full
           max-w-[1500px]
           overflow-hidden
           px-[5.5%]
-          pb-20
-          pt-16
+	          pb-14
+	          pt-12
         "
       >
         <div
           className="
             relative
             z-10
-            min-h-[790px]
+	            min-h-[720px]
             rounded-[62px]
             
             px-[5.5%]
-            pb-16
+	            pb-12
             pt-12
             text-white
           "
@@ -5222,7 +6163,7 @@ function S22({ onSaveStateChange }: Props) {
             )}
           </h1>
 
-          <div className="mt-10 space-y-16">
+          <div className="mt-10 space-y-12">
             <section
               className="
                 grid
@@ -5243,10 +6184,10 @@ function S22({ onSaveStateChange }: Props) {
               />
 
               <div className="min-w-0">
-                <div className="pr-[28%]">
+                <div className="pr-[18%]">
                   <p
                     className="
-                      max-w-[820px]
+	                      max-w-[1040px]
                       text-[clamp(17px,1.25vw,22px)]
                       leading-[1.42]
                       text-white
@@ -5267,7 +6208,7 @@ function S22({ onSaveStateChange }: Props) {
                   className="
                     relative
                     mt-6
-                    min-h-[190px]
+	                    min-h-[175px]
                     w-full
                     overflow-hidden
                     border-2
@@ -5297,7 +6238,7 @@ function S22({ onSaveStateChange }: Props) {
                       relative
                       z-10
                       h-full
-                      min-h-[190px]
+	                      min-h-[175px]
 
                       [&_label]:hidden
 
@@ -5309,7 +6250,7 @@ function S22({ onSaveStateChange }: Props) {
                       [&>div]:shadow-none
 
                       [&_textarea]:h-full
-                      [&_textarea]:min-h-[190px]
+	                      [&_textarea]:min-h-[175px]
                       [&_textarea]:w-full
                       [&_textarea]:resize-none
                       [&_textarea]:rounded-[16px]
@@ -5331,8 +6272,8 @@ function S22({ onSaveStateChange }: Props) {
                   >
                     <FlatReflectionTextarea
                       fieldKey="screen_22_tulevaisuus"
-                      rows={6}
-                      minHeight={190}
+                      rows={5}
+                      minHeight={175}
                       onSaveStateChange={onSaveStateChange}
                     />
                   </div>
@@ -5378,7 +6319,7 @@ function S22({ onSaveStateChange }: Props) {
                   className="
                     relative
                     mt-6
-                    min-h-[170px]
+	                    min-h-[155px]
                     w-full
                     overflow-hidden
                     border-2
@@ -5408,7 +6349,7 @@ function S22({ onSaveStateChange }: Props) {
                       relative
                       z-10
                       h-full
-                      min-h-[170px]
+	                      min-h-[155px]
 
                       [&_label]:hidden
 
@@ -5420,7 +6361,7 @@ function S22({ onSaveStateChange }: Props) {
                       [&>div]:shadow-none
 
                       [&_textarea]:h-full
-                      [&_textarea]:min-h-[170px]
+	                      [&_textarea]:min-h-[155px]
                       [&_textarea]:w-full
                       [&_textarea]:resize-none
                       [&_textarea]:rounded-[16px]
@@ -5443,7 +6384,7 @@ function S22({ onSaveStateChange }: Props) {
                     <FlatReflectionTextarea
                       fieldKey="screen_22_oppi"
                       rows={5}
-                      minHeight={170}
+                      minHeight={155}
                       onSaveStateChange={onSaveStateChange}
                     />
                   </div>
@@ -5459,12 +6400,12 @@ function S22({ onSaveStateChange }: Props) {
           className="
             pointer-events-none
             absolute
-            right-[2.5%]
-            top-[18px]
-            z-20
-            h-[305px]
-            w-auto
-            max-w-[23%]
+	            right-[0.75%]
+	            top-[4px]
+	            z-20
+	            h-[350px]
+	            w-auto
+	            max-w-[24%]
             object-contain
           "
         />
@@ -5474,10 +6415,10 @@ function S22({ onSaveStateChange }: Props) {
 }
 
 // ============================================================
-// S23 — PDF page 29: Ydinvahvuudet parin kanssa
+// Screen26 — PDF page 29: Ydinvahvuudet parin kanssa
 // ============================================================
 // FIX: đoạn intro giờ qua tr()
-function S23({ onSaveStateChange }: Props) {
+function Screen26({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const questions = [
@@ -5540,13 +6481,13 @@ function S23({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[2350px]
+	          min-h-[1840px]
           w-full
           max-w-[1500px]
           overflow-hidden
           px-[8%]
-          pb-28
-          pt-16
+	          pb-16
+	          pt-12
         "
       >
         <div className="relative z-20">
@@ -5604,11 +6545,11 @@ function S23({ onSaveStateChange }: Props) {
           {/* QUESTIONS */}
           <div
             className="
-              mt-14
+	              mt-10
               grid
               grid-cols-1
               gap-x-12
-              gap-y-8
+	              gap-y-5
               lg:grid-cols-2
             "
           >
@@ -5656,8 +6597,8 @@ function S23({ onSaveStateChange }: Props) {
                 <div
                   className="
                     relative
-                    mt-2
-                    min-h-[205px]
+	                    mt-1.5
+	                    min-h-[165px]
                     w-full
                     overflow-hidden
                     rounded-[18px]
@@ -5687,7 +6628,7 @@ function S23({ onSaveStateChange }: Props) {
                       relative
                       z-10
                       h-full
-                      min-h-[205px]
+	                      min-h-[165px]
 
                       [&_label]:hidden
 
@@ -5700,7 +6641,7 @@ function S23({ onSaveStateChange }: Props) {
                       [&_div]:shadow-none
 
                       [&_textarea]:h-full
-                      [&_textarea]:min-h-[205px]
+	                      [&_textarea]:min-h-[165px]
                       [&_textarea]:w-full
                       [&_textarea]:resize-none
                       [&_textarea]:rounded-[16px]
@@ -5723,7 +6664,7 @@ function S23({ onSaveStateChange }: Props) {
                     <ReflectionTextarea
                       fieldKey={question.fieldKey}
                       label=""
-                      rows={6}
+                      rows={5}
                       onSaveStateChange={onSaveStateChange}
                     />
                   </div>
@@ -5738,43 +6679,165 @@ function S23({ onSaveStateChange }: Props) {
 }
 
 // ============================================================
-// S24 — PDF page 30: Anna palautetta ja kehuja
+// Screen27 — PDF page 30: Anna palautetta ja kehuja
 // ============================================================
 // FIX: title (đổi <br/> thành trLines) giờ qua tr()
-function S24({ onSaveStateChange }: Props) {
+function Screen27() {
   const tr = useTr();
-  const bubbles = [
+  const { language } = useLanguage();
+  const illustrationSrc =
+    language === "en"
+      ? "/illustrations/s24-feedback-bubbles-en.png"
+      : language === "sv"
+        ? "/illustrations/s24-feedback-bubbles-sv.png"
+        : "/illustrations/s24-feedback-bubbles-fi.png";
+
+  return (
+    <div
+      className="
+        relative
+	        h-full
+	        min-h-0
+	        w-full
+	        overflow-x-hidden
+	        overflow-y-hidden
+	       
+	        text-white
+	      "
+    >
+      <div
+        className="
+	          relative
+	          mx-auto
+	          flex
+	          h-full
+	          min-h-0
+	          w-full
+	          max-w-[1500px]
+	          flex-col
+	          overflow-visible
+	          px-[7%]
+	          pb-6
+	          pt-10
+	        "
+      >
+        <h1
+          className="
+	            relative
+	            z-20
+	            max-w-[1120px]
+	            shrink-0
+	            font-display
+	            text-[clamp(30px,2.6vw,46px)]
+	            font-semibold
+	            leading-[1.12]
+	            text-white
+	          "
+        >
+          {trLines(tr, "Anna palautetta ja kehuja täydentämällä\nseuraavia lauseenalkuja:")}
+        </h1>
+
+        <img
+          src={illustrationSrc}
+          alt={tr("Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:")}
+          className="
+	            pointer-events-none
+	            relative
+	            z-20
+	            mx-auto
+	            mt-2
+	            block
+	            min-h-0
+	            w-full
+	            max-w-[px]
+	            flex-1
+	            select-none
+	            object-contain
+	          "
+        />
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// Screen28 — PDF page 32: Tässä olen minä
+// ============================================================
+function Screen28({ onSaveStateChange }: Props) {
+  const tr = useTr();
+  const { language } = useLanguage();
+
+  const notes = [
     {
-      key: "screen_24_palaute_1",
-      label: "KERRO LISÄÄ!",
-      rotateClass: "-rotate-[2deg]",
+      key: "screen_25_tassa_1",
+      label: "Minulle tärkeää on",
+      rotate: -1,
     },
     {
-      key: "screen_24_palaute_2",
-      label: "TARKOITATKO ETTÄ…",
-      rotateClass: "rotate-[1.5deg]",
+      key: "screen_25_tassa_2",
+      label: "Tulen iloiseksi, kun",
+      rotate: 1,
     },
     {
-      key: "screen_24_palaute_3",
-      label: "OLEN YLPEÄ SINUSTA, KOSKA…",
-      rotateClass: "-rotate-[1deg]",
+      key: "screen_25_tassa_3",
+      label: "Läheisissäni parasta on",
+      rotate: 2,
     },
     {
-      key: "screen_24_palaute_4",
-      label: "SINUN VAHVUUKSIASI OVAT AINAKIN…",
-      rotateClass: "rotate-[1.5deg]",
+      key: "screen_25_tassa_4",
+      label: "Osaan hyvin ja tykkään tehdä",
+      rotate: -2,
     },
     {
-      key: "screen_24_palaute_5",
-      label: "WAU, OPIN ETTÄ…",
-      rotateClass: "-rotate-[1.5deg]",
+      key: "screen_25_tassa_5",
+      label: "Parasta ryhmässäni on",
+      rotate: 1,
     },
     {
-      key: "screen_24_palaute_6",
-      label: "TÄMÄ OLI TÄRKEÄÄ KUULLA, KOSKA…",
-      rotateClass: "rotate-[1deg]",
+      key: "screen_25_tassa_6",
+      label: "Opinnoissa lempiaineita ovat",
+      rotate: -1,
+    },
+    {
+      key: "screen_25_tassa_7",
+      label: "Minulle on vaikeaa",
+      rotate: 2,
+    },
+    {
+      key: "screen_25_tassa_8",
+      label: "Lempitekemistä",
+      rotate: 1,
+    },
+    {
+      key: "screen_25_tassa_9",
+      label: "Vapaa-ajalla tykkään",
+      rotate: -1,
+    },
+    {
+      key: "screen_25_tassa_10",
+      label: "Lukiossa haluaisin oppia",
+      rotate: 1,
+    },
+    {
+      key: "screen_25_tassa_11",
+      label: "Lukiossa minua innostaa",
+      rotate: -1,
     },
   ];
+
+  /*
+   * Illustration theo ngôn ngữ.
+   *
+   * FI = Finnish
+   * EN = English
+   * SV = Swedish
+   */
+  const cornerIllustration =
+    language === "fi"
+      ? "/illustrations/s28-corner-fi.png"
+      : language === "sv"
+        ? "/illustrations/s28-corner-sv.png"
+        : "/illustrations/s28-corner-en.png";
 
   return (
     <div
@@ -5785,7 +6848,6 @@ function S24({ onSaveStateChange }: Props) {
         w-full
         overflow-x-hidden
         overflow-y-auto
-       
         text-white
         [scrollbar-gutter:stable]
       "
@@ -5794,156 +6856,183 @@ function S24({ onSaveStateChange }: Props) {
         className="
           relative
           mx-auto
-          min-h-[1120px]
           w-full
-          max-w-[1500px]
-          overflow-hidden
-          px-[7%]
-          pb-28
-          pt-14
+          max-w-[1520px]
+          px-[5%]
+          pb-24
+          pt-8
         "
       >
-        <h1
-          className="
-            relative
-            z-20
-            max-w-[1050px]
-            font-display
-            text-[clamp(36px,3vw,52px)]
-            font-semibold
-            leading-[1.12]
-            text-[#ffd95d]
-          "
-        >
-          {trLines(tr, "Anna palautetta ja kehuja täydentämällä\nseuraavia lauseenalkuja:")}
-        </h1>
+        {/* =========================
+            TITLE
+        ========================== */}
 
         <div
           className="
             relative
             z-20
-            mt-14
-            grid
-            grid-cols-1
-            gap-x-14
-            gap-y-20
-
-            md:grid-cols-2
-
-            xl:grid-cols-3
-            xl:gap-x-16
-            xl:gap-y-24
+            mb-10
+            max-w-[360px]
           "
         >
-          {bubbles.map((bubble) => (
-            <div
-              key={bubble.key}
-              className={`
-                relative
-                flex
-                min-h-[320px]
-                min-w-0
-                flex-col
-                overflow-hidden
-                border-2
-                border-black
-                bg-white
-                px-5
-                pb-5
-                pt-5
-                shadow-[0_9px_0_rgba(68,42,105,0.22)]
-                transition-transform
-                duration-200
-                hover:-translate-y-1
+          <h1
+            className="
+              font-display
+              text-[clamp(40px,4vw,60px)]
+              font-extrabold
+              leading-[1.03]
+              tracking-[-0.025em]
+              text-[#FFD95D]
+              drop-shadow-[0_5px_0_rgba(59,35,82,0.35)]
+            "
+          >
+            {tr("Täällä olen minä:")}
+          </h1>
+        </div>
 
-                ${bubble.rotateClass}
-              `}
-              style={{
-                borderRadius: "48% 52% 46% 54% / 48% 44% 56% 52%",
-              }}
+        {/* =========================
+            GRID
+
+            4 cột:
+            hàng 1 = 4 box
+            hàng 2 = 4 box
+            hàng 3 = 3 box + illustration
+        ========================== */}
+
+        <div
+          className="
+            relative
+            z-20
+            grid
+            grid-cols-1
+            gap-x-8
+            gap-y-10
+
+            sm:grid-cols-2
+
+            lg:grid-cols-4
+          "
+        >
+          {notes.map((note) => (
+            <IrregularPaper
+              key={note.key}
+              rotate={note.rotate}
+              className={cn(
+                `
+                  relative
+                  flex
+                  h-[280px]
+                  min-w-0
+                  flex-col
+                  overflow-visible
+                  px-4
+                  pb-4
+                  pt-4
+                  text-black
+                  shadow-[0_10px_0_rgba(59,35,82,0.55)]
+                `,
+              )}
             >
+              {/* =========================
+                  LABEL
+              ========================== */}
+
               <p
                 className="
-                  relative
-                  z-20
                   mx-auto
+                  mb-3
                   flex
-                  min-h-[52px]
+                  min-h-[40px]
                   max-w-[92%]
                   shrink-0
-                  items-start
+                  items-center
                   justify-center
                   text-center
                   font-display
-                  text-[17px]
+                  text-[16px]
                   font-semibold
-                  leading-[1.25]
-                  text-[#241b3f]
+                  leading-[1.18]
+                  text-black
                 "
               >
-                {tr(bubble.label)}
+                {tr(note.label)}
               </p>
+
+              {/* =========================
+                  TEXT BOX
+              ========================== */}
 
               <div
                 className="
                   relative
-                  z-10
-                  mt-3
-                  min-h-[210px]
+                  min-h-0
                   flex-1
                   overflow-hidden
-                  border-2
-                  border-black
-                  rounded-[22px]
-                  bg-[#fffefa]
 
-                  focus-within:bg-white
+                  rounded-[30px]
+                  border-[5px]
+                  border-black
+
+                  bg-[#f7f4ee]
+
+                  shadow-[2px_2px_0_rgba(0,0,0,0.08)_inset]
                 "
               >
+                {/* PAPER LINES */}
+
                 <div
                   aria-hidden="true"
                   className="
                     pointer-events-none
                     absolute
-                    inset-x-5
-                    inset-y-4
-                    z-0
-                    opacity-70
+                    inset-0
+
+                    rounded-[24px]
+
                     [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_29px,#ddd4ea_30px,#ddd4ea_31px)]
+                    [background-position:0_18px]
                   "
                 />
+
+                {/* TEXTAREA */}
 
                 <div
                   className="
                     relative
                     z-10
                     h-full
-                    min-h-[210px]
 
                     [&_label]:hidden
 
                     [&>div]:h-full
                     [&>div]:min-h-0
-                    [&>div]:border-0
-                    [&>div]:bg-transparent
-                    [&>div]:p-0
-                    [&>div]:shadow-none
+
+                    [&_div]:border-0
+                    [&_div]:bg-transparent
+                    [&_div]:p-0
+                    [&_div]:shadow-none
 
                     [&_textarea]:h-full
-                    [&_textarea]:min-h-[210px]
+                    [&_textarea]:min-h-0
                     [&_textarea]:w-full
                     [&_textarea]:resize-none
-                    [&_textarea]:rounded-[20px]
+
+                    [&_textarea]:rounded-[24px]
                     [&_textarea]:border-0
                     [&_textarea]:bg-transparent
-                    [&_textarea]:px-5
-                    [&_textarea]:py-4
+
+                    [&_textarea]:px-4
+                    [&_textarea]:pb-4
+                    [&_textarea]:pt-[18px]
+
                     [&_textarea]:text-[15px]
                     [&_textarea]:leading-[30px]
                     [&_textarea]:text-[#241b3f]
+
                     [&_textarea]:outline-none
                     [&_textarea]:shadow-none
                     [&_textarea]:ring-0
+
                     [&_textarea]:placeholder:text-[#aaa1b5]
 
                     [&_textarea:focus]:outline-none
@@ -5951,123 +7040,53 @@ function S24({ onSaveStateChange }: Props) {
                   "
                 >
                   <FlatReflectionTextarea
-                    fieldKey={bubble.key}
-                    rows={6}
-                    minHeight={210}
+                    fieldKey={note.key}
+                    rows={5}
+                    minHeight={170}
                     textClass="text-[15px]"
                     onSaveStateChange={onSaveStateChange}
                   />
                 </div>
               </div>
-            </div>
+            </IrregularPaper>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// ============================================================
-// S25 — PDF page 32: Tässä olen minä
-// ============================================================
-function S25({ onSaveStateChange }: Props) {
-  const tr = useTr();
-  const notes = [
-    {
-      key: "screen_25_tassa_1",
-      label: "Minulle tärkeää on",
-      className: "left-[28%] top-[5%] h-[195px] w-[18%]",
-      rotate: -1,
-    },
-    {
-      key: "screen_25_tassa_2",
-      label: "Tulen iloiseksi, kun",
-      className: "left-[47%] top-[7%] h-[205px] w-[19%]",
-      rotate: 1,
-    },
-    {
-      key: "screen_25_tassa_3",
-      label: "Läheisissäni parasta on",
-      className: "right-[4%] top-[7%] h-[200px] w-[19%]",
-      rotate: 2,
-    },
-    {
-      key: "screen_25_tassa_4",
-      label: "Osaan hyvin ja tykkään tehdä",
-      className: "left-[6%] top-[27%] h-[205px] w-[19%]",
-      rotate: -4,
-    },
-    {
-      key: "screen_25_tassa_5",
-      label: "Parasta ryhmässäni on",
-      className: "left-[29%] top-[31%] h-[190px] w-[18%]",
-      rotate: 2,
-    },
-    {
-      key: "screen_25_tassa_6",
-      label: "Opinnoissa lempiaineita ovat",
-      className: "left-[49%] top-[34%] h-[195px] w-[20%]",
-      rotate: -2,
-    },
-    {
-      key: "screen_25_tassa_7",
-      label: "Minulle on vaikeaa",
-      className: "right-[3%] top-[35%] h-[200px] w-[19%]",
-      rotate: 2,
-    },
-    {
-      key: "screen_25_tassa_8",
-      label: "Lempitekemistä",
-      className: "left-[8%] top-[57%] h-[185px] w-[19%]",
-      rotate: 1,
-    },
-    {
-      key: "screen_25_tassa_9",
-      label: "Vapaa-ajalla tykkään",
-      className: "left-[31%] top-[67%] h-[190px] w-[19%]",
-      rotate: -1,
-    },
-    {
-      key: "screen_25_tassa_10",
-      label: "Lukiossa haluaisin oppia",
-      className: "left-[51%] top-[64%] h-[190px] w-[19%]",
-      rotate: 1,
-    },
-    {
-      key: "screen_25_tassa_11",
-      label: "Lukiossa minua innostaa",
-      className: "right-[2%] top-[67%] h-[190px] w-[19%]",
-      rotate: -1,
-    },
-  ];
+          {/* =========================
+              ILLUSTRATION
+              HÀNG CUỐI - GÓC PHẢI
 
-  return (
-    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-white [scrollbar-gutter:stable]">
-      <div className="relative mx-auto min-h-[850px] w-full max-w-[1500px] overflow-hidden px-[7%] pb-20 pt-12">
-        <h1 className="absolute left-[7%] top-[8%] z-20 w-[17%] font-display text-[clamp(40px,3.5vw,58px)] font-medium leading-[1.08]">
-          {tr("Täällä olen minä:")}
-        </h1>
+              Đây chính là vị trí thứ 12
+              sau 11 box.
+          ========================== */}
 
-        {notes.map((note) => (
-          <IrregularPaper
-            key={note.key}
-            rotate={note.rotate}
-            className={cn("absolute z-20 p-3 text-black", note.className)}
+          <div
+            className="
+              relative
+              hidden
+              h-[280px]
+              min-w-0
+              items-center
+              justify-center
+
+              lg:flex
+            "
           >
-            <p className="min-h-[34px] text-center font-display text-[14px] font-semibold leading-[1.2]">
-              {tr(note.label)}
-            </p>
-            <div className="h-[calc(100%-36px)]">
-              <FlatReflectionTextarea
-                fieldKey={note.key}
-                rows={4}
-                minHeight={100}
-                textClass="text-[14px]"
-                onSaveStateChange={onSaveStateChange}
-              />
-            </div>
-          </IrregularPaper>
-        ))}
+            <img
+              src={cornerIllustration}
+              alt=""
+              aria-hidden="true"
+              className="
+                pointer-events-none
+                block
+                h-auto
+                w-full
+                max-w-[250px]
+                object-contain
+                select-none
+              "
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -6091,7 +7110,7 @@ const LIKERT_STATEMENTS = [
 ] as const;
 
 // ============================================================
-// Likert helper restyled for S26
+// Likert helper restyled for Screen29
 // ============================================================
 
 function LikertRow({
@@ -6232,10 +7251,10 @@ function LikertRow({
 }
 
 // ============================================================
-// S26 — PDF page 33: Omien vahvuuksien käyttö
+// Screen29 — PDF page 33: Omien vahvuuksien käyttö
 // ============================================================
 
-function S26({ onSaveStateChange }: Props) {
+function Screen29({ onSaveStateChange }: Props) {
   const tr = useTr();
 
   const [scores, setScores] = useState<Record<number, number>>({});
@@ -6460,10 +7479,10 @@ function S26({ onSaveStateChange }: Props) {
   );
 }
 // ============================================================
-// M2Intro — Module 2 title card
+// Screen30 — Module 2 title card
 // ============================================================
 // FIX: "Tasot  2" và h1 (đổi <br/> thành trLines) giờ qua tr()
-function M2Intro() {
+function Screen30() {
   const tr = useTr();
   return (
     <div className="relative h-full min-h-[620px] w-full overflow-hidden  text-white">
@@ -6479,10 +7498,10 @@ function M2Intro() {
 }
 
 // ============================================================
-// S28 — Omat vahvuuteni lukiossa
+// Screen31 — Omat vahvuuteni lukiossa
 // ============================================================
 // FIX: 3 đoạn <p> giờ qua tr()
-function S28() {
+function Screen31() {
   const tr = useTr();
   return (
     <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto  text-white [scrollbar-gutter:stable]">
@@ -6518,7 +7537,7 @@ function S28() {
 }
 
 // ============================================================
-// Reusable Vahvuuskarkkini worksheet — design used by S29
+// Reusable Vahvuuskarkkini worksheet — design used by Screen32
 // ============================================================
 // FIX: "Valitse 1–2 vahvuuskarkkia ja" / "Kirjoita vahvuudet tähän" / "Pohdi, mitä teit, koit ja opit."
 // / "Täydennä oheinen tehtävä." giờ đều qua tr()
@@ -6590,6 +7609,14 @@ function VahvuuskarkkiSheet({
   onSaveStateChange?: (s: SaveState) => void;
 }) {
   const tr = useTr();
+  const { language } = useLanguage();
+
+  const sheetIllustration =
+    language === "fi"
+      ? "/illustrations/s29-lukiossa-sheet-fi.png"
+      : language === "sv"
+        ? "/illustrations/s29-lukiossa-sheet-sv.png"
+        : "/illustrations/s29-lukiossa-sheet-en.png";
 
   return (
     <div
@@ -6600,9 +7627,6 @@ function VahvuuskarkkiSheet({
         w-full
         overflow-x-hidden
         overflow-y-auto
-        px-[5%]
-        pb-24
-        pt-8
         text-white
         [scrollbar-gutter:stable]
       "
@@ -6612,11 +7636,15 @@ function VahvuuskarkkiSheet({
           relative
           mx-auto
           grid
-          min-h-[780px]
+          min-h-[760px]
           w-full
-          max-w-[1450px]
-          grid-cols-[42%_58%]
-          gap-8
+          max-w-[1500px]
+          grid-cols-1
+          gap-12
+          px-[6%]
+          pb-24
+          pt-8
+          lg:grid-cols-[44%_56%]
         "
       >
         {/* =========================
@@ -6631,7 +7659,7 @@ function VahvuuskarkkiSheet({
               text-[clamp(36px,3.2vw,54px)]
               font-semibold
               leading-[1.05]
-              text-white
+              text-[#FFE77A]
             "
           >
             {tr(title)}
@@ -6645,7 +7673,7 @@ function VahvuuskarkkiSheet({
               text-[clamp(20px,1.55vw,27px)]
               font-semibold
               leading-[1.25]
-              text-[#7654ad]
+              text-white
             "
           >
             {tr("Valitse 1–2 vahvuuskarkkia ja")} {tr("hyödynnä")} {tr(context)}.
@@ -6657,7 +7685,7 @@ function VahvuuskarkkiSheet({
               font-display
               text-[clamp(18px,1.4vw,24px)]
               font-semibold
-              text-[#7654ad]
+              text-white
             "
           >
             {tr("Kirjoita vahvuudet tähän")}
@@ -6672,10 +7700,12 @@ function VahvuuskarkkiSheet({
 
               [&_input]:border-0
               [&_input]:border-b-2
-              [&_input]:border-black
+              [&_input]:border-white
               [&_input]:bg-transparent
               [&_input]:text-[18px]
+              [&_input]:text-white
               [&_input]:outline-none
+              [&_input]:placeholder:text-white/50
             "
           >
             <ReflectionInput
@@ -6694,7 +7724,7 @@ function VahvuuskarkkiSheet({
               text-[clamp(19px,1.6vw,26px)]
               font-semibold
               leading-[1.35]
-              text-[#7654ad]
+              text-white
             "
           >
             {tr("Pohdi, mitä teit, koit ja opit.")}
@@ -6724,7 +7754,7 @@ function VahvuuskarkkiSheet({
               className="
                 text-[clamp(18px,1.45vw,24px)]
                 leading-[1.35]
-                text-black
+                text-white
               "
             >
               {tr("Täydennä oheinen tehtävä.")}
@@ -6762,11 +7792,6 @@ function VahvuuskarkkiSheet({
             justify-center
           "
         >
-          {/* 
-            IMPORTANT:
-            Illustration + inputs share this exact same box.
-            This keeps all 4 textareas aligned.
-          */}
           <div
             className="
               relative
@@ -6776,9 +7801,12 @@ function VahvuuskarkkiSheet({
               shrink-0
             "
           >
-            {/* ILLUSTRATION */}
+            {/* =========================
+                LANGUAGE-SPECIFIC ILLUSTRATION
+            ========================== */}
+
             <img
-              src="/illustrations/s29-lukiossa-sheet.png"
+              src={sheetIllustration}
               alt=""
               aria-hidden="true"
               className="
@@ -6793,18 +7821,7 @@ function VahvuuskarkkiSheet({
               "
             />
 
-            {/*
-              FIX: Tọa độ 4 ô bên dưới được đo TRỰC TIẾP từ file ảnh gốc
-              s29-lukiossa-sheet.png (1024x1024px, 4 vùng trong suốt được
-              "khoét lỗ" sẵn trong ảnh — không phải màu trắng). Vì <img>
-              dùng object-fill nên % tính trên đúng kích thước ảnh gốc,
-              khớp 1:1 với khung trong ảnh dù container co giãn thế nào.
-            */}
-
-            {/* =========================
-                TOP BOX — 3. MITÄ OPIT?
-                đo được: x 260–772, y 134–328 / 1024
-            ========================== */}
+            {/* TOP BOX */}
 
             <div
               className="
@@ -6822,10 +7839,7 @@ function VahvuuskarkkiSheet({
               />
             </div>
 
-            {/* =========================
-                MIDDLE LEFT — 2
-                đo được: x 151–495, y 406–597 / 1024
-            ========================== */}
+            {/* MIDDLE LEFT */}
 
             <div
               className="
@@ -6843,10 +7857,7 @@ function VahvuuskarkkiSheet({
               />
             </div>
 
-            {/* =========================
-                MIDDLE RIGHT — 4
-                đo được: x 531–873, y 406–597 / 1024
-            ========================== */}
+            {/* MIDDLE RIGHT */}
 
             <div
               className="
@@ -6864,10 +7875,7 @@ function VahvuuskarkkiSheet({
               />
             </div>
 
-            {/* =========================
-                BOTTOM BOX — 1. MITÄ TEIT?
-                đo được: x 253–770, y 714–878 / 1024
-            ========================== */}
+            {/* BOTTOM BOX */}
 
             <div
               className="
@@ -6892,10 +7900,10 @@ function VahvuuskarkkiSheet({
 }
 
 // ============================================================
-// S29
+// Screen32
 // ============================================================
 
-function S29(p: Props) {
+function Screen32(p: Props) {
   return (
     <VahvuuskarkkiSheet
       title="Vahvuuskarkkini"
@@ -6907,106 +7915,264 @@ function S29(p: Props) {
 }
 
 // ============================================================
-// S30 — Osaamisen osa-alueiden palapeli
+// Screen33 — Osaamisen osa-alueiden palapeli
 // ============================================================
 // FIX: đoạn <p> phụ (trùng h1) giờ qua tr()
-function S30({ onSaveStateChange }: Props) {
+function Screen33({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const { language } = useLanguage();
+
   const pieces = [
     {
       key: "screen_30_lahjakkuudet",
       tab: "LAHJAKKUUDET",
       question: "MISSÄ OLET HYVÄ?",
-      className: "left-[35%] top-[4%] h-[315px] w-[31%]",
-      clip: "polygon(0 3%, 100% 0, 92% 42%, 100% 58%, 92% 100%, 55% 96%, 48% 100%, 0 96%)",
+      wrapper: "left-[2.4%] top-[8%] h-[45%] w-[45%]",
+      tabClass: "left-[54%] top-[-25%]",
+      questionClass: "top-[6%]",
+      textareaClass: "left-[22%] right-[11%] top-[31%] bottom-[24%]",
     },
     {
       key: "screen_30_taidot",
       tab: "TAIDOT",
       question: "MITÄ TAITOJA SINULLA JO ON, JOITA HYÖDYNNÄT OPINNOISSA?",
-      className: "right-[3%] top-[1%] h-[325px] w-[31%]",
-      clip: "polygon(5% 0, 100% 0, 100% 100%, 55% 96%, 47% 100%, 0 96%, 8% 58%, 0 43%)",
+      wrapper: "left-[49%] top-[5.2%] h-[46%] w-[49%]",
+      tabClass: "left-[61%] top-[-25%]",
+      questionClass: "top-[6%]",
+      textareaClass: "left-[42%] right-[9%] top-[35%] bottom-[25%]",
     },
     {
       key: "screen_30_kiinnostukset",
       tab: "KIINNOSTUKSEN KOHTEET",
       question: "MITÄ HARRASTAT? MITKÄ OVAT INNOSTUKSEN JA INTOHIMON KOHTEITA VAPAA-AJALLASI?",
-      className: "left-[36%] top-[50%] h-[315px] w-[31%]",
-      clip: "polygon(0 3%, 48% 0, 55% 5%, 100% 2%, 92% 43%, 100% 58%, 92% 100%, 0 96%, 8% 58%, 0 42%)",
+      wrapper: "left-[2%] top-[56.5%] h-[42%] w-[46%]",
+      tabClass: "left-[91%] top-[-20%] -rotate-[8deg]",
+      questionClass: "top-[6%]",
+      textareaClass: "left-[24%] right-[10%] top-[33%] bottom-[21%]",
     },
     {
       key: "screen_30_resurssit",
       tab: "RESURSSIT",
       question:
         "MITKÄ ASIAT TAI HENKILÖT OVAT VOIMAVAROJASI? MIKÄ AUTTAA SINUA PYSYMÄÄN VAHVANA VAIKEINA AIKOINA? MIKÄ TUO ELÄMÄÄSI MERKITYSTÄ?",
-      className: "right-[4%] top-[49%] h-[315px] w-[31%]",
-      clip: "polygon(5% 0, 100% 3%, 100% 96%, 55% 100%, 48% 95%, 0 100%, 8% 58%, 0 42%)",
+      wrapper: "left-[49.5%] top-[53.5%] h-[44.5%] w-[48.5%]",
+      tabClass: "left-[24%] top-[-25%] -rotate-[6deg]",
+      questionClass: "top-[5%]",
+      textareaClass: "left-[42%] right-[9%] top-[35%] bottom-[22%]",
     },
   ];
 
-  return (
-    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-[#7654ad] text-white [scrollbar-gutter:stable]">
-      <div className="relative mx-auto min-h-[820px] w-full max-w-[1500px] overflow-hidden px-[7%] pb-20 pt-12">
-        <WorkbookCornerShapes top="coral" right="yellow" bottomLeft="mint" bottomRight="mint" />
+  const puzzleIllustration =
+    language === "fi"
+      ? "/illustrations/s33-puzzle-layout-fi.png"
+      : language === "sv"
+        ? "/illustrations/s33-puzzle-layout-sv.png"
+        : "/illustrations/s33-puzzle-layout-en.png";
 
-        <div className="absolute left-[7%] top-[8%] z-20 w-[24%]">
-          <h1 className="font-display text-[clamp(38px,3.4vw,56px)] font-medium leading-[1.08]">
-            {tr(
-              "Osaamispalojen palapeli: Meillä kaikilla on osaamista ja voimavaroja elämässämme. Ne voidaan jakaa neljään alueeseen: lahjakkuuteen, taitoihin, kiinnostuksenkohteisiin ja resursseihin.",
-            )}
+  return (
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        text-white
+        [scrollbar-gutter:stable]
+      "
+    >
+      {/* =====================================================
+          CANVAS
+      ====================================================== */}
+
+      <div
+        className="
+          relative
+          mx-auto
+          min-h-[920px]
+          w-full
+          max-w-[1500px]
+          overflow-hidden
+          pb-28
+        "
+      >
+        {/* =====================================================
+            LEFT TEXT
+        ====================================================== */}
+
+        <div
+          className="
+            absolute
+            left-[6.5%]
+            top-[8%]
+            z-30
+            w-[24%]
+            max-w-[330px]
+          "
+        >
+          <h1
+            className="
+              font-display
+              text-[clamp(36px,3.2vw,54px)]
+              font-semibold
+              leading-[1.08]
+              text-white
+            "
+          >
+            {tr("Osaamisen osa-alueiden palapeli")}
           </h1>
-          <p className="mt-8 text-[clamp(19px,1.55vw,26px)] leading-[1.35]">
+
+          <p
+            className="
+              mt-8
+              font-display
+              text-[clamp(18px,1.45vw,24px)]
+              font-normal
+              leading-[1.4]
+              text-white
+            "
+          >
             {tr(
               "Meillä kaikilla on osaamisia ja tukipilareita elämässämme. Nämä voidaan jakaa neljään osa-alueeseen:",
             )}{" "}
-            <strong>
+            <strong className="font-semibold">
               {tr("lahjakkuuksiin, taitoihin, kiinnostuksen kohteisiin ja resursseihin.")}
             </strong>
           </p>
-          <p className="mt-16 text-[17px]">(Niemiec, 2018)</p>
 
-          <img
-            src="/illustrations/s30-puzzle-person.png"
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-[-330px] left-[-45%] h-[470px] w-auto object-contain"
-          />
+          <p
+            className="
+              mt-14
+              text-[16px]
+              text-white
+            "
+          >
+            (Niemiec, 2018)
+          </p>
         </div>
 
-        {pieces.map((piece) => (
-          <div key={piece.key} className={cn("absolute z-20", piece.className)}>
-            <div className="absolute left-1/2 top-[-28px] -translate-x-1/2 rounded-t-[12px] border-2 border-b-0 border-black bg-[#65bdc5] px-5 py-2 text-center font-display text-[12px] font-semibold">
-              {tr(piece.tab)}
-            </div>
+        {/* =====================================================
+            RIGHT PUZZLE AREA
+        ====================================================== */}
+
+        <div
+          className="
+            absolute
+            left-[30%]
+            top-[6%]
+            z-10
+            aspect-[99/86]
+            w-[67%]
+            max-w-[1020px]
+          "
+        >
+          {/* =====================================================
+              LANGUAGE-SPECIFIC ILLUSTRATION
+          ====================================================== */}
+
+          <img
+            src={puzzleIllustration}
+            alt=""
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              z-0
+              h-full
+              w-full
+              object-fill
+              select-none
+            "
+          />
+
+          {/* =====================================================
+              PUZZLE INPUTS
+          ====================================================== */}
+
+          {pieces.map((piece) => (
             <div
-              className="h-full border-2 border-black bg-white p-5 text-black shadow-[0_9px_0_rgba(48,27,74,0.55)]"
-              style={{ clipPath: piece.clip }}
+              key={piece.key}
+              className={cn(
+                `
+                  absolute
+                  z-20
+                `,
+                piece.wrapper,
+              )}
             >
-              <p className="mx-auto max-w-[85%] text-center font-display text-[13px] font-semibold leading-[1.2]">
-                {tr(piece.question)}
-              </p>
-              <div className="mt-3 h-[calc(100%-50px)]">
+              <div
+                className={cn(
+                  `
+                    absolute
+                    z-20
+                    overflow-hidden
+                    rounded-[24px]
+                    border-[6px]
+                    border-black
+                    bg-[#fffdf8]
+                    shadow-[inset_0_7px_0_0_#000]
+
+                    [&_label]:hidden
+
+                    [&>div]:h-full
+                    [&>div]:min-h-0
+
+                    [&_div]:h-full
+                    [&_div]:border-0
+                    [&_div]:bg-transparent
+                    [&_div]:p-0
+                    [&_div]:shadow-none
+
+                    [&_textarea]:h-full
+                    [&_textarea]:min-h-0
+                    [&_textarea]:w-full
+                    [&_textarea]:resize-none
+
+                    [&_textarea]:border-0
+                    [&_textarea]:bg-transparent
+
+                    [&_textarea]:px-5
+                    [&_textarea]:pb-4
+                    [&_textarea]:pt-7
+
+                    [&_textarea]:font-display
+                    [&_textarea]:text-[15px]
+                    [&_textarea]:leading-[26px]
+                    [&_textarea]:text-[#241b3f]
+
+                    [&_textarea]:outline-none
+                    [&_textarea]:shadow-none
+                    [&_textarea]:ring-0
+
+                    [&_textarea]:placeholder:text-[#aaa1b5]
+
+                    [&_textarea:focus]:outline-none
+                    [&_textarea:focus]:ring-0
+                  `,
+                  piece.textareaClass,
+                )}
+              >
                 <FlatReflectionTextarea
                   fieldKey={piece.key}
-                  rows={8}
-                  minHeight={210}
+                  rows={6}
+                  minHeight={172}
                   textClass="text-[15px]"
                   onSaveStateChange={onSaveStateChange}
                 />
               </div>
             </div>
-          </div>
-        ))}
-
-        <WorkbookLogo />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S31 (PDF p37): Unelmien tiekartta opinnoissa -----
+// ----- Screen34 (PDF p37): Unelmien tiekartta opinnoissa -----
 // FIX: h1 và mảng qs giờ qua tr()
-function S31({ onSaveStateChange }: Props) {
+function Screen34({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     "Keneltä saan tukea ja opastusta?",
@@ -7015,30 +8181,256 @@ function S31({ onSaveStateChange }: Props) {
     "Mitä jo osaan hyvin?",
     "Unelmieni ammatti",
   ];
+
+  const CANVAS_WIDTH = 1450;
+  const CANVAS_HEIGHT = 720;
+
+  const boxes = [
+    { cx: 250, cy: 300, w: 285, h: 185 },
+    { cx: 500, cy: 548, w: 285, h: 185 },
+    { cx: 785, cy: 260, w: 295, h: 190 },
+    { cx: 1035, cy: 525, w: 285, h: 185 },
+    { cx: 1235, cy: 255, w: 285, h: 185 },
+  ] as const;
+
+  const roadPath = `
+    M 55 450
+    C 120 385, 165 320, 250 300
+    C 355 274, 420 405, 500 548
+    C 610 675, 690 385, 785 260
+    C 900 110, 980 350, 1035 525
+    C 1105 645, 1165 355, 1235 255
+    C 1288 178, 1358 196, 1410 238
+  `;
+
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="coral" seed="s31-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
+    <div
+      className="
+        relative
+        h-full
+        min-h-0
+        w-full
+        overflow-x-hidden
+        overflow-y-auto
+        px-[1.5%]
+        pb-24
+        pt-5
+        text-black
+        [scrollbar-gutter:stable]
+      "
+    >
+      <div className="relative mx-auto h-[720px] w-full max-w-[1450px]">
+        <h1
+          className="
+            absolute
+            left-[1.5%]
+            top-[5%]
+            z-30
+            max-w-[360px]
+            text-left
+            font-display
+            text-[clamp(34px,2.8vw,52px)]
+            font-semibold
+            leading-[1.03]
+            text-white
+          "
+        >
           {tr("Unelmien tiekartta opinnoissa")}
         </h1>
-      </StickyNote>
-      <div className="grid gap-5">
-        {qs.map((q, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_31_tiekartta_${i + 1}`}
-            label={`${i + 1}. ${tr(q)}`}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
+
+        <svg
+          aria-hidden="true"
+          viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible"
+        >
+          <path
+            d={roadPath}
+            fill="none"
+            stroke="rgba(0,0,0,0.15)"
+            strokeWidth="62"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-        ))}
+          <path
+            d={roadPath}
+            fill="none"
+            stroke="#fffdfc"
+            strokeWidth="48"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d={roadPath}
+            fill="none"
+            stroke="rgba(118,84,173,0.22)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="12 18"
+          />
+
+          <g transform="translate(32 425)">
+            <path
+              d="M 0 0 H 100 L 118 24 L 100 48 H 0 Z"
+              fill="#f3cbd1"
+              stroke="#241b3f"
+              strokeWidth="2"
+            />
+            <text x="56" y="30" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7654ad">
+              {tr("Aloita tästä")}
+            </text>
+          </g>
+
+          <g transform="translate(1345 208)">
+            <line
+              x1="8"
+              y1="0"
+              x2="8"
+              y2="62"
+              stroke="#241b3f"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <rect
+              x="10"
+              y="0"
+              width="82"
+              height="36"
+              rx="9"
+              fill="#ffd95d"
+              stroke="#241b3f"
+              strokeWidth="2"
+            />
+            <text x="51" y="23" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7654ad">
+              {tr("Maali")}
+            </text>
+          </g>
+        </svg>
+
+        {qs.map((q, i) => {
+          const box = boxes[i];
+          if (!box) return null;
+
+          const left = ((box.cx - box.w / 2) / CANVAS_WIDTH) * 100;
+          const top = ((box.cy - box.h / 2) / CANVAS_HEIGHT) * 100;
+          const width = (box.w / CANVAS_WIDTH) * 100;
+          const height = (box.h / CANVAS_HEIGHT) * 100;
+
+          return (
+            <section
+              key={q}
+              className="
+                absolute
+                z-20
+                flex
+                min-w-0
+                flex-col
+                overflow-hidden
+                bg-[#f8f6f1]
+                px-4
+                pb-4
+                pt-3
+                text-black
+                transition-transform
+                duration-200
+                hover:z-30
+                hover:-translate-y-1
+                focus-within:z-30
+              "
+              style={{
+                left: `${left}%`,
+                top: `${top}%`,
+                width: `${width}%`,
+                height: `${height}%`,
+                minWidth: "0",
+                minHeight: "0",
+                border: "5px solid #111",
+                borderRadius: i % 2 === 0 ? "30px 26px 32px 27px" : "26px 31px 26px 32px",
+                boxShadow: "5px 6px 0 rgba(0,0,0,0.12)",
+                transform: `rotate(${i % 2 === 0 ? "-0.35deg" : "0.3deg"})`,
+              }}
+            >
+              <p className="mb-3 shrink-0 text-left font-display text-[12px] font-semibold leading-[1.2] text-[#6c50a8]">
+                {i + 1}. {tr(q)}
+              </p>
+
+              <div
+                className="
+                  relative
+                  mt-1
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[18px]
+                  border-[5px]
+                  border-black
+                  bg-[#f8f6f1]
+
+                  [&_label]:hidden
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+                  [&>div]:border-0
+                  [&>div]:shadow-none
+                  [&>div]:outline-none
+                  [&>div]:ring-0
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+                  [&_textarea]:relative
+                  [&_textarea]:z-10
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[92px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[14px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-3
+                  [&_textarea]:py-2
+                  [&_textarea]:font-display
+                  [&_textarea]:text-[13px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[28px]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    z-0
+                    opacity-75
+                    [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_26px,#d9ccef_27px,#d9ccef_29px)]
+                  "
+                />
+                <div className="relative z-10 h-full">
+                  <ReflectionTextarea
+                    fieldKey={`screen_31_tiekartta_${i + 1}`}
+                    label=""
+                    rows={4}
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-// ----- S32 (PDF p38): Minä opiskelijana -----
-function S32({ onSaveStateChange }: Props) {
+// ----- Screen35 (PDF p38): Minä opiskelijana -----
+function Screen35({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     "Mikä saa sinut innostumaan opinnoissa?",
@@ -7049,65 +8441,163 @@ function S32({ onSaveStateChange }: Props) {
     "Mitä vahvuuksia tavallisesti hyödynnät opintojen aikana?",
   ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="yellow" seed="s32-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-10 pt-9 text-black">
+      <div className="mx-auto w-full max-w-[1150px] rounded-[30px] px-10 py-8 pb-12">
+        <h1 className="font-display text-[clamp(30px,2.8vw,42px)] font-medium leading-[1.12] text-[#f1f1ef]">
           {tr(
             "Minä opiskelijana – Listaa seuraavalle sivulle kaikki vahvuutesi opiskelijana – myös sellaiset, jotka voivat tuntua sinusta itsestäänselvyyksiltä.",
           )}
         </h1>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
+
+        <p className="mt-6 max-w-[980px] text-[19px] font-normal leading-[1.45] text-[#f1f1ef]">
           {tr(
             "Listaa seuraavalle sivulle aivan kaikki vahvuutesi opiskelijana, myös sellaiset, jotka saattavat tuntua sinulle itsestään selvyydeltä. Oletko hyvä kielissä, keksitkö luovia ratkaisuja ongelmiin, autatko mielelläsi toisia, keksitkö parhaat vitsit, kiitätkö toisia, oletko ryhmähengen luoja?",
           )}
         </p>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95 mt-2">
+
+        <p className="mt-4 max-w-[980px] text-[19px] font-normal leading-[1.45] text-[#f1f1ef]">
           {tr(
             "Pohdi ensin seuraavia kysymyksiä ja selvitä, mitä oikeasti rakastat tehdä ja missä olet erityisen hyvä. Mieti, millä uudella tavalla voit hyödyntää vahvuuksiasi lukiossa.",
           )}
         </p>
-      </StickyNote>
-      <div className="grid gap-5">
-        {qs.map((q, i) => (
-          <ReflectionTextarea
-            key={i}
-            fieldKey={`screen_32_minaopisk_${i + 1}`}
-            label={tr(q)}
-            rows={2}
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+
+        <div className="mt-7 grid grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2">
+          {qs.map((q, i) => (
+            <section
+              key={q}
+              className="
+                relative
+                flex
+                min-h-[230px]
+                min-w-0
+                flex-col
+                rounded-[22px]
+                border-[3px]
+                border-black
+                bg-[#faf8ff]
+                px-5
+                pb-5
+                pt-5
+                shadow-[0_6px_0_rgba(0,0,0,0.18)]
+              "
+            >
+              <h2
+                className="
+                  min-h-[56px]
+                  text-left
+                  font-display
+                  text-[18px]
+                  font-medium
+                  leading-[1.35]
+                  text-black
+                "
+              >
+                {tr(q)}
+              </h2>
+
+              <div
+                className="
+                  mt-4
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[16px]
+                  border-2
+                  border-black
+                  bg-white
+
+                  [&_label]:hidden
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[120px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[14px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[16px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[1.5]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea]:placeholder:text-[#9a93a6]
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey={`screen_32_minaopisk_${i + 1}`}
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S33 (PDF p39): Listaa erityistaidot — 10 slots -----
+// ----- Screen36 (PDF p39): Listaa erityistaidot — 5 slots -----
 // FIX: placeholder giờ qua tr()
-function S33({ onSaveStateChange }: Props) {
+function Screen36({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="mint" seed="s33-h">
-        {tr("Täytä kaikki erityisosaamisesi tähän listaan. (Täytettävät kohdat 1–10)")}
-      </StickyNote>
-      <div className="grid gap-4 md:grid-cols-2">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <ReflectionInput
-            key={i}
-            fieldKey={`screen_33_erityistaito_${i + 1}`}
-            prefix={`${i + 1}.`}
-            placeholder={tr("Erityistaito…")}
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-12 pt-9 text-black">
+      <div className="mx-auto grid w-full max-w-[1180px] grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="min-w-0">
+          <h1 className="max-w-[820px] font-display text-[clamp(34px,3vw,48px)] font-medium leading-[1.08] text-[#f1f1ef]">
+            <span className="block">{tr("Täytä kaikki erityisosaamisesi tähän listaan.")}</span>
+            <span className="block">{tr("(Täytettävät kohdat 1–5)")}</span>
+          </h1>
+
+          <div className="mt-8 grid gap-5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <ReflectionInput
+                key={i}
+                fieldKey={`screen_33_erityistaito_${i + 1}`}
+                prefix={`${i + 1}.`}
+                placeholder={tr("Erityistaito…")}
+                onSaveStateChange={onSaveStateChange}
+              />
+            ))}
+          </div>
+        </div>
+
+        <img
+          src="/illustrations/s23-candy-banana-shoe.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            mx-auto
+            mt-2
+            h-auto
+            w-full
+            max-w-[360px]
+            select-none
+            object-contain
+            drop-shadow-[0_14px_24px_rgba(0,0,0,0.22)]
+          "
+        />
       </div>
     </div>
   );
 }
 
-// ----- S34 (PDF p40): Koulu-kokemuksia -----
-function S34({ onSaveStateChange }: Props) {
+// ----- Screen37 (PDF p40): Koulu-kokemuksia -----
+function Screen37({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs: Array<{ k: string; q: string }> = [
     { k: "screen_34_oppi", q: "Minkälaisia asioita opit nopeasti ja helposti?" },
@@ -7122,230 +8612,476 @@ function S34({ onSaveStateChange }: Props) {
     },
   ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="coral" seed="s34-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
-          {tr(
-            "Koulumuistot – Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.",
-          )}
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-10 pt-9 text-black">
+      <div className="mx-auto w-full max-w-[1150px] rounded-[30px] px-10 py-8 pb-12">
+        <h1 className="font-display text-[clamp(32px,3vw,46px)] font-medium leading-[1.1] text-[#f1f1ef]">
+          {tr("Koulumuistot")}
+          <br />
+          <span className="text-[clamp(24px,2.1vw,34px)]">
+            {tr(
+              "Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.",
+            )}
+          </span>
         </h1>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
+
+        <p className="mt-6 max-w-[980px] text-[19px] font-normal leading-[1.45] text-[#f1f1ef]">
           {tr(
             "Tarkastele omia aiempia kokemuksiasi opinnoissa ja huomaa, millaisia vahvuuksia sinulla on.",
           )}
         </p>
-      </StickyNote>
-      <div className="grid gap-5 md:grid-cols-2">
-        {qs.map((x) => (
-          <ReflectionTextarea
-            key={x.k}
-            fieldKey={x.k}
-            label={tr(x.q)}
-            rows={3}
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+
+        <div className="mt-7 grid grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2">
+          {qs.map((x) => (
+            <section
+              key={x.k}
+              className="
+                relative
+                flex
+                min-h-[245px]
+                min-w-0
+                flex-col
+                rounded-[22px]
+                border-[3px]
+                border-black
+                bg-[#faf8ff]
+                px-5
+                pb-5
+                pt-5
+                shadow-[0_6px_0_rgba(0,0,0,0.18)]
+              "
+            >
+              <h2 className="min-h-[70px] text-left font-display text-[clamp(23px,1.9vw,31px)] font-semibold leading-[1.12] text-[#ffd95d] [paint-order:stroke_fill] [-webkit-text-stroke:0.8px_#241b3f]">
+                {tr(x.q)}
+              </h2>
+
+              <div
+                className="
+                  mt-4
+                  min-h-0
+                  flex-1
+                  overflow-hidden
+                  rounded-[16px]
+                  border-2
+                  border-black
+                  bg-white
+
+                  [&_label]:hidden
+                  [&>div]:h-full
+                  [&>div]:min-h-0
+                  [&_div]:border-0
+                  [&_div]:bg-transparent
+                  [&_div]:p-0
+                  [&_div]:shadow-none
+                  [&_textarea]:h-full
+                  [&_textarea]:min-h-[120px]
+                  [&_textarea]:w-full
+                  [&_textarea]:resize-none
+                  [&_textarea]:rounded-[14px]
+                  [&_textarea]:border-0
+                  [&_textarea]:bg-transparent
+                  [&_textarea]:px-4
+                  [&_textarea]:py-3
+                  [&_textarea]:text-[16px]
+                  [&_textarea]:font-normal
+                  [&_textarea]:leading-[1.5]
+                  [&_textarea]:text-[#241b3f]
+                  [&_textarea]:outline-none
+                  [&_textarea]:shadow-none
+                  [&_textarea]:ring-0
+                  [&_textarea:focus]:outline-none
+                  [&_textarea:focus]:ring-0
+                "
+              >
+                <ReflectionTextarea
+                  fieldKey={x.k}
+                  label=""
+                  rows={3}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S35 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
-// FIX: đoạn <p>, danh sách <ol><li>, và dòng chú thích cuối giờ qua tr()
-function S35() {
+// ----- Screen38 (PDF p41): Tavoitteeni opiskelijana 1/2 — informational -----
+function Screen38({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const steps = [
+    {
+      key: "screen_35_jaavuori_1",
+      text: "Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.",
+    },
+    {
+      key: "screen_35_jaavuori_2",
+      text: "Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.",
+    },
+    {
+      key: "screen_35_jaavuori_3",
+      text: "Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.",
+    },
+    {
+      key: "screen_35_jaavuori_4",
+      text: "Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.",
+    },
+  ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="yellow" seed="s35-h">
-        {tr(
-          "Tavoitteeni opiskelijana 1/2 – Tässä tehtävässä selkiytät tavoitteesi opiskelijana – tavoitteen, jonka haluat saavuttaa.",
-        )}
-      </StickyNote>
-      <StickyNote tone="white" seed="s35-b">
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.6] mb-2">
+    <div className="h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[8%] pb-12 pt-12 text-white">
+      <div className="mx-auto max-w-[1180px]">
+        <h1 className="font-display text-[clamp(38px,4vw,64px)] font-semibold leading-[1.08] text-[#ffd33f]">
+          {tr("Tavoitteeni opiskelijana 1/2")}
+        </h1>
+
+        <p className="mt-8 max-w-[1080px] text-[clamp(20px,1.6vw,28px)] font-normal leading-[1.42] text-white">
           {tr(
             "Tässä tehtävässä pääset kirkastamaan tavoitteesi opiskelijana, ne joita haluaisit saavuttaa. Pääset lisäksi pohtimaan, mitä kaikkea tämä tulee vaatimaan. Pohdi ja täydennä, mitä vahvuuksia sinulla jo on, joita aiot hyödyntää tavoitteen saavuttamisessa.",
           )}
         </p>
-        <p className="text-sm font-medium">
+
+        <p className="mt-8 max-w-[1080px] text-[clamp(23px,2vw,34px)] font-semibold leading-[1.25] text-white">
           {tr("Mikä on sinulle se iso tavoite, jonka haluat elämässäsi saavuttaa?")}
         </p>
-        <ol className="list-decimal pl-5 space-y-2 text-sm mt-2">
-          <li>{tr("Kirjoita tavoitteesi jäävuoren pinnan päällä näkyvään osaan.")}</li>
-          <li>
-            {tr(
-              "Pohdi ja kirjaa jäävuoren pinnan alapuolelle kaikki vahvuudet, joiden käyttäminen ja kehittäminen tukee tavoitteen saavuttamista.",
-            )}
-          </li>
-          <li>
-            {tr(
-              "Pohdi ja konkretisoi, miten voit hyödyntää kyseisiä vahvuuksia tavoitteen saavuttamisessa.",
-            )}
-          </li>
-          <li>
-            {tr(
-              "Kirjoita myös, mitä muita taitoja tulet tarvitsemaan ja kehittämään tavoitteen saavuttamisessa.",
-            )}
-          </li>
-        </ol>
-        <p className="text-xs italic opacity-70 mt-2">{tr("→ Jäävuori seuraavalla sivulla.")}</p>
-      </StickyNote>
+
+        <div className="mt-5 max-w-[1080px] overflow-hidden rounded-[28px] border-[5px] border-black bg-[#fffdf8] shadow-[inset_0_6px_0_0_#000,0_8px_0_rgba(0,0,0,0.16)]">
+          <FlatReflectionTextarea
+            fieldKey="screen_35_iso_tavoite"
+            rows={6}
+            minHeight={188}
+            textClass="text-[18px] bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,#e7d8ff_32px,#e7d8ff_33px)]"
+            onSaveStateChange={onSaveStateChange}
+          />
+        </div>
+
+        <ul className="mt-8 space-y-8 text-[clamp(19px,1.55vw,27px)] font-normal leading-[1.26] text-white">
+          {steps.map((step, index) => (
+            <li key={step.key} className="grid grid-cols-[28px_minmax(0,1fr)] gap-4">
+              <span className="mt-[0.45em] h-3 w-3 rounded-full bg-[#ffd33f]" aria-hidden="true" />
+              <div className="min-w-0">
+                <p>
+                  {index + 1}. {tr(step.text)}
+                </p>
+                <div className="mt-4 overflow-hidden rounded-[24px] border-[5px] border-black bg-[#fffdf8] shadow-[inset_0_6px_0_0_#000,0_8px_0_rgba(0,0,0,0.16)]">
+                  <FlatReflectionTextarea
+                    fieldKey={step.key}
+                    rows={6}
+                    minHeight={172}
+                    textClass="text-[16px] bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_27px,#e7d8ff_28px,#e7d8ff_29px)]"
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-9 flex items-center gap-5 text-[clamp(22px,2vw,34px)] font-semibold text-[#ffd33f]">
+          <span className="text-[1.8em] leading-none" aria-hidden="true">
+            &gt;
+          </span>
+          <span>{tr("Jäävuori seuraavalla sivulla.")}</span>
+        </p>
+      </div>
     </div>
   );
 }
 
-// ----- S36 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
-// FIX: h1 và dòng chú thích cuối giờ qua tr()
-function S36({ onSaveStateChange }: Props) {
+// ----- Screen39 (PDF p42): Tavoitteeni opiskelijana 2/2 — iceberg quadrants -----
+function Screen39({ onSaveStateChange }: Props) {
   const tr = useTr();
-  const boxes: Array<{ k: string; label: string }> = [
-    { k: "screen_36_tavoite", label: "1. Tavoitteeni ja miksi se on minulle tärkeä" },
-    { k: "screen_36_vahvuudet", label: "2. Vaaditut vahvuudet" },
-    { k: "screen_36_hyodynnan", label: "3. Miten hyödynnän vahvuuksia" },
-    { k: "screen_36_taidot", label: "4. Mitä muita taitoja tarvitsen" },
+  const boxes: Array<{ k: string; label: string; className: string }> = [
+    {
+      k: "screen_36_tavoite",
+      label: "1. Tavoitteeni ja miksi se on minulle tärkeä",
+      className: "left-[2%] top-[25%] w-[31%]",
+    },
+    {
+      k: "screen_36_vahvuudet",
+      label: "2. Vaaditut vahvuudet",
+      className: "left-[2%] top-[67%] w-[31%]",
+    },
+    {
+      k: "screen_36_hyodynnan",
+      label: "3. Miten hyödynnän vahvuuksia",
+      className: "right-[2%] top-[25%] w-[31%]",
+    },
+    {
+      k: "screen_36_taidot",
+      label: "4. Mitä muita taitoja tarvitsen",
+      className: "right-[2%] top-[67%] w-[31%]",
+    },
   ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="mint" seed="s36-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em]">
+    <div className="h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[7%] pb-12 pt-10 text-white">
+      <div className="relative mx-auto min-h-[980px] w-full max-w-[1240px]">
+        <h1 className="font-display text-[clamp(38px,4vw,64px)] font-semibold leading-[1.08] text-[#ffd33f]">
           {tr("Tavoitteeni opiskelijana 2/2")}
         </h1>
-      </StickyNote>
-      <div className="grid gap-5 md:grid-cols-2">
+
+        <svg
+          className="pointer-events-none absolute left-1/2 top-[17%] h-[560px] w-[470px] -translate-x-1/2 select-none"
+          viewBox="0 0 470 560"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="screen39Ice" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#d8fbfb" />
+              <stop offset="100%" stopColor="#91d8d8" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M84 212 C94 174 138 126 162 91 C171 78 176 112 187 102 C204 54 232 25 248 11 C263 44 271 78 284 60 C296 43 306 37 317 79 C326 112 338 154 350 176 C360 193 374 162 383 184 C390 205 393 230 407 239 C421 248 420 270 419 278 C332 288 190 287 84 280 C78 267 78 236 84 212 Z"
+            fill="url(#screen39Ice)"
+            opacity="0.92"
+          />
+          <path
+            d="M10 296 C126 300 315 300 460 296"
+            fill="none"
+            stroke="#bde7ea"
+            strokeDasharray="8 10"
+            strokeWidth="3"
+          />
+          <path
+            d="M78 315 C118 305 350 308 406 315 C421 342 417 367 455 389 C428 410 430 451 418 479 C387 469 382 519 355 538 C320 528 305 496 277 516 C259 531 248 553 224 544 C200 548 192 493 164 490 C143 519 137 550 112 516 C92 498 74 505 51 479 C35 459 48 423 23 393 C51 372 48 337 78 315 Z"
+            fill="url(#screen39Ice)"
+            opacity="0.92"
+          />
+          <path
+            d="M0 44 C98 -10 193 -20 232 16 C246 29 251 45 252 58"
+            fill="none"
+            stroke="#b89ae8"
+            strokeLinecap="round"
+            strokeWidth="3"
+          />
+          <path d="M252 58 L239 48 L255 44 Z" fill="#b89ae8" />
+        </svg>
+
         {boxes.map((b) => (
-          <StickyNote key={b.k} tone="white" seed={b.k}>
-            <ReflectionTextarea
-              fieldKey={b.k}
-              label={tr(b.label)}
-              rows={4}
-              onSaveStateChange={onSaveStateChange}
-            />
-          </StickyNote>
+          <section key={b.k} className={cn("absolute", b.className)}>
+            <h2 className="min-h-[66px] font-display text-[clamp(19px,1.55vw,27px)] font-semibold leading-[1.12] text-white">
+              {tr(b.label)}
+            </h2>
+            <div className="mt-3 overflow-hidden rounded-[24px] border-[5px] border-black bg-[#fffdf8] shadow-[inset_0_6px_0_0_#000,0_8px_0_rgba(0,0,0,0.16)]">
+              <FlatReflectionTextarea
+                fieldKey={b.k}
+                rows={6}
+                minHeight={172}
+                textClass="text-[16px] bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_27px,#e7d8ff_28px,#e7d8ff_29px)]"
+                onSaveStateChange={onSaveStateChange}
+              />
+            </div>
+          </section>
         ))}
       </div>
-      <p className="text-center text-xs opacity-60">
-        {tr(
-          "Visuaalinen jäävuori on tilapäisesti korvattu nelikenttänä, kunnes alkuperäinen kuva saadaan käyttöön.",
-        )}
-      </p>
     </div>
   );
 }
 
-// ----- S37 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
-// FIX: 3 label của ReflectionTextarea giờ qua tr()
-function S37({ onSaveStateChange }: Props) {
+// ----- Screen40 (PDF p43): Vahvuuteni opiskelijana — 3 columns -----
+function Screen40({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const columns = [
+    {
+      fieldKey: "screen_37_arvostan",
+      group: "Mukavia asioita",
+      label: "Arvostan itsessäni",
+    },
+    {
+      fieldKey: "screen_37_vahvuuksiani",
+      group: "Omia vahvuuksia",
+      label: "Vahvuuksiani ovat mielestäni",
+    },
+    {
+      fieldKey: "screen_37_paikkoja",
+      group: "Paikkoja",
+      label: "Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani",
+    },
+  ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="coral" seed="s37-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
-          {tr(
-            "Vahvuuteni opiskelijana – Tunnista vahvuutesi. Arvosta ja ole ylpeä vahvuuksistasi. Kirjoita parhaat puolesi opiskelijana!",
-          )}
+    <div className="h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[5%] pb-12 pt-10 text-white">
+      <div className="mx-auto max-w-[1240px] rounded-[48px] px-[6%] pb-8 pt-9">
+        <h1 className="font-display text-[clamp(38px,4vw,62px)] font-semibold leading-[1.08] text-yellow">
+          {tr("Vahvuuteni opiskelijana")}
         </h1>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
+        <p className="mt-5 max-w-[1040px] text-[clamp(20px,1.55vw,28px)] font-semibold leading-[1.28] text-white">
           {tr(
             "Tunnista omia vahvuuksiasi. Arvosta ja ole ylpeä omista vahvuuksistasi. Kirjoita itsellesi muistiin omia parhaita puoliasi opiskelijana!",
           )}
         </p>
-      </StickyNote>
-      <div className="grid gap-5 lg:grid-cols-3">
-        <ReflectionTextarea
-          fieldKey="screen_37_arvostan"
-          label={tr("Mukavia asioita — Arvostan itsessäni")}
-          rows={5}
-          onSaveStateChange={onSaveStateChange}
-        />
-        <ReflectionTextarea
-          fieldKey="screen_37_vahvuuksiani"
-          label={tr("Omia vahvuuksia — Vahvuuksiani ovat mielestäni")}
-          rows={5}
-          onSaveStateChange={onSaveStateChange}
-        />
-        <ReflectionTextarea
-          fieldKey="screen_37_paikkoja"
-          label={tr("Paikkoja — Näissä paikoissa viihdyn ja pääsen käyttämään vahvuuksiani")}
-          rows={5}
-          onSaveStateChange={onSaveStateChange}
-        />
+
+        <div className="mt-7 grid min-h-[480px] grid-cols-1 border-[black] text-[white] md:grid-cols-3">
+          {columns.map((column, index) => (
+            <section
+              key={column.fieldKey}
+              className={cn(
+                "flex min-h-[480px] flex-col border-[black]",
+                index === 0 ? "border-l-2" : "border-l-2",
+                index === columns.length - 1 && "border-r-2",
+              )}
+            >
+              <h2 className="border-b-2 border-[black] px-4 pb-3 text-center font-display text-[clamp(20px,1.8vw,30px)] font-semibold leading-[1.15]">
+                {tr(column.group)}
+              </h2>
+              <p className="min-h-[92px] px-6 pt-5 text-center font-display text-[clamp(20px,1.75vw,29px)] font-semibold leading-[1.15]">
+                {tr(column.label)}
+              </p>
+              <div className="min-h-0 flex-1 px-5 pb-2 [&_label]:hidden [&>div]:h-full [&>div]:min-h-0 [&_div]:border-0 [&_div]:bg-transparent [&_div]:p-0 [&_div]:shadow-none [&_textarea]:h-full [&_textarea]:min-h-[320px] [&_textarea]:resize-none [&_textarea]:border-0 [&_textarea]:bg-transparent [&_textarea]:text-[18px] [&_textarea]:text-[#241b3f] [&_textarea]:outline-none [&_textarea]:ring-0">
+                <ReflectionTextarea
+                  fieldKey={column.fieldKey}
+                  label=""
+                  rows={10}
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S38 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
-// FIX: label "Mitä hyvää vahvuuteni tuovat yhteisööni?" giờ qua tr() (thiếu, không đồng bộ với 3 label kia)
-function S38({ onSaveStateChange }: Props) {
+// ----- Screen41 (PDF p44): Vahvuuspalaute opiskelukavereilta -----
+function Screen41({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const questions = [
+    { key: "screen_38_uutta", text: "Mitä uutta opin palautteista?" },
+    { key: "screen_38_tarkeaa", text: "Mikä palautteessa on minulle tärkeää?" },
+    {
+      key: "screen_38_muistetaan",
+      text: "Millaisista asioista minut muistetaan / tunnistetaan parhaiten?",
+    },
+    { key: "screen_38_yhteisoon", text: "Mitä hyvää vahvuuteni tuovat yhteisööni?" },
+  ];
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="yellow" seed="s38-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
+    <div className="h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[8%] pb-12 pt-12 text-white">
+      <div className="mx-auto max-w-[1180px]">
+        <h1 className="font-display text-[clamp(38px,4vw,64px)] font-semibold leading-[1.08] text-[#ffd33f]">
           {tr(
             "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.",
           )}
         </h1>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
+        <p className="mt-8 max-w-[1080px] text-[clamp(20px,1.6vw,28px)] font-normal leading-[1.42] text-white">
           {tr(
             "Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Käytä sivua 10 pohjana. Nimetkää ne vahvuudet, joita toisissanne arvostatte. Kertokaa myös, missä vahvuudet näkyvät ja miten ne vaikuttavat kanssaihmisiin.",
           )}
         </p>
-      </StickyNote>
-      <div className="grid gap-5 md:grid-cols-2">
-        <ReflectionTextarea
-          fieldKey="screen_38_uutta"
-          label={tr("Mitä uutta opin palautteista?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
-        <ReflectionTextarea
-          fieldKey="screen_38_tarkeaa"
-          label={tr("Mikä palautteessa on minulle tärkeää?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
-        <ReflectionTextarea
-          fieldKey="screen_38_muistetaan"
-          label={tr("Millaisista asioista minut muistetaan / tunnistetaan parhaiten?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
-        <ReflectionTextarea
-          fieldKey="screen_38_yhteisoon"
-          label={tr("Mitä hyvää vahvuuteni tuovat yhteisööni?")}
-          rows={3}
-          onSaveStateChange={onSaveStateChange}
-        />
+
+        <div className="mt-9 grid gap-x-8 gap-y-8 md:grid-cols-2">
+          {questions.map((question, index) => (
+            <section key={question.key} className="min-w-0">
+              <h2 className="grid grid-cols-[22px_minmax(0,1fr)] gap-3 font-display text-[clamp(20px,1.65vw,29px)] font-semibold leading-[1.18] text-white">
+                <span
+                  className="mt-[0.45em] h-3 w-3 rounded-full bg-[#ffd33f]"
+                  aria-hidden="true"
+                />
+                <span>
+                  {index + 1}. {tr(question.text)}
+                </span>
+              </h2>
+              <div className="mt-4 overflow-hidden rounded-[24px] border-[5px] border-black bg-[#fffdf8] shadow-[inset_0_6px_0_0_#000,0_8px_0_rgba(0,0,0,0.16)]">
+                <FlatReflectionTextarea
+                  fieldKey={question.key}
+                  rows={6}
+                  minHeight={172}
+                  textClass="text-[16px] bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_27px,#e7d8ff_28px,#e7d8ff_29px)]"
+                  onSaveStateChange={onSaveStateChange}
+                />
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-// ----- S39 (PDF p45): Minä olen (M2) -----
-function S39({ onSaveStateChange }: Props) {
+// ----- Screen42 (PDF p45): Minä olen (M2) -----
+function Screen42({ onSaveStateChange }: Props) {
   const tr = useTr();
+  const figures = [
+    "/illustrations/illustration-screen42-1.png",
+    "/illustrations/illustration-screen42-2.png",
+    "/illustrations/illustration-screen42-3.png",
+    "/illustrations/illustration-screen42-4.png",
+    "/illustrations/illustration-screen42-5.png",
+  ];
+  const cardPositions = ["", "", "", "", "", "", "md:col-start-2 xl:col-start-3"];
+
   return (
-    <div className="mx-auto h-full min-h-0 w-full max-w-[1280px] overflow-x-hidden overflow-y-auto px-[6%] pb-14 pt-8 text-white space-y-6">
-      <StickyNote tone="mint" seed="s39-h">
-        <h1 className="font-display text-[clamp(28px,2.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.02em] mb-1">
-          {tr("Minä olen")}
-        </h1>
-        <p className="text-[clamp(16px,1.2vw,19px)] font-normal leading-[1.55] opacity-95">
-          {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
-          <span className="font-semibold"> {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}</span>
-        </p>
-      </StickyNote>
-      <div className="grid gap-4 md:grid-cols-2">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <ReflectionInput
-            key={i}
-            fieldKey={`screen_39_mina_olen_${i + 1}`}
-            prefix={tr("Minä olen")}
-            placeholder="…"
-            onSaveStateChange={onSaveStateChange}
-          />
-        ))}
+    <div className="relative h-full min-h-0 w-full overflow-x-hidden overflow-y-auto px-[3%] pb-28 pt-7 text-white [scrollbar-gutter:stable]">
+      <div className="relative mx-auto min-h-[920px] w-full max-w-[1360px]">
+        <div className="relative z-20 grid w-full grid-cols-1 items-start gap-5 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[285px_minmax(0,1fr)]">
+          <div className="min-w-0 pt-1">
+            <h1 className="font-display text-[clamp(34px,3vw,42px)] font-medium leading-[1.12]">
+              {tr("Minä olen")}
+            </h1>
+            <p className="mt-5 max-w-[280px] font-display text-[clamp(18px,1.45vw,22px)] font-medium leading-[1.35]">
+              {tr("Muuta muilta saamasi palaute lauseiksi minä muotoon:")}
+            </p>
+            <div className="mt-5 max-w-[280px] text-[clamp(17px,1.3vw,21px)] font-normal leading-[1.4]">
+              {tr('"Olet sinnikäs" → "Minä olen sinnikäs."')}
+            </div>
+          </div>
+
+          <div className="grid min-w-0 auto-rows-[minmax(126px,auto)] gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "flex min-h-[126px] flex-col overflow-hidden rounded-[18px_14px_24px_16px] border-[3px] border-black bg-[#fffefa] px-4 pb-3 pt-3 text-black shadow-[0_8px_0_#4b326c]",
+                  cardPositions[i],
+                )}
+              >
+                <p className="mb-2 shrink-0 text-center font-display text-[14px] font-medium uppercase leading-[1.2] text-black">
+                  {tr("Minä olen ...")}
+                </p>
+                <div className="min-h-0 flex-1 overflow-hidden rounded-[12px] border-2 border-black bg-[#fffefa]">
+                  <FlatReflectionTextarea
+                    fieldKey={`screen_39_mina_olen_${i + 1}`}
+                    rows={3}
+                    minHeight={74}
+                    textClass="text-[16px] bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_28px,#b7a8cc_29px,#b7a8cc_30px)]"
+                    onSaveStateChange={onSaveStateChange}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Cụm 5 hình illustration – góc dưới-trái, xếp 2 hàng: 2 trên / 3 dưới */}
+        <div className="pointer-events-none absolute bottom-0 left-[-2%] z-10 flex flex-col items-start gap-2 -translate-y-70">
+          {" "}
+          {/* Hàng trên: 2 hình */}
+          <div className="flex items-end gap-3 pl-10">
+            {figures.slice(0, 2).map((src, index) => (
+              <div key={`${src}-${index}`} className="flex items-end justify-center">
+                <img
+                  src={src}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-[clamp(150px,12vw,190px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
+                />
+              </div>
+            ))}
+          </div>
+          {/* Hàng dưới: 3 hình */}
+          <div className="flex items-end gap-3">
+            {figures.slice(2, 5).map((src, index) => (
+              <div key={`${src}-${index + 2}`} className="flex items-end justify-center">
+                <img
+                  src={src}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-[clamp(180px,15vw,230px)] w-auto select-none object-contain object-bottom drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)]"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -7353,7 +9089,7 @@ function S39({ onSaveStateChange }: Props) {
 
 // ----- S40 (PDF p46): Moduuli 3 title card -----
 // FIX: trước đây component này KHÔNG có tr() nào. Nay bọc "Moduuli 3" và h1.
-function M3Intro() {
+function Screen43() {
   const tr = useTr();
   return (
     <StickyNote tone="mint" seed="s40-h" className="text-center">
@@ -7385,7 +9121,7 @@ function S41(p: Props) {
 // The registry below assigns S41 = M3 title, S42 = kotona-karkkini, etc.
 
 // ----- S42 (PDF p48): Vahvuudet perheessä -----
-function S42_perhe({ onSaveStateChange }: Props) {
+function Screen45({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7424,7 +9160,7 @@ function S42_perhe({ onSaveStateChange }: Props) {
 }
 
 // ----- S43 (PDF p49): Minä perheenjäsenenä -----
-function S43_perheenjasen({ onSaveStateChange }: Props) {
+function Screen46({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7449,7 +9185,7 @@ function S43_perheenjasen({ onSaveStateChange }: Props) {
 }
 
 // ----- S44 (PDF p50): Muistele ja kysy vanhemmilta -----
-function S44_kysy({ onSaveStateChange }: Props) {
+function Screen47({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     "Millainen lapsi olin?",
@@ -7490,7 +9226,7 @@ function S44_kysy({ onSaveStateChange }: Props) {
 }
 
 // ----- S45 (PDF p51): Vahvuuskirje vanhemmalta — informational -----
-function S45_kirje() {
+function Screen48() {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7532,7 +9268,7 @@ Rakkain terveisin, . . . . . . . . . .`)}
 }
 
 // ----- S46 (PDF p52): Moduuli 4 title card -----
-function M4Intro() {
+function Screen49() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s46-h" className="text-center">
@@ -7546,8 +9282,8 @@ function M4Intro() {
   );
 }
 
-// ----- S47 (PDF p53): Vahvuuskarkkini vapaa-ajalla -----
-function S47(p: Props) {
+// ----- Screen50 (PDF p53): Vahvuuskarkkini vapaa-ajalla -----
+function Screen50(p: Props) {
   return (
     <VahvuuskarkkiSheet
       title="Vahvuuskarkkini"
@@ -7559,7 +9295,7 @@ function S47(p: Props) {
 }
 
 // ----- S48 (PDF p54): Minä vapaa-ajalla -----
-function S48_vapaa({ onSaveStateChange }: Props) {
+function Screen51({ onSaveStateChange }: Props) {
   const tr = useTr();
   const cols = [
     { k: "screen_49_tykkaat", q: "Mitä tykkäät tehdä vapaa-ajalla?" },
@@ -7597,7 +9333,7 @@ function S48_vapaa({ onSaveStateChange }: Props) {
 
 // ----- S49 (PDF p55): Love to-do -lista 1/3 — informational -----
 // FIX: h1 "Love to-do -lista 1/3" giờ qua tr()
-function S49_loveinfo() {
+function Screen52() {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7628,7 +9364,7 @@ function S49_loveinfo() {
 
 // ----- S50 (PDF p56): Love to-do -lista 2/3 — 5 inputs -----
 // FIX: h1 "Love to-do -lista" giờ qua tr()
-function S50_love({ onSaveStateChange }: Props) {
+function Screen53({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7657,7 +9393,7 @@ function S50_love({ onSaveStateChange }: Props) {
 
 // ----- S51 (PDF p57): Love to-do -lista 3/3 -----
 // FIX: h1 "Love to-do -lista" giờ qua tr()
-function S51_loveB({ onSaveStateChange }: Props) {
+function Screen54({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7686,7 +9422,7 @@ function S51_loveB({ onSaveStateChange }: Props) {
 
 // ----- S52 (PDF p58): Kuvakollaasi 1/2 — informational -----
 // FIX: h1 "Kuvakollaasi 1/2" giờ qua tr()
-function S52_kollaasiInfo() {
+function Screen55() {
   const tr = useTr();
   const bullets = [
     "Kerää kollaasi asioista / tavaroista, jotka ovat sinulle tärkeitä, joista olet kiinnostunut ja joissa voit hyödyntää vahvuuksiasi. Esimerkiksi koripallo, kirja, tietokone ja kissa.",
@@ -7718,7 +9454,7 @@ function S52_kollaasiInfo() {
 
 // ----- S53 (PDF p59): Kuvakollaasi 2/2 -----
 // FIX: h1 "Kuvakollaasi 2/2" giờ qua tr()
-function S53_kollaasi({ onSaveStateChange }: Props) {
+function Screen56({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7751,7 +9487,7 @@ function S53_kollaasi({ onSaveStateChange }: Props) {
 }
 
 // ----- S54 (PDF p60): Moduuli 5 title card -----
-function M5Intro() {
+function Screen57() {
   const tr = useTr();
   return (
     <StickyNote tone="coral" seed="s54-h" className="text-center">
@@ -7765,8 +9501,8 @@ function M5Intro() {
   );
 }
 
-// ----- S55 (PDF p61): Vahvuuskarkkini ystävyyssuhteissa -----
-function S55(p: Props) {
+// ----- Screen58 (PDF p61): Vahvuuskarkkini ystävyyssuhteissa -----
+function Screen58(p: Props) {
   return (
     <VahvuuskarkkiSheet
       title="Vahvuuskarkkini"
@@ -7779,7 +9515,7 @@ function S55(p: Props) {
 
 // ----- S56 (PDF p62): Minä ystävänä -----
 // FIX: h1 "Minä ystävänä" giờ qua tr()
-function S56_ystava({ onSaveStateChange }: Props) {
+function Screen59({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7809,7 +9545,7 @@ function S56_ystava({ onSaveStateChange }: Props) {
 
 // ----- S57 (PDF p63): Vahvuuspalaute ystäviltä -----
 // FIX: h1 "Vahvuuspalaute ystäviltä" giờ qua tr()
-function S57_palaute({ onSaveStateChange }: Props) {
+function Screen60({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -7852,7 +9588,7 @@ function S57_palaute({ onSaveStateChange }: Props) {
 }
 
 // ----- S58 (PDF p64): Moduuli 6 title card -----
-function M6Intro() {
+function Screen61() {
   const tr = useTr();
   return (
     <StickyNote tone="yellow" seed="s58-h" className="text-center">
@@ -7868,7 +9604,7 @@ function M6Intro() {
 
 // ----- S59 (PDF p65): Vahvuuksien yhteenveto -----
 // FIX: h1 "Vahvuuksien yhteenveto" giờ qua tr()
-function S59_yhteenveto({ onSaveStateChange }: Props) {
+function Screen62({ onSaveStateChange }: Props) {
   const tr = useTr();
   const cols = [
     { k: "screen_60_koulusta", label: "Koulusta" },
@@ -7903,7 +9639,7 @@ function S59_yhteenveto({ onSaveStateChange }: Props) {
 
 // ----- S60 (PDF p66): Pohdi ja hyödynnä saamaasi palautetta -----
 // FIX: h1 giờ qua tr()
-function S60_pohdi({ onSaveStateChange }: Props) {
+function Screen63({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     { k: "screen_61_samaa", q: "Mitä samaa niissä on?" },
@@ -7937,7 +9673,7 @@ function S60_pohdi({ onSaveStateChange }: Props) {
 
 // ----- S61 (PDF p67): Visioni ja tavoitteeni -----
 // FIX: h1 "Visioni ja tavoitteeni" giờ qua tr()
-function S61_visio({ onSaveStateChange }: Props) {
+function Screen64({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     "Millainen ihminen haluat olla?",
@@ -7968,7 +9704,7 @@ function S61_visio({ onSaveStateChange }: Props) {
 }
 
 // ----- S62 (PDF p68): Kerro vahvuuksistasi videon tai esityksen avulla -----
-function S62_video({ onSaveStateChange }: Props) {
+function Screen65({ onSaveStateChange }: Props) {
   const tr = useTr();
   const qs = [
     "Mitkä ovat ydinvahvuuksiasi? Mitä rakastat tehdä? Milloin olet aidoimmillasi? Mistä saat energiaa? Mitkä vahvuuksia voisit nostaa esiin videolla entä työhaastattelussa?",
@@ -8003,7 +9739,7 @@ function S62_video({ onSaveStateChange }: Props) {
 
 // ----- S63 (PDF p69): Muistiinpanoja — stems -----
 // FIX: h1 "Muistiinpanoja" giờ qua tr()
-function S63_notes({ onSaveStateChange }: Props) {
+function Screen66({ onSaveStateChange }: Props) {
   const tr = useTr();
   const stems = [
     { k: "screen_64_havainnot", q: "Omat havainnot vahvuuksistani…" },
@@ -8030,7 +9766,7 @@ function S63_notes({ onSaveStateChange }: Props) {
 
 // ----- S64 (PDF p70): Muistiinpanoja — free notes -----
 // FIX: h1 "Muistiinpanoja" giờ qua tr()
-function S64_notesB({ onSaveStateChange }: Props) {
+function Screen67({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8049,7 +9785,7 @@ function S64_notesB({ onSaveStateChange }: Props) {
 
 // ----- S65 (PDF p71): Muistiinpanoja — free notes -----
 // FIX: h1 "Muistiinpanoja" giờ qua tr()
-function S65_notesC({ onSaveStateChange }: Props) {
+function Screen68({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8067,7 +9803,7 @@ function S65_notesC({ onSaveStateChange }: Props) {
 }
 
 // ----- S66 (PDF p72): Anna itsellesi ja toisille palautetta — informational -----
-function S66_palauteInfo() {
+function Screen69() {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8105,7 +9841,7 @@ function S66_palauteInfo() {
 
 // ----- S67 (PDF p73): 5 vinkkiä sinulle — informational -----
 // FIX: h1 "5 vinkkiä sinulle" giờ qua tr()
-function S67_vinkit() {
+function Screen70() {
   const tr = useTr();
   const tips = [
     "Huomaa hyvä itsessäsi ja ole siitä ylpeä siitä, mitä jo osaat.",
@@ -8135,7 +9871,7 @@ function S67_vinkit() {
 
 // ----- S68 (PDF p74): Reflektoi tuloksia -----
 // FIX: h1 "Reflektoi tuloksia" giờ qua tr()
-function S68_reflekto({ onSaveStateChange }: Props) {
+function Screen71({ onSaveStateChange }: Props) {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8173,7 +9909,7 @@ function S68_reflekto({ onSaveStateChange }: Props) {
 }
 
 // ----- S69 (PDF p75): Täydennä vahvuusmittari — finale -----
-function S69_finale() {
+function Screen72() {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8206,7 +9942,7 @@ function S69_finale() {
 }
 
 // ----- S70: Loppuyhteenveto -----
-function S70_end() {
+function Screen73() {
   const tr = useTr();
   return (
     <div className="space-y-4">
@@ -8222,129 +9958,135 @@ function S70_end() {
   );
 }
 
+// ============================================================
+// Screen 44
+// ============================================================
+function Screen44({ onSaveStateChange }: Props) {
+  return (
+    <VahvuuskarkkiSheet
+      title="Vahvuuskarkkini"
+      context="kotona"
+      fieldPrefix="screen_42"
+      onSaveStateChange={onSaveStateChange}
+    />
+  );
+}
+
 const REGISTRY: Record<number, (p: Props) => ReactNode> = {
   // =========================================================
   // Prologue
   // =========================================================
 
-  1: () => <Cover />,
-  2: () => <Modules />,
-  3: () => <Quote />,
-  4: () => <Definition />,
-  5: (p) => <Tieto {...p} />,
-  6: (p) => <StrengthsList {...p} />,
-  7: () => <ThreeSteps />,
-  8: (p) => <JokoTunnet {...p} />,
-  9: (p) => <KysyPalautetta {...p} />,
-  10: (p) => <MinaOlen {...p} />,
+  1: () => <Screen1 />,
+  2: () => <Screen2 />,
+  3: () => <Screen3 />,
+  4: () => <Screen4 />,
+  5: (p) => <Screen5 {...p} />,
+  6: (p) => <Screen6 {...p} />,
+  7: () => <Screen7 />,
+  8: (p) => <Screen8 {...p} />,
+  9: (p) => <Screen9 {...p} />,
+  10: (p) => <Screen10 {...p} />,
 
   // =========================================================
   // Newly restored screens 11–13
   // =========================================================
 
-  11: () => <S11KehuJaKannusta />,
-  12: () => <S12VahvuuksiaEnemman />,
-  13: (p) => <S13HyvatKysymykset {...p} />,
+  11: () => <Screen11 />,
+  12: () => <Screen12 />,
+  13: (p) => <Screen13 {...p} />,
 
   // =========================================================
   // Module 1
   // Old screens 11–26 are shifted forward by 3
   // =========================================================
 
-  14: () => <M1Intro />,
-  15: (p) => <Karkkikauppa {...p} />,
-  16: (p) => <S13 {...p} />,
-  17: (p) => <S14YdinvahvuuksienTiekartta {...p} />,
-  18: () => <S15 />,
-  19: (p) => <S16 {...p} />,
-  20: (p) => <S17 {...p} />,
-  21: (p) => <S18 {...p} />,
-  22: () => <S19 />,
-  23: (p) => <S20 {...p} />,
-  24: (p) => <S21 {...p} />,
-  25: (p) => <S22 {...p} />,
-  26: (p) => <S23 {...p} />,
-  27: (p) => <S24 {...p} />,
-  28: (p) => <S25 {...p} />,
-  29: (p) => <S26 {...p} />,
+  14: () => <Screen14 />,
+  15: (p) => <Screen15 {...p} />,
+  16: (p) => <Screen16 {...p} />,
+  17: (p) => <Screen17 {...p} />,
+  18: () => <Screen18 />,
+  19: (p) => <Screen19 {...p} />,
+  20: (p) => <Screen20 {...p} />,
+  21: (p) => <Screen21 {...p} />,
+  22: () => <Screen22 />,
+  23: (p) => <Screen23 {...p} />,
+  24: (p) => <Screen24 {...p} />,
+  25: (p) => <Screen25 {...p} />,
+  26: (p) => <Screen26 {...p} />,
+  27: (p) => <Screen27 {...p} />,
+  28: (p) => <Screen28 {...p} />,
+  29: (p) => <Screen29 {...p} />,
 
   // =========================================================
   // Module 2
   // =========================================================
 
-  30: () => <M2Intro />,
-  31: () => <S28 />,
-  32: (p) => <S29 {...p} />,
-  33: (p) => <S30 {...p} />,
-  34: (p) => <S31 {...p} />,
-  35: (p) => <S32 {...p} />,
-  36: (p) => <S33 {...p} />,
-  37: (p) => <S34 {...p} />,
-  38: () => <S35 />,
-  39: (p) => <S36 {...p} />,
-  40: (p) => <S37 {...p} />,
-  41: (p) => <S38 {...p} />,
-  42: (p) => <S39 {...p} />,
+  30: () => <Screen30 />,
+  31: () => <Screen31 />,
+  32: (p) => <Screen32 {...p} />,
+  33: (p) => <Screen33 {...p} />,
+  34: (p) => <Screen34 {...p} />,
+  35: (p) => <Screen35 {...p} />,
+  36: (p) => <Screen36 {...p} />,
+  37: (p) => <Screen37 {...p} />,
+  38: () => <Screen38 />,
+  39: (p) => <Screen39 {...p} />,
+  40: (p) => <Screen40 {...p} />,
+  41: (p) => <Screen41 {...p} />,
+  42: (p) => <Screen42 {...p} />,
 
   // =========================================================
   // Module 3
   // =========================================================
 
-  43: () => <M3Intro />,
+  43: () => <Screen43 />,
+  44: (p) => <Screen44 {...p} />,
 
-  44: (p) => (
-    <VahvuuskarkkiSheet
-      title="Vahvuuskarkkini"
-      context="kotona"
-      fieldPrefix="screen_42"
-      onSaveStateChange={p.onSaveStateChange}
-    />
-  ),
-
-  45: (p) => <S42_perhe {...p} />,
-  46: (p) => <S43_perheenjasen {...p} />,
-  47: (p) => <S44_kysy {...p} />,
-  48: () => <S45_kirje />,
+  45: (p) => <Screen45 {...p} />,
+  46: (p) => <Screen46 {...p} />,
+  47: (p) => <Screen47 {...p} />,
+  48: () => <Screen48 />,
 
   // =========================================================
   // Module 4
   // =========================================================
 
-  49: () => <M4Intro />,
-  50: (p) => <S47 {...p} />,
-  51: (p) => <S48_vapaa {...p} />,
-  52: () => <S49_loveinfo />,
-  53: (p) => <S50_love {...p} />,
-  54: (p) => <S51_loveB {...p} />,
-  55: () => <S52_kollaasiInfo />,
-  56: (p) => <S53_kollaasi {...p} />,
+  49: () => <Screen49 />,
+  50: (p) => <Screen50 {...p} />,
+  51: (p) => <Screen51 {...p} />,
+  52: () => <Screen52 />,
+  53: (p) => <Screen53 {...p} />,
+  54: (p) => <Screen54 {...p} />,
+  55: () => <Screen55 />,
+  56: (p) => <Screen56 {...p} />,
 
   // =========================================================
   // Module 5
   // =========================================================
 
-  57: () => <M5Intro />,
-  58: (p) => <S55 {...p} />,
-  59: (p) => <S56_ystava {...p} />,
-  60: (p) => <S57_palaute {...p} />,
+  57: () => <Screen57 />,
+  58: (p) => <Screen58 {...p} />,
+  59: (p) => <Screen59 {...p} />,
+  60: (p) => <Screen60 {...p} />,
 
   // =========================================================
   // Module 6
   // =========================================================
 
-  61: () => <M6Intro />,
-  62: (p) => <S59_yhteenveto {...p} />,
-  63: (p) => <S60_pohdi {...p} />,
-  64: (p) => <S61_visio {...p} />,
-  65: (p) => <S62_video {...p} />,
-  66: (p) => <S63_notes {...p} />,
-  67: (p) => <S64_notesB {...p} />,
-  68: (p) => <S65_notesC {...p} />,
-  69: () => <S66_palauteInfo />,
-  70: () => <S67_vinkit />,
-  71: (p) => <S68_reflekto {...p} />,
-  72: () => <S69_finale />,
-  73: () => <S70_end />,
+  61: () => <Screen61 />,
+  62: (p) => <Screen62 {...p} />,
+  63: (p) => <Screen63 {...p} />,
+  64: (p) => <Screen64 {...p} />,
+  65: (p) => <Screen65 {...p} />,
+  66: (p) => <Screen66 {...p} />,
+  67: (p) => <Screen67 {...p} />,
+  68: (p) => <Screen68 {...p} />,
+  69: () => <Screen69 />,
+  70: () => <Screen70 />,
+  71: (p) => <Screen71 {...p} />,
+  72: () => <Screen72 />,
+  73: () => <Screen73 />,
 };
 
 export function hasContent(n: number): boolean {

@@ -441,6 +441,12 @@
     "en": "Start Game",
     "sv": "Starta spel"
   },
+
+  "Aloita tästä": {
+    "en": "Start here",
+    "sv": "Börja här"
+  },
+
   "Aloita sprintti": {
     "en": "Start Sprint",
     "sv": "Starta sprint"
@@ -633,9 +639,13 @@
   "HUUMORINTAJU / HUMOR": {
     "sv": "section_header"
   },
-  "Haasteet ja vahvuudet – Pohdi ja kirjoita vastaukset.": {
-    "en": "Challenges and strengths – Reflect and write down your answers.",
-    "sv": "Utmaningar och styrkor – Fundera och skriv ner svaren."
+  "Haasteet ja vahvuudet ": {
+    "en": "Challenges and strengths",
+    "sv": "Utmaningar och styrkor"
+  },
+  "– Pohdi ja kirjoita vastaukset.": {
+    "en": "– Reflect and write down your answers.",
+    "sv": "– Fundera och skriv ner svaren."
   },
   "Haluatko varmasti poistaa luokan": {
     "en": "Are you sure you want to delete the class",
@@ -857,6 +867,14 @@
   "Koulumuistot – Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.": {
     "en": "School Memories – Look back at your own previous study experiences and notice what strengths you have.",
     "sv": "Skolerfarenheter – Titta tillbaka på dina egna tidigare studieerfarenheter och lägg märke till vilka styrkor du har."
+  },
+  "Koulumuistot": {
+    "en": "School Memories",
+    "sv": "Skolerfarenheter"
+  },
+  "Katso taaksepäin omia aiempia opiskelukokemuksiasi ja huomaa, mitä vahvuuksia sinulla on.": {
+    "en": "Look back at your own previous study experiences and notice what strengths you have.",
+    "sv": "Titta tillbaka på dina egna tidigare studieerfarenheter och lägg märke till vilka styrkor du har."
   },
   "Koulun 5 yleisintä vahvuutta": {
     "en": "School-wide top 5 strengths",
@@ -1213,6 +1231,14 @@
     "en": "How would that feel? How would it affect your everyday life – and your studies?",
     "sv": "Hur skulle det kännas? Hur skulle det påverka din vardag – och dina studier?"
   },
+  "Miten tämä vaikuttaisi arkeesi, entä opintoihin?": {
+    "en": "How would it affect your everyday life, and your studies?",
+    "sv": "Hur skulle det påverka din vardag, och dina studier?"
+  },
+  "Miten tämä vaikuttaisi arkeesi,\nentä opintoihin?": {
+    "en": "How would it affect your everyday life,\nand your studies?",
+    "sv": "Hur skulle det påverka din vardag,\noch dina studier?"
+  },
   "Min vision och mina mål – Fundera till sist:": {
     "en": "My vision and my goals – Finally, reflect:",
     "sv": "Min vision och mina mål – Fundera till sist:"
@@ -1528,6 +1554,14 @@
   "Myötätunto": {
     "en": "Compassion",
     "sv": "Medkänsla"
+  },
+  "Myötätunto": {
+    "en": "Compassion",
+    "sv": "Medkänsla"
+  },
+  "Maali": {
+    "en": "Finish",
+    "sv": "Mål"
   },
   "Nimi": {
     "en": "Name",
@@ -2223,6 +2257,18 @@
     "en": "Fill in all your special skills in this list. (Numbered fields 1–10)",
     "sv": "Fyll i alla dina specialkunskaper i den här listan. (Numrerade ifyllnadsfält 1–10)"
   },
+  "Täytä kaikki erityisosaamisesi tähän listaan. (Täytettävät kohdat 1–5)": {
+    "en": "Fill in all your special skills in this list. (Numbered fields 1–5)",
+    "sv": "Fyll i alla dina specialkunskaper i den här listan. (Numrerade ifyllnadsfält 1–5)"
+  },
+  "Täytä kaikki erityisosaamisesi tähän listaan.": {
+    "en": "Fill in all your special skills in this list.",
+    "sv": "Fyll i alla dina specialkunskaper i den här listan."
+  },
+  "(Täytettävät kohdat 1–5)": {
+    "en": "(Numbered fields 1–5)",
+    "sv": "(Numrerade ifyllnadsfält 1–5)"
+  },
   "Täytä pakolliset kentät": {
     "en": "Fill in the required fields",
     "sv": "Fyll i obligatoriska fält"
@@ -2376,6 +2422,14 @@
   "Vahvuuspalaute opiskelukavereilla – Kirjoita palautetta ja kehuja ryhmässä 2–4 opiskelukaverin kanssa. Nimeä vahvuuksia, joita arvostat toisissanne.": {
     "en": "Strengths Feedback with Classmates – Write feedback and praise in a group of 2–4 classmates. Name the strengths you appreciate in each other.",
     "sv": "Styrkerespons från studiekamrater – Skriv respons och beröm i grupp med 2–4 studiekamrater. Namnge de styrkor ni uppskattar hos varandra."
+  },
+  "Anna palautetta ja kehuja täydentämällä seuraavia lauseenalkuja:": {
+    "en": "Give feedback and praise by completing these sentence starters:",
+    "sv": "Ge feedback och beröm genom att fylla i följande meningsbörjor:"
+  },
+  "Anna palautetta ja kehuja täydentämällä\nseuraavia lauseenalkuja:": {
+    "en": "Give feedback and praise by completing\nthese sentence starters:",
+    "sv": "Ge feedback och beröm genom att fylla i\nföljande meningsbörjor:"
   },
   "Vahvuuspeli": {
     "en": "Strength Game",
